@@ -2,4 +2,11 @@ body {
     background: #e80447;
     color: white;
     font-family: barlow-medium,barlow,sans-serif;
+    margin: 0;
+}
+
+a {
+    color:white;
+    text-decoration: underline;
+    text-decoration-style: dotted;
 }

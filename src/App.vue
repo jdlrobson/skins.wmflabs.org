@@ -8,6 +8,14 @@
     <main>
       <router-view></router-view>
     </main>
+    <footer>
+      <p>
+        Made by <a href="https://jdlrobson.com">Jon Robson</a>.
+        Code on <a href="">github.com</a>.
+        Sourced images: <a title="License, as on date of upload: ‘Creative Commons Attribution license (reuse allowed)’  , CC BY 3.0 &lt;https://creativecommons.org/licenses/by/3.0&gt;, via Wikimedia Commons"
+        href="https://commons.wikimedia.org/wiki/File:Supernova_(CGI).jpg">File:Supernova_(CGI).jpg</a>
+        </p>
+    </footer>
   </div>
 </template>
 
@@ -19,8 +27,8 @@ export default {
 
 <style scoped>
   .container {
-    width: 800px;
-    margin: 2px auto;
+    width: 1000px;
+    margin: 0 auto;
     text-align: center;
   }
 
@@ -41,5 +49,9 @@ export default {
 
   main {
     margin: 12px 0;
+  }
+  footer {
+    margin-top: 40px;
+    font-size: 0.8em;
   }
 </style>
