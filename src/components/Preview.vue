@@ -100,6 +100,7 @@ export default {
     text-align: center;
   }
   iframe {
+    margin: auto;
     background: white;
     display: block;
   }
@@ -110,7 +111,6 @@ export default {
     transform-origin: 0 0;
   }
   .iframe--mobile {
-    margin-left: 120px;
     width: 375px;
     height: 667px;
   }
