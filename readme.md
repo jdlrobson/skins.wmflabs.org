@@ -1,6 +1,6 @@
 # About
 
-This is the code that powers the app at (https://skins.wmflabs.org)[skins.wmflabs].
+This is the code that powers the app at [skins.wmflabs](https://skins.wmflabs.org).
 
 # Development
 
@@ -12,7 +12,7 @@ npm start
 
 # Deploying to Labs
 
-Setup a static instance using these (https://wikitech.wikimedia.org/wiki/Help:LAMP_instances)[instructions]
+Setup a static instance using these [instructions](https://wikitech.wikimedia.org/wiki/Help:LAMP_instances).
 
 Once that's done, setup Node.js environment:
 
