@@ -10,15 +10,23 @@
         <div v-else class="preview__area preview__area--unavailable">
           Preview unavailable.
         </div>
+        <warning-box v-if="!enabled">
+          If you are the maintainer of the skin you can request preview is enabled
+          by creating an <a target="_blank"
+            href="https://github.com/jdlrobson/skins.wmflabs.org/issues/new?assignees=&labels=&template=enable-preview-for-my-skin-on-skins-wmflabs-org.md&title=Please+enable+my+skin+for+live+preview+option">issue</a>.
+        </warning-box>
     </div>
 </template>
 
 <script>
 import { HOST, TEST_ARTICLE } from '../constants';
+import WarningBox from '../components/WarningBox';
 
 export default {
   name: 'Preview',
-  components: {},
+  components: {
+    WarningBox
+  },
   props: {
     enabled: {
       type: Boolean
@@ -47,7 +55,7 @@ export default {
 </script>
 
 <style scoped>
-    .preview__area {
+  .preview__area {
     overflow: hidden;
   }
   iframe {
