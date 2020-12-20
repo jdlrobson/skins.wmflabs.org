@@ -65,9 +65,6 @@ export default {
     flex-shrink: 1;
     box-sizing: border-box;
   }
-  .snapshot--unstable {
-    opacity: 0.5;
-  }
   h3 {
     background: white;
     padding: 12px;
