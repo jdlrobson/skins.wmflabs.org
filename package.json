@@ -4,6 +4,7 @@
   "description": "A place to find mediawiki skins",
   "main": "index.js",
   "scripts": {
+    "deploy": "parcel build index.html --out-dir /var/www/html/",
     "start": "parcel index.html",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
