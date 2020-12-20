@@ -4,8 +4,8 @@
     <router-link class="breadcrumb" to="/">
       Explore other skins
     </router-link>
-    <article>
-      <aside>
+    <two-column-layout>
+       <template v-slot:column-one>
         <h3>About</h3>
         <div class="warning" v-if="!stable || !preview">
           <span v-if="!stable">Warning: This skin is not marked as stable.</span>
@@ -17,10 +17,10 @@
         <p>{{summary}}</p>
         <a class="skinLink" v-for="(link,i) in links" target="_blank" :key="i"
           :href="link.href">{{ link.text}}</a>
-      </aside>
-      <aside>
+      </template>
+      <template v-slot:column-two>
         <h3>Preview</h3>
-        <select  v-if="stable && preview" @change="changeArticle">
+        <select v-if="stable && preview" @change="changeArticle">
             <option v-for="(a,i) in articles" :key="i" :value="a.title">{{ a.name }}</option>
           </select>
         <div v-if="stable && preview" class="preview-area">
@@ -29,21 +29,22 @@
         <div v-else class="preview-area preview-area--unavailable">
           Preview unavailable.
         </div>
-      </aside>
-    </article>
-    </iframe>
+      </template>
+    </two-column-layout>
   </div>
 </template>
 
 <script>
 import { HOST, TEST_ARTICLE } from '../constants';
 import api from '../api.js';
+import TwoColumnLayout from '../components/TwoColumnLayout';
 import Snapshot from '../components/Snapshot.vue';
 
 export default {
   name: 'Skin',
   components: {
-      Snapshot
+      Snapshot,
+      TwoColumnLayout
   },
   data() {
       return {
@@ -54,7 +55,7 @@ export default {
           testArticle: TEST_ARTICLE,
           stable: true,
           preview: true,
-          name: '_____',
+          name: this.$route.params.key.replace( /[^⠀]/g, '⠀' ) + '⠀',
           links: [],
           summary: '',
           src: ''
@@ -111,6 +112,12 @@ export default {
             links.push( {
               text: 'View on gerrit',
               href: skin.gerrit
+            } )
+          }
+          if(skin.kde) {
+            links.push( {
+              text: 'View on kde',
+              href: skin.kde
             } )
           }
       },() => {
