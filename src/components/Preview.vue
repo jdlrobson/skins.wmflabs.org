@@ -1,10 +1,12 @@
 <template>
     <div class="preview">
         <h3>Preview</h3>
-        <slot></slot>
-        <input type="checkbox" name="mobile" :checked="mobile" @input="toggleMobile">
-        <label for="mobile">mobile</label>
-        <div v-if="enabled" class="preview-area">
+        <div class="preview__panel">
+          <slot></slot>
+          <input type="checkbox" name="mobile" :checked="mobile" @input="toggleMobile">
+          <label for="mobile">mobile</label>
+        </div>
+        <div v-if="enabled" class="preview__area">
           <iframe :class="iframeClass" ref="iframe" :src="href" :width="w" :height="h" />
         </div>
         <div v-else class="preview__area preview__area--unavailable">
@@ -112,6 +114,11 @@ export default {
   .iframe--mobile {
     width: 375px;
     height: 667px;
+  }
+  .preview__panel {
+    padding: 8px;
+    width: 640px;
+    background: #000;
   }
   .preview__area--unavailable {
     opacity: 0.5;

@@ -1,7 +1,10 @@
 <template>
-    <select @change="changeArticle">
-        <option v-for="(a,i) in articles" :key="i" :value="a.title">{{ a.name }}</option>
-    </select>
+    <span>
+        <label for="article-title">article: </label>
+        <select name="article-title" @change="changeArticle">
+            <option v-for="(a,i) in articles" :key="i" :value="a.title">{{ a.name }}</option>
+        </select>
+    </span>
 </template>
 
 <script>
