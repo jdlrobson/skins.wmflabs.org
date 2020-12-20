@@ -54,10 +54,16 @@ export default {
       };
   },
   mounted: function() {
-      const sortByPageViewsDesc = (p, p2) => p.pageviews > p2.pageviews ? -1 : 1;
+      const sortByPageViewsStableDesc = (p, p2) => {
+        const prefer1 = p.compatible && !p.hasDependencies;
+        const prefer2 = p2.compatible && !p2.hasDependencies;
+        if(!prefer1 && prefer2) return 1;
+        if(!prefer2 && prefer1) return -1;
+        return p.pageviews > p2.pageviews ? -1 : 1;
+      };
       this.query = localStorage.getItem('query');
       api.fetchSkins().then((skins) => {
-          const sortedSkins = skins.skins.sort(sortByPageViewsDesc);
+          const sortedSkins = skins.skins.sort(sortByPageViewsStableDesc);
           this.skins = sortedSkins //.slice(this.page, 11);
       });
   }
