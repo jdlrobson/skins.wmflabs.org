@@ -58,7 +58,11 @@ export default {
   methods: {
     toggleMobile: function ( ev ) {
       this.mobile = ev.target.checked;
-      localStorage.setItem('mobile', this.mobile);
+      if(this.mobile) {
+        localStorage.setItem('mobile', this.mobile);
+      } else {
+        localStorage.removeItem('mobile');
+      }
     },
     refresh() {
       const iframe = this.$refs.iframe;
