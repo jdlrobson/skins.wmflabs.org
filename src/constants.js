@@ -1,4 +1,4 @@
-export const HOST = 'https://skins.wmflabs.org/';
+export const HOST = 'https://skins-demo.wmflabs.org/';
 export const TEST_ARTICLE = 'Ipsum_Lorem';
 export const CATEGORY_SKINS = 'Category:Stable_skins';
 export const CATEGORY_BETA_SKINS = 'Category:Beta_status_skins';
