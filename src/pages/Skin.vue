@@ -19,7 +19,7 @@
           :href="link.href">{{ link.text}}</a>
       </template>
       <template v-slot:column-two>
-        <preview :enabled="stable && preview"></preview>
+        <preview :skinkey="skinKey"></preview>
       </template>
     </two-column-layout>
   </div>
@@ -53,6 +53,9 @@ export default {
   computed: {
     mwUrl() {
       return this.name ? `https://mediawiki.org/wiki/Skin:${this.name}` : '';
+    },
+    skinKey() {
+      return this.stable && this.preview ? this.$route.params.key : undefined
     }
   },
   mounted: function() {

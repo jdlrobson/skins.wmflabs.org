@@ -5,7 +5,7 @@
             <option v-for="(a,i) in articles" :key="i" :value="a.title">{{ a.name }}</option>
           </select>
         <div v-if="enabled" class="preview-area">
-          <iframe :src="demoLink" width="640" height="480" />
+          <iframe ref="iframe" :src="demoLink" width="640" height="480" />
         </div>
         <div v-else class="preview__area preview__area--unavailable">
           Preview unavailable.
@@ -28,8 +28,11 @@ export default {
     WarningBox
   },
   props: {
-    enabled: {
-      type: Boolean
+    html: {
+      type: String
+    },
+    skinkey: {
+      type: String
     }
   },
   data() {
@@ -42,8 +45,12 @@ export default {
       };
   },
   computed: {
+    enabled() {
+      return this.skinkey || this.html;
+    },
     demoLink() {
-      return `${HOST}/wiki/${this.testArticle}?useskin=${this.$route.params.key}`;
+      console.log('hello', this.skinkey);
+      return this.skinkey ? `${HOST}/wiki/${this.testArticle}?useskin=${this.skinkey}` : undefined;
     }
   },
   methods: {
@@ -51,6 +58,24 @@ export default {
       this.testArticle = ev.target.value;
     }
   },
+  mounted() {
+      const iframe = this.$refs.iframe;
+      const html = this.html;
+      if(iframe && html) {
+        console.log('gop', html);
+          let doc;
+          if (iframe.contentDocument) {
+              doc = iframe.contentDocument;
+          } else if(iframe.contentWindow) {
+              doc = iframe.contentWindow.document;
+          } else {
+              doc = iframe.document;
+          }
+          doc.open('');
+          doc.writeln(html);
+          doc.close();
+      }
+  }
 };
 </script>
 
