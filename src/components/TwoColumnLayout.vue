@@ -33,6 +33,7 @@ export default {
     margin-right: auto;
   }
   aside + aside {
-    width: 640px;
+    margin-left: 10px;
+    width: 630px;
   }
 </style>
