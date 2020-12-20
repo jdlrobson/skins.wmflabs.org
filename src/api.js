@@ -1,6 +1,6 @@
 const skins = {};
 import { HOST, CATEGORY_SKINS, HIDDEN_SKINS, SKIN_COMPATIBILITY_PROBLEMS,
-    SKIN_KEY_SPECIAL_CASES,
+    SKIN_KEY_SPECIAL_CASES, CATEGORY_BETA_SKINS,
     SKIN_DEPENDS_ON_EXTENSIONS, SCREENSHOTS } from './constants';
 
 function queryMediaWikiSkins( category, gcmcontinue = '', pages = [] ) {
@@ -22,7 +22,7 @@ function queryMediaWikiSkins( category, gcmcontinue = '', pages = [] ) {
                                 name,
                                 compatible: !SKIN_COMPATIBILITY_PROBLEMS.includes(key),
                                 hasDependencies: SKIN_DEPENDS_ON_EXTENSIONS.includes(key),
-                                stable: category === CATEGORY_SKINS,
+                                stable: true,
                                 pageviews: Object.keys(pv).map(key=>pv[key]).reduce((count, total=0) => total+count, 0)
                             })
                         }).filter((p) => {
@@ -42,7 +42,11 @@ function queryMediaWikiSkins( category, gcmcontinue = '', pages = [] ) {
 }
 
 function queryMediaWikiAllSkins() {
-    return queryMediaWikiSkins( CATEGORY_SKINS );
+    return queryMediaWikiSkins( CATEGORY_SKINS ).then((pages) => {
+        return queryMediaWikiSkins( CATEGORY_BETA_SKINS ).then((betaPages) => {
+            return pages.concat(betaPages);
+        });
+    });
 }
 
 function getSkinIndex() {
@@ -67,7 +71,8 @@ function fetchSkinInfo( key ) {
         return fetch(`https://www.mediawiki.org/w/api.php?action=query&format=json&prop=categories%7Cextracts%7Cextlinks&redirects=1&formatversion=2&cllimit=max&exsentences=3&exlimit=max&exintro=1&explaintext=1&ellimit=max&origin=*&titles=Skin%3A${skin.name}`)
             .then((r) => r.json())
             .then((result) => {
-                let summary, github, gerrit, stable, categories, bitbucket, gitlab;
+                let summary, github, gerrit, kde,
+                    stable, categories, bitbucket, gitlab;
                 try {
                     const p = result.query.pages;
                     const info = p[0];
@@ -81,7 +86,9 @@ function fetchSkinInfo( key ) {
                         if(url.match(/https:\/\/gerrit.wikimedia.org\/g\//) && !url.match(/(\+log\/master)/)) {
                             gerrit = url;
                         }
-
+                        if(url.match(/kde\.org/)) {
+                            kde = url;
+                        }
                         if(url.match(/gitlab\.com/) && url.match(/\.git/)) {
                             gitlab = url;
                         }
@@ -93,7 +100,7 @@ function fetchSkinInfo( key ) {
                     summary = 'No skin information available';
                 }
                 return Object.assign({
-                    bitbucket,
+                    bitbucket, kde,
                     summary, gerrit, github, stable, categories, gitlab
                 }, skin);
             });
