@@ -1,3 +1,7 @@
+# About
+
+This is the code that powers the app at (https://skins.wmflabs.org)[skins.wmflabs].
+
 # Development
 
 Run this app with the following:
