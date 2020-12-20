@@ -2,8 +2,9 @@
   <div class="container">
     <header>
       <router-link to="/">
-        <h1>Skins lab</h1>
+        <h1>MediaWiki skins</h1>
       </router-link>
+        <span>A place to find the perfect skin for your mediawiki.</span>
     </header>
     <main>
       <router-view></router-view>
@@ -33,18 +34,22 @@ export default {
   }
 
   header {
-    background: yellow;
     padding: 8px;
     margin: 0;
   }
 
+  header span {
+    font-size: 0.8em;
+  }
+
   header h1 {
     text-transform: uppercase;
+    margin-bottom: 0;
   }
 
   header a {
     text-decoration: none;
-    color: purple;
+    color:yellow;
   }
 
   main {

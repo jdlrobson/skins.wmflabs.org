@@ -2,12 +2,16 @@
   <div class="page--home">
     <h2>Explore skins</h2>
     <input placeholder="Find skin" :value="query" @input="setQuery">
+    <p>All skins featured here work on a Vanilla MediaWiki install.</p>
     <div class="page__showcase">
         <snapshot v-for="skin in filteredSkins"
+            :stable="skin.stable"
+            :compatible="skin.compatible"
+            :hasDependencies="skin.hasDependencies"
             :key="skin.key" :skinkey="skin.key" :name="skin.name" :src="skin.src"></snapshot>
         <snapshot key="add-skin" 
           url="/add"
-          name="Add a skin" src="https://upload.wikimedia.org/wikipedia/commons/c/ca/Supernova_%28CGI%29.jpg"></snapshot>
+          name="New skin" src="https://upload.wikimedia.org/wikipedia/commons/c/ca/Supernova_%28CGI%29.jpg"></snapshot>
     </div>
   </div>
 </template>
@@ -26,7 +30,7 @@ export default {
       var q = this.query;
       return !q ? this.skins : this.skins.filter((skin) => {
         return skin.name && skin.name.toLowerCase().indexOf(q.toLowerCase()) > -1;
-      });
+      })
     }
   },
   methods: {
@@ -37,18 +41,24 @@ export default {
   },
   data() {
       return {
+          page: 0,
           query: '',
           skins: [
               {}, {}, {},
-              {}, {}, {}
+              {}, {}, {},
+              {}, {}, {},
+              {}, {}, {},
+              {}, {}/*, Add*/
           ]
         
       };
   },
   mounted: function() {
+      const sortByPageViewsDesc = (p, p2) => p.pageviews > p2.pageviews ? -1 : 1;
       this.query = localStorage.getItem('query');
       api.fetchSkins().then((skins) => {
-          this.skins = skins.skins;
+          const sortedSkins = skins.skins.sort(sortByPageViewsDesc);
+          this.skins = sortedSkins //.slice(this.page, 11);
       });
   }
 };

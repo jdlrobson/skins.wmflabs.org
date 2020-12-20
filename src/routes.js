@@ -1,5 +1,6 @@
 import Home from './pages/Home';
 import Skin from './pages/Skin';
+import NotFound from './pages/NotFound';
 import Add from './pages/Add';
 
 export default [
@@ -14,5 +15,9 @@ export default [
   {
     path: '/skin/:key',
      component: Skin
+  },
+  {
+    path: '*',
+    component: NotFound
   }
 ];

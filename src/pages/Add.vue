@@ -1,23 +1,26 @@
 <template>
   <div class="page--home">
-    <h2>Add skin</h2>
-    <p>Currently this is a manual process. In future I hope this to be a case
-        of automatically discovering skins on codesearch.wmflabs.org</p>
-    <p>In the mean time you must edit this <a href="https://skins.wmflabs.org/wiki/MediaWiki:Skins">wiki page</a> and add it
-    to the <a href="https://skins.wmflabs.orgs">the skins vagrant setup</a>.</p>
-
-    <router-link to="/">
+    <h2>New skin</h2>
+    <p>Coming soon. Until then... <router-link to="/">
       Explore other skins
-    </router-link>
+    </router-link></p>
+    <div>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/Supernova_%28CGI%29.jpg" alt="a supernova"/>
+    </div>
+    
   </div>
 </template>
 
 <script>
 import api from '../api.js';
+import { CATEGORY_SKINS } from '../constants';
 import Snapshot from '../components/Snapshot.vue';
 
 export default {
   name: 'Add',
+  data: () => ( {
+    category: CATEGORY_SKINS
+  } ),
   components: {}
 }
 </script>
