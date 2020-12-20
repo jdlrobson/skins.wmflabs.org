@@ -1,7 +1,7 @@
 ---
 name: Enable preview for my skin on skins.wmflabs.org
 about: Enable preview for my skin on skins.wmflabs.org
-title: ''
+title: Please enable my skin for live preview option
 labels: ''
 assignees: ''
 
