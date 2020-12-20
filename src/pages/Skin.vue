@@ -19,7 +19,9 @@
           :href="link.href">{{ link.text}}</a>
       </template>
       <template v-slot:column-two>
-        <preview :skinkey="skinKey"></preview>
+        <preview :href="href">
+          <article-changer @changeArticle="changeArticle"></article-changer>
+        </preview>
       </template>
     </two-column-layout>
   </div>
@@ -31,10 +33,13 @@ import TwoColumnLayout from '../components/TwoColumnLayout';
 import Snapshot from '../components/Snapshot.vue';
 import Preview from '../components/Preview.vue';
 import WarningBox from '../components/WarningBox.vue';
+import ArticleChanger from '../components/ArticleChanger';
+import { HOST, TEST_ARTICLE } from '../constants';
 
 export default {
   name: 'Skin',
   components: {
+      ArticleChanger,
       Snapshot,
       Preview,
       WarningBox,
@@ -43,7 +48,9 @@ export default {
   data() {
       return {
           stable: true,
+          testArticle: TEST_ARTICLE,
           preview: true,
+          skinkey: this.$route.params.key,
           name: this.$route.params.key.replace( /[^⠀]/g, '⠀' ) + '⠀',
           links: [],
           summary: '',
@@ -54,8 +61,14 @@ export default {
     mwUrl() {
       return this.name ? `https://mediawiki.org/wiki/Skin:${this.name}` : '';
     },
-    skinKey() {
-      return this.stable && this.preview ? this.$route.params.key : undefined
+    href() {
+      return this.stable && this.preview ? `${HOST}/wiki/${this.testArticle}?useskin=${this.skinkey}`
+        : undefined
+    }
+  },
+  methods: {
+    changeArticle(a) {
+      this.testArticle = a;
     }
   },
   mounted: function() {

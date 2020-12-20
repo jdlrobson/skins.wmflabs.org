@@ -1,13 +1,11 @@
 <template>
     <div class="preview">
         <h3>Preview</h3>
-        <select v-if="enabled" @change="changeArticle">
-            <option v-for="(a,i) in articles" :key="i" :value="a.title">{{ a.name }}</option>
-          </select>
+        <slot></slot>
         <input type="checkbox" name="mobile" :checked="mobile" @input="toggleMobile">
         <label for="mobile">mobile</label>
         <div v-if="enabled" class="preview-area">
-          <iframe :class="iframeClass" ref="iframe" :src="demoLink" :width="w" :height="h" />
+          <iframe :class="iframeClass" ref="iframe" :src="href" :width="w" :height="h" />
         </div>
         <div v-else class="preview__area preview__area--unavailable">
           Preview unavailable.
@@ -23,6 +21,7 @@
 <script>
 import { HOST, TEST_ARTICLE } from '../constants';
 import WarningBox from '../components/WarningBox';
+import mustache from 'mustache';
 
 export default {
   name: 'Preview',
@@ -33,18 +32,13 @@ export default {
     html: {
       type: String
     },
-    skinkey: {
+    href: {
       type: String
     }
   },
   data() {
       return {
-          mobile: !!localStorage.getItem('mobile'),
-          articles: [
-            { title: TEST_ARTICLE, name: TEST_ARTICLE.replace(/_/g, ' ') },
-            { title: 'Rube Goldberg machine', name: 'Rube Goldberg machine' }
-          ],
-          testArticle: TEST_ARTICLE
+          mobile: !!localStorage.getItem('mobile')
       };
   },
   computed: {
@@ -58,10 +52,7 @@ export default {
       return this.mobile ? 240 : 480;
     },
     enabled() {
-      return this.skinkey || this.html;
-    },
-    demoLink() {
-      return this.skinkey ? `${HOST}/wiki/${this.testArticle}?useskin=${this.skinkey}` : undefined;
+      return this.href || this.html;
     }
   },
   methods: {
@@ -69,14 +60,11 @@ export default {
       this.mobile = ev.target.checked;
       localStorage.setItem('mobile', this.mobile);
     },
-    changeArticle: function ( ev ) {
-      this.testArticle = ev.target.value;
-    }
-  },
-  mounted() {
+    refresh() {
       const iframe = this.$refs.iframe;
       const html = this.html;
       if(iframe && html) {
+        
           let doc;
           if (iframe.contentDocument) {
               doc = iframe.contentDocument;
@@ -89,6 +77,13 @@ export default {
           doc.writeln(html);
           doc.close();
       }
+    }
+  },
+  mounted() {
+    this.refresh();
+  },
+  updated() {
+    this.refresh();
   }
 };
 </script>

@@ -1,5 +1,8 @@
 export const HOST = 'https://skins-demo.wmflabs.org/';
-export const TEST_ARTICLE = 'Ipsum_Lorem';
+export const TEST_ARTICLES = [
+    { title: 'Ipsum_Lorem', name: 'Ipsum Lorem' },
+    { title: 'Rube Goldberg machine', name: 'Rube Goldberg machine' }
+];
 export const CATEGORY_SKINS = 'Category:Stable_skins';
 export const CATEGORY_BETA_SKINS = 'Category:Beta_status_skins';
 
