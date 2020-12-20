@@ -2,13 +2,10 @@
   <div :class="snapshotClass">
     <h3 v-if="displayTitle">
       <router-link :to="routerUrl">{{name}}</router-link>
+      <abbr v-if="hasDependencies" title="Requires additional setup.">⚠️</abbr>
+      <abbr v-if="!compatible" title="Skin is not compatible with MediaWiki 1.36.">⚠️</abbr>&nbsp;
     </h3>
     <img  width="320" height="200" :src="src" :alt="alt">
-    <footer>
-      <span v-if="hasDependencies">⚠️ Requires additional setup.</span>
-      <span v-if="!compatible">⚠️ Skin is not compatible with MediaWiki 1.36.</span>
-      &nbsp;
-    </footer>
   </div>
 </template>
 
