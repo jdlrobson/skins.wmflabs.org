@@ -18,6 +18,7 @@ export const SKIN_KEY_SPECIAL_CASES = {
 };
 
 export const SKIN_COMPATIBILITY_PROBLEMS = [
+    'cavendish',
     'medik',
     'chameleon',
     'webplatform',
@@ -36,6 +37,7 @@ export const SKIN_COMPATIBILITY_PROBLEMS = [
 
 // Replace with page images once enabled on mediawiki.org for skin namespace
 export const SCREENSHOTS = {
+    cavendish: 'https://upload.wikimedia.org/wikipedia/mediawiki/thumb/1/13/Cavendish-Skin.jpg/440px-Cavendish-Skin.jpg',
     aether: 'https://upload.wikimedia.org/wikipedia/commons/9/97/Mediawiki-skin-aether.png',
     anisa: 'https://upload.wikimedia.org/wikipedia/commons/e/e7/Anisa_screenshot.png',
     athena: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Athena_skin_1.png/700px-Athena_skin_1.png',
