@@ -16,6 +16,10 @@ Only skins that run in 1.36 without deprecation warnings will be added to the li
 **Does your skin require composer or other extensions?**
 Only skins with zero dependencies will be added.
 
+**Does your skin have a screenshot at the path `screenshots/1280x800.png?```
+
+A screenshot is required for the skin to be added.
+
 **Does your skin using PHP hooks?**
 Code is audited before being enabled. The simpler and more restricted the implement of the skin the quicker it will get added.
 
