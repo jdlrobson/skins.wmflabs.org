@@ -4,8 +4,10 @@
         <select v-if="enabled" @change="changeArticle">
             <option v-for="(a,i) in articles" :key="i" :value="a.title">{{ a.name }}</option>
           </select>
+        <input type="checkbox" name="mobile" :checked="mobile" @input="toggleMobile">
+        <label for="mobile">mobile</label>
         <div v-if="enabled" class="preview-area">
-          <iframe ref="iframe" :src="demoLink" width="640" height="480" />
+          <iframe :class="iframeClass" ref="iframe" :src="demoLink" :width="w" :height="h" />
         </div>
         <div v-else class="preview__area preview__area--unavailable">
           Preview unavailable.
@@ -37,6 +39,7 @@ export default {
   },
   data() {
       return {
+          mobile: !!localStorage.getItem('mobile'),
           articles: [
             { title: TEST_ARTICLE, name: TEST_ARTICLE.replace(/_/g, ' ') },
             { title: 'Rube Goldberg machine', name: 'Rube Goldberg machine' }
@@ -45,15 +48,27 @@ export default {
       };
   },
   computed: {
+    iframeClass() {
+      return this.mobile ? 'iframe--mobile' : 'iframe--desktop';
+    },
+    w() {
+      return this.mobile ? 375 : 640;
+    },
+    h() {
+      return this.mobile ? 240 : 480;
+    },
     enabled() {
       return this.skinkey || this.html;
     },
     demoLink() {
-      console.log('hello', this.skinkey);
       return this.skinkey ? `${HOST}/wiki/${this.testArticle}?useskin=${this.skinkey}` : undefined;
     }
   },
   methods: {
+    toggleMobile: function ( ev ) {
+      this.mobile = ev.target.checked;
+      localStorage.setItem('mobile', this.mobile);
+    },
     changeArticle: function ( ev ) {
       this.testArticle = ev.target.value;
     }
@@ -62,7 +77,6 @@ export default {
       const iframe = this.$refs.iframe;
       const html = this.html;
       if(iframe && html) {
-        console.log('gop', html);
           let doc;
           if (iframe.contentDocument) {
               doc = iframe.contentDocument;
@@ -82,13 +96,23 @@ export default {
 <style scoped>
   .preview__area {
     overflow: hidden;
+    width: 640px;
+    text-align: center;
   }
   iframe {
     background: white;
-    transform: scale(0.5, 0.5);
-    transform-origin: 0 0;
+    display: block;
+  }
+  .iframe--desktop {
     width: calc( 640px / 0.5 );
     height: calc( 480px / 0.5 );
+    transform: scale(0.5, 0.5);
+    transform-origin: 0 0;
+  }
+  .iframe--mobile {
+    margin-left: 120px;
+    width: 375px;
+    height: 667px;
   }
   .preview__area--unavailable {
     opacity: 0.5;
