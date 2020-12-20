@@ -7,11 +7,11 @@
     <two-column-layout>
        <template v-slot:column-one>
         <h3>About</h3>
-        <div class="warning" v-if="!stable || !preview">
+        <warning-box class="warningbox" v-if="!stable || !preview">
           <span v-if="!stable">Warning: This skin is not marked as stable.</span>
           <span v-if="!preview">Warning: This skin may require additional setup and/or may
             not be compatible with MediaWiki 1.36.</span>
-        </div>
+        </warning-box>
         <snapshot :stable="stable" :compatible="preview"
           :display-title="false" :name="name" :src="src"></snapshot>
         <p>{{summary}}</p>
@@ -30,12 +30,14 @@ import api from '../api.js';
 import TwoColumnLayout from '../components/TwoColumnLayout';
 import Snapshot from '../components/Snapshot.vue';
 import Preview from '../components/Preview.vue';
+import WarningBox from '../components/WarningBox.vue';
 
 export default {
   name: 'Skin',
   components: {
       Snapshot,
       Preview,
+      WarningBox,
       TwoColumnLayout
   },
   data() {
@@ -107,12 +109,7 @@ export default {
 </script>
 
 <style scoped>
-  .warning {
-    padding: 20px;
-    width: 320px;
-    border: dashed 3px orange;
-    margin-bottom: 20px;
-  }
+  .warningbox,
   p {
     width: 320px;
   }
