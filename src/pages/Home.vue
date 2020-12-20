@@ -2,7 +2,7 @@
   <div class="page--home">
     <h2>Explore skins</h2>
     <input placeholder="Find skin" :value="query" @input="setQuery">
-    <p>All skins featured here work on a Vanilla MediaWiki install.</p>
+    <p>All skins featured here work on a Vanilla MediaWiki 1.36 install unless stated.</p>
     <div class="page__showcase">
         <snapshot v-for="skin in filteredSkins"
             :stable="skin.stable"
