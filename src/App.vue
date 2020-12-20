@@ -12,7 +12,7 @@
     <footer>
       <p>
         Made by <a href="https://jdlrobson.com">Jon Robson</a>.
-        Code on <a href="">github.com</a>.
+        Code on <a href="https://github.com/jdlrobson/skins.wmflabs.org">github.com</a>.
         Sourced images: <a title="License, as on date of upload: ‘Creative Commons Attribution license (reuse allowed)’  , CC BY 3.0 &lt;https://creativecommons.org/licenses/by/3.0&gt;, via Wikimedia Commons"
         href="https://commons.wikimedia.org/wiki/File:Supernova_(CGI).jpg">File:Supernova_(CGI).jpg</a>
         </p>
