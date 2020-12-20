@@ -9,6 +9,7 @@ export const HIDDEN_SKINS = [
 
 export const SKIN_DEPENDS_ON_EXTENSIONS = [
     'chameleon',
+    'aether',
     'bluespicecalumma'
 ];
 
@@ -19,11 +20,15 @@ export const SKIN_KEY_SPECIAL_CASES = {
 export const SKIN_COMPATIBILITY_PROBLEMS = [
     'medik',
     'chameleon',
+    'webplatform',
+    'erudite',
+    'anisa',
     'liberty',
     'truglass',
     'nimbus',
     'refreshed',
     'dusktodawn',
+    'athena',
     'deskmessmirrored',
     'darkcosmos',
     'gamepress'
@@ -31,6 +36,13 @@ export const SKIN_COMPATIBILITY_PROBLEMS = [
 
 // Replace with page images once enabled on mediawiki.org for skin namespace
 export const SCREENSHOTS = {
+    aether: 'https://upload.wikimedia.org/wikipedia/commons/9/97/Mediawiki-skin-aether.png',
+    anisa: 'https://upload.wikimedia.org/wikipedia/commons/e/e7/Anisa_screenshot.png',
+    athena: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Athena_skin_1.png/700px-Athena_skin_1.png',
+    erudite: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Erudite_skin.png/440px-Erudite_skin.png',
+    webplatform: 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Screen_of_MediaWiki_skin_WebPlatform.png',
+    woogleshades: 'https://upload.wikimedia.org/wikipedia/commons/1/10/WoOgLeShades.png',
+    wikimediaapiportal: 'https://upload.wikimedia.org/wikipedia/commons/8/82/Screen_Shot_of_MediaWiki_Skin-WikimediaApiPortal.png',
     darkcosmos: 'https://upload.wikimedia.org/wikipedia/commons/8/83/Perfect_dark_theme_design.jpg',
     femiwiki: 'https://upload.wikimedia.org/wikipedia/commons/8/8a/Skin-Femiwiki.png',
     liberty: 'https://upload.wikimedia.org/wikipedia/commons/6/66/Screenshot-skin-liberty.png',
