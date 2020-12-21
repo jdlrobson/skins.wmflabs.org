@@ -15,6 +15,7 @@
       <template v-slot:column-two>
        <preview :html="html" :name="skinname">
           <article-changer @changeArticle="changeArticle"></article-changer>
+          <input type="checkbox" :checked="anon" @input="changeAnon">Anonymous
        </preview>
       </template>
     </two-column-layout>
@@ -64,6 +65,7 @@ export default {
     return Object.assign( getCached(), {
       templateDataReq: {},
       pending: null,
+      anon: true,
       title: TEST_ARTICLES[0].title,
     } )
   },
@@ -71,6 +73,10 @@ export default {
     this.generatePreview();
   },
   methods: {
+    changeAnon(ev) {
+      this.anon = ev.target.checked;
+      this.generatePreview();
+    },
     reset() {
       const noConfirmationNeeded = DEFAULT_SKIN_PROPS.mustache === this.mustache
         && DEFAULT_SKIN_PROPS.css === this.css;
@@ -118,17 +124,18 @@ export default {
       localStorage.setItem('add-mustache', this.mustache);
     },
     getUrl(title) {
-      return `https://skins-demo.wmflabs.org/wiki/${title}?useskin=skinjson`
+      return `https://skins-demo.wmflabs.org/wiki/${title}?useskin=skinjson&testuser=${this.anon ? '0': '1'}`
     },
     getTemplateData(title) {
-      if(!this.templateDataReq[title]) {
-        this.templateDataReq[title] = fetch( this.getUrl(title),
+      const url = this.getUrl(title);
+      if(!this.templateDataReq[url]) {
+        this.templateDataReq[url] = fetch( url,
             {
               mode: 'cors'
             } )
             .then((r) => r.json())
       }
-      return this.templateDataReq[title];
+      return this.templateDataReq[url];
     },
     generatePreview() {
       if ( this.pending ) {
@@ -138,7 +145,7 @@ export default {
       this.pending = setTimeout(() => {
         this.getTemplateData(this.title).then((data) => {
           const OVERRIDES = {
-            'msg-sitetitle': 'Skinomatic@skins.wmflabs.org',
+            'msg-sitetitle': 'Skinomatic 4000',
             'msg-tagline': 'Presented to you in the skinomatic 4000',
             'html-subtitle': `<a target="_blank" href="${this.getUrl(this.title)}">View as JSON format</a>.`
           };
@@ -162,7 +169,7 @@ textarea {
   height: 200px;
 }
 
-input {
+input[type=text] {
   width: 320px;
   height: 40px;
 }
