@@ -30,6 +30,7 @@ import { render } from 'mustache';
 import Preview from '../components/Preview.vue';
 import ArticleChanger from '../components/ArticleChanger';
 import TwoColumnLayout from '../components/TwoColumnLayout.vue';
+import nameMe from '../nameMe';
 
 const DEFAULT_HTML = '<!DOCTYPE HTML><html><body>Loading preview...</body></html>';
 
@@ -46,6 +47,9 @@ function getCached() {
     const val = localStorage.getItem(`add-${key}`);
     props[key] = val || DEFAULT_SKIN_PROPS[key];
   });
+  if(!props.skinname) {
+    props.skinname = nameMe();
+  }
   return props;
 }
 
@@ -68,12 +72,17 @@ export default {
   },
   methods: {
     reset() {
-      const confirm = window.confirm(`Reset the skin (${this.skinname}) you are currently working on? All changes will be lost!`)
+      const noConfirmationNeeded = DEFAULT_SKIN_PROPS.mustache === this.mustache
+        && DEFAULT_SKIN_PROPS.css === this.css;
+
+      const confirm = noConfirmationNeeded || window.confirm(`Reset the skin (${this.skinname}) you are currently working on? All changes will be lost!`)
       if(confirm) {
         Object.keys(DEFAULT_SKIN_PROPS).forEach((key) => {
           localStorage.removeItem(`add-${key}`);
           this[key] = DEFAULT_SKIN_PROPS[key];
-        })
+        });
+        this.skinname = nameMe();
+        localStorage.setItem('add-skinname', this.skinname);
       }
     },
     updateName(ev) {
