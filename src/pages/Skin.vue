@@ -19,7 +19,7 @@
           :href="link.href">{{ link.text}}</a>
       </template>
       <template v-slot:column-two>
-        <preview :href="href">
+        <preview :href="href" :name="name">
           <article-changer @changeArticle="changeArticle"></article-changer>
         </preview>
       </template>

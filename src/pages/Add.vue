@@ -12,7 +12,7 @@
         <button @click="download" :disabled="skinname === ''">Download as ZIP</button>
       </template>
       <template v-slot:column-two>
-       <preview :html="html">
+       <preview :html="html" :name="skinname">
           <article-changer @changeArticle="changeArticle"></article-changer>
        </preview>
       </template>
@@ -41,7 +41,7 @@ export default {
   },
   data() {
     return {
-      skinname: localStorage.getItem('name') || '',
+      skinname: localStorage.getItem('name') || null,
       templateDataReq: {},
       pending: null,
       title: TEST_ARTICLES[0].title,

@@ -1,6 +1,6 @@
 <template>
     <div class="preview">
-        <h3>Preview</h3>
+        <h3>Preview of {{ name }}</h3>
         <div class="preview__panel">
           <slot></slot>
           <input type="checkbox" name="mobile" :checked="mobile" @input="toggleMobile">
@@ -15,7 +15,7 @@
         <warning-box v-if="!enabled">
           If you are the maintainer of the skin you can request preview is enabled
           by creating an <a target="_blank"
-            href="https://github.com/jdlrobson/skins.wmflabs.org/issues/new?assignees=&labels=&template=enable-preview-for-my-skin-on-skins-wmflabs-org.md&title=Please+enable+my+skin+for+live+preview+option">issue</a>.
+            :href="createIssue">issue</a>.
         </warning-box>
     </div>
 </template>
@@ -31,6 +31,10 @@ export default {
     WarningBox
   },
   props: {
+    name: {
+      type: String,
+      default: 'Skin'
+    },
     html: {
       type: String
     },
@@ -44,6 +48,9 @@ export default {
       };
   },
   computed: {
+    createIssue() {
+      return `https://github.com/jdlrobson/skins.wmflabs.org/issues/new?assignees=&labels=&template=enable-preview-for-${this.name}-on-skins-wmflabs-org.md&title=Please+enable+my+skin+for+live+preview+option`;
+    },
     iframeClass() {
       return this.mobile ? 'iframe--mobile' : 'iframe--desktop';
     },
