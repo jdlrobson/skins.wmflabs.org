@@ -10,6 +10,7 @@
         <h3>Name and download</h3>
         <input type="text" @input="updateName" placeholder="Skin's name" :value="skinname">
         <button @click="download" :disabled="skinname === ''">Download as ZIP</button>
+        <button @click="reset">Reset</button>
       </template>
       <template v-slot:column-two>
        <preview :html="html" :name="skinname">
@@ -32,6 +33,22 @@ import TwoColumnLayout from '../components/TwoColumnLayout.vue';
 
 const DEFAULT_HTML = '<!DOCTYPE HTML><html><body>Loading preview...</body></html>';
 
+const DEFAULT_SKIN_PROPS = {
+  html: DEFAULT_HTML,
+  css: DEFAULT_SKIN_CSS,
+  mustache: DEFAULT_SKIN_MUSTACHE,
+  skinname: ''
+};
+
+function getCached() {
+  const props = {};
+  Object.keys((DEFAULT_SKIN_PROPS)).forEach((key) => {
+    const val = localStorage.getItem(`add-${key}`);
+    props[key] = val || DEFAULT_SKIN_PROPS[key];
+  });
+  return props;
+}
+
 export default {
   name: 'Add',
   components: {
@@ -40,23 +57,28 @@ export default {
     TwoColumnLayout
   },
   data() {
-    return {
-      skinname: localStorage.getItem('name') || null,
+    return Object.assign( getCached(), {
       templateDataReq: {},
       pending: null,
       title: TEST_ARTICLES[0].title,
-      html: DEFAULT_HTML,
-      css: DEFAULT_SKIN_CSS,
-      mustache: DEFAULT_SKIN_MUSTACHE
-    }
+    } )
   },
   mounted() {
     this.generatePreview();
   },
   methods: {
+    reset() {
+      const confirm = window.confirm(`Reset the skin (${this.skinname}) you are currently working on? All changes will be lost!`)
+      if(confirm) {
+        Object.keys(DEFAULT_SKIN_PROPS).forEach((key) => {
+          localStorage.removeItem(`add-${key}`);
+          this[key] = DEFAULT_SKIN_PROPS[key];
+        })
+      }
+    },
     updateName(ev) {
       this.skinname = ev.target.value;
-      localStorage.setItem('name', this.skinname);
+      localStorage.setItem('add-skinname', this.skinname);
     },
     download() {
       build(
@@ -79,10 +101,12 @@ export default {
     updateCSS(ev) {
       this.css = ev.target.value;
       this.generatePreview();
+      localStorage.setItem('add-css', this.css);
     },
     updateMustache(ev) {
       this.mustache = ev.target.value;
       this.generatePreview();
+      localStorage.setItem('add-mustache', this.mustache);
     },
     getUrl(title) {
       return `https://skins-demo.wmflabs.org/wiki/${title}?useskin=skinjson`
