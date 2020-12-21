@@ -7,6 +7,10 @@ export const CATEGORY_SKINS = 'Category:Stable_skins';
 export const CATEGORY_BETA_SKINS = 'Category:Beta_status_skins';
 
 export const HIDDEN_SKINS = [
+    // advertising skins
+    'wima',
+    'vectorad',
+    'colognebanner',
     'example' // just an example
 ];
 
@@ -19,24 +23,6 @@ export const SKIN_DEPENDS_ON_EXTENSIONS = [
 export const SKIN_KEY_SPECIAL_CASES = {
     'Minerva Neue': 'minerva'
 };
-
-export const SKIN_COMPATIBILITY_PROBLEMS = [
-    'cavendish',
-    'medik',
-    'chameleon',
-    'webplatform',
-    'erudite',
-    'anisa',
-    'liberty',
-    'truglass',
-    'nimbus',
-    'refreshed',
-    'dusktodawn',
-    'athena',
-    'deskmessmirrored',
-    'darkcosmos',
-    'gamepress'
-];
 
 // Replace with page images once enabled on mediawiki.org for skin namespace
 export const SCREENSHOTS = {

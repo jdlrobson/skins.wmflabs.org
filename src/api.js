@@ -1,7 +1,19 @@
+let compatible = [];
 const skins = {};
-import { HOST, CATEGORY_SKINS, HIDDEN_SKINS, SKIN_COMPATIBILITY_PROBLEMS,
+import { HOST, CATEGORY_SKINS, HIDDEN_SKINS,
     SKIN_KEY_SPECIAL_CASES, CATEGORY_BETA_SKINS,
     SKIN_DEPENDS_ON_EXTENSIONS, SCREENSHOTS } from './constants';
+
+function getDemoEnabledSkins() {
+    if(compatible.length) {
+        return Promise.resolve(compatible);
+    }
+    return fetch('https://skins-demo.wmflabs.org/w/api.php?origin=*&action=query&format=json&meta=siteinfo&siprop=skins')
+        .then((r) => r.json())
+        .then((data) => {
+            compatible = data.query.skins.map((skin) => skin.code);
+        });
+}
 
 function queryMediaWikiSkins( category, gcmcontinue = '', pages = [] ) {
     return fetch(`https://www.mediawiki.org/w/api.php?action=query&format=json&origin=*&prop=pageviews&generator=categorymembers&formatversion=2&pvipmetric=pageviews&pvipdays=7&gcmlimit=max&gcmtitle=${encodeURIComponent(category)}&gcmnamespace=106&origin=*&gcmcontinue=${gcmcontinue}`)
@@ -20,13 +32,13 @@ function queryMediaWikiSkins( category, gcmcontinue = '', pages = [] ) {
                                 key,
                                 src: SCREENSHOTS[key] || `${HOST}w/skins/${name.replace(/ /g, '')}/screenshots/1280x800.png`,
                                 name,
-                                compatible: !SKIN_COMPATIBILITY_PROBLEMS.includes(key),
+                                compatible: compatible.includes(key),
                                 hasDependencies: SKIN_DEPENDS_ON_EXTENSIONS.includes(key),
                                 stable: true,
                                 pageviews: Object.keys(pv).map(key=>pv[key]).reduce((count, total=0) => total+count, 0)
                             })
                         }).filter((p) => {
-                            return !HIDDEN_SKINS.includes(p.title.replace('Skin:', '').toLowerCase())
+                            return !HIDDEN_SKINS.includes(p.key)
                                 && p.title.indexOf( '/' ) === -1 && p.title.indexOf('Skin:') > -1;
                         })
                     );
@@ -53,7 +65,7 @@ function getSkinIndex() {
     if (Object.keys(skins) > 0) {
         return Promise.resolve(skins);
     }
-    return queryMediaWikiAllSkins()
+    return getDemoEnabledSkins().then(() =>queryMediaWikiAllSkins())
         .then((skinPages) => {
             skinPages.forEach((skin) => {
                 skins[skin.key] = skin;
