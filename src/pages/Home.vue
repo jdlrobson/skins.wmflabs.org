@@ -3,6 +3,11 @@
     <h2>Explore skins</h2>
     <input placeholder="Find skin" :value="query" @input="setQuery">
     <p>Showing {{ filteredSkins.length }} / {{ skins.length }} skins.</p>
+    <div v-if="hasResults">
+      <div style="font-size: 100px;">😞</div>
+      <p>No skins match that name.</p>
+      <p>You can <a :href="mwUrlEdit">add this skin to MediaWiki.org</a></p>
+    </div>
     <div class="page__showcase">
         <snapshot v-for="skin in filteredSkins"
             :stable="skin.stable"
@@ -23,6 +28,12 @@ export default {
       Snapshot
   },
   computed: {
+    hasResults() {
+      return this.filteredSkins.length === 0;
+    },
+    mwUrlEdit() {
+      return `https://www.mediawiki.org/w/index.php?action=edit&preload=Template%3ASkin%2FSample&title=Skin%3A${this.query}&venoscript=1`;
+    },
     filteredSkins() {
       var q = this.query;
       return !q ? this.skins : this.skins.filter((skin) => {
