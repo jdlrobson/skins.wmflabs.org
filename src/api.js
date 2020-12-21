@@ -1,7 +1,10 @@
 let compatible = [];
 const skins = {};
+import DEFAULT_SKIN_IMAGE from '../assets/noscreen.png';
+
 import { HOST, CATEGORY_SKINS, HIDDEN_SKINS,
     SKIN_KEY_SPECIAL_CASES, CATEGORY_BETA_SKINS,
+    CATEGORY_UNMAINTAINED_SKINS,
     SKIN_DEPENDS_ON_EXTENSIONS, SCREENSHOTS } from './constants';
 
 function getDemoEnabledSkins() {
@@ -27,12 +30,14 @@ function queryMediaWikiSkins( category, gcmcontinue = '', pages = [] ) {
                             const pv = p.pageviews || {};
                             const name = p.title.split(':')[1];
                             const key = SKIN_KEY_SPECIAL_CASES[name] || name.replace(/ /g, '').toLowerCase();
+                            const isCompatible = compatible.includes(key);
 
                             return Object.assign(p, {
                                 key,
-                                src: SCREENSHOTS[key] || `${HOST}w/skins/${name.replace(/ /g, '')}/screenshots/1280x800.png`,
+                                src: SCREENSHOTS[key] ||
+                                    (isCompatible ? `${HOST}w/skins/${name.replace(/ /g, '')}/screenshots/1280x800.png` : DEFAULT_SKIN_IMAGE),
                                 name,
-                                compatible: compatible.includes(key),
+                                compatible: isCompatible,
                                 hasDependencies: SKIN_DEPENDS_ON_EXTENSIONS.includes(key),
                                 stable: true,
                                 pageviews: Object.keys(pv).map(key=>pv[key]).reduce((count, total=0) => total+count, 0)
@@ -54,11 +59,11 @@ function queryMediaWikiSkins( category, gcmcontinue = '', pages = [] ) {
 }
 
 function queryMediaWikiAllSkins() {
-    return queryMediaWikiSkins( CATEGORY_SKINS ).then((pages) => {
-        return queryMediaWikiSkins( CATEGORY_BETA_SKINS ).then((betaPages) => {
-            return pages.concat(betaPages);
-        });
-    });
+    return Promise.all( [
+        queryMediaWikiSkins( CATEGORY_SKINS ),
+        queryMediaWikiSkins( CATEGORY_BETA_SKINS ),
+        queryMediaWikiSkins( CATEGORY_UNMAINTAINED_SKINS )
+    ] ).then(([a,b,c]) => a.concat(b).concat(c));
 }
 
 function getSkinIndex() {
