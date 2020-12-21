@@ -1,9 +1,9 @@
-/* Common styling for the Example skin */
 html {
 	background: yellow;
 	margin: 0;
 	padding: 0 0 20px;
 }
+
 body {
 	background: white;
 	max-width: 800px;
@@ -11,39 +11,225 @@ body {
 	position: relative;
 }
 
+.mw-portlet li {
+	display: inline-block;
+	margin-right: 10px;
+}
+
+body > header,
+body > main,
+body > nav,
+body > footer {
+	padding: 1em;
+}
+
+/** HEADER */
+
+.mw-header {
+	min-height: 50px;
+	margin: 10px 0 8px;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	position: relative;
+	z-index: 3;
+}
+
+#p-search {
+	width: 100%;
+}
+
+#p-logo {
+	min-width: 300px;
+}
+
+header h3,
 #p-search h3 {
 	display: none;
 }
 
-header,
-main,
-nav,
-footer {
-	padding: 1em;
+#p-personal {
+	text-align: right;
+	flex-grow: 1;
+	flex-basis: 18.75em;
+	margin-left: 2.5em;
+	float: right;
 }
 
-main header {
+@media (max-width: 720px) {
+	.mw-portlet-personal {
+		margin-bottom: 10px;
+	}
+}
+
+/** CONTENT */
+
+main {
+	border-bottom: solid 20px yellow;
+}
+
+.content__header {
 	position: relative;
-	padding-right: 50px;
 }
 
-.mw-indicators {
+.content__heading {
+	padding: 0 50px 0 0;
+	margin: 0;
+	border-bottom: 0;
+}
+
+.content__indicators {
 	position: absolute;
 	top: 10px;
 	right: 0;
 }
 
-#siteSub {
-	display: block;
+.content__tagline {
+	color: #54595d;
+	font-size: 0.85em;
+	margin-bottom: 12px;
+	line-height: 20px;
 }
 
+.mw-portlet {
+	position: relative;
+}
+
+.mw-portlet input[type=checkbox] {
+	cursor: pointer;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 1;
+	opacity: 0;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+/* Content Actions */
+.content__actions {
+	display: flex;
+}
+
+#p-views {
+	flex-grow: 1;
+}
+
+.mw-portlet-cactions .mw-portlet-body {
+	display: none;
+}
+
+.mw-portlet-cactions input:checked ~ .mw-portlet-body {
+	display: block;
+	opacity: 1;
+}
+
+.mw-portlet-cactions .mw-portlet-body ul {
+    background: #ffffff;
+    position: absolute;
+    overflow-y: auto;
+    z-index: 2;
+	box-shadow: 0 5px 17px 0 rgba(0,0,0,0.24), 0 0 1px #a2a9b1;
+	right: 0;
+	min-width: 200px;
+}
+
+.mw-portlet-cactions li {
+	display: block;
+    padding: 0.75em 0.875em;
+}
+
+.mw-portlet-cactions input:checked ~ .mw-portlet-body ul {
+	opacity: 1;
+	visibility: visible;
+}
+
+.mw-portlet-namespaces {
+	margin-top: 10px;
+	border-bottom: 1px solid #eaecf0;
+}
+
+.mw-portlet-namespaces a {
+	font-size: 0.85em;
+	margin: 0 10px 0 0;
+	color: #54595d;
+	font-weight: bold;
+	padding-bottom: 6px;
+	display: inline-block;
+}
+
+.mw-portlet-namespaces li.selected {
+	border-bottom: 2px solid #54595d;
+	margin-bottom: -1px;
+}
+
+.mw-portlet-views ul {
+	display: flex;
+	height: 3em;
+	justify-content: space-between;
+}
+
+.mw-portlet-views li:first-child {
+	justify-content: flex-start;
+}
+
+.mw-portlet-cactions h3,
+.mw-portlet-views li {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	min-width: 0;
+	overflow: hidden;
+	flex-basis: auto;
+	height: 40px;
+    font-weight: normal;
+	font-size: 100%;
+	padding: 0;
+}
+
+.mw-portlet-cactions h3,
+.mw-portlet-cactions li a,
+.mw-portlet-views li a {
+	color: #54595d;
+	text-decoration: none;
+}
+
+.mw-portlet-cactions {
+	margin-left: 40px;
+}
+
+.mw-portlet-views li:hover {
+	background-color: rgba(0,0,0,0.03);
+}
+
+/* FOOTER */
+
 footer {
-	border-top: solid 50px yellow;
+	border-top: solid 20px yellow;
 	padding: 20px 0;
 }
 
-nav li,
 footer li {
 	display: inline-block;
 	margin-right: 20px;
+}
+
+/* The following rules will not be needed in future */
+.mw-portlet ul {
+	margin: 0;
+}
+
+.tright {
+	float: right;
+	clear: both;
+}
+.tleft {
+	float: right;
+	clear: both;
+}
+
+#ca-view {
+	display: none;
 }
