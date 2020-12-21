@@ -1,11 +1,5 @@
 <template>
   <div class="container">
-    <header>
-      <router-link to="/">
-        <h1>MediaWiki skins</h1>
-      </router-link>
-        <span>A place to find the perfect skin for your mediawiki.</span>
-    </header>
     <nav>
       <router-link to="/">
         Explore
@@ -35,31 +29,6 @@ export default {
 </script>
 
 <style scoped>
-  .container {
-    width: 1000px;
-    margin: 0 auto;
-    text-align: center;
-  }
-
-  header {
-    padding: 8px;
-    margin: 0;
-  }
-
-  header span {
-    font-size: 0.8em;
-  }
-
-  header h1 {
-    text-transform: uppercase;
-    margin-bottom: 0;
-  }
-
-  header a {
-    text-decoration: none;
-    color:yellow;
-  }
-
   main {
     margin: 12px 0;
   }
