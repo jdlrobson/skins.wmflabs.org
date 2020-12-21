@@ -34,7 +34,7 @@ import Snapshot from '../components/Snapshot.vue';
 import Preview from '../components/Preview.vue';
 import WarningBox from '../components/WarningBox.vue';
 import ArticleChanger from '../components/ArticleChanger';
-import { HOST, TEST_ARTICLE } from '../constants';
+import { HOST, TEST_ARTICLES } from '../constants';
 
 export default {
   name: 'Skin',
@@ -48,7 +48,7 @@ export default {
   data() {
       return {
           stable: true,
-          testArticle: TEST_ARTICLE,
+          testArticle: TEST_ARTICLES[0].title,
           preview: true,
           skinkey: this.$route.params.key,
           name: this.$route.params.key.replace( /[^⠀]/g, '⠀' ) + '⠀',
@@ -62,7 +62,7 @@ export default {
       return this.name ? `https://mediawiki.org/wiki/Skin:${this.name}` : '';
     },
     href() {
-      return this.stable && this.preview ? `${HOST}/wiki/${this.testArticle}?useskin=${this.skinkey}`
+      return this.stable && this.preview ? `${HOST}/wiki/${this.testArticle}?useformat=desktop&useskin=${this.skinkey}`
         : undefined
     }
   },
