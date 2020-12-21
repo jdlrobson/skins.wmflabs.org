@@ -13,28 +13,38 @@
     text-align: center;
   }
   header {
+    background: #f1d800;
     padding: 8px;
     margin: 0;
+    color: #333;
+  }
+
+  header .logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   header span {
     font-size: 0.8em;
+    margin-left: 120px;
   }
 
   header h1 {
+    margin: 0;
     text-transform: uppercase;
-    margin-bottom: 0;
   }
 
   header a {
     text-decoration: none;
-    color:yellow;
+    color: #c24cbf;
   }
   </style>
 </head>
 <body>
   <header>
-    <a href="#/">
+    <a class="logo" href="#/">
+      <img src="./assets/logo.png" height="100" width="120">
       <h1>Wikimedia Skins Lab</h1>
     </a>
     <span>A place to find the perfect skin for your mediawiki.</span>
