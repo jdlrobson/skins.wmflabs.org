@@ -1,0 +1,23 @@
+<header>
+	{{>Logo}}
+	{{>Search}}
+</header>
+<main id="content" class="mw-body">
+	{{>Notices}}
+	{{>ArticleHeader}}
+	{{{html-body-content}}}
+	{{{html-categories}}}
+	{{{html-after-content}}}
+</main>
+<nav>
+	{{#data-portlets}}
+	{{#data-portlets.data-personal}}{{>Portlet}}{{/data-portlets.data-personal}}
+	{{#data-namespaces}}{{>Portlet}}{{/data-namespaces}}
+	{{#data-variants}}{{>Portlet}}{{/data-variants}}
+	{{#data-views}}{{>Portlet}}{{/data-views}}
+	{{#data-actions}}{{>Portlet}}{{/data-actions}}
+	{{/data-portlets}}
+	{{>Sidebar}}
+	{{#data-portlets.data-languages}}{{>Portlet}}{{/data-portlets.data-languages}}
+</nav>
+{{>Footer}}

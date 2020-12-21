@@ -6,6 +6,14 @@
       </router-link>
         <span>A place to find the perfect skin for your mediawiki.</span>
     </header>
+    <nav>
+      <router-link to="/">
+        Explore
+      </router-link>
+      <router-link to="/add">
+        create
+      </router-link>
+    </nav>
     <main>
       <router-view></router-view>
     </main>
@@ -54,6 +62,18 @@ export default {
 
   main {
     margin: 12px 0;
+  }
+  nav {
+    display: block;
+    border: solid 1px white;
+    border-left: none;
+    border-right: none;
+    padding: 20px 0;
+  }
+  nav a {
+    padding: 0 8px;
+    text-decoration: none;
+    text-transform: lowercase;
   }
   footer {
     margin-top: 40px;

@@ -9,9 +9,6 @@
             :compatible="skin.compatible"
             :hasDependencies="skin.hasDependencies"
             :key="skin.key" :skinkey="skin.key" :name="skin.name" :src="skin.src"></snapshot>
-        <snapshot key="add-skin" 
-          url="/add"
-          name="New skin" src="https://upload.wikimedia.org/wikipedia/commons/c/ca/Supernova_%28CGI%29.jpg"></snapshot>
     </div>
   </div>
 </template>
