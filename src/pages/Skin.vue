@@ -11,7 +11,7 @@
           <span v-if="!stable">Warning: This skin is not marked as stable.</span>
           <span v-if="!preview">Warning: This skin may require additional setup and/or may
             not be compatible with MediaWiki 1.36.</span>
-          <span v-if="experimental">Warning: This skin has been marked as experimental.</span>
+          <span v-if="experimental">Warning: This skin has been marked as experimental or is unmaintained.</span>
         </warning-box>
         <snapshot :stable="stable" :compatible="preview"
           :display-title="false" :name="name" :src="src"></snapshot>
