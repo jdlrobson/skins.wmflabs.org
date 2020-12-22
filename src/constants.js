@@ -23,11 +23,13 @@ export const SKIN_DEPENDS_ON_EXTENSIONS = [
 ];
 
 export const SKIN_KEY_SPECIAL_CASES = {
-    'Minerva Neue': 'minerva'
+    'Minerva Neue': 'minerva',
+    scratchwiki: 'scratchwiki2'
 };
 
 // Replace with page images once enabled on mediawiki.org for skin namespace
 export const SCREENSHOTS = {
+    scratchwiki: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/MediaWiki_Screenshot_of_ScratchWiki_2_skin.png/1600px-MediaWiki_Screenshot_of_ScratchWiki_2_skin.png',
     simpletext: 'https://upload.wikimedia.org/wikipedia/commons/6/61/Screenshot_of_SimpleText_MediaWiki_skin.png',
     purecss: 'https://upload.wikimedia.org/wikipedia/commons/c/c7/PureCss_Screenshot.png',
     cavendish: 'https://upload.wikimedia.org/wikipedia/mediawiki/thumb/1/13/Cavendish-Skin.jpg/440px-Cavendish-Skin.jpg',
