@@ -28,6 +28,7 @@ export const SKIN_KEY_SPECIAL_CASES = {
 
 // Replace with page images once enabled on mediawiki.org for skin namespace
 export const SCREENSHOTS = {
+    simpletext: 'https://upload.wikimedia.org/wikipedia/commons/6/61/Screenshot_of_SimpleText_MediaWiki_skin.png',
     purecss: 'https://upload.wikimedia.org/wikipedia/commons/c/c7/PureCss_Screenshot.png',
     cavendish: 'https://upload.wikimedia.org/wikipedia/mediawiki/thumb/1/13/Cavendish-Skin.jpg/440px-Cavendish-Skin.jpg',
     aether: 'https://upload.wikimedia.org/wikipedia/commons/9/97/Mediawiki-skin-aether.png',
