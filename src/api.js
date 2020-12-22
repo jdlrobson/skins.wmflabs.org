@@ -34,7 +34,6 @@ function queryMediaWikiSkins( category, gcmcontinue = '', pages = [] ) {
                             if(SKIN_KEY_SPECIAL_CASES[key]) {
                                 key = SKIN_KEY_SPECIAL_CASES[key];
                             }
-                            console.log(key, '<<');
                             const isCompatible = compatible.includes(key);
 
                             return Object.assign(p, {
