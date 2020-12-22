@@ -63,11 +63,16 @@ export default {
       };
   },
   mounted: function() {
+      const noScreen = (p)=>p.src.indexOf('noscreen') === -1;
       const sortByPageViewsStableDesc = (p, p2) => {
-        const prefer1 = p.compatible && !p.hasDependencies;
-        const prefer2 = p2.compatible && !p2.hasDependencies;
+        const prefer1 = p.compatible && !p.hasDependencies && p.src;
+        const prefer2 = p2.compatible && !p2.hasDependencies && p.src;
         if(!prefer1 && prefer2) return 1;
         if(!prefer2 && prefer1) return -1;
+        if(noScreen(p) && !noScreen(p2)) return -1;
+        if(!noScreen(p) && noScreen(p2)) return 1;
+        if(!p2.experimental && p.experimental) return 1;
+        if(p2.experimental && !p.experimental) return -1;
         return p.pageviews > p2.pageviews ? -1 : 1;
       };
       this.query = localStorage.getItem('query');
