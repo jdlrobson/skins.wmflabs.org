@@ -3,6 +3,7 @@
     <h3 v-if="displayTitle">
       <router-link :to="routerUrl">{{name}}</router-link>
       <abbr v-if="hasDependencies" title="Requires additional setup.">⚠️</abbr>
+      <abbr v-if="experimental" title="Skin is marked as unmaintained or experimental.">⚠️</abbr>&nbsp;
       <abbr v-if="!compatible" title="Skin may not be compatible with MediaWiki 1.36.">⚠️</abbr>&nbsp;
     </h3>
     <img  width="320" height="200" :src="src" :alt="alt">
@@ -35,6 +36,9 @@ export default {
     compatible: {
       type: Boolean,
       default: true
+    },
+    experimental: {
+      type: Boolean
     },
     hasDependencies: {
       type: Boolean
@@ -72,7 +76,12 @@ export default {
     box-sizing: border-box;
     margin: 2px 0;
   }
-
+  h3 a {
+    width: 200px;
+    overflow: hidden;
+    display: inline-block;
+    text-overflow: ellipsis;
+  }
   img {
     width: 320px;
     height: 200px;

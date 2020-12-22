@@ -4,6 +4,7 @@ import DEFAULT_SKIN_IMAGE from '../assets/noscreen.png';
 
 import { HOST, CATEGORY_SKINS, HIDDEN_SKINS,
     SKIN_KEY_SPECIAL_CASES, CATEGORY_BETA_SKINS,
+    CATEGORY_EXPERIMENTAL_SKINS,
     CATEGORY_UNMAINTAINED_SKINS,
     SKIN_DEPENDS_ON_EXTENSIONS, SCREENSHOTS } from './constants';
 
@@ -37,6 +38,7 @@ function queryMediaWikiSkins( category, gcmcontinue = '', pages = [] ) {
                                 src: SCREENSHOTS[key] ||
                                     (isCompatible ? `${HOST}w/skins/${name.replace(/ /g, '')}/screenshots/1280x800.png` : DEFAULT_SKIN_IMAGE),
                                 name,
+                                experimental: [ CATEGORY_EXPERIMENTAL_SKINS, CATEGORY_UNMAINTAINED_SKINS ].includes(category),
                                 compatible: isCompatible,
                                 hasDependencies: SKIN_DEPENDS_ON_EXTENSIONS.includes(key),
                                 stable: true,
@@ -62,8 +64,9 @@ function queryMediaWikiAllSkins() {
     return Promise.all( [
         queryMediaWikiSkins( CATEGORY_SKINS ),
         queryMediaWikiSkins( CATEGORY_BETA_SKINS ),
-        queryMediaWikiSkins( CATEGORY_UNMAINTAINED_SKINS )
-    ] ).then(([a,b,c]) => a.concat(b).concat(c));
+        queryMediaWikiSkins( CATEGORY_UNMAINTAINED_SKINS ),
+        queryMediaWikiSkins( CATEGORY_EXPERIMENTAL_SKINS )
+    ] ).then(([a,b,c,d]) => a.concat(b).concat(c).concat(d));
 }
 
 function getSkinIndex() {

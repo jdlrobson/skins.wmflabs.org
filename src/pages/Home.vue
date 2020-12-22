@@ -12,6 +12,7 @@
         <snapshot v-for="skin in filteredSkins"
             :stable="skin.stable"
             :compatible="skin.compatible"
+            :experimental="skin.experimental"
             :hasDependencies="skin.hasDependencies"
             :key="skin.key" :skinkey="skin.key" :name="skin.name" :src="skin.src"></snapshot>
     </div>
