@@ -23,12 +23,19 @@ export const SKIN_DEPENDS_ON_EXTENSIONS = [
 ];
 
 export const SKIN_KEY_SPECIAL_CASES = {
-    'Minerva Neue': 'minerva',
+    minervaneue: 'minerva',
+    eucopyrightcampaignskin: 'eucopyrightcampaign',
     scratchwikiskin: 'scratchwiki2'
 };
 
 // Replace with page images once enabled on mediawiki.org for skin namespace
 export const SCREENSHOTS = {
+    eucopyrightcampaign: 'https://upload.wikimedia.org/wikipedia/commons/8/8a/EUCopyrightCampaign_Skin_for_MediaWiki.png',
+    jony: 'https://upload.wikimedia.org/wikipedia/commons/4/4b/Skin_Jony.png',
+    amethyst: 'https://upload.wikimedia.org/wikipedia/commons/2/23/Screenshot_of_MediaWiki_Amethyst_Skin.png',
+    modernskylight: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Skin_Modern_Skylight_Screenshot.png/2880px-Skin_Modern_Skylight_Screenshot.png',
+    mediawikibootstrap: 'https://upload.wikimedia.org/wikipedia/commons/4/47/Mediwiki-bootstrap-screenshot.png',
+    dgraph: 'https://upload.wikimedia.org/wikipedia/mediawiki/thumb/9/94/Dgraph_homepage.png/700px-Dgraph_homepage.png',
     scratchwikiskin: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/MediaWiki_Screenshot_of_ScratchWiki_2_skin.png/1600px-MediaWiki_Screenshot_of_ScratchWiki_2_skin.png',
     simpletext: 'https://upload.wikimedia.org/wikipedia/commons/6/61/Screenshot_of_SimpleText_MediaWiki_skin.png',
     purecss: 'https://upload.wikimedia.org/wikipedia/commons/c/c7/PureCss_Screenshot.png',

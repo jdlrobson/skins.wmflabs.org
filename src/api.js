@@ -30,7 +30,11 @@ function queryMediaWikiSkins( category, gcmcontinue = '', pages = [] ) {
                         newPages.map((p) => {
                             const pv = p.pageviews || {};
                             const name = p.title.split(':')[1];
-                            const key = SKIN_KEY_SPECIAL_CASES[name] || name.replace(/ /g, '').toLowerCase();
+                            let key =  name.replace(/ /g, '').toLowerCase();
+                            if(SKIN_KEY_SPECIAL_CASES[key]) {
+                                key = SKIN_KEY_SPECIAL_CASES[key];
+                            }
+                            console.log(key, '<<');
                             const isCompatible = compatible.includes(key);
 
                             return Object.assign(p, {
