@@ -3,8 +3,11 @@
         <h3>Preview of {{ name }}</h3>
         <div class="preview__panel">
           <slot></slot>
-          <input type="checkbox" name="mobile" :checked="mobile" @input="toggleMobile">
-          <label for="mobile">mobile</label>
+          <select @change="changeMedium">
+            <option value="d">desktop</option>
+            <option value="t">tablet</option>
+            <option value="m">mobile</option>
+          </select>
         </div>
         <div v-if="enabled" class="preview__area">
           <iframe :class="iframeClass" ref="iframe" :src="href" :width="w" :height="h" />
@@ -44,7 +47,7 @@ export default {
   },
   data() {
       return {
-          mobile: !!localStorage.getItem('mobile')
+          medium: !!localStorage.getItem('medium')
       };
   },
   computed: {
@@ -52,26 +55,46 @@ export default {
       return `https://github.com/jdlrobson/skins.wmflabs.org/issues/new?assignees=&labels=&template=enable-preview-for-${this.name}-on-skins-wmflabs-org.md&title=Please+enable+my+skin+for+live+preview+option`;
     },
     iframeClass() {
-      return this.mobile ? 'iframe--mobile' : 'iframe--desktop';
+      switch( this.medium ) {
+        case 'm':
+          return 'iframe--mobile';
+        case 't':
+          return 'iframe--tablet';
+        default:
+          return 'iframe--desktop';
+      }
     },
     w() {
-      return this.mobile ? 375 : 640;
+      switch( this.medium ) {
+        case 'm':
+          return 375;
+        // Following have a 0.5 scale transform
+        case 't':
+          return 768;
+        default:
+          return 1280;
+      }
     },
     h() {
-      return this.mobile ? 240 : 480;
+      switch( this.medium ) {
+        case 'm':
+          return 240;
+        // Following have a 0.5 scale transform
+        case 't':
+          return 1024;
+        default:
+          return 960;
+      }
     },
     enabled() {
       return this.href || this.html;
     }
   },
   methods: {
-    toggleMobile: function ( ev ) {
-      this.mobile = ev.target.checked;
-      if(this.mobile) {
-        localStorage.setItem('mobile', this.mobile);
-      } else {
-        localStorage.removeItem('mobile');
-      }
+    changeMedium: function ( ev ) {
+      const medium = ev.target.value;
+      this.medium = medium;
+      localStorage.setItem('medium', medium);
     },
     refresh() {
       const iframe = this.$refs.iframe;
@@ -102,9 +125,12 @@ export default {
 </script>
 
 <style scoped>
+  :root {
+    --preview-width: 640px;
+  }
   .preview__area {
     overflow: hidden;
-    width: 640px;
+    width: var(--preview-width);
     text-align: center;
   }
   iframe {
@@ -112,11 +138,21 @@ export default {
     background: white;
     display: block;
   }
+  .iframe--tablet,
   .iframe--desktop {
-    width: calc( 640px / 0.5 );
-    height: calc( 480px / 0.5 );
-    transform: scale(0.5, 0.5);
     transform-origin: 0 0;
+  }
+
+  .iframe--desktop {
+    transform: scale(0.5, 0.5);
+    width: 1280px;
+    height: 960px;
+  }
+  .iframe--tablet {
+    --scale: calc(var(--preview-width)/768);
+    transform: scale(var(--scale), var(--scale));
+    width: 768px;
+    height: 1024px;
   }
   .iframe--mobile {
     width: 375px;
@@ -124,7 +160,7 @@ export default {
   }
   .preview__panel {
     padding: 8px;
-    width: 640px;
+    width: var(--preview-width);
     background: #000;
   }
   .preview__area--unavailable {
