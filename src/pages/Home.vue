@@ -2,7 +2,10 @@
   <div class="page--home">
     <h2>Explore skins</h2>
     <input placeholder="Find skin" :value="query" @input="setQuery">
-    <p>Showing {{ filteredSkins.length }} / {{ skins.length }} skins.</p>
+    <p>
+      <span v-if="fetched">Showing {{ filteredSkins.length }} / {{ skins.length }} skins.</span>
+      &nbsp;
+    </p>
     <div v-if="hasResults">
       <div style="font-size: 100px;">😞</div>
       <p>No skins match that name.</p>
@@ -50,6 +53,7 @@ export default {
   },
   data() {
       return {
+          fetched: false,
           page: 0,
           query: '',
           skins: [
@@ -77,6 +81,7 @@ export default {
       };
       this.query = localStorage.getItem('query');
       api.fetchSkins().then((skins) => {
+          this.fetched = true;
           const sortedSkins = skins.skins.sort(sortByPageViewsStableDesc);
           this.skins = sortedSkins //.slice(this.page, 11);
       });
