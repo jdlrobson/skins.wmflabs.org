@@ -5,6 +5,7 @@ export const TEST_ARTICLES = [
 ];
 export const CATEGORY_SKINS = 'Category:Stable_skins';
 export const CATEGORY_BETA_SKINS = 'Category:Beta_status_skins';
+export const CATEGORY_UNKNOWN_STATUS_SKINS = 'Category:Skins_with_unknown_status';
 export const CATEGORY_UNMAINTAINED_SKINS = 'Category:Unmaintained_skins';
 export const CATEGORY_EXPERIMENTAL_SKINS = 'Category:Experimental_skins';
 

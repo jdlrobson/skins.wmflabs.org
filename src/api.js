@@ -6,6 +6,7 @@ import { HOST, CATEGORY_SKINS, HIDDEN_SKINS,
     SKIN_KEY_SPECIAL_CASES, CATEGORY_BETA_SKINS,
     CATEGORY_EXPERIMENTAL_SKINS,
     CATEGORY_UNMAINTAINED_SKINS,
+    CATEGORY_UNKNOWN_STATUS_SKINS,
     SKIN_DEPENDS_ON_EXTENSIONS, SCREENSHOTS } from './constants';
 
 function getDemoEnabledSkins() {
@@ -41,7 +42,10 @@ function queryMediaWikiSkins( category, gcmcontinue = '', pages = [] ) {
                                 src: SCREENSHOTS[key] ||
                                     (isCompatible ? `${HOST}w/skins/${name.replace(/ /g, '')}/screenshots/1280x800.png` : DEFAULT_SKIN_IMAGE),
                                 name,
-                                experimental: [ CATEGORY_EXPERIMENTAL_SKINS, CATEGORY_UNMAINTAINED_SKINS ].includes(category),
+                                experimental: [ CATEGORY_EXPERIMENTAL_SKINS,
+                                    CATEGORY_UNKNOWN_STATUS_SKINS,
+                                    CATEGORY_UNMAINTAINED_SKINS
+                                ].includes(category),
                                 compatible: isCompatible,
                                 hasDependencies: SKIN_DEPENDS_ON_EXTENSIONS.includes(key),
                                 stable: true,
@@ -68,8 +72,9 @@ function queryMediaWikiAllSkins() {
         queryMediaWikiSkins( CATEGORY_SKINS ),
         queryMediaWikiSkins( CATEGORY_BETA_SKINS ),
         queryMediaWikiSkins( CATEGORY_UNMAINTAINED_SKINS ),
-        queryMediaWikiSkins( CATEGORY_EXPERIMENTAL_SKINS )
-    ] ).then(([a,b,c,d]) => a.concat(b).concat(c).concat(d));
+        queryMediaWikiSkins( CATEGORY_EXPERIMENTAL_SKINS ),
+        queryMediaWikiSkins( CATEGORY_UNKNOWN_STATUS_SKINS )
+    ] ).then(([a,b,c,d,e]) => a.concat(b).concat(c).concat(d).concat(e));
 }
 
 function getSkinIndex() {
