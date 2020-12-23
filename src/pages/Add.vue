@@ -201,4 +201,9 @@ button {
   box-sizing: border-box;
   margin-top: 20px;
 }
+@media (min-width: 1920px) {
+  textarea {
+    width: 1300px;
+  }
+}
 </style>
