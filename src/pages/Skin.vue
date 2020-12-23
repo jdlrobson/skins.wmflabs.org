@@ -11,7 +11,7 @@
           <span v-if="!stable">Warning: This skin is not marked as stable.</span>
           <span v-if="!preview">Warning: This skin may require additional setup and/or may
             not be compatible with MediaWiki 1.36.</span>
-          <span v-if="experimental">Warning: This skin has been marked as experimental or is unmaintained.</span>
+          <span v-if="experimental">Warning: This skin has been marked as experimental, in beta, or is unmaintained.</span>
         </warning-box>
         <snapshot :stable="stable" :compatible="preview"
           :display-title="false" :name="name" :src="src"></snapshot>
@@ -35,7 +35,7 @@ import Snapshot from '../components/Snapshot.vue';
 import Preview from '../components/Preview.vue';
 import WarningBox from '../components/WarningBox.vue';
 import ArticleChanger from '../components/ArticleChanger';
-import { HOST, TEST_ARTICLES } from '../constants';
+import { HOST, TEST_ARTICLES, DEFAULT_SKIN_IMAGE } from '../constants';
 
 export default {
   name: 'Skin',
@@ -56,7 +56,7 @@ export default {
           links: [],
           experimental: false,
           summary: '',
-          src: ''
+          src: DEFAULT_SKIN_IMAGE
       };
   },
   computed: {
@@ -75,9 +75,11 @@ export default {
   },
   mounted: function() {
       api.fetchSkinInfo(  this.$route.params.key ).then((skin) => {
-        console.log('got', skin)
           this.name = skin.name;
-          this.src = skin.src;
+          console.log(skin);
+          if(skin.src) {
+            this.src = skin.src;
+          }
           this.summary = skin.summary;
           this.stable = skin.stable;
           this.experimental = skin.experimental;

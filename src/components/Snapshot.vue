@@ -11,11 +11,17 @@
 </template>
 
 <script>
+import { DEFAULT_SKIN_IMAGE } from '../constants';
+
 export default {
   name: 'Snapshot',
   computed: {
     snapshotClass() {
-      return this.stable && this.compatible ? 'snapshot' : 'snapshot snapshot--unstable';
+      return {
+        'snapshot--unstable': !this.stable || !this.compatible,
+        'snapshot--unmaintained': this.unmaintained,
+        snapshot: true
+      };
     },
     routerUrl() {
       return this.url ? this.url : ( this.skinkey ? `/skin/${this.skinkey}` : '' );
@@ -32,6 +38,10 @@ export default {
     skinkey: {
         type: String,
         default: ''
+    },
+    unmaintained: {
+      type: Boolean,
+      default: false
     },
     compatible: {
       type: Boolean,
@@ -56,7 +66,7 @@ export default {
     },
     src: {
         type: String,
-        default: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5/hPwAIAgL/4d1j8wAAAABJRU5ErkJggg=='
+        default: DEFAULT_SKIN_IMAGE
     }
   }
 };
@@ -68,6 +78,24 @@ export default {
     color: #e80447;
     flex-shrink: 1;
     box-sizing: border-box;
+    position: relative;
+  }
+
+  .snapshot--unmaintained:after {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 50px;
+    height: 110px;
+    background: url('../../assets/dead.png');
+    background-size: 170px auto;
+    background-position: center center;
+    background-repeat: no-repeat;
+  }
+  .snapshot--unmaintained img {
+    opacity: 0.5;
   }
   h3 {
     background: white;

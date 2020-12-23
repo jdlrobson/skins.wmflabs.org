@@ -1,6 +1,5 @@
 let compatible = [];
 const skins = {};
-import DEFAULT_SKIN_IMAGE from '../assets/noscreen.png';
 
 import { HOST, CATEGORY_SKINS, HIDDEN_SKINS,
     SKIN_KEY_SPECIAL_CASES, CATEGORY_BETA_SKINS,
@@ -34,17 +33,33 @@ function queryMediaWikiSkins( category, gcmcontinue = '', pages = [] ) {
                             if(SKIN_KEY_SPECIAL_CASES[key]) {
                                 key = SKIN_KEY_SPECIAL_CASES[key];
                             }
+                            const src = SCREENSHOTS[key];
                             const isCompatible = compatible.includes(key);
+                            const hasDependencies = SKIN_DEPENDS_ON_EXTENSIONS.includes(key);
+                            const experimental = [ CATEGORY_EXPERIMENTAL_SKINS,
+                                CATEGORY_BETA_SKINS, CATEGORY_UNMAINTAINED_SKINS ].includes(category);
+
+                            const score = () => {
+                                let s = 0;
+                                if(src) s++;
+                                if(isCompatible) s++;
+                                else s--;
+                                if(!hasDependencies) s++;
+                                else s--;
+                                if(!experimental) s++;
+                                return s;
+                              };
 
                             return Object.assign(p, {
                                 key,
-                                src: SCREENSHOTS[key] ||
-                                    (isCompatible ? `${HOST}w/skins/${name.replace(/ /g, '')}/screenshots/1280x800.png` : DEFAULT_SKIN_IMAGE),
+                                src,
                                 name,
-                                experimental: [ CATEGORY_EXPERIMENTAL_SKINS, CATEGORY_UNMAINTAINED_SKINS ].includes(category),
+                                experimental,
                                 compatible: isCompatible,
-                                hasDependencies: SKIN_DEPENDS_ON_EXTENSIONS.includes(key),
+                                unmaintained: [ CATEGORY_UNMAINTAINED_SKINS ].includes(category),
+                                hasDependencies,
                                 stable: true,
+                                score: score(),
                                 pageviews: Object.keys(pv).map(key=>pv[key]).reduce((count, total=0) => total+count, 0)
                             })
                         }).filter((p) => {
