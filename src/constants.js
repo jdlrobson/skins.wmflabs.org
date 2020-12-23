@@ -1,5 +1,6 @@
 export const HOST = 'https://skins-demo.wmflabs.org/';
 export const TEST_ARTICLES = [
+    { title: 'Help:Sample_page', name: 'Sample page' },
     { title: 'Ipsum_Lorem', name: 'Ipsum Lorem' },
     { title: 'Rube Goldberg machine', name: 'Rube Goldberg machine' }
 ];
