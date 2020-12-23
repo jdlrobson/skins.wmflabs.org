@@ -31,6 +31,11 @@ export const SKIN_KEY_SPECIAL_CASES = {
 
 // Replace with page images once enabled on mediawiki.org for skin namespace
 export const SCREENSHOTS = {
+    p2wiki: 'https://upload.wikimedia.org/wikipedia/commons/3/33/Screenshot_of_P2Wiki_skin_for_MediaWiki.png',
+    schulenburg: 'https://upload.wikimedia.org/wikipedia/commons/8/8f/Screen_Shot_of_Schulenburg_skin_for_MediaWiki.png',
+    gumaxdd: 'https://upload.wikimedia.org/wikipedia/mediawiki/thumb/b/b2/GuMaxDD_skin.png/700px-GuMaxDD_skin.png',
+    bluell: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Screenshot_of_BlueLL_MediaWiki_skin.png/640px-Screenshot_of_BlueLL_MediaWiki_skin.png',
+    wptouch: 'https://upload.wikimedia.org/wikipedia/mediawiki/e/ed/WPtouch.png',
     eucopyrightcampaign: 'https://upload.wikimedia.org/wikipedia/commons/8/8a/EUCopyrightCampaign_Skin_for_MediaWiki.png',
     jony: 'https://upload.wikimedia.org/wikipedia/commons/4/4b/Skin_Jony.png',
     amethyst: 'https://upload.wikimedia.org/wikipedia/commons/2/23/Screenshot_of_MediaWiki_Amethyst_Skin.png',
