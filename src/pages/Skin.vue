@@ -7,7 +7,7 @@
     <two-column-layout>
        <template v-slot:column-one>
         <h3>About</h3>
-        <warning-box class="warningbox" v-if="!stable || !preview">
+        <warning-box class="warningbox" v-if="!stable || !preview || experimental">
           <span v-if="!stable">Warning: This skin is not marked as stable.</span>
           <span v-if="!preview">Warning: This skin may require additional setup and/or may
             not be compatible with MediaWiki 1.36.</span>
