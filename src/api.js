@@ -20,7 +20,7 @@ function getDemoEnabledSkins() {
 }
 
 function queryMediaWikiSkins( category, gcmcontinue = '', pages = [] ) {
-    return fetch(`https://www.mediawiki.org/w/api.php?action=query&format=json&origin=*&prop=pageviews&generator=categorymembers&formatversion=2&pvipmetric=pageviews&pvipdays=7&gcmlimit=max&gcmtitle=${encodeURIComponent(category)}&gcmnamespace=106&origin=*&gcmcontinue=${gcmcontinue}`)
+    return fetch(`https://www.mediawiki.org/w/api.php?action=query&format=json&origin=*&prop=pageviews&generator=categorymembers&formatversion=2&pvipmetric=pageviews&pvipdays=3&gcmlimit=max&gcmtitle=${encodeURIComponent(category)}&gcmnamespace=106&origin=*&gcmcontinue=${gcmcontinue}`)
         .then((r) => r.json())
         .then((r) => {
             if (r) {
