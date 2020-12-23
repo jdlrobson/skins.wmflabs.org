@@ -82,44 +82,7 @@ export default {
           this.stable = skin.stable;
           this.experimental = skin.experimental;
           this.preview = !skin.hasDependencies && skin.compatible;
-          const links = [];
-          links.push(
-            {
-              text: 'View on mediawiki.org',
-              href: this.name ? `https://mediawiki.org/wiki/Skin:${this.name}` : ''
-            }
-          );
-          this.links = links;
-          if(skin.github) {
-            links.push( {
-              text: 'View on github.com',
-              href: skin.github
-            } )
-          }
-          if(skin.bitbucket) {
-            links.push( {
-              text: 'View on bitbucket',
-              href: skin.bitbucket
-            } )
-          }
-          if(skin.gitlab) {
-            links.push( {
-              text: 'View on gitlab',
-              href: skin.gitlab
-            } )
-          }
-          if(skin.gerrit) {
-            links.push( {
-              text: 'View on gerrit',
-              href: skin.gerrit
-            } )
-          }
-          if(skin.kde) {
-            links.push( {
-              text: 'View on kde',
-              href: skin.kde
-            } )
-          }
+          this.links = skin.links;
       },() => {
         this.$router.replace({ path: '/404' });
       });

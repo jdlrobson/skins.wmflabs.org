@@ -99,37 +99,63 @@ function fetchSkinInfo( key ) {
         return fetch(`https://www.mediawiki.org/w/api.php?action=query&format=json&prop=categories%7Cextracts%7Cextlinks&redirects=1&formatversion=2&cllimit=max&exsentences=3&exlimit=max&exintro=1&explaintext=1&ellimit=max&origin=*&titles=Skin%3A${skin.name}`)
             .then((r) => r.json())
             .then((result) => {
-                let summary, github, gerrit, kde,
-                    stable, categories, bitbucket, gitlab;
+                let summary, links = [],
+                    stable, categories;
                 try {
                     const p = result.query.pages;
                     const info = p[0];
                     categories = (p.categories || []).map((c) => c.title);
                     summary = info.extract;
+                    links.push({
+                        text: 'View on mediawiki.org',
+                        href: info.title ? `https://mediawiki.org/wiki/${info.title}` : ''
+                    });
                     info.extlinks.map(link => link.url).forEach((url) => {
                         console.log(url);
                         if(url.match(/https:\/\/github.com/) && url.match(/\.git/)) {
-                            github = url;
+                            links.push( {
+                                text: 'View on github',
+                                href: url
+                            } )
                         }
                         if(url.match(/https:\/\/gerrit.wikimedia.org\/g\//) && !url.match(/(\+log\/master)/)) {
-                            gerrit = url;
+                            links.push( {
+                                text: 'View on gerrit',
+                                href: url
+                            } )
                         }
                         if(url.match(/kde\.org/)) {
-                            kde = url;
+                            links.push( {
+                                text: 'View on kde',
+                                href: url
+                            } )
                         }
                         if(url.match(/gitlab\.com/) && url.match(/\.git/)) {
-                            gitlab = url;
+                            links.push( {
+                                text: 'View on gitlab',
+                                href: url
+                            } )
                         }
                         if(url.match(/bitbucket.org\//) && url.match(/\.git/)) {
-                            bitbucket = url;
+                            links.push( {
+                                text: 'View on bitbucket',
+                                href: url
+                            } )
+                        }
+
+                        if(url.match(/sourceforge.net\//) && !url.match(/download/)) {
+                            links.push( {
+                                text: 'View on sourceforge',
+                                href: url
+                            } )
                         }
                     });
                 } catch (e) {
                     summary = 'No skin information available';
                 }
                 return Object.assign({
-                    bitbucket, kde,
-                    summary, gerrit, github, stable, categories, gitlab
+                    links,
+                    summary, stable, categories
                 }, skin);
             });
     });
