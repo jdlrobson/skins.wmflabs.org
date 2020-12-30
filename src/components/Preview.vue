@@ -125,10 +125,8 @@ export default {
 </script>
 
 <style scoped>
-  :root {
-    --preview-width: 640px;
-  }
   .preview__area {
+    --preview-width: 640px;
     overflow: hidden;
     width: var(--preview-width);
     text-align: center;
@@ -144,13 +142,12 @@ export default {
   }
 
   .iframe--desktop {
-    transform: scale(0.5, 0.5);
-    width: 1280px;
-    height: 960px;
+    transform: scale(0.35, 0.35); /* 0.35= 640px / 1800px */
+    width: 1800px;
+    height: 650px;
   }
   .iframe--tablet {
-    --scale: calc(var(--preview-width)/768);
-    transform: scale(var(--scale), var(--scale));
+    transform: scale(0.83, 0.83); /* 0.83= 640px / 768px*/
     width: 768px;
     height: 1024px;
   }
@@ -159,6 +156,7 @@ export default {
     height: 667px;
   }
   .preview__panel {
+    --preview-width: 640px;
     padding: 8px;
     width: var(--preview-width);
     background: #000;
