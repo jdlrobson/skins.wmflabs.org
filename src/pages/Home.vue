@@ -1,7 +1,15 @@
 <template>
   <div class="page--home">
     <h2>Explore skins</h2>
-    <input placeholder="Find skin" :value="query" @input="setQuery">
+    <input class="search__input" placeholder="Find skin" :value="query" @input="setQuery">
+    <div>must be
+      <input type="checkbox" :checked="filterCompatible" name="search_1.35" @change="onToggleCompatible" />
+      <label for="search_1.35">compatible with >= 1.35</span>
+      <input type="checkbox" :checked="filterStable" name="search_stable" @change="onToggleStable" />
+      <label for="search_stable">not marked as beta or experimental</span>
+      <input type="checkbox" :checked="filterDependencies" name="search_dependencies" @change="onToggleDependencies" />
+      <label for="search_dependencies">have no dependencies</span>
+    </div>
     <p>
       <span v-if="fetched">Showing {{ filteredSkins.length }} / {{ skins.length }} skins.</span>
       &nbsp;
@@ -41,12 +49,33 @@ export default {
     },
     filteredSkins() {
       var q = this.query;
-      return !q ? this.skins : this.skins.filter((skin) => {
+      return this.skins.filter((skin) => {
+        if(this.filterStable && skin.experimental) return false;
+        if(this.filterDependencies && skin.hasDependencies) return false;
+        if(this.filterCompatible && !skin.compatible) return false;
+        if(!q) return true;
         return skin.name && skin.name.toLowerCase().indexOf(q.toLowerCase()) > -1;
       })
     }
   },
   methods: {
+    onToggleLocalStorageField(key, value) {
+      this[key] = value;
+      if(value) {
+        localStorage.setItem(key, 1);
+      } else {
+        localStorage.removeItem(key, 1);
+      }
+    },
+    onToggleDependencies(ev) {
+      this.onToggleLocalStorageField('filterDependencies', ev.target.checked);
+    },
+    onToggleStable(ev) {
+      this.onToggleLocalStorageField('filterStable', ev.target.checked);
+    },
+    onToggleCompatible(ev) {
+      this.onToggleLocalStorageField('filterCompatible', ev.target.checked);
+    },
     setQuery(ev) {
       this.query = ev.target.value;
       localStorage.setItem('query', this.query);
@@ -54,9 +83,12 @@ export default {
   },
   data() {
       return {
+          filterDependencies: !!localStorage.getItem('filterDependencies'),
+          filterCompatible: !!localStorage.getItem('filterCompatible'),
+          filterStable: !!localStorage.getItem('filterStable'),
           fetched: false,
           page: 0,
-          query: '',
+          query: localStorage.getItem('query') || '',
           skins: [
               {}, {}, {},
               {}, {}, {},
@@ -75,7 +107,6 @@ export default {
           return p.score > p2.score ? -1 : 1;
         }
       };
-      this.query = localStorage.getItem('query');
       api.fetchSkins().then((skins) => {
           this.fetched = true;
           const sortedSkins = skins.skins.sort(sortByPageViewsStableDesc);
@@ -93,7 +124,7 @@ export default {
     flex-flow: row wrap;
   }
 
-  input {
+  .search__input {
     height: 30px;
     width: 500px;
     margin-bottom: 10px;
