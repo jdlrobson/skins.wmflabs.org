@@ -26,7 +26,7 @@
 import { PARTIALS, DEFAULT_SKIN_MUSTACHE, DEFAULT_SKIN_CSS, SCRIPTS } from '../starter-template';
 import api from '../api.js';
 import build from '../export/index.js';
-import { TEST_ARTICLES } from '../constants';
+import { TEST_ARTICLES, HOST } from '../constants';
 import { render } from 'mustache';
 import Preview from '../components/Preview.vue';
 import ArticleChanger from '../components/ArticleChanger';
@@ -124,7 +124,7 @@ export default {
       localStorage.setItem('add-mustache', this.mustache);
     },
     getUrl(title) {
-      return `https://skins-demo.wmflabs.org/wiki/${title}?useskin=skinjson&testuser=${this.anon ? '0': '1'}`
+      return `${HOST}/wiki/${title}?useskin=skinjson&testuser=${this.anon ? '0': '1'}`
     },
     getTemplateData(title) {
       const url = this.getUrl(title);
@@ -152,7 +152,8 @@ export default {
           this.html = `<!DOCTYPE HTML>
                 <html>
                 <head>
-                  <link rel="stylesheet" href="https://skins-demo.wmflabs.org/w/load.php?modules=site.styles|skins.skinjson&only=styles" />
+                  <link rel="stylesheet" href="${HOST}/w/load.php?modules=site.styles|skins.skinjson&only=styles" />
+                  <link rel="stylesheet" href="${HOST}/w/load.php?lang=en&modules=ext.cite.styles%7Cext.echo.styles.badge%7Cext.math.styles%7Cext.wikihiero%7Cmediawiki.page.gallery.styles%7Cmediawiki.ui.icon%7Coojs-ui.styles.icons-alerts&only=styles">
                   <style type="text/css">${this.css}</style>
                 </head>
                 <body>${render(this.mustache, Object.assign( {}, data, OVERRIDES), PARTIALS)}
