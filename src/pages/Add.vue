@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { PARTIALS, DEFAULT_SKIN_MUSTACHE, DEFAULT_SKIN_CSS } from '../starter-template';
+import { PARTIALS, DEFAULT_SKIN_MUSTACHE, DEFAULT_SKIN_CSS, SCRIPTS } from '../starter-template';
 import api from '../api.js';
 import build from '../export/index.js';
 import { TEST_ARTICLES } from '../constants';
@@ -152,10 +152,12 @@ export default {
           this.html = `<!DOCTYPE HTML>
                 <html>
                 <head>
-                  <link rel="stylesheet" href="https://skins-demo.wmflabs.org/w/load.php?modules=skins.skinjson&only=styles">
+                  <link rel="stylesheet" href="https://skins-demo.wmflabs.org/w/load.php?modules=site.styles|skins.skinjson&only=styles" />
                   <style type="text/css">${this.css}</style>
                 </head>
-                <body>${render(this.mustache, Object.assign( {}, data, OVERRIDES), PARTIALS)}</body></html>`;
+                <body>${render(this.mustache, Object.assign( {}, data, OVERRIDES), PARTIALS)}
+                ${SCRIPTS}
+                </body></html>`;
         })
       }, 300 );
     }

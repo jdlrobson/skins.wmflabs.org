@@ -36,3 +36,17 @@ export const PARTIALS = {
 
 export const DEFAULT_SKIN_MUSTACHE = fs.readFileSync(`${__dirname}/skin.mustache`).toString();
 export const DEFAULT_SKIN_CSS = fs.readFileSync(`${__dirname}/skin.css`).toString();
+export const SCRIPTS = `
+<script>
+document.body.addEventListener('click', function (ev) {
+    var parent = ev.target;
+    while(parent !== ev.currentTarget) {
+        if(parent.tagName === 'A' && parent.getAttribute('href')) {
+            ev.preventDefault();
+            return;
+        }
+        parent = parent.parentNode;
+    }
+});
+</script>
+`;
