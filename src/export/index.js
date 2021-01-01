@@ -44,6 +44,7 @@ function skinjson(name, styles, packageFiles, messages = []) {
     return stringifyjson(
         {
             name,
+            version: '1.0.0',
             namemsg: `skinname-${skinKey}`,
             descriptionmsg: `${skinKey}-skin-desc`,
             url: `https://www.mediawiki.org/wiki/Skin:${name}`,
