@@ -83,7 +83,7 @@ export default {
           this.summary = skin.summary;
           this.stable = skin.stable;
           this.experimental = skin.experimental;
-          this.preview = !skin.hasDependencies && skin.compatible;
+          this.preview = skin.compatible;
           this.links = skin.links;
       },() => {
         this.$router.replace({ path: '/404' });
