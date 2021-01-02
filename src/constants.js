@@ -34,6 +34,7 @@ export const SKIN_KEY_SPECIAL_CASES = {
 
 // Replace with page images once enabled on mediawiki.org for skin namespace
 export const SCREENSHOTS = {
+    s2018: 'https://upload.wikimedia.org/wikipedia/commons/f/fa/Screen_Shot_of_2018_skin_taken_in_January_2021.png',
     onyx: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Screen_Shot_of_Onyx_skin.png/700px-Screen_Shot_of_Onyx_skin.png',
     greystuff: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Greystuff_skin_screenshot.png/600px-Greystuff_skin_screenshot.png',
     splash: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Splash_skin_screenshot.png/800px-Splash_skin_screenshot.png',
