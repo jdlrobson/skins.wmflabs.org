@@ -27,6 +27,7 @@ export const SKIN_DEPENDS_ON_EXTENSIONS = [
 
 export const SKIN_KEY_SPECIAL_CASES = {
     minervaneue: 'minerva',
+    2018: 's2018',
     eucopyrightcampaignskin: 'eucopyrightcampaign',
     scratchwikiskin: 'scratchwiki2'
 };
