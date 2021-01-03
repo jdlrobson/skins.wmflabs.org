@@ -22,6 +22,7 @@ export const HIDDEN_SKINS = [
 export const SKIN_DEPENDS_ON_EXTENSIONS = [
     'chameleon',
     'aether',
+    'scratchwikiskin2',
     'bluespicecalumma'
 ];
 
@@ -29,7 +30,7 @@ export const SKIN_KEY_SPECIAL_CASES = {
     minervaneue: 'minerva',
     2018: 's2018',
     eucopyrightcampaignskin: 'eucopyrightcampaign',
-    scratchwikiskin: 'scratchwiki2'
+    scratchwikiskin: 'scratchwikiskin2'
 };
 
 // Replace with page images once enabled on mediawiki.org for skin namespace
@@ -66,7 +67,7 @@ export const SCREENSHOTS = {
     modernskylight: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Skin_Modern_Skylight_Screenshot.png/2880px-Skin_Modern_Skylight_Screenshot.png',
     mediawikibootstrap: 'https://upload.wikimedia.org/wikipedia/commons/4/47/Mediwiki-bootstrap-screenshot.png',
     dgraph: 'https://upload.wikimedia.org/wikipedia/mediawiki/thumb/9/94/Dgraph_homepage.png/700px-Dgraph_homepage.png',
-    scratchwiki2: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/MediaWiki_Screenshot_of_ScratchWiki_2_skin.png/1600px-MediaWiki_Screenshot_of_ScratchWiki_2_skin.png',
+    scratchwikiskin2: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/MediaWiki_Screenshot_of_ScratchWiki_2_skin.png/1600px-MediaWiki_Screenshot_of_ScratchWiki_2_skin.png',
     simpletext: 'https://upload.wikimedia.org/wikipedia/commons/6/61/Screenshot_of_SimpleText_MediaWiki_skin.png',
     purecss: 'https://upload.wikimedia.org/wikipedia/commons/c/c7/PureCss_Screenshot.png',
     cavendish: 'https://upload.wikimedia.org/wikipedia/mediawiki/thumb/1/13/Cavendish-Skin.jpg/440px-Cavendish-Skin.jpg',
