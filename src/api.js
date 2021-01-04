@@ -1,7 +1,7 @@
 let compatible = [];
 const skins = {};
 
-import { HOST, CATEGORY_SKINS, HIDDEN_SKINS,
+import { CATEGORY_SKINS, HIDDEN_SKINS,
     SKIN_KEY_SPECIAL_CASES, CATEGORY_BETA_SKINS,
     CATEGORY_EXPERIMENTAL_SKINS,
     CATEGORY_UNMAINTAINED_SKINS,
@@ -19,7 +19,7 @@ function getDemoEnabledSkins() {
 }
 
 function queryMediaWikiSkins( category, gcmcontinue = '', pages = [] ) {
-    return fetch(`https://www.mediawiki.org/w/api.php?action=query&format=json&origin=*&prop=pageviews&generator=categorymembers&formatversion=2&pvipmetric=pageviews&pvipdays=3&gcmlimit=max&gcmtitle=${encodeURIComponent(category)}&gcmnamespace=106&origin=*&gcmcontinue=${gcmcontinue}`)
+    return fetch(`https://www.mediawiki.org/w/api.php?action=query&format=json&origin=*&prop=pageviews%7Cpageimages&piprop=thumbnail&pithumbsize=400&pilimit=max&generator=categorymembers&formatversion=2&pvipmetric=pageviews&pvipdays=3&gcmlimit=max&gcmtitle=${encodeURIComponent(category)}&gcmnamespace=106&origin=*&gcmcontinue=${gcmcontinue}`)
         .then((r) => r.json())
         .then((r) => {
             if (r) {
@@ -33,7 +33,10 @@ function queryMediaWikiSkins( category, gcmcontinue = '', pages = [] ) {
                             if(SKIN_KEY_SPECIAL_CASES[key]) {
                                 key = SKIN_KEY_SPECIAL_CASES[key];
                             }
-                            const src = SCREENSHOTS[key];
+                            const src = p.thumbnail ? p.thumbnail.source : SCREENSHOTS[key];
+                            if(p.thumbnail && SCREENSHOTS[key]) {
+                                console.warn('Redundant screenshot of', key);
+                            }
                             const isCompatible = compatible.includes(key);
                             const hasDependencies = SKIN_DEPENDS_ON_EXTENSIONS.includes(key);
                             const experimental = [ CATEGORY_EXPERIMENTAL_SKINS,
