@@ -144,7 +144,7 @@ export default {
   .iframe--desktop {
     transform: scale(0.35, 0.35); /* 0.35= 640px / 1800px */
     width: 1800px;
-    height: 650px;
+    height: 1200px;
   }
   .iframe--tablet {
     transform: scale(0.83, 0.83); /* 0.83= 640px / 768px*/
