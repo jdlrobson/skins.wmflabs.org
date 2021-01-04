@@ -24,6 +24,7 @@
             :stable="skin.stable"
             :compatible="skin.compatible"
             :unmaintained="skin.unmaintained"
+            :beta="skin.beta"
             :experimental="skin.experimental"
             :hasDependencies="skin.hasDependencies"
             :key="skin.key" :skinkey="skin.key" :name="skin.name" :src="skin.src"></snapshot>
@@ -50,7 +51,7 @@ export default {
     filteredSkins() {
       var q = this.query;
       return this.skins.filter((skin) => {
-        if(this.filterStable && skin.experimental) return false;
+        if(this.filterStable && (skin.experimental || skin.beta)) return false;
         if(this.filterDependencies && skin.hasDependencies) return false;
         if(this.filterCompatible && !skin.compatible) return false;
         if(!q) return true;

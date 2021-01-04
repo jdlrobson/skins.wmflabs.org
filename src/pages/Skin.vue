@@ -8,10 +8,10 @@
        <template v-slot:column-one>
         <h3>About</h3>
         <warning-box class="warningbox" v-if="!stable || !preview || experimental">
-          <span v-if="!stable">Warning: This skin is not marked as stable.</span>
-          <span v-if="!preview">Warning: This skin may require additional setup and/or may
-            not be compatible with MediaWiki 1.36.</span>
-          <span v-if="experimental">Warning: This skin has been marked as experimental, in beta, or is unmaintained.</span>
+          <span v-if="beta">Warning: This skin is marked as beta.</span>
+          <span v-if="experimental">Warning: This skin has been marked as experimental.</span>
+          <span v-if="hasDependencies">Warning: This skin requires additional setup.</span>
+          <span v-if="compatible">Warning: This skin does not work with the latest MediaWiki release.</span>
         </warning-box>
         <snapshot :stable="stable" :compatible="preview"
           :display-title="false" :name="name" :src="src"></snapshot>
@@ -54,6 +54,7 @@ export default {
           skinkey: this.$route.params.key,
           name: this.$route.params.key.replace( /[^⠀]/g, '⠀' ) + '⠀',
           links: [],
+          beta: false,
           experimental: false,
           summary: '',
           src: DEFAULT_SKIN_IMAGE
@@ -82,6 +83,8 @@ export default {
           }
           this.summary = skin.summary;
           this.stable = skin.stable;
+          this.beta = skin.beta;
+          this.hasDependencies = skin.hasDependencies;
           this.experimental = skin.experimental;
           this.preview = skin.compatible;
           this.links = skin.links;

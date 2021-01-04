@@ -39,8 +39,9 @@ function queryMediaWikiSkins( category, gcmcontinue = '', pages = [] ) {
                             }
                             const isCompatible = compatible.includes(key);
                             const hasDependencies = SKIN_DEPENDS_ON_EXTENSIONS.includes(key);
-                            const experimental = [ CATEGORY_EXPERIMENTAL_SKINS,
-                                CATEGORY_BETA_SKINS, CATEGORY_UNMAINTAINED_SKINS ].includes(category);
+                            const experimental = CATEGORY_EXPERIMENTAL_SKINS === category;
+                            const beta = CATEGORY_BETA_SKINS === category;
+                            const unmaintained = CATEGORY_UNMAINTAINED_SKINS === category;
 
                             const score = () => {
                                 let s = 0;
@@ -49,6 +50,8 @@ function queryMediaWikiSkins( category, gcmcontinue = '', pages = [] ) {
                                 else s--;
                                 if(!hasDependencies) s++;
                                 else s--;
+                                if(beta) s--
+                                if(unmaintained) s -= 100;
                                 if(!experimental) s++;
                                 return s;
                               };
@@ -59,7 +62,8 @@ function queryMediaWikiSkins( category, gcmcontinue = '', pages = [] ) {
                                 name,
                                 experimental,
                                 compatible: isCompatible,
-                                unmaintained: [ CATEGORY_UNMAINTAINED_SKINS ].includes(category),
+                                beta,
+                                unmaintained,
                                 hasDependencies,
                                 stable: true,
                                 score: score(),
@@ -85,9 +89,8 @@ function queryMediaWikiAllSkins() {
     return Promise.all( [
         queryMediaWikiSkins( CATEGORY_SKINS ),
         queryMediaWikiSkins( CATEGORY_BETA_SKINS ),
-        queryMediaWikiSkins( CATEGORY_UNMAINTAINED_SKINS ),
         queryMediaWikiSkins( CATEGORY_EXPERIMENTAL_SKINS )
-    ] ).then(([a,b,c,d]) => a.concat(b).concat(c).concat(d));
+    ] ).then(([a,b,c]) => a.concat(b).concat(c));
 }
 
 function getSkinIndex() {

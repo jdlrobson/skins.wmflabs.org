@@ -2,9 +2,10 @@
   <div :class="snapshotClass">
     <h3 v-if="displayTitle">
       <router-link :to="routerUrl">{{name}}</router-link>
-      <abbr v-if="hasDependencies" title="Requires additional setup.">⚠️</abbr>
-      <abbr v-if="experimental" title="Skin is marked as unmaintained or experimental.">⚠️</abbr>&nbsp;
-      <abbr v-if="!compatible" title="Skin may not be compatible with MediaWiki 1.36.">⚠️</abbr>&nbsp;
+      <abbr v-if="hasDependencies" title="Requires additional setup.">⚙️</abbr>
+      <abbr v-if="beta" title="Skin is marked as beta.">β</abbr>
+      <abbr v-if="experimental" title="Skin is marked as experimental.">🧪</abbr>
+      <abbr v-if="!compatible" title="No preview available.">⚠️</abbr>
     </h3>
     <img  width="320" height="200" :src="src" :alt="alt">
   </div>
@@ -47,7 +48,13 @@ export default {
       type: Boolean,
       default: true
     },
+    beta: {
+      type: Boolean
+    },
     experimental: {
+      type: Boolean
+    },
+    compatible: {
       type: Boolean
     },
     hasDependencies: {
@@ -119,6 +126,10 @@ export default {
   }
   a {
     color: #e80447;
+  }
+
+  abbr {
+    color: #ffd000;
   }
   footer {
     background: white;
