@@ -59,7 +59,6 @@ export const SCREENSHOTS = {
     mediawikibootstrap: 'https://upload.wikimedia.org/wikipedia/commons/4/47/Mediwiki-bootstrap-screenshot.png',
     scratchwikiskin2: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/MediaWiki_Screenshot_of_ScratchWiki_2_skin.png/1600px-MediaWiki_Screenshot_of_ScratchWiki_2_skin.png',
     simpletext: 'https://upload.wikimedia.org/wikipedia/commons/6/61/Screenshot_of_SimpleText_MediaWiki_skin.png',
-    cavendish: 'https://upload.wikimedia.org/wikipedia/mediawiki/thumb/1/13/Cavendish-Skin.jpg/440px-Cavendish-Skin.jpg',
     aether: 'https://upload.wikimedia.org/wikipedia/commons/9/97/Mediawiki-skin-aether.png',
     anisa: 'https://upload.wikimedia.org/wikipedia/commons/e/e7/Anisa_screenshot.png',
     erudite: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Erudite_skin.png/440px-Erudite_skin.png',
@@ -79,6 +78,5 @@ export const SCREENSHOTS = {
     chameleon: 'https://upload.wikimedia.org/wikipedia/commons/f/ff/ChameleonSkin.png',
     pivot: 'https://upload.wikimedia.org/wikipedia/commons/d/d8/MediaWiki_Pivot_skin_-_screenshot.png',
     hassomecolours: `${HOST}/images/3/3f/Screenshot_of_HasSomeColors.png`,
-    'woOgLeShades': `${HOST}/images/b/b8/Screenshot_of_WoogleShades_Skin.png`,
-    poncho: `${HOST}/images/8/8b/Screenshot_of_Poncho_Skin.png`
+    'woOgLeShades': `${HOST}/images/b/b8/Screenshot_of_WoogleShades_Skin.png`
 };
