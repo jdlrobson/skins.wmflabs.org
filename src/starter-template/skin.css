@@ -64,7 +64,7 @@ header h3,
 }
 
 /** SIDEBAR **/
-#p-navigation {
+.toggle-list__list {
 	position: fixed;
 	left: 0;
 	top: 0;
@@ -74,18 +74,17 @@ header h3,
 	z-index: 4;
 }
 
-#p-navigation h3 {
+.toggle-list__list h3 {
 	display: none;
 }
 
-#p-navigation a {
+.toggle-list__list a {
 	display: block;
 }
 
-#p-navigation li {
+.toggle-list__list li {
 	display: block;
 	padding: 8px;
-
 }
 
 /** CONTENT */
