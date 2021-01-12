@@ -17,8 +17,16 @@ function stringifyjson(json) {
     return JSON.stringify(json, null, 2);
 }
 
+function getFolderNameFromName(name) {
+    return name.replace(/ /g, '-');
+}
+
+function getSkinKeyFromName(name) {
+    return getFolderNameFromName(name).toLowerCase();
+}
+
 function addi18n(name, rootfolder) {
-    const skinKey = name.toLowerCase();
+    const skinKey = getSkinKeyFromName(name);
     const i18nfolder = rootfolder.folder('i18n');
     const en = {
         [`skinname-${skinKey}`]: name,
@@ -40,7 +48,7 @@ function addi18n(name, rootfolder) {
  * @param {string[]} message keys used by skin
  */
 function skinjson(name, styles, packageFiles, messages = []) {
-    const skinKey = name.toLowerCase();
+    const skinKey = getSkinKeyFromName(name);
 
     return stringifyjson(
         {
@@ -105,7 +113,8 @@ function skinjson(name, styles, packageFiles, messages = []) {
  */
 function build(name, styles, templates, scripts = {}, messages = {}) {
     const zip = new JSZip();
-    const rootfolder = zip.folder(name);
+    const folderName = getFolderNameFromName(name)
+    const rootfolder = zip.folder(folderName);
     const resourcesFolder = rootfolder.folder('resources');
     const templatefolder = rootfolder.folder('templates');
     if(!styles['skin.css']) throw new Error('skin.css must be defined in styles.')
@@ -152,7 +161,7 @@ function build(name, styles, templates, scripts = {}, messages = {}) {
 
     // build!
     zip.generateAsync({ type: 'blob' } )
-        .then((content) => saveAs(content, `${name}.zip`))
+        .then((content) => saveAs(content, `${folderName}.zip`))
 }
 
 export default build;
