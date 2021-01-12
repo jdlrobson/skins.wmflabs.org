@@ -17,8 +17,14 @@ function stringifyjson(json) {
     return JSON.stringify(json, null, 2);
 }
 
+function camelcase(str) {
+    return str.replace(/(?:^\w|[A-Z]|\b\w)/g, function(word, index) {
+      return word.toUpperCase();
+    }).replace(/\s+/g, '');
+  }
+
 function getFolderNameFromName(name) {
-    return name.replace(/ /g, '-');
+    return camelcase(name);
 }
 
 function getSkinKeyFromName(name) {
@@ -48,6 +54,7 @@ function addi18n(name, rootfolder) {
  * @param {string[]} message keys used by skin
  */
 function skinjson(name, styles, packageFiles, messages = []) {
+    const folderName = getFolderNameFromName(name);
     const skinKey = getSkinKeyFromName(name);
 
     return stringifyjson(
@@ -56,7 +63,7 @@ function skinjson(name, styles, packageFiles, messages = []) {
             version: '1.0.0',
             namemsg: `skinname-${skinKey}`,
             descriptionmsg: `${skinKey}-skin-desc`,
-            url: `https://www.mediawiki.org/wiki/Skin:${name}`,
+            url: `https://www.mediawiki.org/wiki/Skin:${folderName}`,
             author: [ `${TOOL_LINK}` ],
             type: 'skin',
             requires: {
@@ -69,7 +76,7 @@ function skinjson(name, styles, packageFiles, messages = []) {
                     "args": [
                         {
                             "name": name,
-                            "templateDirectory": `skins/${name}/templates/`,
+                            "templateDirectory": `skins/${folderName}/templates/`,
                             "messages": messages,
                             "styles": [
                                 `skins.${skinKey}.styles`
@@ -82,11 +89,11 @@ function skinjson(name, styles, packageFiles, messages = []) {
                 }
             },
             MessagesDirs: {
-                [name]: [ 'i18n']
+                [folderName]: [ 'i18n']
             },
             ResourceFileModulePaths: {
                 localBasePath: '',
-                remoteSkinPath: name
+                remoteSkinPath: folderName
             },
             ResourceModules: {
                 [`skins.${skinKey}.styles`]: {
