@@ -105,7 +105,8 @@ export default {
           'skin': this.mustache,
         }, PARTIALS ),
         {
-          'skin.js': '// scripts can go here'
+          'skin.js': `/* scripts can go here */
+`
         }
       );
     },
