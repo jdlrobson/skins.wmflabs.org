@@ -5,8 +5,8 @@
       <template v-slot:column-one>
         <h3>HTML ( Mustache )</h3>
         <textarea @input="updateMustache" :value="mustache"></textarea>
-        <h3>CSS</h3>
-        <textarea @input="updateCSS" :value="css"></textarea>
+        <h3>CSS / LESS</h3>
+        <textarea @input="updateCSS" :value="less"></textarea>
         <h3>Name and download</h3>
         <input type="text" @input="updateName" placeholder="Skin's name" :value="skinname">
         <button @click="download" :disabled="skinname === ''">Download as ZIP</button>
@@ -23,7 +23,8 @@
 </template>
 
 <script>
-import { PARTIALS, DEFAULT_SKIN_MUSTACHE, DEFAULT_SKIN_CSS, SCRIPTS } from '../starter-template';
+/* global less */
+import { PARTIALS, DEFAULT_SKIN_MUSTACHE, DEFAULT_SKIN_LESS, SCRIPTS } from '../starter-template';
 import api from '../api.js';
 import build from '../export/index.js';
 import { TEST_ARTICLES, HOST } from '../constants';
@@ -37,7 +38,7 @@ const DEFAULT_HTML = '<!DOCTYPE HTML><html><body>Loading preview...</body></html
 
 const DEFAULT_SKIN_PROPS = {
   html: DEFAULT_HTML,
-  css: DEFAULT_SKIN_CSS,
+  less: DEFAULT_SKIN_LESS,
   mustache: DEFAULT_SKIN_MUSTACHE,
   skinname: ''
 };
@@ -66,6 +67,7 @@ export default {
       templateDataReq: {},
       pending: null,
       anon: true,
+      css: '', // will be derived from less data value.
       title: TEST_ARTICLES[0].title,
     } )
   },
@@ -79,7 +81,7 @@ export default {
     },
     reset() {
       const noConfirmationNeeded = DEFAULT_SKIN_PROPS.mustache === this.mustache
-        && DEFAULT_SKIN_PROPS.css === this.css;
+        && DEFAULT_SKIN_PROPS.less === this.less;
 
       const confirm = noConfirmationNeeded || window.confirm(`Reset the skin (${this.skinname}) you are currently working on? All changes will be lost!`)
       if(confirm) {
@@ -99,7 +101,7 @@ export default {
       build(
         this.skinname,
         {
-          'skin.css': this.css,
+          'skin.less': this.less,
         },
         Object.assign( {
           'skin': this.mustache,
@@ -115,9 +117,9 @@ export default {
       this.generatePreview();
     },
     updateCSS(ev) {
-      this.css = ev.target.value;
+      this.less = ev.target.value;
       this.generatePreview();
-      localStorage.setItem('add-css', this.css);
+      localStorage.setItem('add-css', this.less);
     },
     updateMustache(ev) {
       this.mustache = ev.target.value;
@@ -144,7 +146,11 @@ export default {
       }
       this.html = DEFAULT_HTML;
       this.pending = setTimeout(() => {
-        this.getTemplateData(this.title).then((data) => {
+        let css;
+        less.render(this.less).then((compiledLess) => {
+          css = compiledLess.css;
+          return this.getTemplateData(this.title);
+        }).then((data) => {
           const OVERRIDES = {
             'msg-sitetitle': 'Skinomatic 4000',
             'msg-tagline': 'Presented to you in the skinomatic 4000',
@@ -155,7 +161,7 @@ export default {
                 <head>
                   <link rel="stylesheet" href="${HOST}/w/load.php?modules=site.styles|skins.skinjson&only=styles" />
                   <link rel="stylesheet" href="${HOST}/w/load.php?lang=en&modules=ext.cite.styles%7Cext.echo.styles.badge%7Cext.math.styles%7Cext.wikihiero%7Cmediawiki.page.gallery.styles%7Cmediawiki.ui.icon%7Coojs-ui.styles.icons-alerts&only=styles">
-                  <style type="text/css">${this.css}</style>
+                  <style type="text/css">${css}</style>
                 </head>
                 <body>${render(this.mustache, Object.assign( {}, data, OVERRIDES), PARTIALS)}
                 ${SCRIPTS}

@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "jszip": "3.5.0",
+    "less": "4.1.0",
     "mustache": "4.1.0",
     "vue": "2.6.12",
     "vue-router": "3.4.9"

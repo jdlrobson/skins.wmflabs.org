@@ -113,7 +113,7 @@ function skinjson(name, styles, packageFiles, messages = []) {
  * 
  * @param {string} name (uppercase) of skin e.g. SkinVector
  * @param {Object} styles key is the name of the stylesheet
- *  and the text is its content. the key `skin.css` will be rendered last
+ *  and the text is its content. the key `skin.less` will be rendered last
  * @param {Object} templates key is the name of the template minus
  * the mustache suffix and the text is its content
  * @param {Object} scripts key is the name of the script file e.g. `skin.js` and the text is its content
@@ -124,7 +124,7 @@ function build(name, styles, templates, scripts = {}, messages = {}) {
     const rootfolder = zip.folder(folderName);
     const resourcesFolder = rootfolder.folder('resources');
     const templatefolder = rootfolder.folder('templates');
-    if(!styles['skin.css']) throw new Error('skin.css must be defined in styles.')
+    if(!styles['skin.less']) throw new Error('skin.less must be defined in styles.')
     if(!templates['skin']) throw new Error('`skin` must be defined in templates.')
 
     // Create the files in the root folder
@@ -134,10 +134,10 @@ function build(name, styles, templates, scripts = {}, messages = {}) {
             name,
             // only `css` files need to be listed in manifest
             // not LESS.
-            Object.keys(styles).filter((name) => name.indexOf('.css') > -1 && name !== 'skin.css')
+            Object.keys(styles).filter((name) => name.indexOf('.less') > -1 && name !== 'skin.less')
                 // its in the src folder.
                 .map((name) => `resources/${name}`)
-                .concat(['resources/skin.css']),
+                .concat(['resources/skin.less']),
             Object.keys(scripts).filter((name) => name !== 'skin.js').
                 map((name) => `resources/${name}`)
                 .concat(scripts['skin.js'] ? ['resources/skin.js'] : []),
