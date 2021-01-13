@@ -33,10 +33,7 @@ function queryMediaWikiSkins( category, gcmcontinue = '', pages = [] ) {
                             if(SKIN_KEY_SPECIAL_CASES[key]) {
                                 key = SKIN_KEY_SPECIAL_CASES[key];
                             }
-                            const src = p.thumbnail ? p.thumbnail.source : SCREENSHOTS[key];
-                            if(p.thumbnail && SCREENSHOTS[key]) {
-                                console.warn('Redundant screenshot of', key);
-                            }
+                            const src = p.thumbnail ? p.thumbnail.source : undefined;
                             const isCompatible = compatible.includes(key);
                             const hasDependencies = SKIN_DEPENDS_ON_EXTENSIONS.includes(key);
                             const experimental = CATEGORY_EXPERIMENTAL_SKINS === category;
