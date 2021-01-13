@@ -9,6 +9,9 @@
             <option value="m">mobile</option>
           </select>
         </div>
+        <div class="preview__panel" v-if="!html && href">
+          <a :href="href" target="_blank">View in new window</a>
+        </div>
         <div v-if="enabled" class="preview__area">
           <iframe :class="iframeClass" ref="iframe" :src="href" :width="w" :height="h" />
         </div>
