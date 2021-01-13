@@ -142,7 +142,7 @@ function build(name, styles, templates, scripts = {}, messages = {}) {
                 map((name) => `resources/${name}`)
                 .concat(scripts['skin.js'] ? ['resources/skin.js'] : []),
             [
-                'msg-sitetitle'
+                'sitetitle'
             ]
         )
     );
