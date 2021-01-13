@@ -35,7 +35,39 @@ export const PARTIALS = {
 };
 
 export const DEFAULT_SKIN_MUSTACHE = fs.readFileSync(`${__dirname}/skin.mustache`).toString();
-export const DEFAULT_SKIN_LESS = fs.readFileSync(`${__dirname}/skin.less`).toString();
+
+export const randomColor = () => {
+    return '#' + Math.floor(Math.random()*16777215).toString(16);
+}
+
+export const getLessVars = () => {
+    const vars = {
+        'background-color-base': randomColor(),
+        'background-color-article': 'white',
+        'color-base': '#54595d',
+        'color-gray': '#a2a9b1',
+        'color-gray-2': '#eaecf0',
+        'color-link': '#0645ad',
+        'color-link--visited': '#0b0080',
+        'font-family': "'Roboto',-apple-system,BlinkMacSystemFont,'Segoe UI','Oxygen','Ubuntu','Cantarell','Helvetica Neue',sans-serif"
+    };
+    return Object.keys(vars).map((key) => {
+        return `@${key}: ${vars[key]};`;
+    }).join('\n');
+}
+
+const DEFAULT_SKIN_LESS = fs.readFileSync(`${__dirname}/skin.less`).toString();
+
+export const generateStylesheetLESS = () => {
+    return `/* Variables */
+${getLessVars()}
+
+/* Styles */
+${DEFAULT_SKIN_LESS}
+`;
+
+};
+
 export const SCRIPTS = `
 <script>
 document.body.addEventListener('click', function (ev) {

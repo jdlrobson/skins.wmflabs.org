@@ -1,14 +1,23 @@
 html {
-	background: yellow;
+	background: @background-color-base;
 	margin: 0;
 	padding: 0 0 20px;
 }
 
 body {
-	background: white;
+	background: @background-color-article;
 	max-width: 800px;
 	margin: 0 auto;
 	position: relative;
+	font-family: @font-family;
+}
+
+a {
+	color: @color-link;
+
+	&:visited {
+		color: @color-link--visited;
+	}
 }
 
 .mw-portlet li {
@@ -90,7 +99,7 @@ header h3,
 /** CONTENT */
 
 main {
-	border-bottom: solid 20px yellow;
+	border-bottom: solid 20px @background-color-base;
 }
 
 .content__header {
@@ -110,7 +119,7 @@ main {
 }
 
 .content__tagline {
-	color: #54595d;
+	color: @color-base;
 	font-size: 0.85em;
 	margin-bottom: 12px;
 	line-height: 20px;
@@ -152,11 +161,11 @@ main {
 }
 
 .mw-portlet-cactions .mw-portlet-body ul {
-    background: #ffffff;
+    background: @background-color-article;
     position: absolute;
     overflow-y: auto;
     z-index: 2;
-	box-shadow: 0 5px 17px 0 rgba(0,0,0,0.24), 0 0 1px #a2a9b1;
+	box-shadow: 0 5px 17px 0 rgba(0,0,0,0.24), 0 0 1px @color-gray;
 	right: 0;
 	min-width: 200px;
 }
@@ -173,20 +182,20 @@ main {
 
 .mw-portlet-namespaces {
 	margin-top: 10px;
-	border-bottom: 1px solid #eaecf0;
+	border-bottom: 1px solid @color-gray-2;
 }
 
 .mw-portlet-namespaces a {
 	font-size: 0.85em;
 	margin: 0 10px 0 0;
-	color: #54595d;
+	color: @color-base;
 	font-weight: bold;
 	padding-bottom: 6px;
 	display: inline-block;
 }
 
 .mw-portlet-namespaces li.selected {
-	border-bottom: 2px solid #54595d;
+	border-bottom: 2px solid @color-base;
 	margin-bottom: -1px;
 }
 
@@ -217,7 +226,7 @@ main {
 .mw-portlet-cactions h3,
 .mw-portlet-cactions li a,
 .mw-portlet-views li a {
-	color: #54595d;
+	color: @color-base;
 	text-decoration: none;
 }
 
@@ -229,16 +238,48 @@ main {
 	background-color: rgba(0,0,0,0.03);
 }
 
-/* FOOTER */
+/* CATEGORIES */
+#catlinks {
+	font-size: 0;
+	border: none;
+	background: none;
+	margin: 40px 0 10px 0;
+	padding: 0;
 
-footer {
-	border-top: solid 20px yellow;
-	padding: 20px 0;
+	.mw-normal-catlinks > a {
+		display: none;
+	}
+
+	ul {
+		margin: 0;
+		font-size: 14px;
+	}
+
+	li {
+		display: inline-block;
+		border: 0;
+	}
+
+	a {
+		padding: 5px 10px;
+		margin-right: 5px;
+		display: block;
+		background-color: @color-gray-2;
+		color: @color-base;
+		box-shadow: 0 1px 3px rgba(0,0,0,0.03),0 1px 2px rgba(0,0,0,0.06);
+	}
 }
 
-footer li {
-	display: inline-block;
-	margin-right: 20px;
+/* FOOTER */
+
+body > footer {
+	border-top: solid 20px @background-color-base;
+	padding: 20px 0;
+
+	li {
+		display: inline-block;
+		margin-right: 20px;
+	}
 }
 
 /* The following rules will not be needed in future */
@@ -260,8 +301,6 @@ footer li {
 }
 
 /* checkbox hack */
-.toggle-list {}
-
 .toggle-list__checkbox {
 	position: absolute;
 	z-index: -1;
@@ -312,4 +351,8 @@ footer li {
 	display: block;
 	height: 20px;
 	background-image: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2220%22 height=%2220%22 viewBox=%220 0 20 20%22%3E %3Ctitle%3E menu %3C/title%3E %3Cpath d=%22M1 3v2h18V3zm0 8h18V9H1zm0 6h18v-2H1z%22/%3E %3C/svg%3E");
+}
+
+.toctogglelabel {
+	color: inherit;
 }

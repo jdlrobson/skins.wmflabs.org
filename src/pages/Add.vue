@@ -24,7 +24,7 @@
 
 <script>
 /* global less */
-import { PARTIALS, DEFAULT_SKIN_MUSTACHE, DEFAULT_SKIN_LESS, SCRIPTS } from '../starter-template';
+import { PARTIALS, DEFAULT_SKIN_MUSTACHE, generateStylesheetLESS, SCRIPTS } from '../starter-template';
 import api from '../api.js';
 import build from '../export/index.js';
 import { TEST_ARTICLES, HOST } from '../constants';
@@ -38,7 +38,7 @@ const DEFAULT_HTML = '<!DOCTYPE HTML><html><body>Loading preview...</body></html
 
 const DEFAULT_SKIN_PROPS = {
   html: DEFAULT_HTML,
-  less: DEFAULT_SKIN_LESS,
+  less: generateStylesheetLESS(),
   mustache: DEFAULT_SKIN_MUSTACHE,
   skinname: ''
 };
@@ -67,6 +67,7 @@ export default {
       templateDataReq: {},
       pending: null,
       anon: true,
+      startingLess: DEFAULT_SKIN_PROPS.less,
       css: '', // will be derived from less data value.
       title: TEST_ARTICLES[0].title,
     } )
@@ -81,7 +82,7 @@ export default {
     },
     reset() {
       const noConfirmationNeeded = DEFAULT_SKIN_PROPS.mustache === this.mustache
-        && DEFAULT_SKIN_PROPS.less === this.less;
+        && this.startingLess === this.less;
 
       const confirm = noConfirmationNeeded || window.confirm(`Reset the skin (${this.skinname}) you are currently working on? All changes will be lost!`)
       if(confirm) {
@@ -90,7 +91,11 @@ export default {
           this[key] = DEFAULT_SKIN_PROPS[key];
         });
         this.skinname = nameMe();
+        // random stylesheet each time.
+        this.less = generateStylesheetLESS();
+        this.startingLess = this.less;
         localStorage.setItem('add-skinname', this.skinname);
+        this.generatePreview();
       }
     },
     updateName(ev) {
@@ -119,7 +124,7 @@ export default {
     updateCSS(ev) {
       this.less = ev.target.value;
       this.generatePreview();
-      localStorage.setItem('add-css', this.less);
+      localStorage.setItem('add-less', this.less);
     },
     updateMustache(ev) {
       this.mustache = ev.target.value;
@@ -149,6 +154,10 @@ export default {
         let css;
         less.render(this.less).then((compiledLess) => {
           css = compiledLess.css;
+          return this.getTemplateData(this.title);
+        }, (err) => {
+          css = '';
+          console.log(`Error in LESS:\n ${err.message}`);
           return this.getTemplateData(this.title);
         }).then((data) => {
           const OVERRIDES = {
