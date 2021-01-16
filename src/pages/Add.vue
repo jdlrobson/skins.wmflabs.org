@@ -27,7 +27,7 @@
 import { PARTIALS, DEFAULT_SKIN_MUSTACHE, generateStylesheetLESS, SCRIPTS } from '../starter-template';
 import api from '../api.js';
 import build from '../export/index.js';
-import { TEST_ARTICLES, HOST } from '../constants';
+import { TEST_ARTICLES, HOST, LESS_RENDER_OPTIONS } from '../constants';
 import { render } from 'mustache';
 import Preview from '../components/Preview.vue';
 import ArticleChanger from '../components/ArticleChanger';
@@ -152,7 +152,7 @@ export default {
       this.html = DEFAULT_HTML;
       this.pending = setTimeout(() => {
         let css;
-        less.render(this.less).then((compiledLess) => {
+        less.render(this.less, LESS_RENDER_OPTIONS).then((compiledLess) => {
           css = compiledLess.css;
           return this.getTemplateData(this.title);
         }, (err) => {
