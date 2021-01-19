@@ -157,7 +157,7 @@ export default {
           return this.getTemplateData(this.title);
         }, (err) => {
           css = '';
-          console.log(`Error in LESS:\n ${err.message}`);
+          console.log(`Error in LESS:\n ${err.message}`, err);
           return this.getTemplateData(this.title);
         }).then((data) => {
           const OVERRIDES = {
