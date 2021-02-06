@@ -129,7 +129,8 @@ export default {
       build(
         this.skinname,
         {
-          'skin.less': this.less,
+          'skin.less': `@import 'mediawiki.skin.variables.less';
+${this.less}`,
         },
         Object.assign( {
           'skin': this.mustache,
