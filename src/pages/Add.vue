@@ -46,6 +46,7 @@ const DEFAULT_HTML = '<!DOCTYPE HTML><html><body>Loading preview...</body></html
 
 const DEFAULT_SKIN_PROPS = {
   html: DEFAULT_HTML,
+  anon: true,
   less: generateStylesheetLESS(),
   mustache: DEFAULT_SKIN_MUSTACHE,
   skinname: ''
@@ -54,8 +55,13 @@ const DEFAULT_SKIN_PROPS = {
 function getCached() {
   const props = {};
   Object.keys((DEFAULT_SKIN_PROPS)).forEach((key) => {
-    const val = localStorage.getItem(`add-${key}`);
-    props[key] = val || DEFAULT_SKIN_PROPS[key];
+    let val = localStorage.getItem(`add-${key}`);
+    if(val === 'true') {
+      val = true;
+    } else if (val === 'false') {
+      val = false;
+    }
+    props[key] = val !== null ? val : DEFAULT_SKIN_PROPS[key];
   });
   if(!props.skinname) {
     props.skinname = nameMe();
@@ -75,7 +81,6 @@ export default {
     return Object.assign( getCached(), {
       templateDataReq: {},
       pending: null,
-      anon: true,
       startingLess: DEFAULT_SKIN_PROPS.less,
       json: '',
       css: '', // will be derived from less data value.
@@ -94,6 +99,7 @@ export default {
     },
     changeAnon(ev) {
       this.anon = ev.target.checked;
+      localStorage.setItem('add-anon', this.anon);
       this.generatePreview();
       this.updateJSON();
     },
