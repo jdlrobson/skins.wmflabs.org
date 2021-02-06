@@ -7,6 +7,11 @@ import { CATEGORY_SKINS, HIDDEN_SKINS,
     CATEGORY_UNMAINTAINED_SKINS,
     SKIN_DEPENDS_ON_EXTENSIONS, SCREENSHOTS } from './constants';
 
+function getSkinJSON( title, isAnon ) {
+    return fetch(`https://skins-demo.wmflabs.org/wiki/${title}?useskin=skinjson&testuser=${isAnon ? 0 : 1}` )
+        .then((r) => r.json());
+}
+
 function getDemoEnabledSkins() {
     if(compatible.length) {
         return Promise.resolve(compatible);
@@ -185,6 +190,7 @@ function fetchSkins() {
 }
 
 export default {
+    getSkinJSON,
     fetchSkinInfo,
     fetchSkins
 };

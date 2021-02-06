@@ -17,6 +17,13 @@
           <article-changer @changeArticle="changeArticle"></article-changer>
           <input type="checkbox" :checked="anon" @input="changeAnon">Anonymous
        </preview>
+      <div class="data-explorer">
+        <h2>Template data</h2>
+        <p>Explore the data you can render in your skin here.</p>
+        <json-viewer :value="json" :boxed="true" :expanded="false"
+          :sort="true"
+          :copyable="true"></json-viewer>
+      </div>
       </template>
     </two-column-layout>
   </div>
@@ -33,6 +40,7 @@ import Preview from '../components/Preview.vue';
 import ArticleChanger from '../components/ArticleChanger';
 import TwoColumnLayout from '../components/TwoColumnLayout.vue';
 import nameMe from '../nameMe';
+import JsonViewer from 'vue-json-viewer'
 
 const DEFAULT_HTML = '<!DOCTYPE HTML><html><body>Loading preview...</body></html>';
 
@@ -58,6 +66,7 @@ function getCached() {
 export default {
   name: 'Add',
   components: {
+    JsonViewer,
     Preview,
     ArticleChanger,
     TwoColumnLayout
@@ -68,17 +77,25 @@ export default {
       pending: null,
       anon: true,
       startingLess: DEFAULT_SKIN_PROPS.less,
+      json: '',
       css: '', // will be derived from less data value.
       title: TEST_ARTICLES[0].title,
     } )
   },
   mounted() {
     this.generatePreview();
+    this.updateJSON();
   },
   methods: {
+    updateJSON() {
+      api.getSkinJSON(this.title, this.anon).then((json) => {
+        this.json = json;
+      });
+    },
     changeAnon(ev) {
       this.anon = ev.target.checked;
       this.generatePreview();
+      this.updateJSON();
     },
     reset() {
       const noConfirmationNeeded = DEFAULT_SKIN_PROPS.mustache === this.mustache
@@ -120,6 +137,7 @@ export default {
     changeArticle(title) {
       this.title = title;
       this.generatePreview();
+      this.updateJSON();
     },
     updateCSS(ev) {
       this.less = ev.target.value;
@@ -185,7 +203,7 @@ export default {
 <style scoped>
 textarea {
   width: 320px;
-  height: 200px;
+  height: 400px;
 }
 
 input[type=text] {
@@ -220,6 +238,13 @@ button {
   box-sizing: border-box;
   margin-top: 20px;
 }
+
+.data-explorer {
+  width: 100%;
+  height: 400px;
+  text-align: left;
+}
+
 @media (min-width: 1920px) {
   textarea {
     width: 1300px;
