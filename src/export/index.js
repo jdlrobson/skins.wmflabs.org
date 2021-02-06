@@ -69,6 +69,7 @@ function skinjson(name, styles, packageFiles, messages = []) {
             requires: {
                 MediaWiki: '>= 1.35.0'
             },
+            'license-name': 'GPL-2.0-or-later',
             'manifest_version': 2,
             ValidSkinNames: {
                 [skinKey]: {
