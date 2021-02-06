@@ -27,9 +27,7 @@
 </template>
 
 <script>
-import { HOST, TEST_ARTICLE } from '../constants';
 import WarningBox from '../components/WarningBox';
-import mustache from 'mustache';
 
 export default {
   name: 'Preview',
@@ -133,6 +131,7 @@ export default {
     overflow: hidden;
     width: var(--preview-width);
     text-align: center;
+    max-height: 500px;
   }
   iframe {
     margin: auto;
