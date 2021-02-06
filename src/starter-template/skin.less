@@ -26,6 +26,25 @@ a {
   }
 }
 
+/* GENERAL */
+.mw-portlet {
+  position: relative;
+
+  h3 {
+    display: none;
+  }
+
+  li {
+    display: inline-block;
+    margin-right: 10px;
+  }
+
+  input[type=checkbox] {
+    display: none;
+  }
+}
+
+
 /** HEADER */
 
 .mw-header {
@@ -76,17 +95,44 @@ a {
   min-height: 70px;
   display: flex;
   align-items: center;
+  flex-grow: 1;
+}
+
+.mw-portlet-notifications {
+  li {
+    width: 20px;
+    height: 20px;
+  }
+
+  a {
+    background-repeat: no-repeat;
+    color: transparent;
+    background-position: left center;
+    display: block;
+  }
 }
 
 .mw-portlet-personal {
-  text-align: right;
-  flex-grow: 1;
-  flex-basis: 18.75em;
-  margin-left: 2.5em;
-  float: right;
+  margin: 0 0 0 12px;
+	padding: 0 12px 0 0;
+  height: 20px;
+  width: 20px;
+
+	h3 {
+		background-image: url( data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAx0lEQVQ4jdXSzQmEQAwFYEuYUixhSwgkA8mQgKXYgS3YgXZgCZagHWgHuxf14t8osssGcv145CVJvjk+hBRFK2TrkK1D0cqHkN7CUBRI7L21KAqXMIDModiwD9oAkLlH0i3L+ooGiTWPAPPfJQTIHLGOB9h46YZnKS+3PI8PISW2GkV7FO2Jrb79h4+ODyElsYJYm437NSRWRCWdylgj++U0u+UAZI5E22hsWW03UWQtr2NT66zlCjz8uzNQbFiDN7F5/xB8aj57Ynp2FKI0bAAAAABJRU5ErkJggg== );
+		text-indent: -999px;
+		background-repeat: no-repeat;
+		height: 100%;
+		width: 40px;
+    background-position: center center;
+    margin: 0;
+    padding: 0;
+		background-position: center top;
+    overflow: hidden;
+	}
 
   h3 {
-    display: none;
+    display: flex;
   }
 
   @media (max-width: @width-breakpoint-tablet ) {
@@ -153,26 +199,13 @@ main {
   }
 }
 
-.mw-portlet {
-  position: relative;
-
-  h3 {
-    display: none;
-  }
-
-  li {
-    display: inline-block;
-    margin-right: 10px;
-  }
-
-  input[type=checkbox] {
-    display: none;
-  }
-}
-
 .mw-portlet-cactions {
   margin-left: 40px;
+}
 
+/* Checkbox hack dropdown */
+.mw-portlet-personal,
+.mw-portlet-cactions {
   li {
     display: block;
     padding: 0.75em 0.875em;
@@ -265,7 +298,7 @@ main {
   overflow: hidden;
   flex-basis: auto;
   height: 40px;
-    font-weight: normal;
+  font-weight: normal;
   font-size: 100%;
   padding: 0;
 }

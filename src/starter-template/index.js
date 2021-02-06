@@ -13,11 +13,13 @@ const Footer = fs.readFileSync(`${__dirname}/Footer.mustache`).toString();
 const Logo = fs.readFileSync(`${__dirname}/Logo.mustache`).toString();
 const Search = fs.readFileSync(`${__dirname}/Search.mustache`).toString();
 const Sidebar = fs.readFileSync(`${__dirname}/Sidebar.mustache`).toString();
+const Notifications = fs.readFileSync(`${__dirname}/Notifications.mustache`).toString();
 const PersonalMenu = fs.readFileSync(`${__dirname}/PersonalMenu.mustache`).toString();
 const Languages = fs.readFileSync(`${__dirname}/Languages.mustache`).toString();
 
 export const PARTIALS = {
     Languages,
+    Notifications,
     PersonalMenu,
     Footer,
     Logo,
