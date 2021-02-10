@@ -36,6 +36,20 @@ export const PARTIALS = {
     Portlet
 };
 
+export const messages = () => {
+    const msgs = [];
+    Object.keys(PARTIALS).forEach((key) => {
+        const text = PARTIALS[key];
+        const match = text.match(/{{msg-[^}]*}}/g);
+        if(match) {
+            match.forEach((result) => {
+                console.log('m', result);
+                msgs.push(result.replace('{{msg-', '').replace('}}', ''));
+            });
+        }
+    });
+    return msgs;
+}
 export const DEFAULT_SKIN_MUSTACHE = fs.readFileSync(`${__dirname}/skin.mustache`).toString();
 
 export const randomColor = () => {

@@ -117,8 +117,9 @@ function skinjson(name, styles, packageFiles, messages = []) {
  * @param {Object} templates key is the name of the template minus
  * the mustache suffix and the text is its content
  * @param {Object} scripts key is the name of the script file e.g. `skin.js` and the text is its content
+ * @param {Array} messages (keys) used by template
  */
-function build(name, styles, templates, scripts = {}, messages = {}) {
+function build(name, styles, templates, scripts = {}, messages = []) {
     const zip = new JSZip();
     const folderName = getFolderNameFromName(name)
     const rootfolder = zip.folder(folderName);
@@ -141,9 +142,7 @@ function build(name, styles, templates, scripts = {}, messages = {}) {
             Object.keys(scripts).filter((name) => name !== 'skin.js').
                 map((name) => `resources/${name}`)
                 .concat(scripts['skin.js'] ? ['resources/skin.js'] : []),
-            [
-                'sitetitle'
-            ]
+            messages
         )
     );
 

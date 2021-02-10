@@ -31,7 +31,7 @@
 
 <script>
 /* global less */
-import { PARTIALS, DEFAULT_SKIN_MUSTACHE, generateStylesheetLESS, SCRIPTS } from '../starter-template';
+import { PARTIALS, DEFAULT_SKIN_MUSTACHE, generateStylesheetLESS, SCRIPTS, messages } from '../starter-template';
 import api from '../api.js';
 import build from '../export/index.js';
 import { TEST_ARTICLES, HOST, LESS_RENDER_OPTIONS } from '../constants';
@@ -138,7 +138,8 @@ ${this.less}`,
         {
           'skin.js': `/* scripts can go here */
 `
-        }
+        },
+        messages()
       );
     },
     changeArticle(title) {
