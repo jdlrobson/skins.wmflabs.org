@@ -4,8 +4,7 @@ import saveAs from './FileSaver';
 const VERSION = '1.0';
 const TOOL_LINK = `[https://skins.wmflabs.org skins.wmflabs.org v.${VERSION}]`;
 
-const DEFAULT_FEATURES = [ "elements", "content", "interface", "legacy" ];
-const DEFAULT_FEATURES_1_35 = {
+const DEFAULT_FEATURES = {
     "normalize": true,
     "elements": true,
     "content": true,
