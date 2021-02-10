@@ -41,7 +41,9 @@ import ArticleChanger from '../components/ArticleChanger';
 import TwoColumnLayout from '../components/TwoColumnLayout.vue';
 import nameMe from '../nameMe';
 import JsonViewer from 'vue-json-viewer'
-
+const LANGUAGES = {
+  'msg-otherlanguages': 'Read in another language'
+};
 const DEFAULT_HTML = '<!DOCTYPE HTML><html><body>Loading preview...</body></html>';
 
 const DEFAULT_SKIN_PROPS = {
@@ -167,7 +169,16 @@ ${this.less}`,
             {
               mode: 'cors'
             } )
-            .then((r) => r.json())
+            .then((r) => r.json()).then((json) => {
+              const msgs = {};
+              messages().forEach((key) => {
+                const templateKey = 'msg-' + key;
+                if(!json[templateKey]) {
+                  msgs[templateKey] = `{{${key}}}`;
+                }
+              });
+              return Object.assign({}, json, msgs, LANGUAGES);
+            });
       }
       return this.templateDataReq[url];
     },
@@ -195,7 +206,7 @@ ${this.less}`,
                 <html>
                 <head>
                   <link rel="stylesheet" href="${HOST}/w/load.php?modules=site.styles|skins.skinjson&only=styles" />
-                  <link rel="stylesheet" href="${HOST}/w/load.php?lang=en&modules=ext.cite.styles%7Cext.echo.styles.badge%7Cext.math.styles%7Cext.wikihiero%7Cmediawiki.page.gallery.styles%7Cmediawiki.ui.icon%7Coojs-ui.styles.icons-alerts&only=styles">
+                  <link rel="stylesheet" href="${HOST}/w/load.php?lang=en&modules=ext.cite.styles%7Cext.echo.styles.badge%7Cext.math.styles%7Cext.wikihiero%7Cmediawiki.page.gallery.styles%7Cmediawiki.ui.icon%7Cmediawiki.ui.button%7Coojs-ui.styles.icons-alerts&only=styles">
                   <style type="text/css">${css}</style>
                 </head>
                 <body>${render(this.mustache, Object.assign( {}, data, OVERRIDES), PARTIALS)}
