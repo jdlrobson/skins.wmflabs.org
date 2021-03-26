@@ -1,5 +1,7 @@
 import fs from 'fs';
 
+export const SKINS_LAB_VERSION = '1.0';
+
 const FooterList = fs.readFileSync(`${__dirname}/FooterList.mustache`).toString();
 const Portlet = fs.readFileSync(`${__dirname}/Portlet.mustache`).toString();
 const ContentIndicators = fs.readFileSync(`${__dirname}/ContentIndicators.mustache`).toString();
@@ -98,3 +100,11 @@ document.body.addEventListener('click', function (ev) {
 });
 </script>
 `;
+
+export const DEFAULT_FEATURES = {
+    "normalize": true,
+    "elements": true,
+    "content": true,
+    "interface-categories": true,
+    "toc": true
+};
