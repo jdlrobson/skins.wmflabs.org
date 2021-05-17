@@ -57,7 +57,7 @@ function skinjson(name, styles, packageFiles, messages = []) {
             author: [ `${TOOL_LINK}` ],
             type: 'skin',
             requires: {
-                MediaWiki: `>= ${MW_MIN_VERSION}'
+                MediaWiki: `>= ${MW_MIN_VERSION}`
             },
             'license-name': 'GPL-2.0-or-later',
             'manifest_version': 2,
