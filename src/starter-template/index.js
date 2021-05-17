@@ -1,6 +1,7 @@
 import fs from 'fs';
 
 export const SKINS_LAB_VERSION = '1.0';
+export const MW_MIN_VERSION = '1.37.0-wmf.5';
 
 const FooterList = fs.readFileSync(`${__dirname}/FooterList.mustache`).toString();
 const Portlet = fs.readFileSync(`${__dirname}/Portlet.mustache`).toString();

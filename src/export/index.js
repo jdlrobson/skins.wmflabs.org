@@ -1,7 +1,6 @@
 import JSZip from 'jszip';
 import saveAs from './FileSaver';
-import DEFAULT_FEATURES from '../starter-template/index';
-import SKINS_LAB_VERSION from '../starter-template/index';
+import { DEFAULT_FEATURES, SKINS_LAB_VERSION, MW_MIN_VERSION } from '../starter-template/index';
 const TOOL_LINK = `[https://skins.wmflabs.org skins.wmflabs.org v.${SKINS_LAB_VERSION}]`;
 
 function stringifyjson(json) {
@@ -58,7 +57,7 @@ function skinjson(name, styles, packageFiles, messages = []) {
             author: [ `${TOOL_LINK}` ],
             type: 'skin',
             requires: {
-                MediaWiki: '>= 1.36.0'
+                MediaWiki: `>= ${MW_MIN_VERSION}'
             },
             'license-name': 'GPL-2.0-or-later',
             'manifest_version': 2,
