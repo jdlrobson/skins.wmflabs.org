@@ -1,7 +1,7 @@
 import fs from 'fs';
 
 export const SKINS_LAB_VERSION = '1.0';
-export const MW_MIN_VERSION = '1.37.0-wmf.5';
+export const MW_MIN_VERSION = '1.37.0';
 
 const FooterList = fs.readFileSync(`${__dirname}/FooterList.mustache`).toString();
 const Portlet = fs.readFileSync(`${__dirname}/Portlet.mustache`).toString();
@@ -108,6 +108,6 @@ export const DEFAULT_FEATURES = {
     "content-tables": true,
     "content-links": true,
     "content-thumbnails": true,
-    "interface-categories": true,
+    "interface-category": true,
     "toc": true
 };
