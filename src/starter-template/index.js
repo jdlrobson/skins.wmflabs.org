@@ -104,7 +104,9 @@ document.body.addEventListener('click', function (ev) {
 export const DEFAULT_FEATURES = {
     "normalize": true,
     "elements": true,
-    "content": true,
+    "content-tables": true,
+    "content-links": true,
+    "content-thumbnails": true,
     "interface-categories": true,
     "toc": true
 };
