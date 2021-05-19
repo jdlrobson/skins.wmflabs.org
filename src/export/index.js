@@ -2,6 +2,7 @@ import JSZip from 'jszip';
 import saveAs from './FileSaver';
 import { DEFAULT_FEATURES, SKINS_LAB_VERSION, MW_MIN_VERSION } from '../starter-template/index';
 const TOOL_LINK = `[https://skins.wmflabs.org skins.wmflabs.org v.${SKINS_LAB_VERSION}]`;
+import packageJSON from '../starter-template/_package.json';
 
 function stringifyjson(json) {
     return JSON.stringify(json, null, 2);
@@ -140,6 +141,7 @@ function build(name, styles, templates, scripts = {}, messages = []) {
             messages
         )
     );
+    rootfolder.file('package.json', stringifyjson( packageJSON ) );
 
     // create styles and script files in `resources` folder
     Object.keys(styles).forEach((filename) => {
