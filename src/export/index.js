@@ -142,6 +142,9 @@ function build(name, styles, templates, scripts = {}, messages = []) {
         )
     );
     rootfolder.file('package.json', stringifyjson( packageJSON ) );
+    rootfolder.file('.gitignore', `.eslintcache
+node_modules/
+`);
 
     // create styles and script files in `resources` folder
     Object.keys(styles).forEach((filename) => {
