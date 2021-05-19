@@ -92,9 +92,11 @@ function skinjson(name, styles, packageFiles, messages = []) {
                 [`skins.${skinKey}.styles`]: {
                     class: "ResourceLoaderSkinModule",
                     features: DEFAULT_FEATURES,
+                    targets: [ 'desktop', 'mobile' ],
                     styles
                 },
                 [`skins.${skinKey}`]: {
+                    targets: [ 'desktop', 'mobile' ],
                     packageFiles
                 }
             }
