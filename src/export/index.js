@@ -4,7 +4,7 @@ import { DEFAULT_FEATURES, SKINS_LAB_VERSION, MW_MIN_VERSION } from '../starter-
 const TOOL_LINK = `[https://skins.wmflabs.org skins.wmflabs.org v.${SKINS_LAB_VERSION}]`;
 import packageJSON from '../starter-template/_package.json';
 import eslintJSON from '../starter-template/_eslintrc.json';
-import stylelintJSON from '../_stylelintrc.json';
+import stylelintJSON from '../starter-template/_stylelintrc.json';
 
 function stringifyjson(json) {
     return JSON.stringify(json, null, 2);
