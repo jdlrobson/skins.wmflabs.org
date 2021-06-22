@@ -23,6 +23,14 @@ function getDemoEnabledSkins() {
         });
 }
 
+function getSkinKeyFromName( name ) {
+    let key = name.replace(/[ \!]/g, '').toLowerCase();
+    if(SKIN_KEY_SPECIAL_CASES[key]) {
+        key = SKIN_KEY_SPECIAL_CASES[key];
+    }
+    return key;
+}
+
 function queryMediaWikiSkins( category, gcmcontinue = '', pages = [] ) {
     return fetch(`https://www.mediawiki.org/w/api.php?action=query&format=json&origin=*&prop=pageviews%7Cpageimages&piprop=thumbnail&pithumbsize=400&pilimit=max&generator=categorymembers&formatversion=2&pvipmetric=pageviews&pvipdays=3&gcmlimit=max&gcmtitle=${encodeURIComponent(category)}&gcmnamespace=106&origin=*&gcmcontinue=${gcmcontinue}`)
         .then((r) => r.json())
@@ -34,10 +42,7 @@ function queryMediaWikiSkins( category, gcmcontinue = '', pages = [] ) {
                         newPages.map((p) => {
                             const pv = p.pageviews || {};
                             const name = p.title.split(':')[1];
-                            let key =  name.replace(/ /g, '').toLowerCase();
-                            if(SKIN_KEY_SPECIAL_CASES[key]) {
-                                key = SKIN_KEY_SPECIAL_CASES[key];
-                            }
+                            const key =  getSkinKeyFromName(name);
                             const src = p.thumbnail ? p.thumbnail.source : undefined;
                             const isCompatible = compatible.includes(key);
                             const hasDependencies = SKIN_DEPENDS_ON_EXTENSIONS.includes(key);
