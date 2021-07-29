@@ -9,6 +9,8 @@
       <label for="search_stable">not marked as beta or experimental</span>
       <input type="checkbox" :checked="filterDependencies" name="search_dependencies" @change="onToggleDependencies" />
       <label for="search_dependencies">have no dependencies</span>
+      <input type="checkbox" :checked="filterUnmaintained" name="search_maintained" @change="onToggleMaintained" />
+      <label for="search_maintained">are maintained</span>
     </div>
     <p>
       <span v-if="fetched">Showing {{ filteredSkins.length }} / {{ skins.length }} skins.</span>
@@ -51,6 +53,7 @@ export default {
     filteredSkins() {
       var q = this.query;
       return this.skins.filter((skin) => {
+        if(this.filterUnmaintained && !skin.unmaintained) return false;
         if(this.filterStable && (skin.experimental || skin.beta)) return false;
         if(this.filterDependencies && skin.hasDependencies) return false;
         if(this.filterCompatible && !skin.compatible) return false;
@@ -71,6 +74,9 @@ export default {
     onToggleDependencies(ev) {
       this.onToggleLocalStorageField('filterDependencies', ev.target.checked);
     },
+    onToggleMaintained(ev) {
+      this.onToggleLocalStorageField('filterMaintained', ev.target.checked);
+    },
     onToggleStable(ev) {
       this.onToggleLocalStorageField('filterStable', ev.target.checked);
     },
@@ -84,6 +90,7 @@ export default {
   },
   data() {
       return {
+          filterUnmaintained: !!localStorage.getItem('filterUnmaintained'),
           filterDependencies: !!localStorage.getItem('filterDependencies'),
           filterCompatible: !!localStorage.getItem('filterCompatible'),
           filterStable: !!localStorage.getItem('filterStable'),

@@ -106,8 +106,12 @@ function queryMediaWikiAllSkins() {
     return Promise.all( [
         queryMediaWikiSkins( CATEGORY_SKINS ),
         queryMediaWikiSkins( CATEGORY_BETA_SKINS ),
-        queryMediaWikiSkins( CATEGORY_EXPERIMENTAL_SKINS )
-    ] ).then(([a,b,c]) => a.concat(b).concat(c));
+        queryMediaWikiSkins( CATEGORY_EXPERIMENTAL_SKINS ),
+        queryMediaWikiSkins( CATEGORY_UNMAINTAINED_SKINS )
+    ] ).then((...args) => args[0].length > 1
+        ? args[0][0].concat.apply(args[0][0], args[0].slice(1))
+        : args[0][0]
+    );
 }
 
 function getSkinIndex() {
