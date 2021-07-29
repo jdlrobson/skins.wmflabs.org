@@ -5,7 +5,19 @@ import { CATEGORY_SKINS, HIDDEN_SKINS,
     SKIN_KEY_SPECIAL_CASES, CATEGORY_BETA_SKINS,
     CATEGORY_EXPERIMENTAL_SKINS,
     CATEGORY_UNMAINTAINED_SKINS,
-    SKIN_DEPENDS_ON_EXTENSIONS, SCREENSHOTS } from './constants';
+    SKIN_DEPENDS_ON_EXTENSIONS } from './constants';
+
+
+const cacheForFetches = {};
+
+function cachedJSONFetch(url) {
+    if ( cacheForFetches[url] ) {
+        return cacheForFetches[url];
+    } else {
+        cacheForFetches[url] = fetch(url).then((r) => r.json());
+        return cachedJSONFetch(url);
+    }
+}
 
 function getSkinJSON( title, isAnon ) {
     return fetch(`https://skins-demo.wmflabs.org/wiki/${title}?useskin=skinjson&testuser=${isAnon ? 0 : 1}` )
@@ -16,8 +28,7 @@ function getDemoEnabledSkins() {
     if(compatible.length) {
         return Promise.resolve(compatible);
     }
-    return fetch('https://skins-demo.wmflabs.org/w/api.php?origin=*&action=query&format=json&meta=siteinfo&siprop=skins')
-        .then((r) => r.json())
+    return cachedJSONFetch('https://skins-demo.wmflabs.org/w/api.php?origin=*&action=query&format=json&meta=siteinfo&siprop=skins')
         .then((data) => {
             compatible = data.query.skins.map((skin) => skin.code);
         });
@@ -32,8 +43,7 @@ function getSkinKeyFromName( name ) {
 }
 
 function queryMediaWikiSkins( category, gcmcontinue = '', pages = [] ) {
-    return fetch(`https://www.mediawiki.org/w/api.php?action=query&format=json&origin=*&prop=pageviews%7Cpageimages&piprop=thumbnail&pithumbsize=400&pilimit=max&generator=categorymembers&formatversion=2&pvipmetric=pageviews&pvipdays=3&gcmlimit=max&gcmtitle=${encodeURIComponent(category)}&gcmnamespace=106&origin=*&gcmcontinue=${gcmcontinue}`)
-        .then((r) => r.json())
+    return cachedJSONFetch(`https://www.mediawiki.org/w/api.php?action=query&format=json&origin=*&prop=pageviews%7Cpageimages&piprop=thumbnail&pithumbsize=400&pilimit=max&generator=categorymembers&formatversion=2&pvipmetric=pageviews&pvipdays=3&gcmlimit=max&gcmtitle=${encodeURIComponent(category)}&gcmnamespace=106&origin=*&gcmcontinue=${gcmcontinue}`)
         .then((r) => {
             if (r) {
                 if ( r.query && r.query.pages ) {
@@ -119,8 +129,7 @@ function fetchSkinInfo( key ) {
             return Promise.reject();
         }
         // https://www.mediawiki.org/wiki/Special:ApiSandbox#action=query&format=json&prop=categories%7Cextracts%7Cextlinks&titles=Skin%3AMinerva_Neue&redirects=1&formatversion=2&cllimit=max&exsentences=3&exlimit=max&exintro=1&explaintext=1&ellimit=max
-        return fetch(`https://www.mediawiki.org/w/api.php?action=query&format=json&prop=categories%7Cextracts%7Cextlinks&redirects=1&formatversion=2&cllimit=max&exsentences=3&exlimit=max&exintro=1&explaintext=1&ellimit=max&origin=*&titles=Skin%3A${skin.name}`)
-            .then((r) => r.json())
+        return cachedJSONFetch(`https://www.mediawiki.org/w/api.php?action=query&format=json&prop=categories%7Cextracts%7Cextlinks&redirects=1&formatversion=2&cllimit=max&exsentences=3&exlimit=max&exintro=1&explaintext=1&ellimit=max&origin=*&titles=Skin%3A${skin.name}`)
             .then((result) => {
                 let summary, links = [],
                     stable, categories;
