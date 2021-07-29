@@ -7,22 +7,28 @@
     <two-column-layout>
        <template v-slot:column-one>
         <h3>About</h3>
+        <snapshot :stable="stable" :compatible="preview"
+          :display-title="false" :name="name" :src="src"></snapshot>
+        <p>{{summary}}</p>
         <warning-box class="warningbox" v-if="!stable || !preview || experimental">
           <span v-if="beta">Warning: This skin is marked as beta.</span>
           <span v-if="experimental">Warning: This skin has been marked as experimental.</span>
           <span v-if="hasDependencies">Warning: This skin requires additional setup.</span>
           <span v-if="compatible">Warning: This skin does not work with the latest MediaWiki release.</span>
+          <span v-if="unmaintained">Warning: This skin is not maintained. It is likely incompatible with the current MediaWiki branch.
+            If you like this skin, you can fork it and become it's maintainer. If you do this, please update the repository URL on <a :href="mwUrl">MediaWiki.org</a>.
+          </span>
         </warning-box>
-        <snapshot :stable="stable" :compatible="preview"
-          :display-title="false" :name="name" :src="src"></snapshot>
-        <p>{{summary}}</p>
         <a class="skinLink" v-for="(link,i) in links" target="_blank" :key="i"
           :href="link.href">{{ link.text}}</a>
       </template>
       <template v-slot:column-two>
-        <preview :href="href" :name="name">
+        <preview v-if="!unmaintained" :href="href" :name="name">
           <article-changer @changeArticle="changeArticle"></article-changer>
         </preview>
+        <div v-else>
+          <img :src="src">
+        </div>
       </template>
     </two-column-layout>
   </div>
@@ -48,9 +54,11 @@ export default {
   },
   data() {
       return {
+          unmaintained: true,
           stable: true,
           testArticle: TEST_ARTICLES[0].title,
           preview: true,
+          compatible: true,
           skinkey: this.$route.params.key,
           name: this.$route.params.key.replace( /[^⠀]/g, '⠀' ) + '⠀',
           links: [],
@@ -77,13 +85,13 @@ export default {
   mounted: function() {
       api.fetchSkinInfo(  this.$route.params.key ).then((skin) => {
           this.name = skin.name;
-          console.log(skin);
           if(skin.src) {
             this.src = skin.src;
           }
           this.summary = skin.summary;
           this.stable = skin.stable;
           this.beta = skin.beta;
+          this.unmaintained = skin.unmaintained;
           this.hasDependencies = skin.hasDependencies;
           this.experimental = skin.experimental;
           this.preview = skin.compatible;

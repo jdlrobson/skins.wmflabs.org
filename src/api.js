@@ -147,7 +147,6 @@ function fetchSkinInfo( key ) {
                         href: info.title ? `https://mediawiki.org/wiki/${info.title}` : ''
                     });
                     info.extlinks.map(link => link.url).forEach((url) => {
-                        console.log(url);
                         if(url.match(/https:\/\/github.com/) && url.match(/\.git/)) {
                             links.push( {
                                 text: 'View on github',
