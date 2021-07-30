@@ -5,6 +5,7 @@
       <abbr v-if="hasDependencies" title="Requires additional setup.">⚙️</abbr>
       <abbr v-if="beta" title="Skin is marked as beta.">β</abbr>
       <abbr v-if="experimental" title="Skin is marked as experimental.">🧪</abbr>
+      <abbr v-if="mightBreak" title="Might break in future MediaWiki versions">⚡</abbr>
       <abbr v-if="!compatible" title="No preview available.">⚠️</abbr>
     </h3>
     <img  width="320" height="200" :src="src" :alt="alt">
@@ -52,6 +53,9 @@ export default {
       type: Boolean
     },
     experimental: {
+      type: Boolean
+    },
+    mightBreak: {
       type: Boolean
     },
     compatible: {

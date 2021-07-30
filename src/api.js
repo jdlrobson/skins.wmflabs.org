@@ -79,6 +79,7 @@ function queryMediaWikiSkins( category, compatible, gcmcontinue = '', pages = []
 
                             const score = () => {
                                 let s = 0;
+                                if(mightBreak) s--;
                                 if(src) s++;
                                 if(isCompatible) s++;
                                 else s--;

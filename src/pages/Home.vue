@@ -27,6 +27,7 @@
             :compatible="skin.compatible"
             :unmaintained="skin.unmaintained"
             :beta="skin.beta"
+            :might-break="skin.mightBreak"
             :experimental="skin.experimental"
             :hasDependencies="skin.hasDependencies"
             :key="skin.key" :skinkey="skin.key" :name="skin.name" :src="skin.src"></snapshot>
