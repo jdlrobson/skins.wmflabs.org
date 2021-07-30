@@ -46,7 +46,6 @@ export const messages = () => {
         const match = text.match(/{{msg-[^}]*}}/g);
         if(match) {
             match.forEach((result) => {
-                console.log('m', result);
                 msgs.push(result.replace('{{msg-', '').replace('}}', ''));
             });
         }

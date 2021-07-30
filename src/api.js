@@ -3,6 +3,7 @@ const skins = {};
 import { CATEGORY_SKINS,
     SKIN_KEY_SPECIAL_CASES, CATEGORY_BETA_SKINS,
     CATEGORY_EXPERIMENTAL_SKINS,
+    CATEGORY_INCOMPATIBLE_WITH_MEDIAWIKI_MASTER,
     CATEGORY_ADDITIONAL_REQUIREMENTS,
     CATEGORY_REQUIRE_MODIFICATION,
     CATEGORY_UNMAINTAINED_SKINS } from './constants';
@@ -51,7 +52,8 @@ function queryMediaWikiSkins( category, compatible, gcmcontinue = '', pages = []
         `https://www.mediawiki.org
 /w/api.php?action=query
 &format=json&origin=*&prop=pageviews%7Cpageimages%7Ccategories&formatversion=2&origin=*
-&clcategories=${CATEGORY_ADDITIONAL_REQUIREMENTS}%7C${CATEGORY_REQUIRE_MODIFICATION}&cllimit=500
+&clcategories=${CATEGORY_ADDITIONAL_REQUIREMENTS}%7C${CATEGORY_REQUIRE_MODIFICATION}%7C${CATEGORY_INCOMPATIBLE_WITH_MEDIAWIKI_MASTER}
+&cllimit=500
 &piprop=thumbnail&pithumbsize=400&pilimit=max
 &pvipmetric=pageviews&pvipdays=3
 &generator=categorymembers&gcmlimit=max&gcmtitle=${encodeURIComponent(category)}&gcmnamespace=106
@@ -70,6 +72,7 @@ function queryMediaWikiSkins( category, compatible, gcmcontinue = '', pages = []
                             const categoryTitles = ( p.categories || [] ).map((c) => c.title.replace(/ /g, '_'));
                             const hasDependencies = categoryTitles.includes(CATEGORY_ADDITIONAL_REQUIREMENTS);
                             const requiresModification = categoryTitles.includes(CATEGORY_REQUIRE_MODIFICATION);
+                            const mightBreak = categoryTitles.includes(CATEGORY_INCOMPATIBLE_WITH_MEDIAWIKI_MASTER);
                             const experimental = CATEGORY_EXPERIMENTAL_SKINS === category;
                             const beta = CATEGORY_BETA_SKINS === category;
                             const unmaintained = CATEGORY_UNMAINTAINED_SKINS === category;
@@ -95,7 +98,9 @@ function queryMediaWikiSkins( category, compatible, gcmcontinue = '', pages = []
                                 experimental,
                                 compatible: isCompatible,
                                 beta,
+                                mightBreak,
                                 unmaintained,
+                                requiresModification,
                                 hasDependencies: hasDependencies || requiresModification,
                                 stable: true,
                                 score: score(),

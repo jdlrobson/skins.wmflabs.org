@@ -10,6 +10,7 @@ export const CATEGORY_UNMAINTAINED_SKINS = 'Category:Unmaintained_skins';
 export const CATEGORY_EXPERIMENTAL_SKINS = 'Category:Experimental_skins';
 export const CATEGORY_ADDITIONAL_REQUIREMENTS = 'Category:Skins_that_have_additional_setup_requirements';
 export const CATEGORY_REQUIRE_MODIFICATION = 'Category:Skins_which_require_code_modification';
+export const CATEGORY_INCOMPATIBLE_WITH_MEDIAWIKI_MASTER = 'Category:Skins_using_deprecated_features';
 
 export const DEFAULT_SKIN_IMAGE = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII= ';
 

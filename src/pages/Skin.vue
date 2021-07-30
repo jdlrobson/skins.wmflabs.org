@@ -10,11 +10,12 @@
         <snapshot :stable="stable" :compatible="preview"
           :display-title="false" :name="name" :src="src"></snapshot>
         <p>{{summary}}</p>
-        <warning-box class="warningbox" v-if="!stable || !preview || experimental">
+        <warning-box class="warningbox" v-if="hasWarnings">
           <span v-if="beta">Warning: This skin is marked as beta.</span>
           <span v-if="experimental">Warning: This skin has been marked as experimental.</span>
           <span v-if="hasDependencies">Warning: This skin requires additional setup.</span>
-          <span v-if="compatible">Warning: This skin does not work with the latest MediaWiki release.</span>
+          <span v-if="mightBreak">Warning: This skin has been flagged to indicate this it may break in future MediaWiki versions without prompt action.</span>
+          <span v-if="!compatible">Warning: This skin does not work with the latest MediaWiki release.</span>
           <span v-if="unmaintained">Warning: This skin is not maintained. It is likely incompatible with the current MediaWiki branch.
             If you like this skin, you can fork it and become it's maintainer. If you do this, please update the repository URL on <a :href="mwUrl">MediaWiki.org</a>.
           </span>
@@ -55,6 +56,7 @@ export default {
   data() {
       return {
           unmaintained: true,
+          mightBreak: false,
           stable: true,
           testArticle: TEST_ARTICLES[0].title,
           preview: true,
@@ -69,6 +71,11 @@ export default {
       };
   },
   computed: {
+    hasWarnings() {
+      return !this.stable || !this.preview || this.experimental ||
+        !this.compatible ||
+        this.mightBreak || this.hasDependencies || this.beta || this.unmaintained;
+    },
     mwUrl() {
       return this.name ? `https://mediawiki.org/wiki/Skin:${this.name}` : '';
     },
@@ -93,6 +100,7 @@ export default {
           this.beta = skin.beta;
           this.unmaintained = skin.unmaintained;
           this.hasDependencies = skin.hasDependencies;
+          this.mightBreak = skin.mightBreak;
           this.experimental = skin.experimental;
           this.preview = skin.compatible;
           this.links = skin.links;
