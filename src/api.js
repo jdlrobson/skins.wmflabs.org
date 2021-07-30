@@ -1,4 +1,3 @@
-let compatible = [];
 const skins = {};
 
 import { CATEGORY_SKINS,
@@ -26,12 +25,10 @@ function getSkinJSON( title, isAnon ) {
 }
 
 function getDemoEnabledSkins() {
-    if(compatible.length) {
-        return Promise.resolve(compatible);
-    }
     return cachedJSONFetch('https://skins-demo.wmflabs.org/w/api.php?origin=*&action=query&format=json&meta=siteinfo&siprop=skins')
         .then((data) => {
-            compatible = data.query.skins.map((skin) => skin.code);
+            const compatible = data.query.skins.map((skin) => skin.code);
+            return compatible;
         });
 }
 
@@ -43,7 +40,11 @@ function getSkinKeyFromName( name ) {
     return key;
 }
 
-function queryMediaWikiSkins( category, gcmcontinue = '', pages = [] ) {
+/**
+ * @param {array} compatible skin keys
+ * @returns {Promise}
+ */
+function queryMediaWikiSkins( category, compatible, gcmcontinue = '', pages = [] ) {
     // clcategory is used to check if the skin is in "CATEGORY_ADDITIONAL_REQUIREMENTS"
     // cllimit set at 500 the maximum value.
     return cachedJSONFetch(
@@ -107,7 +108,7 @@ function queryMediaWikiSkins( category, gcmcontinue = '', pages = [] ) {
                 }
 
                 if ( r.continue && r.continue.gcmcontinue ) {
-                    return queryMediaWikiSkins( category, r.continue.gcmcontinue, pages );
+                    return queryMediaWikiSkins( category, compatible, r.continue.gcmcontinue, pages );
                 } else {
                     return pages;
                 }
@@ -115,12 +116,16 @@ function queryMediaWikiSkins( category, gcmcontinue = '', pages = [] ) {
         })
 }
 
-function queryMediaWikiAllSkins() {
+/**
+ * @param {array} compatible skin keys
+ * @returns {Promise}
+ */
+function queryMediaWikiAllSkins(compatible) {
     return Promise.all( [
-        queryMediaWikiSkins( CATEGORY_SKINS ),
-        queryMediaWikiSkins( CATEGORY_BETA_SKINS ),
-        queryMediaWikiSkins( CATEGORY_EXPERIMENTAL_SKINS ),
-        queryMediaWikiSkins( CATEGORY_UNMAINTAINED_SKINS )
+        queryMediaWikiSkins( CATEGORY_SKINS, compatible ),
+        queryMediaWikiSkins( CATEGORY_BETA_SKINS, compatible ),
+        queryMediaWikiSkins( CATEGORY_EXPERIMENTAL_SKINS, compatible ),
+        queryMediaWikiSkins( CATEGORY_UNMAINTAINED_SKINS, compatible )
     ] ).then((...args) => args[0].length > 1
         ? args[0][0].concat.apply(args[0][0], args[0].slice(1))
         : args[0][0]
@@ -131,7 +136,7 @@ function getSkinIndex() {
     if (Object.keys(skins) > 0) {
         return Promise.resolve(skins);
     }
-    return getDemoEnabledSkins().then(() =>queryMediaWikiAllSkins())
+    return getDemoEnabledSkins().then((compatible) =>queryMediaWikiAllSkins(compatible))
         .then((skinPages) => {
             skinPages.forEach((skin) => {
                 skins[skin.key] = skin;
