@@ -53,7 +53,7 @@ export default {
     filteredSkins() {
       var q = this.query;
       return this.skins.filter((skin) => {
-        if(this.filterUnmaintained && !skin.unmaintained) return false;
+        if(this.filterUnmaintained && skin.unmaintained) return false;
         if(this.filterStable && (skin.experimental || skin.beta)) return false;
         if(this.filterDependencies && skin.hasDependencies) return false;
         if(this.filterCompatible && !skin.compatible) return false;
