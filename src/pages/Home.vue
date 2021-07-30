@@ -3,10 +3,12 @@
     <h2>Explore skins</h2>
     <input class="search__input" placeholder="Find skin" :value="query" @input="setQuery">
     <div>must be
-      <input type="checkbox" :checked="filterCompatible" name="search_1.35" @change="onToggleCompatible" />
-      <label for="search_1.35">compatible with >= 1.35</span>
+      <input type="checkbox" :checked="filterCompatible" name="search_release" @change="onToggleCompatible" />
+      <label for="search_release">compatible with >= 1.37</span>
       <input type="checkbox" :checked="filterStable" name="search_stable" @change="onToggleStable" />
-      <label for="search_stable">not marked as beta or experimental</span>
+      <label for="search_stable">is stable</span>
+      <input type="checkbox" :checked="filterMightBreak" name="search_breakage" @change="onToggleMightBreak" />
+      <label for="search_breakage">without deprecation warnings</span>
       <input type="checkbox" :checked="filterDependencies" name="search_dependencies" @change="onToggleDependencies" />
       <label for="search_dependencies">have no dependencies</span>
       <input type="checkbox" :checked="filterMaintained" name="search_maintained" @change="onToggleMaintained" />
@@ -54,8 +56,9 @@ export default {
     filteredSkins() {
       var q = this.query;
       return this.skins.filter((skin) => {
+        if(this.filterMightBreak && skin.mightBreak) return false;
         if(this.filterMaintained && skin.unmaintained) return false;
-        if(this.filterStable && (skin.experimental || skin.beta)) return false;
+        if(this.filterStable && (skin.experimental || skin.beta || skin.unmaintained)) return false;
         if(this.filterDependencies && skin.hasDependencies) return false;
         if(this.filterCompatible && !skin.compatible) return false;
         if(!q) return true;
@@ -78,6 +81,9 @@ export default {
     onToggleMaintained(ev) {
       this.onToggleLocalStorageField('filterMaintained', ev.target.checked);
     },
+    onToggleMightBreak(ev) {
+      this.onToggleLocalStorageField('filterMightBreak', ev.target.checked);
+    },
     onToggleStable(ev) {
       this.onToggleLocalStorageField('filterStable', ev.target.checked);
     },
@@ -91,6 +97,7 @@ export default {
   },
   data() {
       return {
+          filterMightBreak: !!localStorage.getItem('filterMightBreak'),
           filterMaintained: !!localStorage.getItem('filterMaintained'),
           filterDependencies: !!localStorage.getItem('filterDependencies'),
           filterCompatible: !!localStorage.getItem('filterCompatible'),
