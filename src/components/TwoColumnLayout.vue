@@ -1,20 +1,20 @@
 <template>
-  <div class="page--skin">
-    <article>
-      <aside>
-        <slot name="column-one"></slot>
-      </aside>
-      <aside>
-        <slot name="column-two"></slot>
-      </aside>
-    </article>
-  </div>
+	<div class="page--skin">
+		<article>
+			<aside>
+				<slot name="column-one"></slot>
+			</aside>
+			<aside>
+				<slot name="column-two"></slot>
+			</aside>
+		</article>
+	</div>
 </template>
 
 <script>
 export default {
-  name: 'TwoColumnLayout',
-  components: {}
+	name: 'TwoColumnLayout',
+	components: {}
 };
 </script>
 

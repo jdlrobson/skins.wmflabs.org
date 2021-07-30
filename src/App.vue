@@ -1,28 +1,29 @@
 <template>
-  <div class="container">
-    <nav>
-      <router-link to="/">
-        Explore
-      </router-link>
-      <router-link to="/add">
-        create
-      </router-link>
-    </nav>
-    <main>
-      <router-view></router-view>
-    </main>
-    <footer>
-      <p>
-        Made by <a href="https://jdlrobson.com">Jon Robson</a>.
-        Code on <a href="https://github.com/jdlrobson/skins.wmflabs.org">github.com</a>.
-        Sourced images: Dead Emoji by André Luiz Gollo from the Noun Project
-    </footer>
-  </div>
+	<div class="container">
+		<nav>
+			<router-link to="/">
+				Explore
+			</router-link>
+			<router-link to="/add">
+				create
+			</router-link>
+		</nav>
+		<main>
+			<router-view></router-view>
+		</main>
+		<footer>
+			<p>
+				Made by <a href="https://jdlrobson.com">Jon Robson</a>.
+				Code on <a href="https://github.com/jdlrobson/skins.wmflabs.org">github.com</a>.
+				Sourced images: Dead Emoji by André Luiz Gollo from the Noun Project
+			</p>
+		</footer>
+	</div>
 </template>
 
 <script>
 export default {
-  name: 'App'
+	name: 'App'
 };
 </script>
 

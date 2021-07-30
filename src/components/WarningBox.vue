@@ -1,13 +1,13 @@
 <template>
-    <div class="warning">
-         <slot></slot>
-    </div>
+	<div class="warning">
+		<slot></slot>
+	</div>
 </template>
 
 <script>
 export default {
-  name: 'WarningBox',
-  components: {}
+	name: 'WarningBox',
+	components: {}
 };
 </script>
 
