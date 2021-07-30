@@ -97,7 +97,7 @@ export default {
     bottom: 50px;
     height: 110px;
     background: url('../../assets/dead.png');
-    background-size: 170px auto;
+    background-size: 120px auto;
     background-position: center center;
     background-repeat: no-repeat;
   }
