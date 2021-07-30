@@ -24,7 +24,7 @@
           :href="link.href">{{ link.text}}</a>
       </template>
       <template v-slot:column-two>
-        <preview v-if="!unmaintained" :href="href" :name="name">
+        <preview v-if="!unmaintained || !infoIsLoaded" :href="href" :name="name">
           <article-changer @changeArticle="changeArticle"></article-changer>
         </preview>
         <div v-else class="no-preview">
@@ -61,6 +61,7 @@ export default {
   },
   data() {
       return {
+          infoIsLoaded: false,
           unmaintained: true,
           mightBreak: false,
           stable: true,
@@ -113,6 +114,7 @@ export default {
           this.experimental = skin.experimental;
           this.preview = skin.compatible;
           this.links = skin.links;
+          this.infoIsLoaded = true;
       },() => {
         this.$router.replace({ path: '/404' });
       });
