@@ -1,11 +1,12 @@
 let compatible = [];
 const skins = {};
 
-import { CATEGORY_SKINS, HIDDEN_SKINS,
+import { CATEGORY_SKINS,
     SKIN_KEY_SPECIAL_CASES, CATEGORY_BETA_SKINS,
     CATEGORY_EXPERIMENTAL_SKINS,
-    CATEGORY_UNMAINTAINED_SKINS,
-    SKIN_DEPENDS_ON_EXTENSIONS } from './constants';
+    CATEGORY_ADDITIONAL_REQUIREMENTS,
+    CATEGORY_REQUIRE_MODIFICATION,
+    CATEGORY_UNMAINTAINED_SKINS } from './constants';
 
 
 const cacheForFetches = {};
@@ -43,8 +44,18 @@ function getSkinKeyFromName( name ) {
 }
 
 function queryMediaWikiSkins( category, gcmcontinue = '', pages = [] ) {
-    return cachedJSONFetch(`https://www.mediawiki.org/w/api.php?action=query&format=json&origin=*&prop=pageviews%7Cpageimages&piprop=thumbnail&pithumbsize=400&pilimit=max&generator=categorymembers&formatversion=2&pvipmetric=pageviews&pvipdays=3&gcmlimit=max&gcmtitle=${encodeURIComponent(category)}&gcmnamespace=106&origin=*&gcmcontinue=${gcmcontinue}`)
-        .then((r) => {
+    // clcategory is used to check if the skin is in "CATEGORY_ADDITIONAL_REQUIREMENTS"
+    // cllimit set at 500 the maximum value.
+    return cachedJSONFetch(
+        `https://www.mediawiki.org
+/w/api.php?action=query
+&format=json&origin=*&prop=pageviews%7Cpageimages%7Ccategories&formatversion=2&origin=*
+&clcategories=${CATEGORY_ADDITIONAL_REQUIREMENTS}%7C${CATEGORY_REQUIRE_MODIFICATION}&cllimit=500
+&piprop=thumbnail&pithumbsize=400&pilimit=max
+&pvipmetric=pageviews&pvipdays=3
+&generator=categorymembers&gcmlimit=max&gcmtitle=${encodeURIComponent(category)}&gcmnamespace=106
+&gcmcontinue=${gcmcontinue}`.replace(/\n/g, '')
+        ).then((r) => {
             if (r) {
                 if ( r.query && r.query.pages ) {
                     const newPages = r.query.pages;
@@ -55,7 +66,9 @@ function queryMediaWikiSkins( category, gcmcontinue = '', pages = [] ) {
                             const key =  getSkinKeyFromName(name);
                             const src = p.thumbnail ? p.thumbnail.source : undefined;
                             const isCompatible = compatible.includes(key);
-                            const hasDependencies = SKIN_DEPENDS_ON_EXTENSIONS.includes(key);
+                            const categoryTitles = ( p.categories || [] ).map((c) => c.title.replace(/ /g, '_'));
+                            const hasDependencies = categoryTitles.includes(CATEGORY_ADDITIONAL_REQUIREMENTS);
+                            const requiresModification = categoryTitles.includes(CATEGORY_REQUIRE_MODIFICATION);
                             const experimental = CATEGORY_EXPERIMENTAL_SKINS === category;
                             const beta = CATEGORY_BETA_SKINS === category;
                             const unmaintained = CATEGORY_UNMAINTAINED_SKINS === category;
@@ -66,6 +79,7 @@ function queryMediaWikiSkins( category, gcmcontinue = '', pages = [] ) {
                                 if(isCompatible) s++;
                                 else s--;
                                 if(!hasDependencies) s++;
+                                else if(!requiresModification) s++;
                                 else s--;
                                 if(beta) s--
                                 if(unmaintained) s -= 100;
@@ -81,14 +95,13 @@ function queryMediaWikiSkins( category, gcmcontinue = '', pages = [] ) {
                                 compatible: isCompatible,
                                 beta,
                                 unmaintained,
-                                hasDependencies,
+                                hasDependencies: hasDependencies || requiresModification,
                                 stable: true,
                                 score: score(),
                                 pageviews: Object.keys(pv).map(key=>pv[key]).reduce((count, total=0) => total+count, 0)
                             })
                         }).filter((p) => {
-                            return !HIDDEN_SKINS.includes(p.key)
-                                && p.title.indexOf( '/' ) === -1 && p.title.indexOf('Skin:') > -1;
+                            return p.title.indexOf( '/' ) === -1 && p.title.indexOf('Skin:') > -1;
                         })
                     );
                 }
