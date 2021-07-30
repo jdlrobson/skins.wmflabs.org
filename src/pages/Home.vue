@@ -9,7 +9,7 @@
       <label for="search_stable">not marked as beta or experimental</span>
       <input type="checkbox" :checked="filterDependencies" name="search_dependencies" @change="onToggleDependencies" />
       <label for="search_dependencies">have no dependencies</span>
-      <input type="checkbox" :checked="filterUnmaintained" name="search_maintained" @change="onToggleMaintained" />
+      <input type="checkbox" :checked="filterMaintained" name="search_maintained" @change="onToggleMaintained" />
       <label for="search_maintained">are maintained</span>
     </div>
     <p>
@@ -54,7 +54,7 @@ export default {
     filteredSkins() {
       var q = this.query;
       return this.skins.filter((skin) => {
-        if(this.filterUnmaintained && skin.unmaintained) return false;
+        if(this.filterMaintained && skin.unmaintained) return false;
         if(this.filterStable && (skin.experimental || skin.beta)) return false;
         if(this.filterDependencies && skin.hasDependencies) return false;
         if(this.filterCompatible && !skin.compatible) return false;
@@ -91,7 +91,7 @@ export default {
   },
   data() {
       return {
-          filterUnmaintained: !!localStorage.getItem('filterUnmaintained'),
+          filterMaintained: !!localStorage.getItem('filterMaintained'),
           filterDependencies: !!localStorage.getItem('filterDependencies'),
           filterCompatible: !!localStorage.getItem('filterCompatible'),
           filterStable: !!localStorage.getItem('filterStable'),
