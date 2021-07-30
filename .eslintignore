@@ -1,2 +1,6 @@
+/.cache
+/coverage
+/dist
+/node_modules/*
 # External dependencies
 /src/export/FileSaver.js

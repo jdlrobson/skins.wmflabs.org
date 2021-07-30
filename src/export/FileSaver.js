@@ -11,7 +11,7 @@
 /*jslint bitwise: true, indent: 4, laxbreak: true, laxcomma: true, smarttabs: true, plusplus: true */
 
 /*! @source http://purl.eligrey.com/github/FileSaver.js/blob/master/FileSaver.js */
-
+module.exports = function () {
 var saveAs = saveAs
   // IE 10+ (native saveAs)
   || (typeof navigator !== "undefined" &&
@@ -244,4 +244,5 @@ var saveAs = saveAs
 // while `this` is nsIContentFrameMessageManager
 // with an attribute `content` that corresponds to the window
 
-if (typeof module !== "undefined") module.exports = saveAs;
+return saveAs;
+};

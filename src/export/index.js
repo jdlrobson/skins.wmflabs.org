@@ -1,5 +1,5 @@
 import JSZip from 'jszip';
-import saveAs from './FileSaver';
+import FileSaver from './FileSaver';
 import { DEFAULT_FEATURES, SKINS_LAB_VERSION, MW_MIN_VERSION } from '../starter-template/index';
 const TOOL_LINK = `[https://skins.wmflabs.org skins.wmflabs.org v.${SKINS_LAB_VERSION}]`;
 import packageJSON from '../starter-template/_package.json';
@@ -118,9 +118,11 @@ function skinjson( name, styles, packageFiles, messages = [] ) {
  * the mustache suffix and the text is its content
  * @param {Object} scripts key is the name of the script file e.g. `skin.js` and the text is its content
  * @param {Array} messages (keys) used by template
+ * @param {JZip} [Zipper] constructor
+ * @param {FileSaver} [myFileSaver]
  */
-function build( name, styles, templates, scripts = {}, messages = [] ) {
-	const zip = new JSZip();
+function build( name, styles, templates, scripts = {}, messages = [], Zipper = JSZip, myFileSaver = FileSaver ) {
+	const zip = new Zipper();
 	const folderName = getFolderNameFromName( name );
 	const rootfolder = zip.folder( folderName );
 	const resourcesFolder = rootfolder.folder( 'resources' );
@@ -174,8 +176,15 @@ node_modules/
     }) */
 
 	// build!
-	zip.generateAsync( { type: 'blob' } )
-		.then( ( content ) => saveAs( content, `${folderName}.zip` ) );
+	return zip.generateAsync( { type: 'blob' } )
+		.then( ( content ) => {
+			var saver = myFileSaver();
+			return saver( content, `${folderName}.zip` )
+		} ).then( ( saveResult ) => {
+			return {
+				zip, saveResult
+			};
+		});
 }
 
 export default build;

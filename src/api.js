@@ -233,6 +233,7 @@ function fetchSkins() {
 }
 
 export default {
+	getSkinKeyFromName,
 	getSkinJSON,
 	fetchSkinInfo,
 	fetchSkins
