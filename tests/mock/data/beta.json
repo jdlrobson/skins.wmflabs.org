@@ -1,26 +1,26 @@
 {
-    "batchcomplete": true,
-    "limits": {
-      "categorymembers": 500,
-      "pageimages": 50
-    },
-    "query": {
-      "pages": [
-        {
-          "pageid": 99441,
-          "ns": 106,
-          "title": "Skin:Erudite",
-          "pageviews": {
-            "2021-07-27": 5,
-            "2021-07-28": 10,
-            "2021-07-29": null
-          },
-          "thumbnail": {
-            "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Erudite_skin.png/400px-Erudite_skin.png",
-            "width": 400,
-            "height": 325
-          }
-        }
-      ]
-    }
+	"batchcomplete": true,
+	"limits": {
+		"categorymembers": 500,
+		"pageimages": 50
+	},
+	"query": {
+		"pages": [
+			{
+				"pageid": 99441,
+				"ns": 106,
+				"title": "Skin:Erudite",
+				"pageviews": {
+					"2021-07-27": 5,
+					"2021-07-28": 10,
+					"2021-07-29": null
+				},
+				"thumbnail": {
+					"source": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Erudite_skin.png/400px-Erudite_skin.png",
+					"width": 400,
+					"height": 325
+				}
+			}
+		]
+	}
 }

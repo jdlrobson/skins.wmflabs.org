@@ -4,9 +4,9 @@ describe( 'nameMe', () => {
 
 	it( 'names', () => {
 		let name = nameMe();
-		for ( let i = 0; i < 100; i++) {
+		for ( let i = 0; i < 100; i++ ) {
 			name = nameMe();
 		}
-		expect(typeof name).toBe('string')
+		expect( typeof name ).toBe( 'string' );
 	} );
 } );
