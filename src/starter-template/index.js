@@ -102,6 +102,7 @@ document.body.addEventListener('click', function (ev) {
 </script>
 `;
 
+// Keep synced with https://github.com/jdlrobson/mediawiki-skins-skinjson/blob/master/skin.json#L37
 export const DEFAULT_FEATURES = {
 	normalize: true,
 	elements: true,
