@@ -20,9 +20,24 @@ const Sidebar = fs.readFileSync( `${__dirname}/Sidebar.mustache` ).toString();
 const Notifications = fs.readFileSync( `${__dirname}/Notifications.mustache` ).toString();
 const PersonalMenu = fs.readFileSync( `${__dirname}/PersonalMenu.mustache` ).toString();
 const Languages = fs.readFileSync( `${__dirname}/Languages.mustache` ).toString();
+const Dropdown = fs.readFileSync( `${__dirname}/Dropdown.mustache` ).toString();
+
+export const COMPONENT_STYLES = {
+	PersonalMenu: fs.readFileSync( `${__dirname}/PersonalMenu.less` ).toString(),
+	ContentActions: fs.readFileSync( `${__dirname}/ContentActions.less` ).toString(),
+	Dropdown: fs.readFileSync( `${__dirname}/Dropdown.less` ).toString(),
+	ContentNamespaces: fs.readFileSync( `${__dirname}/ContentNamespaces.less` ).toString(),
+	Portlet: fs.readFileSync( `${__dirname}/Portlet.less` ).toString(),
+	Notifications: fs.readFileSync( `${__dirname}/Notifications.less` ).toString(),
+	Sidebar: fs.readFileSync( `${__dirname}/Sidebar.less` ).toString(),
+	Footer: fs.readFileSync( `${__dirname}/Footer.less` ).toString(),
+	Logo: fs.readFileSync( `${__dirname}/Logo.less` ).toString(),
+	Search: fs.readFileSync( `${__dirname}/Search.less` ).toString()
+};
 
 export const PARTIALS = {
 	Languages,
+	Dropdown,
 	Notifications,
 	PersonalMenu,
 	Footer,
@@ -78,10 +93,7 @@ export const getLessVars = () => {
 const DEFAULT_SKIN_LESS = fs.readFileSync( `${__dirname}/skin.less` ).toString();
 
 export const generateStylesheetLESS = () => {
-	return `/* Variables */
-${getLessVars()}
-
-/* Styles */
+	return `/* Styles */
 ${DEFAULT_SKIN_LESS}
 `;
 
@@ -110,6 +122,7 @@ export const DEFAULT_FEATURES = {
 	'content-links': true,
 	'content-media': true,
 	'content-links-external': false,
+	'interface-message-box': true,
 	'interface-category': true,
 	toc: true
 };

@@ -12,15 +12,21 @@
 					placeholder="Skin's name"
 					:value="skinname"
 					@input="updateName">
-				<button :disabled="skinname === ''" @click="download">
+				<button class="btn"
+					:disabled="skinname === ''"
+					@click="download">
 					Download as ZIP
 				</button>
-				<button @click="reset">
+				<button class="btn" @click="reset">
 					Reset
 				</button>
 			</template>
 			<template #column-two>
 				<preview :html="html" :name="skinname">
+					<button class="css-theme-changer"
+						@click="newTheme">
+						Change theme
+					</button>
 					<article-changer @changeArticle="changeArticle"></article-changer>
 					<input type="checkbox"
 						:checked="anon"
@@ -42,7 +48,8 @@
 
 <script>
 /* global less */
-import { PARTIALS, DEFAULT_SKIN_MUSTACHE, generateStylesheetLESS, SCRIPTS, messages } from '../starter-template';
+import { PARTIALS, getLessVars,
+	DEFAULT_SKIN_MUSTACHE, generateStylesheetLESS, SCRIPTS, messages } from '../starter-template';
 import api from '../api.js';
 import build from '../export/index.js';
 import { TEST_ARTICLES, HOST, LESS_RENDER_OPTIONS } from '../constants';
@@ -52,7 +59,9 @@ import ArticleChanger from '../components/ArticleChanger';
 import TwoColumnLayout from '../components/TwoColumnLayout.vue';
 import nameMe from '../nameMe';
 import JsonViewer from 'vue-json-viewer';
-import { getTemplatesFromSourceCode } from '../utils';
+import { getTemplatesFromSourceCode,
+	getComponentLESSFiles, getComponentLESSRaw
+} from '../utils';
 
 const LANGUAGES = {
 	'msg-otherlanguages': 'Read in another language'
@@ -62,6 +71,7 @@ const DEFAULT_HTML = '<!DOCTYPE HTML><html><body>Loading preview...</body></html
 const DEFAULT_SKIN_PROPS = {
 	html: DEFAULT_HTML,
 	anon: true,
+	variables: getLessVars(),
 	less: generateStylesheetLESS(),
 	mustache: DEFAULT_SKIN_MUSTACHE,
 	skinname: ''
@@ -96,6 +106,7 @@ export default {
 		return Object.assign( getCached(), {
 			templateDataReq: {},
 			pending: null,
+			variables: DEFAULT_SKIN_PROPS.variables,
 			startingLess: DEFAULT_SKIN_PROPS.less,
 			json: '',
 			css: '', // will be derived from less data value.
@@ -116,7 +127,7 @@ export default {
 		},
 		reset() {
 			const noConfirmationNeeded = DEFAULT_SKIN_PROPS.mustache === this.mustache &&
-        this.startingLess === this.less;
+			this.startingLess === this.less;
 
 			const confirm = noConfirmationNeeded || window.confirm( `Reset the skin (${this.skinname}) you are currently working on? All changes will be lost!` );
 			if ( confirm ) {
@@ -126,24 +137,43 @@ export default {
 				} );
 				this.skinname = nameMe();
 				// random stylesheet each time.
+				this.newTheme();
 				this.less = generateStylesheetLESS();
 				this.startingLess = this.less;
 				localStorage.setItem( 'add-skinname', this.skinname );
 				this.generatePreview();
 			}
 		},
+		newTheme() {
+			this.variables = getLessVars();
+			this.generatePreview();
+		},
 		updateName( ev ) {
 			this.skinname = ev.target.value;
 			localStorage.setItem( 'add-skinname', this.skinname );
 		},
 		download() {
+			const templates = getTemplatesFromSourceCode( PARTIALS, this.mustache );
+			const styles = getComponentLESSFiles( Object.keys( templates ), [
+				'mediawiki.skin.variables',
+				'variables.less'
+			] );
+			const importStatements = Object.keys( styles )
+				.map( ( key ) => `@import "${key}";` ).join( '\n' );
+
 			build(
 				this.skinname,
-				{
-					'skin.less': `@import 'mediawiki.skin.variables.less';
-${this.less}`
-				},
-				getTemplatesFromSourceCode( PARTIALS, this.mustache ),
+				Object.assign(
+					styles,
+					{
+						'variables.less': this.variables,
+						'skin.less': `@import 'mediawiki.skin.variables.less';
+@import "variables.less";
+${this.less}
+${importStatements}
+`
+					} ),
+				templates,
 				{
 					'skin.js': `/* scripts can go here */
 `
@@ -196,7 +226,13 @@ ${this.less}`
 			this.html = DEFAULT_HTML;
 			this.pending = setTimeout( () => {
 				let css;
-				less.render( this.less, LESS_RENDER_OPTIONS ).then( ( compiledLess ) => {
+				const imports = getComponentLESSRaw(
+					Object.keys(
+						getTemplatesFromSourceCode( PARTIALS, this.mustache )
+					)
+				);
+
+				less.render( this.variables + this.less + imports, LESS_RENDER_OPTIONS ).then( ( compiledLess ) => {
 					css = compiledLess.css;
 					return this.getTemplateData( this.title );
 				}, ( err ) => {
@@ -242,11 +278,11 @@ input[type=text] {
   height: 40px;
 }
 
-button:disabled {
+.btn:disabled {
   opacity: 0.5;
 }
 
-button {
+.btn {
   color: #fff;
   background-color: #36c;
   border-color: #36c;
@@ -274,6 +310,10 @@ button {
   width: 100%;
   height: 400px;
   text-align: left;
+}
+
+.css-theme-changer {
+	margin-top: 0;
 }
 
 @media (min-width: 1920px) {
