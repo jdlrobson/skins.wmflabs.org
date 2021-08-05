@@ -52,6 +52,8 @@ import ArticleChanger from '../components/ArticleChanger';
 import TwoColumnLayout from '../components/TwoColumnLayout.vue';
 import nameMe from '../nameMe';
 import JsonViewer from 'vue-json-viewer';
+import { getTemplatesFromSourceCode } from '../utils';
+
 const LANGUAGES = {
 	'msg-otherlanguages': 'Read in another language'
 };
@@ -141,9 +143,7 @@ export default {
 					'skin.less': `@import 'mediawiki.skin.variables.less';
 ${this.less}`
 				},
-				Object.assign( {
-					skin: this.mustache
-				}, PARTIALS ),
+				getTemplatesFromSourceCode( PARTIALS, this.mustache ),
 				{
 					'skin.js': `/* scripts can go here */
 `
