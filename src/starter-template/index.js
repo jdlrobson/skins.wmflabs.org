@@ -107,7 +107,8 @@ export const DEFAULT_FEATURES = {
 	elements: true,
 	'content-tables': true,
 	'content-links': true,
-	'content-thumbnails': true,
+	'content-media': true,
+	'content-links-external': false,
 	'interface-category': true,
 	toc: true
 };
