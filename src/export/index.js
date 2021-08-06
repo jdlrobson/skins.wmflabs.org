@@ -1,6 +1,7 @@
 import JSZip from 'jszip';
 import FileSaver from './FileSaver';
-import { DEFAULT_FEATURES, SKINS_LAB_VERSION, MW_MIN_VERSION } from '../starter-template/index';
+import { SKINS_LAB_VERSION, MW_MIN_VERSION } from '../starter-template/index';
+import { getFeaturesFromStyles } from '../utils';
 const TOOL_LINK = `[https://skins.wmflabs.org skins.wmflabs.org v.${SKINS_LAB_VERSION}]`;
 import packageJSON from '../starter-template/_package.json';
 import eslintJSON from '../starter-template/_eslintrc.json';
@@ -45,9 +46,10 @@ function addi18n( name, rootfolder ) {
  * @param {string[]} styles paths
  * @param {string[]} packageFiles path
  * @param {string[]} [messages] keys used by skin
+ * @param {string[]} [skinFeatures] feature keys used by skin
  * @return {string}
  */
-function skinjson( name, styles, packageFiles, messages = [] ) {
+function skinjson( name, styles, packageFiles, messages = [], skinFeatures = [] ) {
 	const folderName = getFolderNameFromName( name );
 	const skinKey = getSkinKeyFromName( name );
 
@@ -96,7 +98,7 @@ function skinjson( name, styles, packageFiles, messages = [] ) {
 			ResourceModules: {
 				[ `skins.${skinKey}.styles` ]: {
 					class: 'ResourceLoaderSkinModule',
-					features: DEFAULT_FEATURES,
+					features: skinFeatures,
 					targets: [ 'desktop', 'mobile' ],
 					styles
 				},
@@ -130,7 +132,7 @@ function build( name, styles, templates, scripts = {}, messages = [], Zipper = J
 	const templatefolder = rootfolder.folder( 'templates' );
 	if ( !styles[ 'skin.less' ] ) { throw new Error( 'skin.less must be defined in styles.' ); }
 	if ( !templates.skin ) { throw new Error( '`skin` must be defined in templates.' ); }
-
+	const skinFeatures = getFeaturesFromStyles( styles[ 'skin.less' ] );
 	// Create the files in the root folder
 
 	rootfolder.file( 'skin.json',
@@ -147,7 +149,8 @@ function build( name, styles, templates, scripts = {}, messages = [], Zipper = J
 			Object.keys( scripts ).filter( ( scriptFileName ) => scriptFileName !== 'skin.js' )
 				.map( ( scriptFileName ) => `resources/${scriptFileName}` )
 				.concat( scripts[ 'skin.js' ] ? [ 'resources/skin.js' ] : [] ),
-			messages
+			messages,
+			skinFeatures
 		)
 	);
 	rootfolder.file( 'package.json', stringifyjson( packageJSON ) );

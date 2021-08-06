@@ -1,7 +1,42 @@
-import { getTemplatesFromSourceCode } from '../src/utils';
+import { getTemplatesFromSourceCode, getFeaturesFromStyles } from '../src/utils';
+import { DEFAULT_FEATURES } from '../src/starter-template';
 
 describe( 'utils', () => {
 
+	it.each( [
+		[
+			'body { color: red; }',
+			DEFAULT_FEATURES
+		],
+		[
+			'/* ResourceLoaderSkinModule: elements */',
+			{
+				elements: true
+			}
+		],
+		[
+			'/**    ResourceLoaderSkinModule: elements     **/',
+			{
+				elements: true
+			}
+		],
+		[
+			'/**    ResourceLoaderSkinModule: elements,normalize     **/',
+			{
+				elements: true,
+				normalize: true
+			}
+		],
+		[
+			'/**    ResourceLoaderSkinModule: elements,normalize,butt     **/',
+			{
+				elements: true,
+				normalize: true
+			}
+		],
+	] )( 'getFeaturesFromStyles', ( sourceCode, expected ) => {
+		expect( getFeaturesFromStyles( sourceCode ) ).toEqual( expected ); // test
+	} );
 	it.each( [
 		[
 			'No partials',

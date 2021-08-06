@@ -1,4 +1,4 @@
-import { COMPONENT_STYLES } from './starter-template';
+import { COMPONENT_STYLES, DEFAULT_FEATURES } from './starter-template';
 
 export function getTemplatesFromSourceCode( partials, sourceCode ) {
 	const usedPartials = {};
@@ -60,4 +60,19 @@ ${COMPONENT_STYLES[ name ]}
 `;
 	} );
 	return mapping;
+}
+
+export function getFeaturesFromStyles( styles ) {
+	const match = styles.match( /\/\*+ +ResourceLoaderSkinModule: ([^*]*) *[*]+/ );
+	const result = {};
+	if ( match && match[ 1 ] ) {
+		match[ 1 ].split( ',' ).map( ( a ) => a.trim() ).forEach( ( key ) => {
+			if ( DEFAULT_FEATURES[ key ] !== undefined ) {
+				result[ key ] = true;
+			}
+		} );
+		return result;
+	} else {
+		return DEFAULT_FEATURES;
+	}
 }
