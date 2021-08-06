@@ -6,7 +6,7 @@
   "scripts": {
     "deploy": "parcel build index.html --out-dir /var/www/html/",
     "start": "parcel index.html",
-    "lint": "npx eslint src/**/*.js tests/**/*.js",
+    "lint": "npx eslint src/**/*.js tests/**/*.js && npx stylelint src/**/*.less",
     "test": "npm run lint && jest --testRegex tests/*.test.js --coverage"
   },
   "author": "",
@@ -31,6 +31,8 @@
     "jszip": "3.5.0",
     "less": "4.1.0",
     "mustache": "4.1.0",
+    "stylelint": "^13.13.1",
+    "stylelint-config-wikimedia": "^0.11.1",
     "vue": "2.6.12",
     "vue-json-viewer": "2.2.18",
     "vue-router": "3.4.9"
