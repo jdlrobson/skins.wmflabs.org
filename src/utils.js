@@ -1,4 +1,5 @@
-import { COMPONENT_STYLES, DEFAULT_FEATURES } from './starter-template';
+import { COMPONENT_STYLES, DEFAULT_FEATURES,
+	FEATURE_STYLES } from './starter-template';
 
 export function getTemplatesFromSourceCode( partials, sourceCode ) {
 	const usedPartials = {};
@@ -75,4 +76,15 @@ export function getFeaturesFromStyles( styles ) {
 	} else {
 		return DEFAULT_FEATURES;
 	}
+}
+
+function getFeatureStylesheet( key ) {
+	return FEATURE_STYLES[key] || '';
+}
+
+
+export function getResourceLoaderSkinModuleStylesFromStylesheet( styles ) {
+	return Object.keys( getFeaturesFromStyles( styles ) )
+		.map( (key) => getFeatureStylesheet( key ) )
+		.join('\n');
 }

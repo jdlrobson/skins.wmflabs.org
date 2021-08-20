@@ -35,6 +35,17 @@ export const COMPONENT_STYLES = {
 	Search: fs.readFileSync( `${__dirname}/Search.less` ).toString()
 };
 
+export const FEATURE_STYLES = {
+	normalize: fs.readFileSync( `${__dirname}/ResourceLoaderSkinModule/normalize.css` ).toString(),
+	elements: fs.readFileSync( `${__dirname}/ResourceLoaderSkinModule/elements.css` ).toString(),
+	'content-tables': fs.readFileSync( `${__dirname}/ResourceLoaderSkinModule/content-tables.css` ).toString(),
+	'content-links': fs.readFileSync( `${__dirname}/ResourceLoaderSkinModule/content-links.css` ).toString(),
+	'content-media': fs.readFileSync( `${__dirname}/ResourceLoaderSkinModule/content-media.css` ).toString(),
+	'interface-message-box': fs.readFileSync( `${__dirname}/ResourceLoaderSkinModule/interface-message-box.css` ).toString(),
+	'interface-category': fs.readFileSync( `${__dirname}/ResourceLoaderSkinModule/interface-category.css` ).toString(),
+	toc: fs.readFileSync( `${__dirname}/ResourceLoaderSkinModule/toc.css` ).toString()
+};
+
 export const PARTIALS = {
 	Languages,
 	Dropdown,
