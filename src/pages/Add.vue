@@ -7,6 +7,8 @@
 				<textarea :value="mustache" @input="updateMustache"></textarea>
 				<h3>CSS / LESS</h3>
 				<textarea :value="less" @input="updateCSS"></textarea>
+				<h3>JS</h3>
+				<textarea :value="js" @input="updateJS"></textarea>
 				<h3>Name and download</h3>
 				<input type="text"
 					placeholder="Skin's name"
@@ -48,7 +50,7 @@
 
 <script>
 /* global less */
-import { PARTIALS, getLessVars,
+import { PARTIALS, getLessVars, JQUERY,
 	DEFAULT_SKIN_MUSTACHE, generateStylesheetLESS, SCRIPTS, messages } from '../starter-template';
 import api from '../api.js';
 import build from '../export/index.js';
@@ -60,6 +62,7 @@ import TwoColumnLayout from '../components/TwoColumnLayout.vue';
 import nameMe from '../nameMe';
 import JsonViewer from 'vue-json-viewer';
 import { getTemplatesFromSourceCode,
+	getResourceLoaderSkinModuleStylesFromStylesheet,
 	getComponentLESSFiles, getComponentLESSRaw
 } from '../utils';
 
@@ -73,6 +76,8 @@ const DEFAULT_SKIN_PROPS = {
 	anon: true,
 	variables: getLessVars(),
 	less: generateStylesheetLESS(),
+	js: `/* scripts can go here */
+`,
 	mustache: DEFAULT_SKIN_MUSTACHE,
 	skinname: ''
 };
@@ -139,6 +144,7 @@ export default {
 				// random stylesheet each time.
 				this.newTheme();
 				this.less = generateStylesheetLESS();
+				this.js = DEFAULT_SKIN_PROPS.js;
 				this.startingLess = this.less;
 				localStorage.setItem( 'add-skinname', this.skinname );
 				this.generatePreview();
@@ -175,8 +181,7 @@ ${importStatements}
 					} ),
 				templates,
 				{
-					'skin.js': `/* scripts can go here */
-`
+					'skin.js': this.js
 				},
 				messages()
 			);
@@ -190,6 +195,11 @@ ${importStatements}
 			this.less = ev.target.value;
 			this.generatePreview();
 			localStorage.setItem( 'add-less', this.less );
+		},
+		updateJS( ev ) {
+			this.js = ev.target.value;
+			this.generatePreview();
+			localStorage.setItem( 'add-js', this.js );
 		},
 		updateMustache( ev ) {
 			this.mustache = ev.target.value;
@@ -226,6 +236,7 @@ ${importStatements}
 			this.html = DEFAULT_HTML;
 			this.pending = setTimeout( () => {
 				let css;
+				const js = '<script>' + this.js + '<\/script>';
 				const imports = getComponentLESSRaw(
 					Object.keys(
 						getTemplatesFromSourceCode( PARTIALS, this.mustache )
@@ -249,12 +260,13 @@ ${importStatements}
 					this.html = `<!DOCTYPE HTML>
                 <html>
                 <head>
-                  <link rel="stylesheet" href="${HOST}/w/load.php?modules=site.styles|skins.skinjson&only=styles" />
+                  ${JQUERY}
+                  <style type="text/css">${getResourceLoaderSkinModuleStylesFromStylesheet(css)}</style>
                   <link rel="stylesheet" href="${HOST}/w/load.php?lang=en&modules=ext.cite.styles%7Cext.echo.styles.badge%7Cext.math.styles%7Cext.wikihiero%7Cmediawiki.page.gallery.styles%7Cmediawiki.ui.icon%7Cmediawiki.ui.button%7Coojs-ui.styles.icons-alerts&only=styles">
                   <style type="text/css">${css}</style>
                 </head>
                 <body>${render( this.mustache, Object.assign( {}, data, OVERRIDES ), PARTIALS )}
-                ${SCRIPTS}
+                ${js}${SCRIPTS}
                 </body></html>`;
 				} );
 			}, 300 );

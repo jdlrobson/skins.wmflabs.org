@@ -99,6 +99,10 @@ ${DEFAULT_SKIN_LESS}
 
 };
 
+export const JQUERY = `
+<script src="https://en.wikipedia.org//w/resources/lib/jquery/jquery.js"></script>
+`;
+
 export const SCRIPTS = `
 <script>
 document.body.addEventListener('click', function (ev) {
@@ -111,6 +115,7 @@ document.body.addEventListener('click', function (ev) {
         parent = parent.parentNode;
     }
 });
+window.dispatchEvent(new Event('load'));
 </script>
 `;
 
