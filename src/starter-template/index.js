@@ -1,5 +1,6 @@
 /* global __dirname:false */
 import fs from 'fs';
+import build from './export/index.js';
 
 export const SKINS_LAB_VERSION = '2.0';
 export const MW_MIN_VERSION = '1.37.0';
@@ -156,3 +157,117 @@ export const DEFAULT_FEATURES = {
 	'interface-category': true,
 	toc: true
 };
+
+/**
+ *
+ * @param {string[]} componentNames name array
+ * @return {Array} of components with styles.
+ */
+function getComponentLESSFileNames( componentNames ) {
+	return componentNames.filter(
+		// Only if one was declared.
+		( key ) => !!COMPONENT_STYLES[ key ]
+	);
+}
+
+/**
+ *
+ * @param {string[]} componentNames name array
+ * @param {string[]} imports (e.g. ['variables.less'])
+ * @return {Object} of components with styles.
+ */
+export function getComponentLESSFiles( componentNames, imports ) {
+	const mapping = {};
+	getComponentLESSFileNames( componentNames ).forEach( ( name ) => {
+		const importStatements = imports.map(
+			( lessFile ) => `@import "${lessFile}";`
+		).join( '\n' );
+		mapping[ `${name}.less` ] = `
+${importStatements}
+${COMPONENT_STYLES[ name ]}
+`;
+	} );
+	return mapping;
+}
+
+export function getTemplatesFromSourceCode( partials, sourceCode ) {
+	const usedPartials = {};
+	Object.keys( partials ).filter( ( name ) => {
+		// Is the partial in the sourceCode?
+		const re = new RegExp( `{{> *${name} *}}` );
+		return !!sourceCode.match( re );
+	} ).forEach( ( key ) => {
+		const others = Object.keys( getTemplatesFromSourceCode( partials, partials[ key ] ) );
+		usedPartials[ key ] = partials[ key ];
+		others.forEach( ( otherKey ) => {
+			usedPartials[ otherKey ] = partials[ otherKey ];
+		} );
+	} );
+
+	return Object.assign( usedPartials, {
+		skin: sourceCode
+	} );
+}
+
+export function buildSkin( name, mustache, less, js, variables ) {
+	const templates = getTemplatesFromSourceCode( PARTIALS, mustache );
+	const styles = getComponentLESSFiles( Object.keys( templates ), [
+		'mediawiki.skin.variables',
+		'variables.less'
+	] );
+	const importStatements = Object.keys( styles )
+		.map( ( key ) => `@import "${key}";` ).join( '\n' );
+
+	build(
+		name,
+		Object.assign(
+			styles,
+			{
+				'variables.less': variables,
+				'skin.less': `@import 'mediawiki.skin.variables.less';
+@import "variables.less";
+${less}
+${importStatements}
+`
+			} ),
+		templates,
+		{
+			'skin.js': js
+		},
+		messages()
+	);
+}
+
+/**
+ *
+ * @param {string[]} componentNames name array
+ * @return {Array} of components with styles.
+ */
+function getComponentLESSRaw( componentNames ) {
+	return getComponentLESSFileNames( componentNames ).map(
+		( key ) => COMPONENT_STYLES[ key ]
+	).join( '\n' );
+}
+
+export function getFeaturesFromStyles( styles ) {
+	const match = styles.match( /\/\*+ +ResourceLoaderSkinModule: ([^*]*) *[*]+/ );
+	const result = {};
+	if ( match && match[ 1 ] ) {
+		match[ 1 ].split( ',' ).map( ( a ) => a.trim() ).forEach( ( key ) => {
+			if ( DEFAULT_FEATURES[ key ] !== undefined ) {
+				result[ key ] = true;
+			}
+		} );
+		return result;
+	} else {
+		return DEFAULT_FEATURES;
+	}
+}
+
+export function getLESSFromTemplate( mustache ) {
+	return getComponentLESSRaw(
+		Object.keys(
+			getTemplatesFromSourceCode( PARTIALS, mustache )
+		)
+	);
+}

@@ -51,9 +51,9 @@
 <script>
 /* global less */
 import { PARTIALS, getLessVars, JQUERY,
+	buildSkin, getLESSFromTemplate,
 	DEFAULT_SKIN_MUSTACHE, generateStylesheetLESS, SCRIPTS, messages } from '../starter-template';
 import api from '../api.js';
-import build from '../export/index.js';
 import { TEST_ARTICLES, HOST, LESS_RENDER_OPTIONS } from '../constants';
 import { render } from 'mustache';
 import Preview from '../components/Preview.vue';
@@ -61,9 +61,8 @@ import ArticleChanger from '../components/ArticleChanger';
 import TwoColumnLayout from '../components/TwoColumnLayout.vue';
 import nameMe from '../nameMe';
 import JsonViewer from 'vue-json-viewer';
-import { getTemplatesFromSourceCode,
+import {
 	getResourceLoaderSkinModuleStylesFromStylesheet,
-	getComponentLESSFiles, getComponentLESSRaw
 } from '../utils';
 
 const LANGUAGES = {
@@ -159,32 +158,7 @@ export default {
 			localStorage.setItem( 'add-skinname', this.skinname );
 		},
 		download() {
-			const templates = getTemplatesFromSourceCode( PARTIALS, this.mustache );
-			const styles = getComponentLESSFiles( Object.keys( templates ), [
-				'mediawiki.skin.variables',
-				'variables.less'
-			] );
-			const importStatements = Object.keys( styles )
-				.map( ( key ) => `@import "${key}";` ).join( '\n' );
-
-			build(
-				this.skinname,
-				Object.assign(
-					styles,
-					{
-						'variables.less': this.variables,
-						'skin.less': `@import 'mediawiki.skin.variables.less';
-@import "variables.less";
-${this.less}
-${importStatements}
-`
-					} ),
-				templates,
-				{
-					'skin.js': this.js
-				},
-				messages()
-			);
+			buildSkin( this.skinname, this.mustache, this.less, this.js, this.variables );
 		},
 		changeArticle( title ) {
 			this.title = title;
@@ -237,11 +211,7 @@ ${importStatements}
 			this.pending = setTimeout( () => {
 				let css;
 				const js = '<script>' + this.js + '<\/script>';
-				const imports = getComponentLESSRaw(
-					Object.keys(
-						getTemplatesFromSourceCode( PARTIALS, this.mustache )
-					)
-				);
+				const imports = getLESSFromTemplate( this.mustache );
 
 				less.render( this.variables + this.less + imports, LESS_RENDER_OPTIONS ).then( ( compiledLess ) => {
 					css = compiledLess.css;

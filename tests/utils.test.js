@@ -1,5 +1,7 @@
-import { getTemplatesFromSourceCode, getFeaturesFromStyles } from '../src/utils';
-import { DEFAULT_FEATURES } from '../src/starter-template';
+import { DEFAULT_FEATURES,
+	getFeaturesFromStyles,
+	getTemplatesFromSourceCode
+} from '../src/starter-template';
 
 describe( 'utils', () => {
 
