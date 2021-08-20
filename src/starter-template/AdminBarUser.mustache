@@ -1,0 +1,18 @@
+{{#data-portlets.data-user-menu}}
+<div role="navigation" id="{{id}}" class="{{class}}" title="{{html-tooltip}}"
+    aria-labelledby="{{id}}-label">
+    <input type="checkbox" aria-labelledby="{{id}}-label" />
+    <h3 id="{{id}}-label" class="mw-adminbar-icon-user">{{label}}</h3>
+    <div class="mw-portlet-body">
+        <ul>
+            {{{html-items}}}
+        </ul>
+        {{{html-after-portal}}}
+    </div>
+</div>{{!
+}}{{/data-portlets.data-user-menu}}{{!
+}}{{#data-portlets.data-notifications}}{{!
+}}<ul class="mw-adminbar-notifications">
+    {{{html-items}}}
+</ul>
+{{/data-portlets.data-notifications}}

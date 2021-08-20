@@ -1,7 +1,7 @@
 /* global __dirname:false */
 import fs from 'fs';
 
-export const SKINS_LAB_VERSION = '1.0';
+export const SKINS_LAB_VERSION = '2.0';
 export const MW_MIN_VERSION = '1.37.0';
 
 const FooterList = fs.readFileSync( `${__dirname}/FooterList.mustache` ).toString();
@@ -16,13 +16,24 @@ const ContentTagline = fs.readFileSync( `${__dirname}/ContentTagline.mustache` )
 const Footer = fs.readFileSync( `${__dirname}/Footer.mustache` ).toString();
 const Logo = fs.readFileSync( `${__dirname}/Logo.mustache` ).toString();
 const Search = fs.readFileSync( `${__dirname}/Search.mustache` ).toString();
+const WPSearch = fs.readFileSync( `${__dirname}/WPSearch.mustache` ).toString();
 const Sidebar = fs.readFileSync( `${__dirname}/Sidebar.mustache` ).toString();
 const Notifications = fs.readFileSync( `${__dirname}/Notifications.mustache` ).toString();
 const PersonalMenu = fs.readFileSync( `${__dirname}/PersonalMenu.mustache` ).toString();
 const Languages = fs.readFileSync( `${__dirname}/Languages.mustache` ).toString();
 const Dropdown = fs.readFileSync( `${__dirname}/Dropdown.mustache` ).toString();
+const AdminBar = fs.readFileSync( `${__dirname}/AdminBar.mustache` ).toString();
+const AdminBarHome = fs.readFileSync( `${__dirname}/AdminBarHome.mustache` ).toString();
+const AdminBarUser = fs.readFileSync( `${__dirname}/AdminBarUser.mustache` ).toString();
+const AdminBarWithEdit = fs.readFileSync( `${__dirname}/AdminBarWithEdit.mustache` ).toString();
+const EditBar = fs.readFileSync( `${__dirname}/EditBar.mustache` ).toString();
 
 export const COMPONENT_STYLES = {
+	AdminBarHome: fs.readFileSync( `${__dirname}/AdminBarHome.less` ).toString(),
+	AdminBarUser: fs.readFileSync( `${__dirname}/AdminBarUser.less` ).toString(),
+	AdminBarWithEdit: fs.readFileSync( `${__dirname}/AdminBar.less` ).toString(),
+	AdminBar: fs.readFileSync( `${__dirname}/AdminBar.less` ).toString(),
+	EditBar: fs.readFileSync( `${__dirname}/EditBar.less` ).toString(),
 	PersonalMenu: fs.readFileSync( `${__dirname}/PersonalMenu.less` ).toString(),
 	ContentActions: fs.readFileSync( `${__dirname}/ContentActions.less` ).toString(),
 	Dropdown: fs.readFileSync( `${__dirname}/Dropdown.less` ).toString(),
@@ -47,6 +58,8 @@ export const FEATURE_STYLES = {
 };
 
 export const PARTIALS = {
+	EditBar,
+	AdminBar, AdminBarWithEdit, AdminBarUser, AdminBarHome,
 	Languages,
 	Dropdown,
 	Notifications,
@@ -63,7 +76,8 @@ export const PARTIALS = {
 	ContentBody,
 	Notices,
 	ContentIndicators,
-	Portlet
+	Portlet,
+	WPSearch
 };
 
 export const messages = () => {

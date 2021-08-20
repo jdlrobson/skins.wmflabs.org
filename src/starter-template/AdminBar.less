@@ -1,0 +1,112 @@
+@height-adminbar: 32px;
+@bg-adminbar: #1d2327;
+
+html {
+	// stylelint-disable-next-line declaration-no-important
+	margin-top: 32px !important;
+}
+
+.mw-adminbar {
+	direction: ltr;
+	color: #c3c4c7;
+	// stylelint-disable-next-line declaration-property-unit-disallowed-list
+	font-size: 13px;
+	font-weight: bold;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen-Sans', 'Ubuntu', 'Cantarell', 'Helvetica Neue', sans-serif;
+	line-height: 2.46153846;
+	height: @height-adminbar;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	min-width: 600px;
+	z-index: 99999;
+	display: flex;
+	background: @bg-adminbar;
+	align-items: center;
+
+	ul {
+		margin: 0;
+		padding: 0;
+	}
+
+	li {
+		display: block;
+	}
+
+	input {
+		opacity: 0;
+	}
+
+	li:hover,
+	input:hover ~ h3 {
+		cursor: pointer;
+		background-color: #333;
+	}
+}
+
+.mw-adminbar-start {
+	display: flex;
+	flex-grow: 1;
+	margin-left: 8px;
+	overflow: hidden;
+}
+
+.mw-adminbar-end {
+	display: flex;
+	justify-content: flex-end;
+	height: 100%;
+
+	> a {
+		display: block;
+		width: 40px;
+		overflow: hidden;
+
+		&:before {
+			content: '';
+			height: 100%;
+			display: block;
+			background-repeat: no-repeat;
+			filter: invert( 1 );
+			background-size: 20px 20px;
+			background-position: center;
+		}
+	}
+}
+
+.mw-adminbar-start li,
+.mw-adminbar-ns li,
+.mw-adminbar-views li {
+	width: 40px;
+	filter: invert( 0 );
+	background-repeat: no-repeat;
+	height: 100%;
+	background-position: center;
+
+	a {
+		color: transparent;
+	}
+}
+
+.mw-adminbar-start ul,
+.mw-adminbar-views,
+.mw-adminbar-ns {
+	height: 32px;
+	margin: 0;
+	padding: 0;
+	display: flex;
+
+	li {
+		width: 40px;
+		height: 100%;
+		overflow: hidden;
+		margin-right: 4px;
+		display: inline-block;
+
+		a {
+			position: absolute;
+			top: 0;
+			bottom: 0;
+		}
+	}
+}
