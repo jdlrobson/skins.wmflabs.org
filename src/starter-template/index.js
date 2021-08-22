@@ -209,7 +209,7 @@ export function getTemplatesFromSourceCode( partials, sourceCode ) {
 	} );
 }
 
-export function buildSkin( name, mustache, less, js, variables ) {
+export function buildSkin( name, mustache, less, js = '', variables = '', options = {} ) {
 	const templates = getTemplatesFromSourceCode( PARTIALS, mustache );
 	const styles = getComponentLESSFiles( Object.keys( templates ), [
 		'mediawiki.skin.variables',
@@ -218,15 +218,21 @@ export function buildSkin( name, mustache, less, js, variables ) {
 	const importStatements = Object.keys( styles )
 		.map( ( key ) => `@import "${key}";` ).join( '\n' );
 
+	if ( !options.isCSS ) {
+		importStatements += `@import "common.less";
+`;
+	}
+	const mainCss = options.isCSS ? 'common.css' : 'common.less';
+
 	build(
 		name,
 		Object.assign(
 			styles,
 			{
+				[mainCss]: less,
 				'variables.less': variables,
 				'skin.less': `@import 'mediawiki.skin.variables.less';
 @import "variables.less";
-${less}
 ${importStatements}
 `
 			} ),
@@ -234,7 +240,9 @@ ${importStatements}
 		{
 			'skin.js': js
 		},
-		messages()
+		messages(),
+		options.Zipper || JSZip,
+		options.CustomFileSaver
 	);
 }
 

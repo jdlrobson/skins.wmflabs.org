@@ -1,7 +1,6 @@
 import JSZip from 'jszip';
-import FileSaver from './FileSaver';
-import { SKINS_LAB_VERSION, MW_MIN_VERSION, getFeaturesFromStyles } from '../index';
-const TOOL_LINK = `[https://skins.wmflabs.org skins.wmflabs.org v.${SKINS_LAB_VERSION}]`;
+import FileSaver from './FileSaver.js';
+import { SKINS_LAB_VERSION, MW_MIN_VERSION, getFeaturesFromStyles } from '../index.js';
 import packageJSON from '../_package.json';
 import eslintJSON from '../_eslintrc.json';
 import stylelintJSON from '../_stylelintrc.json';
@@ -25,6 +24,7 @@ function getSkinKeyFromName( name ) {
 }
 
 function addi18n( name, rootfolder ) {
+	const TOOL_LINK = `[https://skins.wmflabs.org skins.wmflabs.org v.${SKINS_LAB_VERSION}]`;
 	const skinKey = getSkinKeyFromName( name );
 	const i18nfolder = rootfolder.folder( 'i18n' );
 	const en = {
@@ -51,6 +51,7 @@ function addi18n( name, rootfolder ) {
 function skinjson( name, styles, packageFiles, messages = [], skinFeatures = [] ) {
 	const folderName = getFolderNameFromName( name );
 	const skinKey = getSkinKeyFromName( name );
+	const TOOL_LINK = `[https://skins.wmflabs.org skins.wmflabs.org v.${SKINS_LAB_VERSION}]`;
 
 	return stringifyjson(
 		{
@@ -73,7 +74,7 @@ function skinjson( name, styles, packageFiles, messages = [], skinFeatures = [] 
 					args: [
 						{
 							name: name,
-							templateDirectory: `skins/${folderName}/templates/`,
+							templateDirectory: `skins/${folderName}/templates`,
 							messages: messages,
 							styles: [
 								'mediawiki.ui.icon',
@@ -140,7 +141,7 @@ function build( name, styles, templates, scripts = {}, messages = [], Zipper = J
 			// only `css` files need to be listed in manifest
 			// not LESS.
 			Object.keys( styles ).filter(
-				( styleFileName ) => styleFileName.indexOf( '.less' ) > -1 && styleFileName !== 'skin.less'
+				( styleFileName ) => styleFileName.indexOf( '.less' ) === -1 && styleFileName !== 'skin.less'
 			)
 				// its in the src folder.
 				.map( ( styleFileName ) => `resources/${styleFileName}` )
