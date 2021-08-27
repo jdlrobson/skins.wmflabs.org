@@ -61,7 +61,7 @@ export default {
 		},
 		url: {
 			type: String,
-			default: '#'
+			default: ''
 		},
 		src: {
 			type: String,
