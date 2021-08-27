@@ -5,15 +5,12 @@
 			<template #column-one>
 				<tabs>
 					<tab title="HTML">
-						<h3>HTML ( Mustache )</h3>
 						<textarea :value="mustache" @input="updateMustache"></textarea>
 					</tab>
-					<tab title="Styles">
-						<h3>CSS / LESS</h3>
+					<tab title="CSS / LESS">
 						<textarea :value="less" @input="updateCSS"></textarea>
 					</tab>
-					<tab title="Scripts">
-						<h3>JS</h3>
+					<tab title="JS">
 						<textarea :value="js" @input="updateJS"></textarea>
 					</tab>
 				</tabs>
@@ -263,8 +260,10 @@ export default {
 
 <style scoped>
 textarea {
-  width: 320px;
-  height: 400px;
+	width: 100%;
+	border: 0;
+	padding: 30px;
+	height: 400px;
 }
 
 input[type=text] {

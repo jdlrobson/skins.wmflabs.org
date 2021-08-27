@@ -10,20 +10,39 @@
 		<slot />
 	</div>
 </template>
-<style>
-	.tabs__links {
-		list-style: none;
-		margin: 0;
-		font-size: 20px;
+<style lang="less">
+@color-create-main: #B9D1CA;
+@color-create-dark: #9FBBB4;
+@color-white: #fff;
+
+.tabs__links {
+	list-style: none;
+	margin: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0;
+}
+.tabs__link {
+	cursor: pointer;
+	border-radius: 10px 10px 0 0;
+	width: 235px;
+	height: 40px;
+	margin-right: 8px;
+	align-self: flex-end;
+	color: @color-white;
+	background: @color-create-main;
+	padding-top: 11px;
+	padding-bottom: 11px;
+
+	&:last-child {
+		margin-right: 0;
 	}
-	.tabs__link {
-		cursor: pointer;
-		display: inline-block;
-		margin: 0 4px;
-	}
-	.tabs__link--selected {
-		border-bottom: solid 2px #aaa;
-	}
+}
+.tabs__link--selected {
+	background: @color-white;
+	color: @color-create-dark;
+}
 </style>
 <script>
 export default {

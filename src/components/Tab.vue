@@ -3,6 +3,12 @@
 		<slot/>
 	</div>
 </template>
+<style>
+.tab {
+	background: white;
+	width: 100%;
+}
+</style>
 <script>
 export default {
 	name: 'Tab',
