@@ -74,7 +74,6 @@ function skinjson( name, styles, packageFiles, messages = [], skinFeatures = [] 
 					args: [
 						{
 							name: name,
-							templateDirectory: `skins/${folderName}/templates`,
 							messages: messages,
 							styles: [
 								'mediawiki.ui.icon',
