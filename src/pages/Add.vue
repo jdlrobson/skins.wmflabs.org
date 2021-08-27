@@ -3,12 +3,20 @@
 		<h2>Create a new skin</h2>
 		<two-column-layout>
 			<template #column-one>
-				<h3>HTML ( Mustache )</h3>
-				<textarea :value="mustache" @input="updateMustache"></textarea>
-				<h3>CSS / LESS</h3>
-				<textarea :value="less" @input="updateCSS"></textarea>
-				<h3>JS</h3>
-				<textarea :value="js" @input="updateJS"></textarea>
+				<tabs>
+					<tab title="HTML">
+						<h3>HTML ( Mustache )</h3>
+						<textarea :value="mustache" @input="updateMustache"></textarea>
+					</tab>
+					<tab title="Styles">
+						<h3>CSS / LESS</h3>
+						<textarea :value="less" @input="updateCSS"></textarea>
+					</tab>
+					<tab title="Scripts">
+						<h3>JS</h3>
+						<textarea :value="js" @input="updateJS"></textarea>
+					</tab>
+				</tabs>
 				<h3>Name and download</h3>
 				<input type="text"
 					placeholder="Skin's name"
@@ -56,6 +64,8 @@ import { PARTIALS, getLessVars, JQUERY,
 import api from '../api.js';
 import { TEST_ARTICLES, HOST, LESS_RENDER_OPTIONS } from '../constants';
 import { render } from 'mustache';
+import Tabs from '../components/Tabs.vue';
+import Tab from '../components/Tab.vue';
 import Preview from '../components/Preview.vue';
 import ArticleChanger from '../components/ArticleChanger';
 import TwoColumnLayout from '../components/TwoColumnLayout.vue';
@@ -101,6 +111,8 @@ function getCached() {
 export default {
 	name: 'Add',
 	components: {
+		Tabs,
+		Tab,
 		JsonViewer,
 		Preview,
 		ArticleChanger,
