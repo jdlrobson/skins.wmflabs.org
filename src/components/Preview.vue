@@ -1,23 +1,5 @@
 <template>
 	<div class="preview">
-		<h3>Preview of {{ name }}</h3>
-		<div class="preview__panel">
-			<slot></slot>
-			<select @change="changeMedium">
-				<option value="d">
-					desktop
-				</option>
-				<option value="t">
-					tablet
-				</option>
-				<option value="m">
-					mobile
-				</option>
-			</select>
-		</div>
-		<div v-if="!html && href" class="preview__panel">
-			<a :href="href" target="_blank">View in new window</a>
-		</div>
 		<div v-if="enabled" class="preview__area">
 			<iframe ref="iframe"
 				:class="iframeClass"
@@ -33,18 +15,52 @@
 			by creating an <a target="_blank"
 				:href="createIssue">issue</a>.
 		</warning-box>
+		<div class="preview__panel">
+			<article-changer @changeArticle="changeArticle"></article-changer>
+			<custom-select><select @change="changeMedium">
+				<option value="d">
+					desktop
+				</option>
+				<option value="t">
+					tablet
+				</option>
+				<option value="m">
+					mobile
+				</option>
+			</select></custom-select>
+			<input type="checkbox"
+				v-if="showAnon"
+				:checked="anon"
+				@input="changeAnon">
+			<label v-if="showAnon">Anonymous</label>
+			<a :href="href" class="link--new-window" @click="openNewWindow" target="_blank">
+				View in new window
+			</a>
+		</div>
 	</div>
 </template>
 
 <script>
+import ArticleChanger from '../components/ArticleChanger';
 import WarningBox from '../components/WarningBox';
+import CustomSelect from '../components/CustomSelect';
 
 export default {
 	name: 'Preview',
 	components: {
+		ArticleChanger,
+		CustomSelect,
 		WarningBox
 	},
 	props: {
+		showAnon: {
+			type: Boolean,
+			default: false
+		},
+		anonDefault: {
+			type: Boolean,
+			default: false
+		},
 		name: {
 			type: String,
 			default: 'Skin'
@@ -60,6 +76,7 @@ export default {
 	},
 	data() {
 		return {
+			anon: this.anonDefault,
 			medium: !!localStorage.getItem( 'medium' )
 		};
 	},
@@ -104,6 +121,19 @@ export default {
 		}
 	},
 	methods: {
+		changeAnon( ev ) {
+			this.$emit( 'changeAnon', ev.target.checked );
+		},
+		changeArticle( title ) {
+			this.$emit( 'changeArticle', title );
+		},
+		openNewWindow( ev ) {
+			if ( !ev.target.getAttribute( 'href' ) ) {
+				ev.preventDefault();
+				const window = open('', 'newwindow');
+				window.document.write( this.html );
+			}
+		},
 		changeMedium: function ( ev ) {
 			const medium = ev.target.value;
 			this.medium = medium;
@@ -137,9 +167,9 @@ export default {
 };
 </script>
 
-<style>
+<style lang="less">
 :root {
-	--preview-width: 640;
+	--preview-width: 720;
 	--preview-width-mobile: 320;
 	--preview-width-tablet: 768;
 	--preview-width-desktop: 1800;
@@ -150,13 +180,14 @@ export default {
 	width: var(--preview-width);
 	text-align: center;
 	max-height: 440px;
-	margin-bottom: 10px;
 }
+
 iframe {
 	margin: auto;
 	background: white;
 	display: block;
 }
+
 .iframe--tablet,
 .iframe--desktop {
 	transform-origin: 0 0;
@@ -168,20 +199,25 @@ iframe {
 	width: calc( var(--preview-width-desktop) * 1px );
 	height: 1200px;
 }
+
 .iframe--tablet {
 	--scale-tablet: calc( var(--preview-width) / var(--preview-width-tablet) );
 	transform: scale(var(--scale-tablet), var(--scale-tablet));
 	width: calc( var(--preview-width-tablet) * 1px );
 	height: 1024px;
 }
+
 .iframe--mobile {
 	width: calc( var(--preview-width-mobile) * 1px );
 	height: 667px;
 }
+
 .preview__panel {
 	padding: 8px;
 	width: var(--preview-width);
-	background: #000;
+	color: black;
+	text-align: left;
+	background: white;
 }
 
 .preview__area--unavailable {
@@ -204,5 +240,16 @@ iframe {
 	color: #FFF;
 	line-height: 100px;
 	text-align: center;
+}
+
+.link--new-window {
+	background: url(assets/newWindow.svg);
+	width: 40px;
+	height: 40px;
+	background-repeat: no-repeat;
+	display: block ruby;
+	overflow: hidden;
+	color: transparent;
+	float: right;
 }
 </style>

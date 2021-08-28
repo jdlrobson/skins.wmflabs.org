@@ -29,15 +29,12 @@
 				</button>
 			</template>
 			<template #column-two>
-				<preview :html="html" :name="skinname">
-					<button class="css-theme-changer"
-						@click="newTheme">
-						Change theme
-					</button>
-					<article-changer @changeArticle="changeArticle"></article-changer>
-					<input type="checkbox"
-						:checked="anon"
-						@input="changeAnon">Anonymous
+				<preview :html="html" :name="skinname"
+					:anon-default="anon"
+					:show-anon="true"
+					@changeArticle="changeArticle"
+					@changeAnon="changeAnon"
+				>
 				</preview>
 				<div class="data-explorer">
 					<h2>Template data</h2>
@@ -132,9 +129,9 @@ export default {
 				this.json = json;
 			} );
 		},
-		changeAnon( ev ) {
-			this.anon = ev.target.checked;
-			localStorage.setItem( 'add-anon', this.anon );
+		changeAnon( isAnon ) {
+			this.anon = isAnon;
+			localStorage.setItem( 'add-anon', isAnon );
 			this.generatePreview();
 			this.updateJSON();
 		},
