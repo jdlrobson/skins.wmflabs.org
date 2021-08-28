@@ -1,19 +1,25 @@
 <template>
 	<span>
 		<label for="article-title">article: </label>
-		<select name="article-title" @change="changeArticle">
-			<option v-for="(a,i) in articles"
-				:key="i"
-				:value="a.title">{{ a.name }}</option>
-		</select>
+		<custom-select>
+			<select name="article-title" @change="changeArticle">
+				<option v-for="(a,i) in articles"
+					:key="i"
+					:value="a.title">{{ a.name }}</option>
+			</select>
+		</custom-select>
 	</span>
 </template>
 
 <script>
 import { TEST_ARTICLES } from '../constants';
+import CustomSelect from './CustomSelect.vue';
 
 export default {
 	name: 'ArticleChanger',
+	components: {
+		CustomSelect
+	},
 	data() {
 		return {
 			mobile: !!localStorage.getItem( 'mobile' ),
