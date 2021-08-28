@@ -1,7 +1,12 @@
+@font-face {
+    font-family: 'Roboto Mono';
+    src: url('RobotoMono.ttf')  format('truetype');
+}
+
 body {
     background: #e80447;
     color: white;
-    font-family: barlow-medium,barlow,sans-serif;
+    font-family: 'Roboto Mono', sans-serif;
     margin: 0;
 }
 
