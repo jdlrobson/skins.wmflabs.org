@@ -1,6 +1,7 @@
 /* global __dirname:false */
 import fs from 'fs';
 import build from './export/index.js';
+import JSZip from 'jszip';
 
 export const SKINS_LAB_VERSION = '2.0';
 export const MW_MIN_VERSION = '1.37.0';
@@ -215,7 +216,7 @@ export function buildSkin( name, mustache, less, js = '', variables = '', option
 		'mediawiki.skin.variables',
 		'variables.less'
 	] );
-	const importStatements = Object.keys( styles )
+	let importStatements = Object.keys( styles )
 		.map( ( key ) => `@import "${key}";` ).join( '\n' );
 
 	if ( !options.isCSS ) {
