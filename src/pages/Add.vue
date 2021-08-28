@@ -9,6 +9,10 @@
 					</tab>
 					<tab title="CSS / LESS">
 						<textarea :value="less" @input="updateCSS"></textarea>
+						<button class="css-theme-changer"
+							@click="newTheme">
+							Change theme
+						</button>
 					</tab>
 					<tab title="JS">
 						<textarea :value="js" @input="updateJS"></textarea>
