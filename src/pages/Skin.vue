@@ -1,9 +1,6 @@
 <template>
 	<div class="page--skin">
 		<h2>Skin: {{ name }}</h2>
-		<router-link class="breadcrumb" to="/">
-			Explore other skins
-		</router-link>
 		<two-column-layout>
 			<template #column-one>
 				<h3>About</h3>
