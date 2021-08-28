@@ -65,6 +65,31 @@
 import api from '../api.js';
 import Snapshot from '../components/Snapshot.vue';
 
+class SessionFilter {
+	constructor( name, defaultValue = false ) {
+		this.field = `session-${name}`;
+		if ( typeof sessionStorage === undefined ) {
+			this.value = defaultValue;
+		} else {
+			this.value = sessionStorage.getItem( this.field )
+		}
+	}
+	set( value ) {
+		sessionStorage.setItem( this.field, value );
+	}
+	get() {
+		return this.value;
+	}
+}
+
+// Should be persistent for page refreshes but not new tabs
+const query = new SessionFilter( 'query', '' );
+const filterMightBreak = new SessionFilter( 'filterMightBreak' );
+const filterMaintained = new SessionFilter( 'filterMaintained' );
+const filterDependencies = new SessionFilter( 'filterDependencies' );
+const filterCompatible = new SessionFilter( 'filterCompatible' );
+const filterStable = new SessionFilter( 'filterStable' );
+
 export default {
 	name: 'Home',
 	components: {
@@ -72,14 +97,14 @@ export default {
 	},
 	data() {
 		return {
-			filterMightBreak: !!localStorage.getItem( 'filterMightBreak' ),
-			filterMaintained: !!localStorage.getItem( 'filterMaintained' ),
-			filterDependencies: !!localStorage.getItem( 'filterDependencies' ),
-			filterCompatible: !!localStorage.getItem( 'filterCompatible' ),
-			filterStable: !!localStorage.getItem( 'filterStable' ),
+			filterMightBreak: filterMightBreak.get(),
+			filterMaintained: filterMaintained.get(),
+			filterDependencies: filterDependencies.get(),
+			filterCompatible: filterCompatible.get(),
+			filterStable: filterStable.get(),
 			fetched: false,
 			page: 0,
-			query: localStorage.getItem( 'query' ) || '',
+			query: query.get(),
 			skins: [
 				{}, {}, {},
 				{}, {}, {},
@@ -111,32 +136,34 @@ export default {
 		}
 	},
 	methods: {
-		onToggleLocalStorageField( key, value ) {
-			this[ key ] = value;
-			if ( value ) {
-				localStorage.setItem( key, 1 );
-			} else {
-				localStorage.removeItem( key, 1 );
-			}
-		},
 		onToggleDependencies( ev ) {
-			this.onToggleLocalStorageField( 'filterDependencies', ev.target.checked );
+			const value = ev.target.checked;
+			this.filterDependencies = value;
+			sessionFilter.set( value );
 		},
 		onToggleMaintained( ev ) {
-			this.onToggleLocalStorageField( 'filterMaintained', ev.target.checked );
+			const value = ev.target.checked;
+			this.filterMaintained = value;
+			filterMaintained.set( value );
 		},
 		onToggleMightBreak( ev ) {
-			this.onToggleLocalStorageField( 'filterMightBreak', ev.target.checked );
+			const value = ev.target.checked;
+			this.filterMightBreak = value;
+			filterMightBreak.set( value );
 		},
 		onToggleStable( ev ) {
-			this.onToggleLocalStorageField( 'filterStable', ev.target.checked );
+			const value = ev.target.checked;
+			this.filterStable = value;
+			filterStable.set( value );
 		},
 		onToggleCompatible( ev ) {
-			this.onToggleLocalStorageField( 'filterCompatible', ev.target.checked );
+			const value = ev.target.checked;
+			this.filterCompatible = value;
+			filterCompatible.set( value );
 		},
 		setQuery( ev ) {
 			this.query = ev.target.value;
-			localStorage.setItem( 'query', this.query );
+			query.set( this.query );
 		}
 	},
 	mounted: function () {
