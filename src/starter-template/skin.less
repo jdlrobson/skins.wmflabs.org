@@ -32,12 +32,17 @@ a {
 
 .mw-header {
 	min-height: 50px;
-	margin: 10px 0 8px;
+	margin: 0 10px 8px;
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
 	position: relative;
 	z-index: 3;
+
+	@media (max-width: @width-breakpoint-tablet) {
+		padding: 1em 8px;
+		margin: 0;
+	}
 }
 
 /** CONTENT */
