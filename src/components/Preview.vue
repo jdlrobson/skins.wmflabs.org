@@ -2,6 +2,7 @@
 	<div class="preview">
 		<div v-if="enabled" class="preview__area">
 			<iframe ref="iframe"
+				sandbox="allow-same-origin allow-scripts"
 				:class="iframeClass"
 				:src="href"
 				:width="w"
