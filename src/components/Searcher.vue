@@ -1,6 +1,7 @@
 <template>
 	<div class="searcher">
 		<input class="search__input"
+			v-focus
 			placeholder="Find skin"
 			:value="query"
 			@input="setQuery">
