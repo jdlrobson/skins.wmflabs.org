@@ -96,6 +96,7 @@ export default {
 			name: this.$route.params.key.replace( /[^⠀]/g, '⠀' ) + '⠀',
 			links: [],
 			beta: false,
+			hasDependencies: false,
 			experimental: false,
 			summary: '',
 			src: DEFAULT_SKIN_IMAGE
