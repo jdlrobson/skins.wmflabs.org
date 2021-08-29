@@ -77,6 +77,7 @@ export default {
 	},
 	data() {
 		return {
+			window: null,
 			anon: this.anonDefault,
 			medium: !!localStorage.getItem( 'medium' )
 		};
@@ -131,8 +132,10 @@ export default {
 		openNewWindow( ev ) {
 			if ( !ev.target.getAttribute( 'href' ) ) {
 				ev.preventDefault();
-				const window = open('', 'newwindow');
-				window.document.write( this.html );
+				if ( !this.window || this.window.closed ) {
+					this.window = open( 'preview.html', '' );
+				}
+				this.window.document.write( this.html );
 			}
 		},
 		changeMedium: function ( ev ) {
@@ -156,6 +159,9 @@ export default {
 				doc.open( '' );
 				doc.writeln( html );
 				doc.close();
+			}
+			if ( this.window ) {
+				this.window.document.documentElement.innerHTML = html;
 			}
 		}
 	},
