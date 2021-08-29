@@ -49,18 +49,19 @@ function getSkinKeyFromName( name ) {
  */
 function queryMediaWikiSkins( category, compatible, gcmcontinue = '', pages = [] ) {
 	// clcategory is used to check if the skin is in "CATEGORY_ADDITIONAL_REQUIREMENTS"
-	// cllimit set at 500 the maximum value.
-	return cachedJSONFetch(
-		`https://www.mediawiki.org
+	// cllimit set at 50 the maximum value for page images.
+	const MAX = 50;
+	const url = `https://www.mediawiki.org
 /w/api.php?action=query
 &format=json&origin=*&prop=pageviews%7Cpageimages%7Ccategories&formatversion=2&origin=*
 &clcategories=${CATEGORY_ADDITIONAL_REQUIREMENTS}%7C${CATEGORY_REQUIRE_MODIFICATION}%7C${CATEGORY_INCOMPATIBLE_WITH_MEDIAWIKI_MASTER}
-&cllimit=500
-&piprop=thumbnail&pithumbsize=400&pilimit=max
+&cllimit=${MAX}
+&piprop=thumbnail&pithumbsize=400&pilimit=${MAX}
 &pvipmetric=pageviews&pvipdays=3
-&generator=categorymembers&gcmlimit=max&gcmtitle=${encodeURIComponent( category )}&gcmnamespace=106
-&gcmcontinue=${gcmcontinue}`.replace( /\n/g, '' )
-	).then( ( r ) => {
+&generator=categorymembers&gcmlimit=${MAX}&gcmtitle=${encodeURIComponent( category )}&gcmnamespace=106
+&gcmcontinue=${gcmcontinue}`.replace( /\n/g, '' );
+
+	return cachedJSONFetch( url ).then( ( r ) => {
 		if ( r ) {
 			if ( r.query && r.query.pages ) {
 				const newPages = r.query.pages;
