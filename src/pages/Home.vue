@@ -1,5 +1,5 @@
 <template>
-	<div class="page--home">
+	<page class="page--home">
 		<h2>Explore skins</h2>
 		<input class="search__input"
 			placeholder="Find skin"
@@ -58,10 +58,11 @@
 				:name="skin.name"
 				:src="skin.src"></snapshot>
 		</div>
-	</div>
+	</page>
 </template>
 
 <script>
+import Page from './Page.vue';
 import api from '../api.js';
 import Snapshot from '../components/Snapshot.vue';
 
@@ -93,6 +94,7 @@ const filterStable = new SessionFilter( 'filterStable' );
 export default {
 	name: 'Home',
 	components: {
+		Page,
 		Snapshot
 	},
 	data() {

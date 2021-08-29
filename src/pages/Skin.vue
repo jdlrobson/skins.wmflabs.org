@@ -1,5 +1,5 @@
 <template>
-	<div class="page--skin">
+	<page class="page--skin">
 		<h2>Skin: {{ name }}</h2>
 		<two-column-layout>
 			<template #column-one>
@@ -61,13 +61,14 @@
 				</div>
 			</template>
 		</two-column-layout>
-	</div>
+	</page>
 </template>
 
 <script>
 import api from '../api.js';
 import TwoColumnLayout from '../components/TwoColumnLayout';
 import Snapshot from '../components/Snapshot.vue';
+import Page from './Page.vue';
 import Preview from '../components/Preview.vue';
 import WarningBox from '../components/WarningBox.vue';
 import ArticleChanger from '../components/ArticleChanger';
@@ -77,6 +78,7 @@ import dead from '../../assets/dead.png';
 export default {
 	name: 'Skin',
 	components: {
+		Page,
 		ArticleChanger,
 		Snapshot,
 		Preview,

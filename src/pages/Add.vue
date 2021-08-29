@@ -1,5 +1,5 @@
 <template>
-	<div class="page--new">
+	<page class="page--new">
 		<h2>Create a new skin</h2>
 		<two-column-layout>
 			<template #column-one>
@@ -51,7 +51,7 @@
 				</div>
 			</template>
 		</two-column-layout>
-	</div>
+	</page>
 </template>
 
 <script>
@@ -69,6 +69,8 @@ import ArticleChanger from '../components/ArticleChanger';
 import TwoColumnLayout from '../components/TwoColumnLayout.vue';
 import nameMe from '../nameMe';
 import JsonViewer from 'vue-json-viewer';
+import Page from './Page.vue';
+
 import {
 	getResourceLoaderSkinModuleStylesFromStylesheet,
 } from '../utils';
@@ -109,6 +111,7 @@ function getCached() {
 export default {
 	name: 'Add',
 	components: {
+		Page,
 		Tabs,
 		Tab,
 		JsonViewer,
