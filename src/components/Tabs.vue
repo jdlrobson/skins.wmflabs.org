@@ -11,10 +11,7 @@
 	</div>
 </template>
 <style lang="less">
-@color-create-main: #B9D1CA;
-@color-create-dark: #9FBBB4;
-@color-white: #fff;
-
+@import '../variables.less';
 .tabs__links {
 	list-style: none;
 	margin: 0;
@@ -22,6 +19,7 @@
 	align-items: center;
 	justify-content: center;
 	padding: 0;
+	text-align: center;
 }
 .tabs__link {
 	cursor: pointer;
