@@ -5,33 +5,38 @@
 			placeholder="Find skin"
 			:value="query"
 			@input="setQuery">
-		<div>
-			must be
+		<button class="searcher__filter-btn" @click="toggleFilters">Filters</button>
+		<div v-if="showFilters" class="searcher__filter-list">
+			<div class="searcher__filter-item">
 			<input type="checkbox"
 				:checked="filterCompatible"
 				name="search_release"
-				@change="onToggleCompatible">
-			<label for="search_release">compatible with >= 1.37</label>
+				@change="onToggleCompatible"><!--
+			--><label for="search_release">Compatible with latest version</label></div>
+			<div class="searcher__filter-item">
 			<input type="checkbox"
 				:checked="filterStable"
 				name="search_stable"
-				@change="onToggleStable">
-			<label for="search_stable">is stable</label>
+				@change="onToggleStable"><!--
+			--><label for="search_stable">Stable</label></div>
+			<div class="searcher__filter-item">
 			<input type="checkbox"
 				:checked="filterMightBreak"
 				name="search_breakage"
-				@change="onToggleMightBreak">
-			<label for="search_breakage">without deprecation warnings</label>
+				@change="onToggleMightBreak"><!--
+			--><label for="search_breakage">Without deprecation warnings</label></div>
+			<div class="searcher__filter-item">
 			<input type="checkbox"
 				:checked="filterDependencies"
 				name="search_dependencies"
-				@change="onToggleDependencies">
-			<label for="search_dependencies">have no dependencies</label>
+				@change="onToggleDependencies"><!--
+			--><label for="search_dependencies">Without dependencies</label></div>
+			<div class="searcher__filter-item">
 			<input type="checkbox"
 				:checked="filterMaintained"
 				name="search_maintained"
-				@change="onToggleMaintained">
-			<label for="search_maintained">are maintained</label>
+				@change="onToggleMaintained"><!--
+			--><label for="search_maintained">Maintained</label></div>
 		</div>
 		<p class="filter-title">
 			<span v-if="fetched">Showing {{ filteredSkins.length }} / {{ skins.length }} skins.</span>
@@ -49,6 +54,15 @@
 <style lang="less" scoped>
 @import '../variables.less';
 
+.searcher {
+	position: relative;
+	text-align: right;
+
+	@media ( min-width: 1440px ) {
+		text-align: left;
+	}
+}
+
 .search__input {
 	background: white;
 	padding: 10px 11px 11px 53px;
@@ -57,7 +71,7 @@
 	background-image: url(assets/search.svg);
 	height: 40px;
 	width: 100%;
-	max-width: 400px;
+	max-width: 602px;
 	margin-bottom: 15px;
 	color: @color-explore-dark;
 
@@ -78,6 +92,45 @@
 a {
 	color: black;
 	font-weight: bold;
+}
+
+.searcher__filter-btn {
+	padding: 11px 16px;
+	line-height: 18.46px;
+	background: @color-explore-dark;
+	color: white;
+	border: 0;
+}
+
+.searcher__filter-list {
+	width: 280px;
+	position: absolute;
+	z-index: 5;
+	background: @color-explore-dark;
+	color: black;
+	width: 100%;
+	right: -12px;
+
+	@media ( min-width: 1440px ) {
+		max-width: 400px;
+	}
+}
+
+.searcher__filter-item {
+	padding: 12px 12px 12px 15px;
+
+	label {
+		text-transform: none;
+		font-size: 14px;
+	}
+
+	input {
+		margin-right: 13px;
+		width: 16px;
+		height: 16px;
+		border-radius: 2px;
+		border-color: transparent;
+	}
 }
 </style>
 <script>
@@ -134,6 +187,7 @@ export default {
 	},
 	data() {
 		return {
+			showFilters: false,
 			fetched: false,
 			skins: [
 				{}, {}, {},
@@ -150,6 +204,9 @@ export default {
 		}
 	},
 	methods: {
+		toggleFilters() {
+			this.showFilters = !this.showFilters;
+		},
 		search() {
 			const q = this.query;
 			const result = this.skins.filter( ( skin ) => {
