@@ -47,10 +47,28 @@
 	</div>
 </template>
 <style lang="less" scoped>
+@import '../variables.less';
+
 .search__input {
-	height: 30px;
-	width: 500px;
-	margin-bottom: 10px;
+	background: white;
+	padding: 10px 11px 11px 53px;
+	background-repeat: no-repeat;
+	background-position: 15px center;
+	background-image: url(assets/search.svg);
+	height: 40px;
+	width: 100%;
+	max-width: 400px;
+	margin-bottom: 15px;
+	color: @color-explore-dark;
+
+	&::placeholder {
+		color: @color-explore-dark;
+	}
+}
+
+.filter-title {
+	color: @color-explore-dark;
+	font-size: 14px;
 }
 
 .no-results-sad-face {
@@ -58,6 +76,7 @@
 }
 
 a {
+	color: black;
 	font-weight: bold;
 }
 </style>
