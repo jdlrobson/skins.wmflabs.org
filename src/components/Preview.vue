@@ -176,14 +176,15 @@ export default {
 
 <style lang="less">
 :root {
-	--preview-width: 720;
-	--preview-width-mobile: 320;
+	--preview-width: 630;
+	--preview-width-mobile: 360;
 	--preview-width-tablet: 768;
 	--preview-width-desktop: 1800;
 }
 
 .preview__area {
 	overflow: hidden;
+	background: black;
 	width: var(--preview-width);
 	text-align: center;
 	max-height: 440px;
