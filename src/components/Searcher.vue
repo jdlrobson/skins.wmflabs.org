@@ -56,11 +56,6 @@
 
 .searcher {
 	position: relative;
-	text-align: right;
-
-	@media ( min-width: 1440px ) {
-		text-align: left;
-	}
 }
 
 .search__input {
