@@ -105,6 +105,8 @@ a {
 	color: black;
 	width: 100%;
 	right: -12px;
+	max-width: 320px;
+	text-align: left;
 
 	@media ( min-width: 1440px ) {
 		max-width: 400px;
