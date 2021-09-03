@@ -1,3 +1,5 @@
+/coverage
 /dist/
 /.cache/
 /node_modules/
+/src/starter-template/node_modules
