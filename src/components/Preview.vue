@@ -31,12 +31,10 @@
 					</option>
 				</select></custom-select>
 			</div>
-			<div class="custom-checkbox">
-				<input type="checkbox"
-					v-if="showAnon"
-					:checked="anon"
-					@input="changeAnon">
-				<label v-if="showAnon">Anonymous</label>
+			<div class="loggedin-selector">
+				<custom-checkbox v-if="showAnon" :checked="anon" @input="changeAnon">
+					Anonymous
+				</custom-checkbox>
 			</div>
 			<a :href="href" class="link--new-window" @click="openNewWindow" target="_blank">
 				View in new window
@@ -49,12 +47,14 @@
 import ArticleChanger from '../components/ArticleChanger';
 import WarningBox from '../components/WarningBox';
 import CustomSelect from '../components/CustomSelect';
+import CustomCheckbox from '../components/CustomCheckbox';
 
 export default {
 	name: 'Preview',
 	components: {
 		ArticleChanger,
 		CustomSelect,
+		CustomCheckbox,
 		WarningBox
 	},
 	props: {
@@ -238,7 +238,7 @@ iframe {
 	margin-right: 19px;
 }
 
-.custom-checkbox {
+.loggedin-selector {
 	flex-grow: 1;
 	align-self: center;
 	text-align: center;

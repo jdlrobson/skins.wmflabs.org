@@ -8,35 +8,50 @@
 		<button class="searcher__filter-btn" @click="toggleFilters">Filters</button>
 		<div v-if="showFilters" class="searcher__filter-list">
 			<div class="searcher__filter-item">
-			<input type="checkbox"
-				:checked="filterCompatible"
-				name="search_release"
-				@change="onToggleCompatible"><!--
-			--><label for="search_release">Compatible with latest version</label></div>
+				<custom-checkbox
+					:checked="filterCompatible"
+					name="search_release"
+					@change="onToggleCompatible"
+				>
+					Compatible with latest version
+				</custom-checkbox>
+			</div>
 			<div class="searcher__filter-item">
-			<input type="checkbox"
-				:checked="filterStable"
-				name="search_stable"
-				@change="onToggleStable"><!--
-			--><label for="search_stable">Stable</label></div>
+				<custom-checkbox
+					:checked="filterStable"
+					name="search_stable"
+					@change="onToggleStable"
+				>
+					Stable
+				</custom-checkbox>
+			</div>
 			<div class="searcher__filter-item">
-			<input type="checkbox"
-				:checked="filterMightBreak"
-				name="search_breakage"
-				@change="onToggleMightBreak"><!--
-			--><label for="search_breakage">Without deprecation warnings</label></div>
+				<custom-checkbox
+					:checked="filterMightBreak"
+					name="search_breakage"
+					@change="onToggleMightBreak"
+				>
+					Without deprecation warnings
+				</custom-checkbox>
+			</div>
 			<div class="searcher__filter-item">
-			<input type="checkbox"
-				:checked="filterDependencies"
-				name="search_dependencies"
-				@change="onToggleDependencies"><!--
-			--><label for="search_dependencies">Without dependencies</label></div>
+				<custom-checkbox
+					:checked="filterDependencies"
+					name="search_dependencies"
+					@change="onToggleDependencies"
+				>
+					Without dependencies
+				</custom-checkbox>
+			</div>
 			<div class="searcher__filter-item">
-			<input type="checkbox"
-				:checked="filterMaintained"
-				name="search_maintained"
-				@change="onToggleMaintained"><!--
-			--><label for="search_maintained">Maintained</label></div>
+				<custom-checkbox
+					:checked="filterMaintained"
+					name="search_maintained"
+					@change="onToggleMaintained"
+				>
+					Maintained
+				</custom-checkbox>
+			</div>
 		</div>
 		<p class="filter-title">
 			<span v-if="fetched">Showing {{ filteredSkins.length }} / {{ skins.length }} skins.</span>
@@ -114,7 +129,7 @@ a {
 }
 
 .searcher__filter-item {
-	padding: 12px 12px 12px 15px;
+	padding: 12px 12px 12px 19px;
 
 	label {
 		text-transform: none;
@@ -132,6 +147,7 @@ a {
 </style>
 <script>
 import api from '../api.js';
+import CustomCheckbox from './CustomCheckbox.vue';
 
 class SessionFilter {
 	constructor( name, defaultValue = false ) {
@@ -164,6 +180,9 @@ const filterStable = new SessionFilter( 'filterStable' );
 
 export default {
 	name: 'Searcher',
+	components: {
+		CustomCheckbox
+	},
 	props: {
 		// Additional key to filter name against
 		filterKey: {
