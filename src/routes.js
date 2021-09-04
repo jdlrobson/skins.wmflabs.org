@@ -1,4 +1,4 @@
-import Home from './pages/Home';
+import Explore from './pages/Explore';
 import Skin from './pages/Skin';
 import NotFound from './pages/NotFound';
 import Add from './pages/Add';
@@ -6,7 +6,11 @@ import Add from './pages/Add';
 export default [
 	{
 		path: '/',
-		component: Home
+		component: Explore
+	},
+	{
+		path: '/explore',
+		component: Explore
 	},
 	{
 		path: '/add',
