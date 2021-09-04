@@ -1,5 +1,5 @@
 <template>
-	<span>
+	<span class="article-changer">
 		<label for="article-title">article: </label>
 		<custom-select>
 			<select name="article-title" @change="changeArticle">
