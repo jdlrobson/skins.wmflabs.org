@@ -1,18 +1,23 @@
 <template>
-	<div class="page--404">
+	<page class="page--404">
 		<h2>Page not found</h2>
 		<router-link class="breadcrumb" to="/">
 			Explore other skins
 		</router-link>
-	</div>
+	</page>
 </template>
 
 <script>
+import Page from './Page';
 
 export default {
-	name: 'NotFound'
+	name: 'NotFound',
+	components: {
+		Page
+	}
 };
 </script>
 
 <style scoped>
+
 </style>
