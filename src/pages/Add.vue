@@ -152,15 +152,18 @@ export default {
 					localStorage.removeItem( `add-${key}` );
 					this[ key ] = DEFAULT_SKIN_PROPS[ key ];
 				} );
-				this.skinname = nameMe();
+				this.newName();
 				// random stylesheet each time.
 				this.newTheme();
 				this.less = generateStylesheetLESS();
 				this.js = DEFAULT_SKIN_PROPS.js;
 				this.startingLess = this.less;
-				localStorage.setItem( 'add-skinname', this.skinname );
 				this.generatePreview();
 			}
+		},
+		newName() {
+			this.skinname = nameMe();
+			localStorage.setItem( 'add-skinname', this.skinname );
 		},
 		newTheme() {
 			this.variables = getLessVars();
