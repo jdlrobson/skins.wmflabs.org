@@ -23,6 +23,10 @@ import { DEFAULT_SKIN_IMAGE } from '../constants';
 export default {
 	name: 'Snapshot',
 	props: {
+		highlight: {
+			type: Boolean,
+			default: false
+		},
 		displayTitle: {
 			type: Boolean,
 			default: true
@@ -71,6 +75,7 @@ export default {
 	computed: {
 		snapshotClass() {
 			return {
+				'snapshot--highlight': this.highlight,
 				'snapshot--unstable': !this.stable || !this.compatible,
 				'snapshot--unmaintained': this.unmaintained,
 				snapshot: true
@@ -86,10 +91,12 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="less" scoped>
+	@import '../variables.less';
+
 	.snapshot {
-		width: 330px;
-		color: #e80447;
+		width: 220px;
+		height: 180px;
 		flex-shrink: 1;
 		box-sizing: border-box;
 		position: relative;
@@ -102,7 +109,7 @@ export default {
 		position: absolute;
 		left: 0;
 		right: 0;
-		bottom: 50px;
+		bottom: 20px;
 		height: 110px;
 		background-image: url( ./assets/unmaintained.svg );
 		background-size: 120px auto;
@@ -110,35 +117,43 @@ export default {
 		background-repeat: no-repeat;
 	}
 
+	.snapshot--highlight h3 span {
+		text-shadow: 0 4px 4px #00000040;
+	}
+
 	.snapshot--unmaintained img {
 		opacity: 0.5;
 	}
 
 	h3 {
-		background: #fff;
+		background: @color-explore-main;
+		text-transform: uppercase;
 		padding: 12px;
-		width: 320px;
+		width: 100%;
 		box-sizing: border-box;
-		margin: 2px 0;
+		margin: 0;
+		font-size: 12px;
+		text-align: center;
+		height: 40px;
 	}
 
 	h3 a {
-		width: 200px;
+		width: 100%;
 		overflow: hidden;
 		display: inline-block;
 		text-overflow: ellipsis;
 	}
 
 	img {
-		width: 320px;
-		height: 200px;
+		width: 100%;
+		height: 140px;
 		background: #fff;
 		display: block;
 		object-fit: cover;
 	}
 
 	a {
-		color: #e80447;
+		color: #000;
 		text-decoration: none;
 		display: block;
 		z-index: 2;

@@ -187,8 +187,8 @@ export default {
 
 <style lang="less">
 :root {
-	--preview-width: 630;
-	--preview-width-mobile: 360;
+	--preview-width: 720;
+	--preview-width-mobile: 340;
 	--preview-width-tablet: 768;
 	--preview-width-desktop: 1800;
 }
@@ -236,7 +236,6 @@ iframe {
 	width: var(--preview-width);
 	color: black;
 	text-align: left;
-	background: white;
 	margin: 15px 0 20px 0;
 	display: flex;
 }
@@ -277,10 +276,16 @@ iframe {
 	background: url(assets/newWindow.svg);
 	width: 40px;
 	height: 40px;
+	background-size: 100% auto;
 	background-repeat: no-repeat;
 	display: block ruby;
 	overflow: hidden;
 	color: transparent;
 	float: right;
+	border: solid 4px transparent;
+
+	&:focus {
+		border-color: orange;
+	}
 }
 </style>

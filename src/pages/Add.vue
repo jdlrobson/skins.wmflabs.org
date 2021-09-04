@@ -1,9 +1,37 @@
 <template>
 	<page class="page--new">
-		<h2>Create a new skin</h2>
-		<two-column-layout><template #column-one>
+		<div class="preview-header">
+			<label>Preview of:</label>
+			<div class="preview-header__name">
+				<input type="text"
+					placeholder="Skin's name"
+					:value="skinname"
+					@input="updateName">
+				<button class="preview-header__name__random"
+					title="Generate random name"
+					@click="newName">
+					Change name
+				</button>
+			</div>
+			<button class="btn"
+				:disabled="skinname === ''"
+				@click="download">
+				Download
+			</button>
+			<button class="btn btn--destructive" @click="reset">
+				Reset
+			</button>
+		</div>
+		<preview :html="html"
+			:name="skinname"
+			:anon-default="anon"
+			:show-anon="true"
+			@changeArticle="changeArticle"
+			@changeAnon="changeAnon"
+		>
+		</preview>
 		<tabs>
-			<tab title="HTML">
+			<tab title="HTML ( Mustache )">
 				<textarea class="editor-textarea"
 					:value="mustache"
 					@input="updateMustache"></textarea>
@@ -23,28 +51,6 @@
 					@input="updateJS"></textarea>
 			</tab>
 		</tabs>
-		<h3>Name and download</h3>
-		<input type="text"
-			placeholder="Skin's name"
-			:value="skinname"
-			@input="updateName">
-		<button class="btn"
-			:disabled="skinname === ''"
-			@click="download">
-			Download as ZIP
-		</button>
-		<button class="btn" @click="reset">
-			Reset
-		</button>
-		</template><template #column-two>
-		<preview :html="html"
-			:name="skinname"
-			:anon-default="anon"
-			:show-anon="true"
-			@changeArticle="changeArticle"
-			@changeAnon="changeAnon"
-		>
-		</preview>
 		<div class="data-explorer">
 			<h2>Template data</h2>
 			<p>Explore the data you can render in your skin here.</p>
@@ -54,7 +60,6 @@
 				:sort="true"
 				:copyable="true"></json-viewer>
 		</div>
-		</template></two-column-layout>
 	</page>
 </template>
 
@@ -268,44 +273,79 @@ export default {
 };
 </script>
 
-<style scoped>
-textarea {
+<style lang="less">
+@import '../variables.less';
+.page--new {
+	background: @color-create-light;
+	overflow: scroll;
+}
+
+input {
+	background: black;
+	padding: 11px 24px;
+	color: white;
+	border: 0;
+}
+
+.editor-textarea {
 	width: 100%;
 	border: 0;
 	padding: 30px;
 	height: 400px;
 }
 
-input[ type='text' ] {
-	width: 320px;
-	height: 40px;
-}
+.preview-header {
+	margin-bottom: 15px;
+	display: flex;
+	align-items: center;
 
-.btn:disabled {
-	opacity: 0.5;
+	label {
+		margin-right: 13px;
+		flex-grow: 1;
+	}
+
+	input {
+		margin-right: 7px;
+		width: 306px;
+		padding-right: 50px;
+	}
+
+	button {
+		margin-right: 6px;
+
+		&:last-child {
+			margin-right: 0;
+		}
+	}
 }
 
 .btn {
 	color: #fff;
-	background-color: #36c;
-	border-color: #36c;
-	padding-top: 5px;
-	padding-bottom: 5px;
-	border-style: solid;
-	border-width: 1px;
-	border-radius: 2px;
-	padding-left: 12px;
-	padding-right: 12px;
+	background: @color-create-dark;
+	padding: 11px 35px;
+	min-width: 148px;
 	position: relative;
-	min-height: 32px;
+	border: solid 4px transparent;
+	height: 40px;
 	font-weight: bold;
 	text-decoration: none;
 	vertical-align: top;
 	text-align: center;
-	font-size: 16px;
 	line-height: 1;
 	box-sizing: border-box;
-	margin-top: 20px;
+
+	&::disabled {
+		opacity: 0.5;
+	}
+
+	&:focus {
+		border-color: orange;
+	}
+}
+
+.btn--destructive {
+	background: white;
+	color: @color-create-dark;
 }
 
 .data-explorer {
@@ -315,12 +355,25 @@ input[ type='text' ] {
 }
 
 .css-theme-changer {
-	margin-top: 0;
+	margin: 0 auto;
+	display: block;
 }
 
-@media ( min-width: 1920px ) {
-	textarea {
-		width: 1300px;
-	}
+.preview-header__name {
+	position: relative;
+}
+
+.preview-header__name__random {
+	background: none;
+	cursor: pointer;
+	border: 0;
+	display: block;
+	width: 20px;
+	height: 20px;
+	right: 20px;
+	top: 10px;
+	color: transparent;
+	position: absolute;
+	background-image: url(../components/assets/random.svg);
 }
 </style>

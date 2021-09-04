@@ -1,22 +1,57 @@
-@import 'index-v1.less';
-
 @font-face {
 	font-family: 'Roboto Mono';
-	src: url('RobotoMono.ttf')  format('truetype');
+	src: url( 'RobotoMono.ttf' )  format( 'truetype' );
 }
 
-body {
-	background: #e80447;
-	color: white;
-	font-family: 'Roboto Mono', sans-serif;
+@font-face {
+	font-family: 'Roboto Regular';
+	src: url( 'Roboto-Regular.ttf' )  format( 'truetype' );
+}
+
+label,
+body,
+select,
+button,
+input {
+	font-family: 'Roboto Mono';
 }
 
 * {
 	box-sizing: border-box;
 }
 
-a {
-	color:white;
-	text-decoration: underline;
-	text-decoration-style: dotted;
+label {
+	font-size: 12px;
+	text-transform: uppercase;
+	font-weight: 700;
 }
+
+h1,
+html,
+body {
+	padding: 0;
+	margin: 0;
+}
+
+main {
+	max-width: 840px;
+}
+
+@media all and ( min-width: 1400px ) {
+	body {
+		display: flex;
+		max-width: 1440px;
+		margin: auto;
+		justify-content: center;
+	}
+
+	main,
+	body,
+	html {
+		box-sizing: content-box;
+		height: 100vh;
+		overflow: hidden;
+	}
+}
+
+@import './components/NavPanel.less';

@@ -80,6 +80,8 @@
 }
 
 .search__input {
+	font-family: 'Roboto Regular';
+	box-sizing: border-box;
 	background: #fff;
 	padding: 10px 11px 11px 53px;
 	background-repeat: no-repeat;
@@ -87,7 +89,7 @@
 	background-image: url( assets/search.svg );
 	height: 40px;
 	width: 100%;
-	max-width: 602px;
+	max-width: 400px;
 	margin-bottom: 15px;
 	color: @color-explore-dark;
 
@@ -99,6 +101,7 @@
 .filter-title {
 	color: @color-explore-dark;
 	font-size: 14px;
+	margin: 15px 0 27px 0;
 }
 
 .no-results-sad-face {
@@ -106,7 +109,7 @@
 }
 
 a {
-	color: #fff;
+	color: #000;
 	font-weight: bold;
 }
 
@@ -131,22 +134,27 @@ a {
 }
 
 .searcher__filter-list {
-	width: 350px;
+	width: 275px;
 	position: absolute;
 	z-index: 5;
 	background: @color-explore-dark;
 	color: #000;
 	top: 0;
-	right: -175px;
+	right: -4px;
 	text-align: left;
 
-	@media ( min-width: 1440px ) {
+	@media ( min-width: 1400px ) {
 		max-width: 400px;
 	}
 }
 
 .reset {
 	text-transform: uppercase;
+	cursor: pointer;
+
+	&:hover {
+		text-decoration: underline;
+	}
 }
 
 .searcher__filter-item {

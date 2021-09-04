@@ -1,22 +1,5 @@
 <template>
-	<div class="container">
-		<nav>
-			<router-link to="/">
-				Explore
-			</router-link>
-			<router-link to="/add">
-				create
-			</router-link>
-		</nav>
-		<router-view></router-view>
-		<footer>
-			<p>
-				Made by <a href="https://jdlrobson.com">Jon Robson</a>.
-				Code on <a href="https://github.com/jdlrobson/skins.wmflabs.org">github.com</a>.
-				Sourced images: Dead Emoji by André Luiz Gollo from the Noun Project
-			</p>
-		</footer>
-	</div>
+	<router-view class="container"></router-view>
 </template>
 
 <script>
@@ -25,9 +8,9 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="less" scoped>
   main {
-    margin: 12px 0;
+	  height: 100%;
   }
   nav {
     display: block;
@@ -40,9 +23,5 @@ export default {
     padding: 0 8px;
     text-decoration: none;
     text-transform: lowercase;
-  }
-  footer {
-    margin-top: 40px;
-    font-size: 0.8em;
   }
 </style>

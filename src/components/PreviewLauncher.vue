@@ -95,12 +95,13 @@ export default {
 
 		&:after {
 			border: solid 4px #000;
+			background: #fff;
 			content: 'Click to preview';
 			color: #000;
 			margin: 200px;
 			text-align: center;
 			height: 26px;
-			opacity: 0.7;
+			opacity: 0.9;
 		}
 
 		.no-preview {

@@ -4,15 +4,20 @@
 			:show-no-results-message="false"
 			@input="onSearch"></searcher>
 		<div class="content">
-			<h2>Skin: {{ name }}</h2>
+			<h2>{{ name }}</h2>
 			<preview-launcher
 				:src="srcLarge"
 				:skinkey="skinkey"
 				:name="name"
 				:available="preview">
 			</preview-launcher>
-			<h3>About</h3>
-			<p>{{ summary }}</p>
+			<h3 v-if="infoIsLoaded">
+				About:
+			</h3>
+			<p v-if="infoIsLoaded">
+				{{ summary }}
+			</p>
+
 			<skin-warnings v-if="showWarnings"
 				:url="mwUrl"
 				:beta="beta"
@@ -22,6 +27,9 @@
 				:might-break="mightBreak"
 				:compatible="compatible"
 			></skin-warnings>
+			<h3 v-if="infoIsLoaded">
+				View:
+			</h3>
 			<a v-for="(link,i) in links"
 				:key="i"
 				class="skinLink"
@@ -110,18 +118,41 @@ export default {
 };
 </script>
 
-<style scoped>
-	.content {
+<style lang="less" scoped>
+	@import '../variables.less';
+	.page--skin {
+		background: @color-explore-light;
+	}
+
+	a {
+		color: black;
+		text-decoration: none;
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+
+	h2 {
+		background: black;
+		color: white;
+		padding: 11px;
 		text-align: center;
+		font-size: 14px;
 	}
-	.preview-launcher {
-		width: 630px;
-		margin: auto;
+
+	h2, h3 {
+		text-transform: uppercase;
 	}
+
 	.skinLink {
-		text-align: center;
 		display: block;
 		width: 320px;
-		margin: 0 auto 10px;
+	}
+
+	.content {
+		height: 100%;
+		padding-bottom: 100px;
+		overflow: scroll;
 	}
 </style>
