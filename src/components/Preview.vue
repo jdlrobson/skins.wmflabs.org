@@ -18,22 +18,26 @@
 		</warning-box>
 		<div class="preview__panel">
 			<article-changer @changeArticle="changeArticle"></article-changer>
-			<custom-select><select @change="changeMedium">
-				<option value="d">
-					desktop
-				</option>
-				<option value="t">
-					tablet
-				</option>
-				<option value="m">
-					mobile
-				</option>
-			</select></custom-select>
-			<input type="checkbox"
-				v-if="showAnon"
-				:checked="anon"
-				@input="changeAnon">
-			<label v-if="showAnon">Anonymous</label>
+			<div class="medium-selector">
+				<custom-select><select @change="changeMedium">
+					<option value="d">
+						desktop
+					</option>
+					<option value="t">
+						tablet
+					</option>
+					<option value="m">
+						mobile
+					</option>
+				</select></custom-select>
+			</div>
+			<div class="custom-checkbox">
+				<input type="checkbox"
+					v-if="showAnon"
+					:checked="anon"
+					@input="changeAnon">
+				<label v-if="showAnon">Anonymous</label>
+			</div>
 			<a :href="href" class="link--new-window" @click="openNewWindow" target="_blank">
 				View in new window
 			</a>
@@ -226,6 +230,18 @@ iframe {
 	color: black;
 	text-align: left;
 	background: white;
+	margin: 15px 0 20px 0;
+	display: flex;
+}
+
+.article-changer {
+	margin-right: 19px;
+}
+
+.custom-checkbox {
+	flex-grow: 1;
+	align-self: center;
+	text-align: center;
 }
 
 .preview__area--unavailable {
