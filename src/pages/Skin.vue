@@ -108,8 +108,8 @@ export default {
 		},
 		hasWarnings() {
 			return !this.stable || !this.preview || this.experimental ||
-        !this.compatible ||
-        this.mightBreak || this.hasDependencies || this.beta || this.unmaintained;
+				!this.compatible ||
+				this.mightBreak || this.hasDependencies || this.beta || this.unmaintained;
 		},
 		mwUrl() {
 			return this.name ? `https://mediawiki.org/wiki/Skin:${this.name}` : '';
