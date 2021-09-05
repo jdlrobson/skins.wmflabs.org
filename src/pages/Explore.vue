@@ -1,7 +1,7 @@
 <template>
-	<page class="page--home">
+	<page class="page--explore">
 		<h2>Explore skins</h2>
-		<searcher @search="onSearch"></searcher>
+		<searcher class="page__header" @search="onSearch"></searcher>
 		<div class="page__showcase">
 			<snapshot v-for="skin in skins"
 				:key="skin.key"
@@ -25,7 +25,7 @@ import Searcher from '../components/Searcher.vue';
 import Snapshot from '../components/Snapshot.vue';
 
 export default {
-	name: 'Home',
+	name: 'Explore',
 	components: {
 		Page,
 		Searcher,
