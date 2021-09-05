@@ -87,63 +87,69 @@ export default {
 </script>
 
 <style scoped>
-  .snapshot {
-    width: 330px;
-    color: #e80447;
-    flex-shrink: 1;
-    box-sizing: border-box;
-    position: relative;
-  }
+	.snapshot {
+		width: 330px;
+		color: #e80447;
+		flex-shrink: 1;
+		box-sizing: border-box;
+		position: relative;
+	}
 
-  .snapshot--unmaintained:after {
-    content: '';
-    display: block;
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 50px;
-    height: 110px;
-    background: url('../../assets/dead.png');
-    background-size: 120px auto;
-    background-position: center center;
-    background-repeat: no-repeat;
-  }
-  .snapshot--unmaintained img {
-    opacity: 0.5;
-  }
-  h3 {
-    background: white;
-    padding: 12px;
-    width: 320px;
-    box-sizing: border-box;
-    margin: 2px 0;
-  }
-  h3 a {
-    width: 200px;
-    overflow: hidden;
-    display: inline-block;
-    text-overflow: ellipsis;
-  }
-  img {
-    width: 320px;
-    height: 200px;
-    background: white;
-    display: block;
-    object-fit: cover;
-  }
-  a {
-    color: #e80447;
-  }
+	.snapshot--unmaintained:after {
+		content: '';
+		display: block;
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: 50px;
+		height: 110px;
+		background: url( ../../assets/dead.png );
+		background-size: 120px auto;
+		background-position: center center;
+		background-repeat: no-repeat;
+	}
 
-  abbr {
-    color: #ffd000;
-  }
-  footer {
-    background: white;
-    color: #333;
-    font-size: 0.8em;
-    width: 320px;
-    padding: 10px 0;
-    text-transform: uppercase;
-  }
+	.snapshot--unmaintained img {
+		opacity: 0.5;
+	}
+
+	h3 {
+		background: #fff;
+		padding: 12px;
+		width: 320px;
+		box-sizing: border-box;
+		margin: 2px 0;
+	}
+
+	h3 a {
+		width: 200px;
+		overflow: hidden;
+		display: inline-block;
+		text-overflow: ellipsis;
+	}
+
+	img {
+		width: 320px;
+		height: 200px;
+		background: #fff;
+		display: block;
+		object-fit: cover;
+	}
+
+	a {
+		color: #e80447;
+	}
+
+	abbr {
+		color: #ffd000;
+	}
+
+	footer {
+		background: #fff;
+		color: #333;
+		font-size: 0.8em;
+		width: 320px;
+		padding: 10px 0;
+		text-transform: uppercase;
+	}
 </style>
