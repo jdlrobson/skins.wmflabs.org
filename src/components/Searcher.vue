@@ -55,6 +55,8 @@
 		</div>
 		<p class="filter-title">
 			<span v-if="fetched">Showing {{ filteredSkins.length }} / {{ skins.length }} skins.</span>
+			<a v-if="filterKey"
+				class="reset" @click="resetAll">Show all skins</a>
 	  &nbsp;
 		</p>
 		<div v-if="hasNoResults">
@@ -126,6 +128,10 @@ a {
 	@media ( min-width: 1440px ) {
 		max-width: 400px;
 	}
+}
+
+.reset {
+	text-transform: uppercase;
 }
 
 .searcher__filter-item {
@@ -229,6 +235,17 @@ export default {
 		}
 	},
 	methods: {
+		resetAll() {
+			this.query = query.set( '' );
+			this.filterMightBreak = filterMightBreak.set( false );
+			this.filterMaintained = filterMaintained.set( false );
+			this.filterDependencies = filterDependencies.set( false );
+			this.filterCompatible = filterCompatible.set( false );
+			this.filterStable = filterStable.set( false );
+			this.$router.push( {
+				path: '/explore'
+			} );
+		},
 		toggleFilters() {
 			this.showFilters = !this.showFilters;
 		},
