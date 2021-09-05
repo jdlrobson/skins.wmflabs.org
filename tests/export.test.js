@@ -1,4 +1,4 @@
-import build from '../src/export';
+import build from '../src/starter-template/export';
 import JSZip from './mock/JSZip';
 
 describe( 'build', () => {
