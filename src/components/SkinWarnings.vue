@@ -17,8 +17,14 @@
 		</span>
 		<span v-if="unmaintained">
 			Warning: This skin is not maintained.
-			It is likely incompatible with the current MediaWiki branch.
-			If you like this skin, you can fork it and
+			It is likely incompatible with the current MediaWiki branch.<br><br>
+			Please <a :href="mwUrl">review the skin's page</a>
+			on MediaWiki.org for the problem with this skin which will be described
+			in the status field:
+			<pre>|status      = unmaintained &lt;!-- explanation --&gt; </pre>
+
+			If you are the skin author, please address the problem described.
+			If you are capable, you may want to fork this skin, and
 			become it's maintainer.
 			If you do this, please update the repository URL on
 			<a :href="url">MediaWiki.org</a>.
