@@ -152,20 +152,29 @@ import CustomCheckbox from './CustomCheckbox.vue';
 class SessionFilter {
 	constructor( name, defaultValue = false ) {
 		this.field = `session-${name}`;
+		this.defaultValue = defaultValue;
 		this.load( defaultValue );
 	}
 	set( value ) {
 		sessionStorage.setItem( this.field, value );
+		return value;
 	}
 	load( defaultValue ) {
 		if ( typeof sessionStorage === undefined ) {
 			this.value = defaultValue;
 		} else {
-			this.value = sessionStorage.getItem( this.field )
+			this.value = sessionStorage.getItem( this.field ) || this.defaultValue;
 		}
 	}
 	get() {
-		this.load();
+		this.load( this.defaultValue );
+		// cast to boolean
+		if ( this.value === 'true' ) {
+			this.value = true;
+		}
+		if ( this.value === 'false' ) {
+			this.value = false;
+		}
 		return this.value;
 	}
 }
@@ -240,7 +249,7 @@ export default {
 		onToggleDependencies( ev ) {
 			const value = ev.target.checked;
 			this.filterDependencies = value;
-			sessionFilter.set( value );
+			filterDependencies.set( value );
 			this.search();
 		},
 		onToggleMaintained( ev ) {
