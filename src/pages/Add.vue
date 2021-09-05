@@ -33,7 +33,8 @@
 				</button>
 			</template>
 			<template #column-two>
-				<preview :html="html" :name="skinname"
+				<preview :html="html"
+					:name="skinname"
 					:anon-default="anon"
 					:show-anon="true"
 					@changeArticle="changeArticle"
@@ -71,7 +72,7 @@ import JsonViewer from 'vue-json-viewer';
 import Page from './Page.vue';
 
 import {
-	getResourceLoaderSkinModuleStylesFromStylesheet,
+	getResourceLoaderSkinModuleStylesFromStylesheet
 } from '../utils';
 
 const LANGUAGES = {
@@ -224,6 +225,7 @@ export default {
 			this.html = DEFAULT_HTML;
 			this.pending = setTimeout( () => {
 				let css;
+				// eslint-disable-next-line no-useless-escape
 				const js = '<script>' + this.js + '<\/script>';
 				const imports = getLESSFromTemplate( this.mustache );
 
@@ -245,7 +247,7 @@ export default {
                 <html>
                 <head>
                   ${JQUERY}
-                  <style type="text/css">${getResourceLoaderSkinModuleStylesFromStylesheet(css)}</style>
+                  <style type="text/css">${getResourceLoaderSkinModuleStylesFromStylesheet( css )}</style>
                   <link rel="stylesheet" href="${HOST}/w/load.php?lang=en&modules=ext.cite.styles%7Cext.echo.styles.badge%7Cext.math.styles%7Cext.wikihiero%7Cmediawiki.page.gallery.styles%7Cmediawiki.ui.icon%7Cmediawiki.ui.button%7Coojs-ui.styles.icons-alerts&only=styles">
                   <style type="text/css">${css}</style>
                 </head>
@@ -271,52 +273,51 @@ textarea {
 	height: 400px;
 }
 
-input[type=text] {
-  width: 320px;
-  height: 40px;
+input[ type='text' ] {
+	width: 320px;
+	height: 40px;
 }
 
 .btn:disabled {
-  opacity: 0.5;
+	opacity: 0.5;
 }
 
 .btn {
-  color: #fff;
-  background-color: #36c;
-  border-color: #36c;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  border-style: solid;
-  border-width: 1px;
-  border-radius: 2px;
-  padding-left: 12px;
-  padding-right: 12px;
-  position: relative;
-  min-height: 32px;
-  border-radius: 2px;
-  font-weight: bold;
-  text-decoration: none;
-  vertical-align: top;
-  text-align: center;
-  font-size: 16px;
-  line-height: 1;
-  box-sizing: border-box;
-  margin-top: 20px;
+	color: #fff;
+	background-color: #36c;
+	border-color: #36c;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	border-style: solid;
+	border-width: 1px;
+	border-radius: 2px;
+	padding-left: 12px;
+	padding-right: 12px;
+	position: relative;
+	min-height: 32px;
+	font-weight: bold;
+	text-decoration: none;
+	vertical-align: top;
+	text-align: center;
+	font-size: 16px;
+	line-height: 1;
+	box-sizing: border-box;
+	margin-top: 20px;
 }
 
 .data-explorer {
-  width: 100%;
-  height: 400px;
-  text-align: left;
+	width: 100%;
+	height: 400px;
+	text-align: left;
 }
 
 .css-theme-changer {
 	margin-top: 0;
 }
 
-@media (min-width: 1920px) {
-  textarea {
-    width: 1300px;
-  }
+@media ( min-width: 1920px ) {
+	textarea {
+		width: 1300px;
+	}
 }
 </style>
