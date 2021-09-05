@@ -1,5 +1,8 @@
 <template>
 	<page class="page--skin">
+		<searcher :filter-key="skinkey"
+			:show-no-results-message="false"
+			@input="onSearch"></searcher>
 		<div class="content">
 			<h2>Skin: {{ name }}</h2>
 			<preview-launcher
@@ -34,12 +37,14 @@ import Snapshot from '../components/Snapshot.vue';
 import PreviewLauncher from '../components/PreviewLauncher.vue';
 import Page from './Page.vue';
 import SkinWarnings from '../components/SkinWarnings.vue';
+import Searcher from '../components/Searcher.vue';
 
 export default {
 	name: 'Skin',
 	components: {
 		PreviewLauncher,
 		SkinWarnings,
+		Searcher,
 		Page,
 		Snapshot
 	},
@@ -75,6 +80,9 @@ export default {
 		}
 	},
 	methods: {
+		onSearch() {
+			this.$router.push( '/explore' );
+		}
 	},
 	mounted: function () {
 		api.fetchSkinInfo( this.$route.params.key ).then( ( skin ) => {
