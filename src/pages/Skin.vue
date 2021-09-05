@@ -10,31 +10,15 @@
 					:name="name"
 					:src="src"></snapshot>
 				<p>{{ summary }}</p>
-				<warning-box v-if="hasWarnings" class="warningbox">
-					<span v-if="beta">Warning: This skin is marked as beta.</span>
-					<span v-if="experimental">
-						Warning: This skin has been marked as experimental.
-					</span>
-					<span v-if="hasDependencies">
-						Warning: This skin requires additional setup.
-					</span>
-					<span v-if="mightBreak">
-						Warning: This skin has been flagged to indicate this it may
-						break in future MediaWiki versions
-						without prompt action.
-					</span>
-					<span v-if="!compatible">
-						Warning: This skin does not work with the latest MediaWiki release.
-					</span>
-					<span v-if="unmaintained">
-						Warning: This skin is not maintained.
-						It is likely incompatible with the current MediaWiki branch.
-						If you like this skin, you can fork it and
-						become it's maintainer.
-						If you do this, please update the repository URL on
-						<a :href="mwUrl">MediaWiki.org</a>.
-					</span>
-				</warning-box>
+				<skin-warnings v-if="hasWarnings"
+					:url="mwUrl"
+					:beta="beta"
+					:experimental="experimental"
+					:unmaintained="unmaintained"
+					:has-dependencies="hasDependencies"
+					:might-break="mightBreak"
+					:compatible="compatible"
+				></skin-warnings>
 				<a v-for="(link,i) in links"
 					:key="i"
 					class="skinLink"
@@ -60,17 +44,17 @@ import UnmaintainedSkin from '../components/UnmaintainedSkin.vue';
 import Snapshot from '../components/Snapshot.vue';
 import Page from './Page.vue';
 import Preview from '../components/Preview.vue';
-import WarningBox from '../components/WarningBox.vue';
+import SkinWarnings from '../components/SkinWarnings.vue';
 import { HOST, TEST_ARTICLES, DEFAULT_SKIN_IMAGE } from '../constants';
 
 export default {
 	name: 'Skin',
 	components: {
 		UnmaintainedSkin,
+		SkinWarnings,
 		Page,
 		Snapshot,
 		Preview,
-		WarningBox,
 		TwoColumnLayout
 	},
 	data() {
