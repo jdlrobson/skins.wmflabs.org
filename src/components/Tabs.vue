@@ -1,15 +1,18 @@
 <template>
 	<div class="tabs">
 		<ul class="tabs__links">
-			<li class="tabs__link" v-for="(tab, i) in tabs" :key="tab.title"
-				@click="selectTab(i)"
-				:class="{'tabs__link--selected': i === selectedIndex }">
+			<li v-for="(tab, i) in tabs"
+				:key="tab.title"
+				class="tabs__link"
+				:class="{ 'tabs__link--selected': i === selectedIndex }"
+				@click="selectTab(i)">
 				{{ tab.title }}
 			</li>
 		</ul>
-		<slot />
+		<slot></slot>
 	</div>
 </template>
+
 <style lang="less">
 @import '../variables.less';
 .tabs__links {
@@ -42,29 +45,30 @@
 	color: @color-create-dark;
 }
 </style>
+
 <script>
 export default {
 	name: 'Tabs',
 	components: {},
-	created () {
-		this.tabs = this.$children;
+	data() {
+		return {
+			selectedIndex: 0,
+			tabs: []
+		};
 	},
 	methods: {
-		selectTab ( selectedIndex ) {
+		selectTab( selectedIndex ) {
 			this.selectedIndex = selectedIndex;
 			this.tabs.forEach( ( tab, i ) => {
 				tab.isActive = ( selectedIndex === i );
 			} );
 		}
 	},
-	mounted () {
-		this.selectTab( 0 )
+	created() {
+		this.tabs = this.$children;
 	},
-	data() {
-		return {
-			selectedIndex: 0,
-			tabs: []
-		}
-	},
+	mounted() {
+		this.selectTab( 0 );
+	}
 };
 </script>

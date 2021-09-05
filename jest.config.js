@@ -2,7 +2,6 @@
 // https://jestjs.io/docs/en/configuration.html
 
 module.exports = {
-	
 	// Automatically clear mock calls and instances between every test
 	clearMocks: true,
 	moduleNameMapper: {
@@ -65,6 +64,6 @@ module.exports = {
 
 	transform: {
 		'.*\\.(vue)$': '<rootDir>/node_modules/vue-jest',
-		"^.+\\.jsx?$": "babel-jest"
+		'^.+\\.jsx?$': 'babel-jest'
 	}
 };

@@ -35,7 +35,7 @@ describe( 'utils', () => {
 				elements: true,
 				normalize: true
 			}
-		],
+		]
 	] )( 'getFeaturesFromStyles', ( sourceCode, expected ) => {
 		expect( getFeaturesFromStyles( sourceCode ) ).toEqual( expected ); // test
 	} );
@@ -88,7 +88,7 @@ describe( 'utils', () => {
 		[
 			'A {{> PartialInception }} is an interesting use case',
 			{
-				Partial: "It worked",
+				Partial: 'It worked',
 				AnotherPartialInception: '{{>Partial}}',
 				PartialInception: '{{>AnotherPartialInception}}',
 				Foo: 'Another partial'

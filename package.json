@@ -6,7 +6,7 @@
 	"scripts": {
 		"deploy": "parcel build index.html --out-dir /var/www/html/",
 		"start": "parcel index.html",
-		"lint": "npx eslint . tests/**/*.js && npx stylelint src/**/*.less",
+		"lint": "eslint . && stylelint **/*.less",
 		"test": "npm run lint && jest --testRegex tests/*.test.js --coverage"
 	},
 	"author": "",

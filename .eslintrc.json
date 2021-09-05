@@ -12,6 +12,7 @@
 		"wikimedia/mediawiki"
 	],
 	"rules": {
+		"no-jquery/variable-pattern": "off",
 		"no-implicit-globals": "off",
 		"max-len": "off",
 		"max-statements-per-line": "off",

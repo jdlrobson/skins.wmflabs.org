@@ -230,7 +230,7 @@ export function buildSkin( name, mustache, less, js = '', variables = '', option
 		Object.assign(
 			styles,
 			{
-				[mainCss]: less,
+				[ mainCss ]: less,
 				'variables.less': variables,
 				'skin.less': `@import 'mediawiki.skin.variables.less';
 @import "variables.less";

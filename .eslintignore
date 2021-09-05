@@ -1,6 +1,10 @@
+package-lock.json
 /.cache
 /coverage
 /dist
 /node_modules/*
 # External dependencies
-/src/export/FileSaver.js
+/src/starter-template/export/FileSaver.js
+/src/starter-template/package.json
+/src/starter-template/package-lock.json
+/starter-template/node_modules/*
