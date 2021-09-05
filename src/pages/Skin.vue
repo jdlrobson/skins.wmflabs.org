@@ -13,7 +13,7 @@
 			</preview-launcher>
 			<h3>About</h3>
 			<p>{{ summary }}</p>
-			<skin-warnings v-if="hasWarnings"
+			<skin-warnings v-if="showWarnings"
 				:url="mwUrl"
 				:beta="beta"
 				:experimental="experimental"
@@ -70,7 +70,10 @@ export default {
 		srcLarge() {
 			return this.src.replace( '400px', '1000px' );
 		},
-		hasWarnings() {
+		showWarnings() {
+			if ( !this.infoIsLoaded ) {
+				return false;
+			}
 			return !this.stable || !this.preview || this.experimental ||
 				!this.compatible ||
 				this.mightBreak || this.hasDependencies || this.beta || this.unmaintained;
