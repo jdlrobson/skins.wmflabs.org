@@ -1,7 +1,7 @@
 <template>
-	<div class="page">
-		<slot />
-	</div>
+	<main class="page">
+		<slot></slot>
+	</main>
 </template>
 <style lang="less" scoped>
 @import '../variables.less';

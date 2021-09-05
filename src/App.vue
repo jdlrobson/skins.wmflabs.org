@@ -8,9 +8,7 @@
 				create
 			</router-link>
 		</nav>
-		<main>
-			<router-view></router-view>
-		</main>
+		<router-view></router-view>
 		<footer>
 			<p>
 				Made by <a href="https://jdlrobson.com">Jon Robson</a>.
