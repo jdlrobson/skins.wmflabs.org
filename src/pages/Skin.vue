@@ -47,18 +47,7 @@
 					 @changeArticle="changeArticle"
 					:name="name">
 				</preview>
-				<div v-else class="no-preview">
-					<img :src="dead" alt="an emoji with crosses for eyes">
-					<p><strong>This skin appears to be unmaintained.</strong></p>
-					<p>
-						If this is not true, please <a :href="mwUrl">review the skin's page</a>
-						on MediaWiki.org for why.
-						<pre>|status      = unmaintained &lt;!-- explanation --&gt; </pre>
-						If you are the skin author, please address the problem described.
-						If you are capable, you may want to fork this skin to fix this issue
-						and update the download URL.
-					</p>
-				</div>
+				<unmaintained-skin v-else :url="mwUrl"></unmaintained-skin>
 			</template>
 		</two-column-layout>
 	</page>
@@ -67,16 +56,17 @@
 <script>
 import api from '../api.js';
 import TwoColumnLayout from '../components/TwoColumnLayout';
+import UnmaintainedSkin from '../components/UnmaintainedSkin.vue';
 import Snapshot from '../components/Snapshot.vue';
 import Page from './Page.vue';
 import Preview from '../components/Preview.vue';
 import WarningBox from '../components/WarningBox.vue';
 import { HOST, TEST_ARTICLES, DEFAULT_SKIN_IMAGE } from '../constants';
-import dead from '../../assets/dead.png';
 
 export default {
 	name: 'Skin',
 	components: {
+		UnmaintainedSkin,
 		Page,
 		Snapshot,
 		Preview,
@@ -103,9 +93,6 @@ export default {
 		};
 	},
 	computed: {
-		dead() {
-			return dead;
-		},
 		hasWarnings() {
 			return !this.stable || !this.preview || this.experimental ||
 				!this.compatible ||
@@ -156,19 +143,5 @@ export default {
     display: block;
     margin-bottom: 10px;
     width: 320px;
-  }
-  .no-preview {
-    display: flex;
-    align-items: center;
-    height: 100%;
-    align-content: center;
-    flex-wrap: wrap;
-  }
-  .no-preview > p {
-    flex-grow: 1;
-  }
-  .no-preview > img {
-    height: 200px;
-    width: 200px;
   }
 </style>
