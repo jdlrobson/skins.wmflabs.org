@@ -65,7 +65,6 @@ import { render } from 'mustache';
 import Tabs from '../components/Tabs.vue';
 import Tab from '../components/Tab.vue';
 import Preview from '../components/Preview.vue';
-import ArticleChanger from '../components/ArticleChanger';
 import TwoColumnLayout from '../components/TwoColumnLayout.vue';
 import nameMe from '../nameMe';
 import JsonViewer from 'vue-json-viewer';
@@ -116,7 +115,6 @@ export default {
 		Tab,
 		JsonViewer,
 		Preview,
-		ArticleChanger,
 		TwoColumnLayout
 	},
 	data() {
