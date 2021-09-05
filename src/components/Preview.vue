@@ -19,24 +19,31 @@
 		<div class="preview__panel">
 			<article-changer @changeArticle="changeArticle"></article-changer>
 			<div class="medium-selector">
-				<custom-select><select @change="changeMedium">
-					<option value="d">
-						desktop
-					</option>
-					<option value="t">
-						tablet
-					</option>
-					<option value="m">
-						mobile
-					</option>
-				</select></custom-select>
+				<custom-select>
+					<select @change="changeMedium">
+						<option value="d">
+							desktop
+						</option>
+						<option value="t">
+							tablet
+						</option>
+						<option value="m">
+							mobile
+						</option>
+					</select>
+				</custom-select>
 			</div>
 			<div class="loggedin-selector">
-				<custom-checkbox v-if="showAnon" :checked="anon" @input="changeAnon">
+				<custom-checkbox v-if="showAnon"
+					:checked="anon"
+					@input="changeAnon">
 					Anonymous
 				</custom-checkbox>
 			</div>
-			<a :href="href" class="link--new-window" @click="openNewWindow" target="_blank">
+			<a :href="href"
+				class="link--new-window"
+				target="_blank"
+				@click="openNewWindow">
 				View in new window
 			</a>
 		</div>
