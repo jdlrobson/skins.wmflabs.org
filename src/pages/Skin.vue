@@ -1,39 +1,37 @@
 <template>
 	<page class="page--skin">
 		<h2>Skin: {{ name }}</h2>
-		<two-column-layout>
-			<template #column-one>
-				<h3>About</h3>
-				<snapshot :stable="stable"
-					:compatible="preview"
-					:display-title="false"
-					:name="name"
-					:src="src"></snapshot>
-				<p>{{ summary }}</p>
-				<skin-warnings v-if="hasWarnings"
-					:url="mwUrl"
-					:beta="beta"
-					:experimental="experimental"
-					:unmaintained="unmaintained"
-					:has-dependencies="hasDependencies"
-					:might-break="mightBreak"
-					:compatible="compatible"
-				></skin-warnings>
-				<a v-for="(link,i) in links"
-					:key="i"
-					class="skinLink"
-					target="_blank"
-					:href="link.href">{{ link.text }}</a>
-			</template>
-			<template #column-two>
-				<preview v-if="!unmaintained || !infoIsLoaded"
-					:href="href"
-					 @changeArticle="changeArticle"
-					:name="name">
-				</preview>
-				<unmaintained-skin v-else :url="mwUrl"></unmaintained-skin>
-			</template>
-		</two-column-layout>
+		<two-column-layout><template #column-one>
+			<h3>About</h3>
+			<snapshot :stable="stable"
+				:compatible="preview"
+				:display-title="false"
+				:name="name"
+				:src="src"></snapshot>
+			<p>{{ summary }}</p>
+			<skin-warnings v-if="hasWarnings"
+				:url="mwUrl"
+				:beta="beta"
+				:experimental="experimental"
+				:unmaintained="unmaintained"
+				:has-dependencies="hasDependencies"
+				:might-break="mightBreak"
+				:compatible="compatible"
+			></skin-warnings>
+			<a v-for="(link,i) in links"
+				:key="i"
+				class="skinLink"
+				target="_blank"
+				:href="link.href">{{ link.text }}</a>
+		</template>
+		<template #column-two>
+			<preview v-if="!unmaintained || !infoIsLoaded"
+				:href="href"
+					@changeArticle="changeArticle"
+				:name="name">
+			</preview>
+			<unmaintained-skin v-else :url="mwUrl"></unmaintained-skin>
+		</template></two-column-layout>
 	</page>
 </template>
 
