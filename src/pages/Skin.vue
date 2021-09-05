@@ -44,8 +44,8 @@
 			<template #column-two>
 				<preview v-if="!unmaintained || !infoIsLoaded"
 					:href="href"
+					 @changeArticle="changeArticle"
 					:name="name">
-					<article-changer @changeArticle="changeArticle"></article-changer>
 				</preview>
 				<div v-else class="no-preview">
 					<img :src="dead" alt="an emoji with crosses for eyes">
@@ -71,7 +71,6 @@ import Snapshot from '../components/Snapshot.vue';
 import Page from './Page.vue';
 import Preview from '../components/Preview.vue';
 import WarningBox from '../components/WarningBox.vue';
-import ArticleChanger from '../components/ArticleChanger';
 import { HOST, TEST_ARTICLES, DEFAULT_SKIN_IMAGE } from '../constants';
 import dead from '../../assets/dead.png';
 
@@ -79,7 +78,6 @@ export default {
 	name: 'Skin',
 	components: {
 		Page,
-		ArticleChanger,
 		Snapshot,
 		Preview,
 		WarningBox,
