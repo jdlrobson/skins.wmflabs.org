@@ -19,5 +19,11 @@ export default {
 </script>
 
 <style scoped>
-
+.page--404 {
+	display: flex;
+	align-items: center;
+	min-height: 400px;
+	flex-direction: column;
+	justify-content: center;
+}
 </style>
