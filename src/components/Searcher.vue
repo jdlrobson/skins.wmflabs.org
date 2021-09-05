@@ -1,11 +1,13 @@
 <template>
 	<div class="searcher">
-		<input class="search__input"
-			v-focus
+		<input v-focus
+			class="search__input"
 			placeholder="Find skin"
 			:value="query"
 			@input="setQuery">
-		<button class="searcher__filter-btn" @click="toggleFilters">Filters</button>
+		<button class="searcher__filter-btn" @click="toggleFilters">
+			Filters
+		</button>
 		<div v-if="showFilters" class="searcher__filter-list">
 			<div class="searcher__filter-item">
 				<custom-checkbox
@@ -56,7 +58,8 @@
 		<p class="filter-title">
 			<span v-if="fetched">Showing {{ filteredSkins.length }} / {{ skins.length }} skins.</span>
 			<a v-if="filterKey"
-				class="reset" @click="resetAll">Show all skins</a>
+				class="reset"
+				@click="resetAll">Show all skins</a>
 	  &nbsp;
 		</p>
 		<div v-if="hasNoResults">
@@ -68,6 +71,7 @@
 		</div>
 	</div>
 </template>
+
 <style lang="less" scoped>
 @import '../variables.less';
 
@@ -76,11 +80,11 @@
 }
 
 .search__input {
-	background: white;
+	background: #fff;
 	padding: 10px 11px 11px 53px;
 	background-repeat: no-repeat;
 	background-position: 15px center;
-	background-image: url(assets/search.svg);
+	background-image: url( assets/search.svg );
 	height: 40px;
 	width: 100%;
 	max-width: 602px;
@@ -102,7 +106,7 @@
 }
 
 a {
-	color: black;
+	color: #000;
 	font-weight: bold;
 }
 
@@ -110,7 +114,7 @@ a {
 	padding: 11px 16px;
 	line-height: 18.46px;
 	background: @color-explore-dark;
-	color: white;
+	color: #fff;
 	border: 0;
 }
 
@@ -119,8 +123,7 @@ a {
 	position: absolute;
 	z-index: 5;
 	background: @color-explore-dark;
-	color: black;
-	width: 100%;
+	color: #000;
 	right: -12px;
 	max-width: 320px;
 	text-align: left;
@@ -151,6 +154,7 @@ a {
 	}
 }
 </style>
+
 <script>
 import api from '../api.js';
 import CustomCheckbox from './CustomCheckbox.vue';
@@ -208,14 +212,6 @@ export default {
 			default: true
 		}
 	},
-	computed: {
-		mwUrlEdit() {
-			return `https://www.mediawiki.org/w/index.php?action=edit&preload=Template%3ASkin%2FSample&title=Skin%3A${this.query}&venoscript=1`;
-		},
-		hasNoResults() {
-			return this.fetched && this.filteredSkins.length === 0 && this.showNoResultsMessage;
-		}
-	},
 	data() {
 		return {
 			showFilters: false,
@@ -231,7 +227,15 @@ export default {
 			filterMaintained: filterMaintained.get(),
 			filterDependencies: filterDependencies.get(),
 			filterCompatible: filterCompatible.get(),
-			filterStable: filterStable.get(),
+			filterStable: filterStable.get()
+		};
+	},
+	computed: {
+		mwUrlEdit() {
+			return `https://www.mediawiki.org/w/index.php?action=edit&preload=Template%3ASkin%2FSample&title=Skin%3A${this.query}&venoscript=1`;
+		},
+		hasNoResults() {
+			return this.fetched && this.filteredSkins.length === 0 && this.showNoResultsMessage;
 		}
 	},
 	methods: {
@@ -252,7 +256,7 @@ export default {
 		search() {
 			const q = this.query;
 			const result = this.skins.filter( ( skin ) => {
-				if ( this.filterKey && skin.key !== this.filterKey ) return false;
+				if ( this.filterKey && skin.key !== this.filterKey ) { return false; }
 				if ( this.filterMightBreak && skin.mightBreak ) { return false; }
 				if ( this.filterMaintained && skin.unmaintained ) { return false; }
 				if ( this.filterStable && ( skin.experimental || skin.beta || skin.unmaintained ) ) { return false; }
@@ -319,5 +323,5 @@ export default {
 			this.search();
 		} );
 	}
-}
+};
 </script>
