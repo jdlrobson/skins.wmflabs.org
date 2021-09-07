@@ -4,17 +4,23 @@
 		<two-column-layout><template #column-one>
 		<tabs>
 			<tab title="HTML">
-				<textarea :value="mustache" @input="updateMustache"></textarea>
+				<textarea class="editor-textarea"
+					:value="mustache"
+					@input="updateMustache"></textarea>
 			</tab>
 			<tab title="CSS / LESS">
-				<textarea :value="less" @input="updateCSS"></textarea>
+				<textarea class="editor-textarea"
+					:value="less"
+					@input="updateCSS"></textarea>
 				<button class="css-theme-changer"
 					@click="newTheme">
 					Change theme
 				</button>
 			</tab>
 			<tab title="JS">
-				<textarea :value="js" @input="updateJS"></textarea>
+				<textarea class="editor-textarea"
+					:value="js"
+					@input="updateJS"></textarea>
 			</tab>
 		</tabs>
 		<h3>Name and download</h3>
