@@ -1,57 +1,54 @@
 <template>
 	<page class="page--new">
 		<h2>Create a new skin</h2>
-		<two-column-layout>
-			<template #column-one>
-				<tabs>
-					<tab title="HTML">
-						<textarea :value="mustache" @input="updateMustache"></textarea>
-					</tab>
-					<tab title="CSS / LESS">
-						<textarea :value="less" @input="updateCSS"></textarea>
-						<button class="css-theme-changer"
-							@click="newTheme">
-							Change theme
-						</button>
-					</tab>
-					<tab title="JS">
-						<textarea :value="js" @input="updateJS"></textarea>
-					</tab>
-				</tabs>
-				<h3>Name and download</h3>
-				<input type="text"
-					placeholder="Skin's name"
-					:value="skinname"
-					@input="updateName">
-				<button class="btn"
-					:disabled="skinname === ''"
-					@click="download">
-					Download as ZIP
+		<two-column-layout><template #column-one>
+		<tabs>
+			<tab title="HTML">
+				<textarea :value="mustache" @input="updateMustache"></textarea>
+			</tab>
+			<tab title="CSS / LESS">
+				<textarea :value="less" @input="updateCSS"></textarea>
+				<button class="css-theme-changer"
+					@click="newTheme">
+					Change theme
 				</button>
-				<button class="btn" @click="reset">
-					Reset
-				</button>
-			</template>
-			<template #column-two>
-				<preview :html="html"
-					:name="skinname"
-					:anon-default="anon"
-					:show-anon="true"
-					@changeArticle="changeArticle"
-					@changeAnon="changeAnon"
-				>
-				</preview>
-				<div class="data-explorer">
-					<h2>Template data</h2>
-					<p>Explore the data you can render in your skin here.</p>
-					<json-viewer :value="json"
-						:boxed="true"
-						:expanded="false"
-						:sort="true"
-						:copyable="true"></json-viewer>
-				</div>
-			</template>
-		</two-column-layout>
+			</tab>
+			<tab title="JS">
+				<textarea :value="js" @input="updateJS"></textarea>
+			</tab>
+		</tabs>
+		<h3>Name and download</h3>
+		<input type="text"
+			placeholder="Skin's name"
+			:value="skinname"
+			@input="updateName">
+		<button class="btn"
+			:disabled="skinname === ''"
+			@click="download">
+			Download as ZIP
+		</button>
+		<button class="btn" @click="reset">
+			Reset
+		</button>
+		</template><template #column-two>
+		<preview :html="html"
+			:name="skinname"
+			:anon-default="anon"
+			:show-anon="true"
+			@changeArticle="changeArticle"
+			@changeAnon="changeAnon"
+		>
+		</preview>
+		<div class="data-explorer">
+			<h2>Template data</h2>
+			<p>Explore the data you can render in your skin here.</p>
+			<json-viewer :value="json"
+				:boxed="true"
+				:expanded="false"
+				:sort="true"
+				:copyable="true"></json-viewer>
+		</div>
+		</template></two-column-layout>
 	</page>
 </template>
 
