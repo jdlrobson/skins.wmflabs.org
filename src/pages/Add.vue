@@ -131,7 +131,6 @@ export default {
 			templateDataReq: {},
 			pending: null,
 			variables: DEFAULT_SKIN_PROPS.variables,
-			startingLess: DEFAULT_SKIN_PROPS.less,
 			json: '',
 			css: '', // will be derived from less data value.
 			title: TEST_ARTICLES[ 0 ].title
@@ -150,10 +149,7 @@ export default {
 			this.updateJSON();
 		},
 		reset() {
-			const noConfirmationNeeded = DEFAULT_SKIN_PROPS.mustache === this.mustache &&
-			this.startingLess === this.less;
-
-			const confirm = noConfirmationNeeded || window.confirm( `Reset the skin (${this.skinname}) you are currently working on? All changes will be lost!` );
+			const confirm = window.confirm( `Reset the skin (${this.skinname}) you are currently working on? All changes will be lost!` );
 			if ( confirm ) {
 				Object.keys( DEFAULT_SKIN_PROPS ).forEach( ( key ) => {
 					localStorage.removeItem( `add-${key}` );
