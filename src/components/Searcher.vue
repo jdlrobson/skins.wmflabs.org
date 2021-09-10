@@ -15,7 +15,7 @@
 					name="search_release"
 					@change="onToggleCompatible"
 				>
-					Compatible with latest version
+					Compatible >= 1.37
 				</custom-checkbox>
 			</div>
 			<div class="searcher__filter-item">
@@ -111,21 +111,33 @@ a {
 }
 
 .searcher__filter-btn {
-	padding: 11px 16px;
+	padding: 0;
+	box-sizing: border-box;
 	line-height: 18.46px;
-	background: @color-explore-dark;
+	background: #000;
 	color: #fff;
 	border: 0;
+	background-image: url(./assets/filter.svg);
+	background-repeat: no-repeat;
+	width: 40px;
+	height: 40px;
+	background-position: center;
+	color: transparent;
+	border: solid 4px transparent;
+
+	&:focus {
+		border-color: orange;
+	}
 }
 
 .searcher__filter-list {
-	width: 280px;
+	width: 350px;
 	position: absolute;
 	z-index: 5;
 	background: @color-explore-dark;
 	color: #000;
-	right: -12px;
-	max-width: 320px;
+	top: 0;
+	right: -175px;
 	text-align: left;
 
 	@media ( min-width: 1440px ) {
