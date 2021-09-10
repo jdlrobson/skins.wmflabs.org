@@ -1,12 +1,12 @@
 <template>
-	<div class="no-preview">
+	<div class="unmaintained-skin">
 		<img :src="dead" alt="an emoji with crosses for eyes">
 		<p><strong>This skin appears to be unmaintained.</strong></p>
 	</div>
 </template>
 
 <script>
-import dead from '../../assets/dead.png';
+import dead from './assets/unmaintained.svg';
 
 export default {
 	name: 'NoPreviewAvailable',
@@ -25,12 +25,15 @@ export default {
 </script>
 
 <style lang="less" scoped>
-	.no-preview {
+	.unmaintained-skin {
+		background: #000;
+		color: white;
 		display: flex;
 		align-items: center;
 		height: 100%;
 		align-content: center;
 		flex-wrap: wrap;
+		padding: 50px;
 
 		> p {
 			flex-grow: 1;

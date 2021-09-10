@@ -93,6 +93,7 @@ export default {
 		flex-shrink: 1;
 		box-sizing: border-box;
 		position: relative;
+		background: #000;
 	}
 
 	.snapshot--unmaintained:after {
@@ -103,7 +104,7 @@ export default {
 		right: 0;
 		bottom: 50px;
 		height: 110px;
-		background: url( ../../assets/dead.png );
+		background-image: url( ./assets/unmaintained.svg );
 		background-size: 120px auto;
 		background-position: center center;
 		background-repeat: no-repeat;
@@ -138,6 +139,10 @@ export default {
 
 	a {
 		color: #e80447;
+		text-decoration: none;
+		display: block;
+		z-index: 2;
+		position: relative;
 	}
 
 	abbr {

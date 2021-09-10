@@ -5,7 +5,7 @@
 			@click="activatePreview"
 		>
 			<img :src="src">
-			<unmaintained-skin v-if="!available"></unmaintained-skin>
+			<unmaintained-skin class="no-preview" v-if="!available"></unmaintained-skin>
 		</div>
 		<preview v-else
 			:href="href"
@@ -90,7 +90,6 @@ export default {
 			right: 0;
 			top: 0;
 			bottom: 0;
-			background: #fff;
 			opacity: 0.7;
 		}
 
