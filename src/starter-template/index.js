@@ -101,8 +101,8 @@ export const randomColor = () => {
 	return '#' + Math.floor( Math.random() * 16777215 ).toString( 16 );
 };
 
-export const getLessVars = () => {
-	const vars = {
+export const getLessVarsRaw = () => {
+	return {
 		'background-color-base': randomColor(),
 		'background-color-article': 'white',
 		'color-base': '#54595d',
@@ -112,6 +112,10 @@ export const getLessVars = () => {
 		'color-link--visited': '#0b0080',
 		'font-family': "'Roboto',-apple-system,BlinkMacSystemFont,'Segoe UI','Oxygen','Ubuntu','Cantarell','Helvetica Neue',sans-serif"
 	};
+
+};
+
+export const getLessVarsCode = ( vars ) => {
 	return Object.keys( vars ).map( ( key ) => {
 		return `@${key}: ${vars[ key ]};`;
 	} ).join( '\n' );

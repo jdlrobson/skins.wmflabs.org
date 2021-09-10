@@ -40,10 +40,11 @@
 				<textarea class="editor-textarea"
 					:value="less"
 					@input="updateCSS"></textarea>
-				<button class="css-theme-changer"
+				<button class="btn css-theme-changer"
 					@click="newTheme">
 					Change theme
 				</button>
+				<color-chart :colors="colorChart"></color-chart>
 			</tab>
 			<tab title="JS">
 				<textarea class="editor-textarea"
@@ -65,16 +66,16 @@
 
 <script>
 /* global less */
-import { PARTIALS, getLessVars, JQUERY,
+import { PARTIALS, getLessVarsCode, getLessVarsRaw, JQUERY,
 	buildSkin, getLESSFromTemplate,
 	DEFAULT_SKIN_MUSTACHE, generateStylesheetLESS, SCRIPTS, messages } from '../starter-template';
 import api from '../api.js';
 import { TEST_ARTICLES, HOST, LESS_RENDER_OPTIONS } from '../constants';
 import { render } from 'mustache';
+import ColorChart from '../components/ColorChart.vue';
 import Tabs from '../components/Tabs.vue';
 import Tab from '../components/Tab.vue';
 import Preview from '../components/Preview.vue';
-import TwoColumnLayout from '../components/TwoColumnLayout.vue';
 import nameMe from '../nameMe';
 import JsonViewer from 'vue-json-viewer';
 import Page from './Page.vue';
@@ -91,7 +92,7 @@ const DEFAULT_HTML = '<!DOCTYPE HTML><html><body>Loading preview...</body></html
 const DEFAULT_SKIN_PROPS = {
 	html: DEFAULT_HTML,
 	anon: true,
-	variables: getLessVars(),
+	variables: getLessVarsRaw(),
 	less: generateStylesheetLESS(),
 	js: `/* scripts can go here */
 `,
@@ -124,7 +125,7 @@ export default {
 		Tab,
 		JsonViewer,
 		Preview,
-		TwoColumnLayout
+		ColorChart
 	},
 	data() {
 		return Object.assign( getCached(), {
@@ -135,6 +136,16 @@ export default {
 			css: '', // will be derived from less data value.
 			title: TEST_ARTICLES[ 0 ].title
 		} );
+	},
+	computed: {
+		colorChart() {
+			return Object.keys( this.variables )
+				.filter( ( key ) => this.variables[ key ].indexOf( '#' ) === 0 )
+				.map( ( key ) => ( {
+					key,
+					color: this.variables[ key ]
+				} ) );
+		}
 	},
 	methods: {
 		updateJSON() {
@@ -169,7 +180,7 @@ export default {
 			localStorage.setItem( 'add-skinname', this.skinname );
 		},
 		newTheme() {
-			this.variables = getLessVars();
+			this.variables = Object.assign( {}, getLessVarsRaw() );
 			this.generatePreview();
 		},
 		updateName( ev ) {
@@ -233,7 +244,7 @@ export default {
 				const js = '<script>' + this.js + '<\/script>';
 				const imports = getLESSFromTemplate( this.mustache );
 
-				less.render( this.variables + this.less + imports, LESS_RENDER_OPTIONS ).then( ( compiledLess ) => {
+				less.render( getLessVarsCode( this.variables ) + this.less + imports, LESS_RENDER_OPTIONS ).then( ( compiledLess ) => {
 					css = compiledLess.css;
 					return this.getTemplateData( this.title );
 				}, ( err ) => {
