@@ -4,6 +4,12 @@
 	</main>
 </template>
 
+<script>
+export default {
+	name: 'Page'
+};
+</script>
+
 <style lang="less" scoped>
 @import '../variables.less';
 
@@ -22,8 +28,3 @@
 }
 </style>
 
-<script>
-export default {
-	name: 'Page'
-};
-</script>

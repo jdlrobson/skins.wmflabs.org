@@ -2,20 +2,22 @@
 	<div class="custom-checkbox">
 		<input type="checkbox"
 			:name="name"
+			:checked="checked"
 			@change="changeEvent"
-			@input="inputEvent"
-			:checked="checked"><!--
+			@input="inputEvent"><!--
 		--><label :for="name">
 			<slot></slot>
 		</label>
 	</div>
 </template>
+
 <script>
 export default {
 	name: 'CustomCheckbox',
 	props: {
 		name: {
-			type: String
+			type: String,
+			required: true
 		},
 		checked: {
 			type: Boolean,
@@ -32,6 +34,7 @@ export default {
 	}
 };
 </script>
+
 <style lang="less">
 .custom-checkbox {
 	position: relative;

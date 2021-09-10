@@ -13,6 +13,33 @@
 	</div>
 </template>
 
+<script>
+export default {
+	name: 'Tabs',
+	components: {},
+	data() {
+		return {
+			selectedIndex: 0,
+			tabs: []
+		};
+	},
+	methods: {
+		selectTab( selectedIndex ) {
+			this.selectedIndex = selectedIndex;
+			this.tabs.forEach( ( tab, i ) => {
+				tab.isActive = ( selectedIndex === i );
+			} );
+		}
+	},
+	created() {
+		this.tabs = this.$children;
+	},
+	mounted() {
+		this.selectTab( 0 );
+	}
+};
+</script>
+
 <style lang="less">
 @import '../variables.less';
 .tabs__links {
@@ -45,30 +72,3 @@
 	color: @color-create-dark;
 }
 </style>
-
-<script>
-export default {
-	name: 'Tabs',
-	components: {},
-	data() {
-		return {
-			selectedIndex: 0,
-			tabs: []
-		};
-	},
-	methods: {
-		selectTab( selectedIndex ) {
-			this.selectedIndex = selectedIndex;
-			this.tabs.forEach( ( tab, i ) => {
-				tab.isActive = ( selectedIndex === i );
-			} );
-		}
-	},
-	created() {
-		this.tabs = this.$children;
-	},
-	mounted() {
-		this.selectTab( 0 );
-	}
-};
-</script>

@@ -60,7 +60,7 @@
 			<a v-if="filterKey"
 				class="reset"
 				@click="resetAll">Show all skins</a>
-	  &nbsp;
+	&nbsp;
 		</p>
 		<div v-if="hasNoResults">
 			<div class="no-results-sad-face">
@@ -71,109 +71,6 @@
 		</div>
 	</div>
 </template>
-
-<style lang="less" scoped>
-@import '../variables.less';
-
-.searcher {
-	position: relative;
-}
-
-.search__input {
-	font-family: 'Roboto Regular';
-	box-sizing: border-box;
-	background: #fff;
-	padding: 10px 11px 11px 53px;
-	background-repeat: no-repeat;
-	background-position: 15px center;
-	background-image: url( assets/search.svg );
-	height: 40px;
-	width: 100%;
-	max-width: 400px;
-	margin-bottom: 15px;
-	color: @color-explore-dark;
-
-	&::placeholder {
-		color: @color-explore-dark;
-	}
-}
-
-.filter-title {
-	color: @color-explore-dark;
-	font-size: 14px;
-	margin: 15px 0 27px 0;
-}
-
-.no-results-sad-face {
-	font-size: 100px;
-}
-
-a {
-	color: #000;
-	font-weight: bold;
-}
-
-.searcher__filter-btn {
-	padding: 0;
-	box-sizing: border-box;
-	line-height: 18.46px;
-	background: #000;
-	color: #fff;
-	border: 0;
-	background-image: url(./assets/filter.svg);
-	background-repeat: no-repeat;
-	width: 40px;
-	height: 40px;
-	background-position: center;
-	color: transparent;
-	border: solid 4px transparent;
-
-	&:focus {
-		border-color: orange;
-	}
-}
-
-.searcher__filter-list {
-	width: 275px;
-	position: absolute;
-	z-index: 5;
-	background: @color-explore-dark;
-	color: #000;
-	top: 0;
-	right: -4px;
-	text-align: left;
-
-	@media ( min-width: 1400px ) {
-		max-width: 400px;
-	}
-}
-
-.reset {
-	text-transform: uppercase;
-	cursor: pointer;
-
-	&:hover {
-		text-decoration: underline;
-	}
-}
-
-.searcher__filter-item {
-	padding: 12px 12px 12px 19px;
-
-	label {
-		text-transform: none;
-		font-size: 14px;
-	}
-
-	input {
-		margin-right: 13px;
-		width: 16px;
-		height: 16px;
-		border-radius: 2px;
-		border-color: transparent;
-	}
-}
-</style>
 
 <script>
 import api from '../api.js';
@@ -225,7 +122,8 @@ export default {
 	props: {
 		// Additional key to filter name against
 		filterKey: {
-			type: String
+			type: String,
+			required: true
 		},
 		showNoResultsMessage: {
 			type: Boolean,
@@ -345,3 +243,106 @@ export default {
 	}
 };
 </script>
+
+<style lang="less" scoped>
+@import '../variables.less';
+
+.searcher {
+	position: relative;
+}
+
+.search__input {
+	font-family: 'Roboto Regular';
+	box-sizing: border-box;
+	background: #fff;
+	padding: 10px 11px 11px 53px;
+	background-repeat: no-repeat;
+	background-position: 15px center;
+	background-image: url( assets/search.svg );
+	height: 40px;
+	width: 100%;
+	max-width: 400px;
+	margin-bottom: 15px;
+	color: @color-explore-dark;
+
+	&::placeholder {
+		color: @color-explore-dark;
+	}
+}
+
+.filter-title {
+	color: @color-explore-dark;
+	font-size: 14px;
+	margin: 15px 0 27px 0;
+}
+
+.no-results-sad-face {
+	font-size: 100px;
+}
+
+a {
+	color: #000;
+	font-weight: bold;
+}
+
+.searcher__filter-btn {
+	padding: 0;
+	box-sizing: border-box;
+	line-height: 18.46px;
+	background: #000;
+	color: #fff;
+	border: 0;
+	background-image: url(./assets/filter.svg);
+	background-repeat: no-repeat;
+	width: 40px;
+	height: 40px;
+	background-position: center;
+	color: transparent;
+	border: solid 4px transparent;
+
+	&:focus {
+		border-color: orange;
+	}
+}
+
+.searcher__filter-list {
+	width: 275px;
+	position: absolute;
+	z-index: 5;
+	background: @color-explore-dark;
+	color: #000;
+	top: 0;
+	right: -4px;
+	text-align: left;
+
+	@media ( min-width: 1400px ) {
+		max-width: 400px;
+	}
+}
+
+.reset {
+	text-transform: uppercase;
+	cursor: pointer;
+
+	&:hover {
+		text-decoration: underline;
+	}
+}
+
+.searcher__filter-item {
+	padding: 12px 12px 12px 19px;
+
+	label {
+		text-transform: none;
+		font-size: 14px;
+	}
+
+	input {
+		margin-right: 13px;
+		width: 16px;
+		height: 16px;
+		border-radius: 2px;
+		border-color: transparent;
+	}
+}
+</style>

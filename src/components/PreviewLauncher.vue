@@ -5,7 +5,7 @@
 			@click="activatePreview"
 		>
 			<img :src="src">
-			<unmaintained-skin class="no-preview" v-if="!available"></unmaintained-skin>
+			<unmaintained-skin v-if="!available" class="no-preview"></unmaintained-skin>
 		</div>
 		<preview v-else
 			:href="href"

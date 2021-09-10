@@ -1,3 +1,5 @@
+// stylelint-disable function-url-quotes, font-weight-notation
+
 @font-face {
 	font-family: 'Roboto Mono';
 	src: url( 'RobotoMono.ttf' )  format( 'truetype' );
@@ -13,7 +15,7 @@ body,
 select,
 button,
 input {
-	font-family: 'Roboto Mono';
+	font-family: 'Roboto Mono', monospace;
 }
 
 * {
@@ -21,7 +23,7 @@ input {
 }
 
 label {
-	font-size: 12px;
+	font-size: 0.75em; // (12/16) em;
 	text-transform: uppercase;
 	font-weight: 700;
 }

@@ -4,19 +4,15 @@
 	</div>
 </template>
 
-<style>
-.tab {
-	background: white;
-	width: 100%;
-}
-</style>
-
 <script>
 export default {
 	name: 'Tab',
 	components: {},
 	props: {
-		title: String
+		title: {
+			type: String,
+			required: true
+		}
 	},
 	data() {
 		return {
@@ -25,3 +21,10 @@ export default {
 	}
 };
 </script>
+
+<style>
+.tab {
+	background: white;
+	width: 100%;
+}
+</style>

@@ -1,8 +1,15 @@
 <template>
-<div class="custom-select">
-	<slot />
-</div>
+	<div class="custom-select">
+		<slot></slot>
+	</div>
 </template>
+
+<script>
+export default {
+	name: 'CustomSelect'
+};
+</script>
+
 <style scoped>
 .custom-select {
 	position: relative;
@@ -32,8 +39,3 @@
 	background-image: url(assets/arrow.svg)
 }
 </style>
-<script>
-export default {
-	name: 'CustomSelect'
-};
-</script>

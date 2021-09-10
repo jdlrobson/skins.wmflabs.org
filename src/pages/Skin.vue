@@ -41,7 +41,6 @@
 
 <script>
 import api from '../api.js';
-import Snapshot from '../components/Snapshot.vue';
 import PreviewLauncher from '../components/PreviewLauncher.vue';
 import Page from './Page.vue';
 import SkinWarnings from '../components/SkinWarnings.vue';
@@ -53,8 +52,7 @@ export default {
 		PreviewLauncher,
 		SkinWarnings,
 		Searcher,
-		Page,
-		Snapshot
+		Page
 	},
 	data() {
 		return {

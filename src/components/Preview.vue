@@ -36,6 +36,7 @@
 			<div class="loggedin-selector">
 				<custom-checkbox v-if="showAnon"
 					:checked="anon"
+					name="anon"
 					@input="changeAnon">
 					Anonymous
 				</custom-checkbox>
