@@ -10,6 +10,8 @@ header {
 }
 
 nav {
+	align-items: flex-start;
+
 	&:before {
 		content: '';
 		left: 0;
@@ -50,8 +52,8 @@ header {
 		text-transform: uppercase;
 		font-size: 1.875em; // ( 30/16 ) em;
 		padding: 30px;
-		justify-content: flex-end;
 		height: 100%;
+		width: 100%;
 
 		h1 {
 			font-size: inherit;
@@ -65,6 +67,7 @@ header {
 
 		span {
 			padding-bottom: 30px;
+			width: 255px;
 		}
 
 		img {
@@ -117,7 +120,9 @@ header div {
 	header {
 		height: 100%;
 		position: relative;
-		width: 300px;
+		min-width: 300px;
+		max-width: 720px;
+		flex-grow: 1;
 		flex-direction: column;
 
 		&:before,
@@ -127,9 +132,24 @@ header div {
 			border-left: solid 2px #000;
 		}
 
+		a {
+			width: 100%;
+		}
+
 		a:first-child {
 			align-items: flex-end;
 			border-bottom: solid 2px #000;
+		}
+	}
+
+	header {
+		> a {
+			justify-content: flex-end;
+		}
+	}
+	nav {
+		> a {
+			align-items: flex-start;
 		}
 	}
 
