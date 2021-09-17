@@ -98,8 +98,7 @@ const DEFAULT_SKIN_PROPS = {
 	less: generateStylesheetLESS(),
 	js: `/* scripts can go here */
 `,
-	mustache: DEFAULT_SKIN_MUSTACHE,
-	skinname: ''
+	mustache: DEFAULT_SKIN_MUSTACHE
 };
 
 function getCached() {
@@ -168,7 +167,6 @@ export default {
 					localStorage.removeItem( `add-${key}` );
 					this[ key ] = DEFAULT_SKIN_PROPS[ key ];
 				} );
-				this.newName();
 				// random stylesheet each time.
 				this.newTheme();
 				this.less = generateStylesheetLESS();
