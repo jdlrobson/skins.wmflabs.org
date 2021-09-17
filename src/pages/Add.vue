@@ -181,6 +181,7 @@ export default {
 			this.skinname = nameMe();
 			// unfocus to reset animation.
 			setTimeout(() => {
+				this.generatePreview();
 				ev.target.blur();
 			}, 500 );
 			localStorage.setItem( 'add-skinname', this.skinname );
@@ -260,8 +261,8 @@ export default {
 					return this.getTemplateData( this.title );
 				} ).then( ( data ) => {
 					const OVERRIDES = {
-						'msg-sitetitle': 'Skinomatic 4000',
-						'msg-tagline': 'Presented to you in the skinomatic 4000',
+						'msg-sitetitle': `Skin:${this.skinname}`,
+						'msg-tagline': 'A new MediaWiki skin is born',
 						'html-subtitle': `<a target="_blank" href="${this.getUrl( this.title )}">View as JSON format</a>.`
 					};
 					this.html = `<!DOCTYPE HTML>
