@@ -214,7 +214,17 @@ export function getTemplatesFromSourceCode( partials, sourceCode ) {
 	} );
 }
 
-export function buildSkin( name, mustache, less, js = '', variables = '', options = {} ) {
+/**
+ * Generate a ZIP file for a given skin.
+ *
+ * @param {string} name
+ * @param {string} mustache
+ * @param {string} less
+ * @param {string} js
+ * @param {Object} variables
+ * @param {Object} options
+ */
+export function buildSkin( name, mustache, less, js = '', variables = {}, options = {} ) {
 	const templates = getTemplatesFromSourceCode( PARTIALS, mustache );
 	const styles = getComponentLESSFiles( Object.keys( templates ), [
 		'mediawiki.skin.variables',
@@ -235,7 +245,7 @@ export function buildSkin( name, mustache, less, js = '', variables = '', option
 			styles,
 			{
 				[ mainCss ]: less,
-				'variables.less': variables,
+				'variables.less': getLessVarsCode( variables ),
 				'skin.less': `@import 'mediawiki.skin.variables.less';
 @import "variables.less";
 ${importStatements}
