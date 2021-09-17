@@ -104,6 +104,16 @@ export default {
 		box-sizing: border-box;
 		position: relative;
 		background: #000;
+
+		&:hover {
+			h3 {
+				background: @color-explore-darkest;
+				color: white;
+			}
+			img {
+				opacity: 1;
+			}
+		}
 	}
 
 	.snapshot--unmaintained:after {
@@ -157,6 +167,7 @@ export default {
 	}
 
 	img {
+		opacity: 0.8;
 		width: 100%;
 		height: @height-img;
 		background: #fff;
