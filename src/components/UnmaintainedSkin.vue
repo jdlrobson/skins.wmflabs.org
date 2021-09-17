@@ -1,7 +1,8 @@
 <template>
 	<div class="unmaintained-skin">
 		<img :src="dead" alt="unmaintained skin">
-		<p>This skin appears to be <strong>unmaintained</strong>
+		<p>
+			This skin appears to be <strong>unmaintained</strong>
 		</p>
 	</div>
 </template>

@@ -1,69 +1,71 @@
 <template>
-	<page class="page--new"><div>
-		<div class="preview-header">
-			<label>Preview of:</label>
-			<div class="preview-header__name">
-				<input type="text"
-					placeholder="Skin's name"
-					:value="skinname"
-					@input="updateName">
-				<button class="preview-header__name__random"
-					title="Generate random name"
-					@click="newName">
-					Change name
+	<page class="page--new">
+		<div>
+			<div class="preview-header">
+				<label>Preview of:</label>
+				<div class="preview-header__name">
+					<input type="text"
+						placeholder="Skin's name"
+						:value="skinname"
+						@input="updateName">
+					<button class="preview-header__name__random"
+						title="Generate random name"
+						@click="newName">
+						Change name
+					</button>
+				</div>
+				<button class="btn"
+					:disabled="skinname === ''"
+					@click="download">
+					Download
 				</button>
 			</div>
-			<button class="btn"
-				:disabled="skinname === ''"
-				@click="download">
-				Download
-			</button>
+			<preview :html="html"
+				:name="skinname"
+				:anon-default="anon"
+				:show-anon="true"
+				@changeArticle="changeArticle"
+				@changeAnon="changeAnon"
+			>
+			</preview>
+			<div class="page__edit-area">
+				<button class="btn btn--destructive reset-btn" @click="reset">
+					Reset
+				</button>
+				<tabs>
+					<tab title="HTML ( Mustache )">
+						<textarea class="editor-textarea"
+							:value="mustache"
+							@input="updateMustache"></textarea>
+					</tab>
+					<tab title="CSS / LESS">
+						<textarea class="editor-textarea"
+							:value="less"
+							@input="updateCSS"></textarea>
+						<button class="btn css-theme-changer"
+							@click="newTheme">
+							Change theme
+						</button>
+						<color-chart :colors="colorChart"></color-chart>
+					</tab>
+					<tab title="JS">
+						<textarea class="editor-textarea"
+							:value="js"
+							@input="updateJS"></textarea>
+					</tab>
+				</tabs>
+			</div>
+			<div class="data-explorer">
+				<h2>Template data</h2>
+				<p>Explore the data you can render in your skin here.</p>
+				<json-viewer :value="json"
+					:boxed="true"
+					:expanded="false"
+					:sort="true"
+					:copyable="true"></json-viewer>
+			</div>
 		</div>
-		<preview :html="html"
-			:name="skinname"
-			:anon-default="anon"
-			:show-anon="true"
-			@changeArticle="changeArticle"
-			@changeAnon="changeAnon"
-		>
-		</preview>
-		<div class="page__edit-area">
-			<button class="btn btn--destructive reset-btn" @click="reset">
-				Reset
-			</button>
-			<tabs>
-				<tab title="HTML ( Mustache )">
-					<textarea class="editor-textarea"
-						:value="mustache"
-						@input="updateMustache"></textarea>
-				</tab>
-				<tab title="CSS / LESS">
-					<textarea class="editor-textarea"
-						:value="less"
-						@input="updateCSS"></textarea>
-					<button class="btn css-theme-changer"
-						@click="newTheme">
-						Change theme
-					</button>
-					<color-chart :colors="colorChart"></color-chart>
-				</tab>
-				<tab title="JS">
-					<textarea class="editor-textarea"
-						:value="js"
-						@input="updateJS"></textarea>
-				</tab>
-			</tabs>
-		</div>
-		<div class="data-explorer">
-			<h2>Template data</h2>
-			<p>Explore the data you can render in your skin here.</p>
-			<json-viewer :value="json"
-				:boxed="true"
-				:expanded="false"
-				:sort="true"
-				:copyable="true"></json-viewer>
-		</div>
-	<div></page>
+	</page>
 </template>
 
 <script>
