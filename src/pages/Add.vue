@@ -334,11 +334,12 @@ input {
 
 .btn {
 	color: #fff;
-	background: @color-create-dark;
-	padding: 11px 35px;
-	min-width: 148px;
+	background: #000;
+	text-transform: uppercase;
+	padding: 11px 10px;
+	min-width: 98px;
 	position: relative;
-	border: solid 4px transparent;
+	border: solid 3px transparent;
 	height: 40px;
 	font-weight: bold;
 	text-decoration: none;
@@ -347,12 +348,19 @@ input {
 	line-height: 1;
 	box-sizing: border-box;
 
-	&::disabled {
-		opacity: 0.5;
+	&:focus,
+	&:hover {
+		background: @color-create-darkest;
 	}
 
-	&:focus {
-		border-color: orange;
+	&:active {
+		background: @color-create-darkest;
+		border-color: #000;
+		opacity: 0.8;
+	}
+
+	&::disabled {
+		opacity: 0.5;
 	}
 }
 
@@ -366,8 +374,22 @@ input {
 }
 
 .btn--destructive {
-	background: white;
-	color: @color-create-dark;
+	background: @color-reset;
+	color: #fff;
+
+	&:focus,
+	&:hover,
+	&:active {
+		background: @color-reset;
+		color: transparent;
+		background-repeat: no-repeat;
+		background-position: center;
+		background-image: url(../components/assets/reset.svg);
+	}
+
+	&:active {
+		opacity: 0.8;
+	}
 }
 
 .data-explorer {
