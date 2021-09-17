@@ -109,25 +109,26 @@ export default {
 			}
 		},
 		w() {
+			// These must be synced with the LESS variables defined in stylesheet.
 			switch ( this.medium ) {
 				case 'm':
-					return 375;
+					return 360;
 					// Following have a 0.5 scale transform
 				case 't':
 					return 768;
 				default:
-					return 1280;
+					return 1800;
 			}
 		},
 		h() {
+			// These must be synced with the LESS variables defined in stylesheet.
 			switch ( this.medium ) {
 				case 'm':
-					return 240;
-					// Following have a 0.5 scale transform
+					return 740;
 				case 't':
 					return 1024;
 				default:
-					return 960;
+					return 1024;
 			}
 		},
 		enabled() {
@@ -190,9 +191,13 @@ export default {
 @import '../variables.less';
 :root {
 	--preview-width: 720;
-	--preview-width-mobile: 340;
+	--preview-height: 240;
+	--preview-width-mobile: 360;
 	--preview-width-tablet: 768;
 	--preview-width-desktop: 1800;
+	--preview-height-desktop: 1024;
+	--preview-height-tablet: 1024;
+	--preview-height-mobile: 740;
 }
 
 .preview__area {
@@ -201,7 +206,7 @@ export default {
 	background: black;
 	width: var(--preview-width);
 	text-align: center;
-	max-height: 440px;
+	max-height: 240px;
 }
 
 iframe {
@@ -219,19 +224,16 @@ iframe {
 	--scale-desktop: calc( var(--preview-width) / var(--preview-width-desktop) );
 	transform: scale(var(--scale-desktop), var(--scale-desktop));
 	width: calc( var(--preview-width-desktop) * 1px );
-	height: 1200px;
 }
 
 .iframe--tablet {
 	--scale-tablet: calc( var(--preview-width) / var(--preview-width-tablet) );
 	transform: scale(var(--scale-tablet), var(--scale-tablet));
-	width: calc( var(--preview-width-tablet) * 1px );
-	height: 1024px;
 }
 
 .iframe--mobile {
+	--scale-mobile: calc( var(--preview-width) / var(--preview-width-mobile) );
 	width: calc( var(--preview-width-mobile) * 1px );
-	height: 667px;
 }
 
 .preview__panel {
