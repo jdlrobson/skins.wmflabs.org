@@ -5,7 +5,7 @@
 				<label>Preview of:</label>
 				<div class="preview-header__name">
 					<input type="text"
-						placeholder="Skin's name"
+						placeholder="ENTER NAME OR CLICK THE DICE"
 						:value="skinname"
 						@input="updateName">
 					<button class="preview-header__name__random"
@@ -177,8 +177,12 @@ export default {
 				this.generatePreview();
 			}
 		},
-		newName() {
+		newName(ev) {
 			this.skinname = nameMe();
+			// unfocus to reset animation.
+			setTimeout(() => {
+				ev.target.blur();
+			}, 500 );
 			localStorage.setItem( 'add-skinname', this.skinname );
 		},
 		newTheme() {
@@ -321,7 +325,7 @@ input {
 
 	input {
 		margin-right: 7px;
-		width: 306px;
+		width: 400px;
 		padding-right: 50px;
 	}
 
@@ -415,11 +419,17 @@ input {
 	border: 0;
 	display: block;
 	width: 20px;
-	height: 20px;
+	height: 22px;
 	right: 20px;
-	top: 10px;
+	top: 9px;
 	color: transparent;
 	position: absolute;
 	background-image: url(../components/assets/random.svg);
+	transform: rotate(0deg);
+
+	&:focus {
+		transition: transform 0.4s ease-in;
+		transform: rotate(480deg);
+	}
 }
 </style>

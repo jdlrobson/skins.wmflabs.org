@@ -279,9 +279,11 @@ iframe {
 
 .link--new-window {
 	background: url(assets/newWindow.svg);
-	width: 40px;
-	height: 40px;
-	background-size: 100% auto;
+	width: 50px;
+	height: 50px;
+	padding: 0 0 10px 10px;
+	background-position: right -4px top -4px;
+	background-size: 40px 40px;
 	background-repeat: no-repeat;
 	display: block ruby;
 	overflow: hidden;
@@ -292,6 +294,7 @@ iframe {
 	right: 0;
 	top: 0;
 	z-index: 1;
+	box-shadow: -2px 2px 6px rgba(0, 0, 0, 0.25);
 
 	&:focus {
 		border-color: orange;
