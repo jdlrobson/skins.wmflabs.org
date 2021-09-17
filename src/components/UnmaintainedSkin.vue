@@ -1,7 +1,8 @@
 <template>
 	<div class="unmaintained-skin">
-		<img :src="dead" alt="an emoji with crosses for eyes">
-		<p><strong>This skin appears to be unmaintained.</strong></p>
+		<img :src="dead" alt="unmaintained skin">
+		<p>This skin appears to be <strong>unmaintained.</strong>
+		</p>
 	</div>
 </template>
 
@@ -26,22 +27,34 @@ export default {
 
 <style lang="less" scoped>
 	.unmaintained-skin {
-		background: #000;
-		color: white;
 		display: flex;
 		align-items: center;
+		justify-content: center;
+		background: #000;
+		color: white;
 		height: 100%;
-		align-content: center;
-		flex-wrap: wrap;
 		padding: 50px;
-
-		> p {
-			flex-grow: 1;
-		}
+		text-align: center;
+		text-transform: uppercase;
+		flex-wrap: wrap;
+		row-gap: 22px;
 
 		> img {
-			height: 200px;
-			width: 200px;
+			height: 120px;
+			width: 120px;
+			align-self: end;
+		}
+
+		> p {
+			align-self: start;
+			margin: 0;
+			font-size: unit( (21 / 16), rem );
+			width: 100%;
+
+			strong {
+				display: block;
+				font-size: unit( (30 / 16), rem );
+			}
 		}
 	}
 </style>

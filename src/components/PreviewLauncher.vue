@@ -104,18 +104,6 @@ export default {
 			opacity: 0.9;
 		}
 
-		.no-preview {
-			display: flex;
-			align-items: center;
-			height: 100%;
-			align-content: center;
-			flex-wrap: wrap;
-		}
-
-		.no-preview > p {
-			flex-grow: 1;
-		}
-
 		.no-preview > img {
 			height: 200px;
 			width: 200px;

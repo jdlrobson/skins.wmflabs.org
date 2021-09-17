@@ -93,10 +93,13 @@ export default {
 
 <style lang="less" scoped>
 	@import '../variables.less';
+	@height-snapshot: 180px;
+	@height-heading: 40px;
+	@height-img: @height-snapshot - @height-heading;
 
 	.snapshot {
 		width: 220px;
-		height: 180px;
+		height: @height-snapshot;
 		flex-shrink: 1;
 		box-sizing: border-box;
 		position: relative;
@@ -104,17 +107,26 @@ export default {
 	}
 
 	.snapshot--unmaintained:after {
-		content: '';
+		@height-unmaintained-img: 66px;
+		@height-spacing-between-header-and-img: 22px;
+		@height-spacing-between-img-and-text: 12px;
+		content: 'unmaintained';
+		text-transform: uppercase;
 		display: block;
 		position: absolute;
 		left: 0;
+		top: @height-heading + @height-spacing-between-header-and-img;
 		right: 0;
-		bottom: 20px;
-		height: 110px;
 		background-image: url( ./assets/unmaintained.svg );
-		background-size: 120px auto;
-		background-position: center center;
+		background-size: auto 66px;
+		background-position: top center;
 		background-repeat: no-repeat;
+		text-align: center;
+		color: white;
+		height: 96px;
+		box-sizing: border-box;
+		padding-top: @height-unmaintained-img + @height-spacing-between-img-and-text;
+		font-size: unit( (16/14), rem );
 	}
 
 	.snapshot--highlight h3 span {
@@ -134,7 +146,7 @@ export default {
 		margin: 0;
 		font-size: 12px;
 		text-align: center;
-		height: 40px;
+		height: @height-heading;
 	}
 
 	h3 a {
@@ -146,7 +158,7 @@ export default {
 
 	img {
 		width: 100%;
-		height: 140px;
+		height: @height-img;
 		background: #fff;
 		display: block;
 		object-fit: cover;
