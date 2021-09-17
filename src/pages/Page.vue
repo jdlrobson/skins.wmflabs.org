@@ -23,7 +23,12 @@ export default {
 	text-align: left;
 
 	@media (min-width: 600px) {
-		padding: 50px 60px;
+		padding: 50px 20px 50px 60px;
+
+		> * {
+			padding-right: 40px;
+			max-height: 100%;
+		}
 	}
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-	<page class="page--new">
+	<page class="page--new"><div>
 		<div class="preview-header">
 			<label>Preview of:</label>
 			<div class="preview-header__name">
@@ -63,7 +63,7 @@
 				:sort="true"
 				:copyable="true"></json-viewer>
 		</div>
-	</page>
+	<div></page>
 </template>
 
 <script>
@@ -284,7 +284,10 @@ export default {
 @import '../variables.less';
 .page--new {
 	background: @color-create-light;
-	overflow: scroll;
+
+	> div {
+		overflow: scroll;
+	}
 }
 
 .page__edit-area {
