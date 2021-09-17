@@ -18,9 +18,6 @@
 				@click="download">
 				Download
 			</button>
-			<button class="btn btn--destructive" @click="reset">
-				Reset
-			</button>
 		</div>
 		<preview :html="html"
 			:name="skinname"
@@ -30,28 +27,33 @@
 			@changeAnon="changeAnon"
 		>
 		</preview>
-		<tabs>
-			<tab title="HTML ( Mustache )">
-				<textarea class="editor-textarea"
-					:value="mustache"
-					@input="updateMustache"></textarea>
-			</tab>
-			<tab title="CSS / LESS">
-				<textarea class="editor-textarea"
-					:value="less"
-					@input="updateCSS"></textarea>
-				<button class="btn css-theme-changer"
-					@click="newTheme">
-					Change theme
-				</button>
-				<color-chart :colors="colorChart"></color-chart>
-			</tab>
-			<tab title="JS">
-				<textarea class="editor-textarea"
-					:value="js"
-					@input="updateJS"></textarea>
-			</tab>
-		</tabs>
+		<div class="page__edit-area">
+			<button class="btn btn--destructive reset-btn" @click="reset">
+				Reset
+			</button>
+			<tabs>
+				<tab title="HTML ( Mustache )">
+					<textarea class="editor-textarea"
+						:value="mustache"
+						@input="updateMustache"></textarea>
+				</tab>
+				<tab title="CSS / LESS">
+					<textarea class="editor-textarea"
+						:value="less"
+						@input="updateCSS"></textarea>
+					<button class="btn css-theme-changer"
+						@click="newTheme">
+						Change theme
+					</button>
+					<color-chart :colors="colorChart"></color-chart>
+				</tab>
+				<tab title="JS">
+					<textarea class="editor-textarea"
+						:value="js"
+						@input="updateJS"></textarea>
+				</tab>
+			</tabs>
+		</div>
 		<div class="data-explorer">
 			<h2>Template data</h2>
 			<p>Explore the data you can render in your skin here.</p>
@@ -287,6 +289,10 @@ export default {
 	overflow: scroll;
 }
 
+.page__edit-area {
+	position: relative;
+}
+
 input {
 	background: black;
 	padding: 11px 24px;
@@ -308,7 +314,6 @@ input {
 
 	label {
 		margin-right: 13px;
-		flex-grow: 1;
 	}
 
 	input {
@@ -348,6 +353,15 @@ input {
 	&:focus {
 		border-color: orange;
 	}
+}
+
+.reset-btn {
+	position: absolute;
+	min-width: 68px;
+	right: 0;
+	top: -67px;
+	width: 68px;
+	padding: 0;
 }
 
 .btn--destructive {

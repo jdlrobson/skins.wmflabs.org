@@ -1,6 +1,12 @@
 <template>
 	<div class="preview">
 		<div v-if="enabled" class="preview__area">
+			<a :href="href"
+				class="link--new-window"
+				target="_blank"
+				@click="openNewWindow">
+				View in new window
+			</a>
 			<iframe ref="iframe"
 				sandbox="allow-same-origin allow-scripts"
 				:class="iframeClass"
@@ -41,12 +47,6 @@
 					Anonymous
 				</custom-checkbox>
 			</div>
-			<a :href="href"
-				class="link--new-window"
-				target="_blank"
-				@click="openNewWindow">
-				View in new window
-			</a>
 		</div>
 	</div>
 </template>
@@ -187,6 +187,7 @@ export default {
 </script>
 
 <style lang="less">
+@import '../variables.less';
 :root {
 	--preview-width: 720;
 	--preview-width-mobile: 340;
@@ -195,6 +196,7 @@ export default {
 }
 
 .preview__area {
+	position: relative;
 	overflow: hidden;
 	background: black;
 	width: var(--preview-width);
@@ -246,7 +248,7 @@ iframe {
 }
 
 .loggedin-selector {
-	flex-grow: 1;
+	margin-left: 50px;
 	align-self: center;
 	text-align: center;
 }
@@ -282,8 +284,12 @@ iframe {
 	display: block ruby;
 	overflow: hidden;
 	color: transparent;
-	float: right;
+	position: absolute;
 	border: solid 4px transparent;
+	background-color: @color-create-light;
+	right: 0;
+	top: 0;
+	z-index: 1;
 
 	&:focus {
 		border-color: orange;
