@@ -20,6 +20,16 @@ body {
 	}
 }
 
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	color: @color-base;
+}
+
 a {
 	color: @color-link;
 
@@ -94,4 +104,32 @@ main {
 .mw-editsection {
 	font-size: 0.85em;
 	margin-left: 8px;
+}
+
+.messagebox {
+	color: @color-base;
+	background-color: @background-color-warning;
+	border-color: @color-gray;
+
+	a {
+		color: @color-base;
+		font-weight: bold;
+	}
+}
+
+.thumbimage {
+	background: transparent;
+	border: 0;
+}
+
+.toc,
+div.thumbinner {
+	border-color: @color-gray;
+	background-color: @background-color-thumb;
+	color: @color-thumb;
+
+	.toctogglelabel,
+	a {
+		color: @color-thumb;
+	}
 }

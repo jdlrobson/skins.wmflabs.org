@@ -46,7 +46,8 @@
 							@click="newTheme">
 							Change theme
 						</button>
-						<color-chart :colors="colorChart"></color-chart>
+						<color-chart :colors="colorChart"
+							@toggleColor="toggleColor"></color-chart>
 					</tab>
 					<tab title="JS">
 						<textarea class="editor-textarea"
@@ -71,7 +72,7 @@
 <script>
 /* global less */
 import { PARTIALS, getLessVarsCode, getLessVarsRaw, JQUERY,
-	buildSkin, getLESSFromTemplate,
+	buildSkin, getLESSFromTemplate, randomColor,
 	DEFAULT_SKIN_MUSTACHE, generateStylesheetLESS, SCRIPTS, messages } from '../starter-template';
 import api from '../api.js';
 import { TEST_ARTICLES, HOST, LESS_RENDER_OPTIONS } from '../constants';
@@ -151,6 +152,12 @@ export default {
 		}
 	},
 	methods: {
+		toggleColor( name ) {
+			this.variables = Object.assign( this.variables, {
+				[ name ]: randomColor()
+			} );
+			this.generatePreview();
+		},
 		updateJSON() {
 			api.getSkinJSON( this.title, this.anon ).then( ( json ) => {
 				this.json = json;
@@ -177,10 +184,10 @@ export default {
 				this.generatePreview();
 			}
 		},
-		newName(ev) {
+		newName( ev ) {
 			this.skinname = nameMe();
 			// unfocus to reset animation.
-			setTimeout(() => {
+			setTimeout( () => {
 				this.generatePreview();
 				ev.target.blur();
 			}, 500 );
@@ -250,8 +257,20 @@ export default {
 				// eslint-disable-next-line no-useless-escape
 				const js = '<script>' + this.js + '<\/script>';
 				const imports = getLESSFromTemplate( this.mustache );
+				const HACKS = `
+// Hack until we work out how to get skin variables to work with ResourceLoaderSkinModule
+a:visited,
+a:hover,
+a {
+	color: @color-link;
+}
+// core change: 051fb1cd472e5220f756a7e9ab35c104d3fd0ce5
+.toctogglelabel {
+	color: @color-link;
+}
 
-				less.render( getLessVarsCode( this.variables ) + this.less + imports, LESS_RENDER_OPTIONS ).then( ( compiledLess ) => {
+`;
+				less.render( getLessVarsCode( this.variables ) + this.less + imports + HACKS, LESS_RENDER_OPTIONS ).then( ( compiledLess ) => {
 					css = compiledLess.css;
 					return this.getTemplateData( this.title );
 				}, ( err ) => {

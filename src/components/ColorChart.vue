@@ -4,7 +4,8 @@
 			:key="'color' + i"
 			class="color-chart__blot"
 			:style="'background: ' + c.color + ';'"
-			:title="c.key + ' : ' + c.color">
+			:title="c.key + ' : ' + c.color"
+			@click="$emit('toggleColor', c.key)">
 			&nbsp;
 		</span>
 	</div>
@@ -29,7 +30,7 @@ export default {
 	justify-content: center;
 }
 .color-chart__blot {
-	width: 50px;
-	height: 50px;
+	width: 20px;
+	height: 20px;
 }
 </style>

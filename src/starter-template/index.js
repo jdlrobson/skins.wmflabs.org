@@ -97,22 +97,149 @@ export const messages = () => {
 };
 export const DEFAULT_SKIN_MUSTACHE = fs.readFileSync( `${__dirname}/skin.mustache` ).toString();
 
+/**
+ * @param {number} c
+ * @return {string} hex
+ */
+function componentToHex( c ) {
+	const hex = c.toString( 16 );
+	return hex.length === 1 ? '0' + hex : hex;
+}
+
+/**
+ *
+ * @param {Object} rgb
+ * @return {string} hexcode.
+ */
+function rgbToHex( rgb ) {
+	return '#' + componentToHex( rgb.r ) + componentToHex( rgb.g ) + componentToHex( rgb.b );
+}
+
 export const randomColor = () => {
-	return '#' + Math.floor( Math.random() * 16777215 ).toString( 16 );
+	return rgbToHex(
+		{
+			r: Math.floor( Math.random() * 255 ),
+			g: Math.floor( Math.random() * 255 ),
+			b: Math.floor( Math.random() * 255 )
+		}
+	);
+};
+
+/**
+ * @param {number} h hue 0-360
+ * @param {number} s saturation between 0 and 1
+ * @param {number} l lightness between 0 and 1
+ * @return {Object} rgb
+ */
+function hslToRgb( h, s, l ) {
+	// h (hue) between 0 and 360, s (saturation) & l (lightness) between 0 and 1
+	const c = l <= 0.5 ? 2 * l * s : ( 2 - ( 2 * l ) ) * s;
+	const h1 = h / 60;
+	const x = c * ( 1 - Math.abs( ( h1 % 2 ) - 1 ) );
+	let r, g, b;
+	if ( h1 >= 0 && h1 < 1 ) {
+		r = c;
+		g = x;
+		b = 0;
+	} else if ( h1 >= 1 && h1 < 2 ) {
+		r = x;
+		g = c;
+		b = 0;
+	} else if ( h1 >= 2 && h1 < 3 ) {
+		r = 0;
+		g = c;
+		b = x;
+	} else if ( h1 >= 3 && h1 < 4 ) {
+		r = 0;
+		g = x;
+		b = c;
+	} else if ( h1 >= 4 && h1 < 5 ) {
+		r = x;
+		g = 0;
+		b = c;
+	} else if ( h1 >= 5 && h1 < 6 ) {
+		r = c;
+		g = 0;
+		b = x;
+	}
+	const m = l - ( 0.5 * c );
+	return {
+		r: parseInt( ( r + m ) * 255, 10 ),
+		g: parseInt( ( g + m ) * 255, 10 ),
+		b: parseInt( ( b + m ) * 255, 10 )
+	};
+}
+
+/**
+ * Return random number between min and max.
+ *
+ * @param {number} min
+ * @param {number} max
+ * @return {number}
+ */
+function generateRandomNumber( min, max ) {
+	return ( Math.random() * ( max - min ) ) + min;
+}
+
+/**
+ * Returns object of RGB keys to hex
+ *
+ * @param {Object} obj
+ * @return {Object}
+ */
+const rgbVarsToHex = ( obj ) => {
+	const newObj = {};
+	Object.keys( obj ).forEach( ( key ) => {
+		newObj[ key ] = rgbToHex( obj[ key ] );
+	} );
+	return newObj;
 };
 
 export const getLessVarsRaw = () => {
-	return {
-		'background-color-base': randomColor(),
-		'background-color-article': 'white',
-		'color-base': '#54595d',
-		'color-gray': '#a2a9b1',
-		'color-gray-2': '#eaecf0',
-		'color-link': '#0645ad',
-		'color-link--visited': '#0b0080',
-		'font-family': "'Roboto',-apple-system,BlinkMacSystemFont,'Segoe UI','Oxygen','Ubuntu','Cantarell','Helvetica Neue',sans-serif"
+	const isDarkMode = Math.round( Math.random() ) === 0;
+	const primary = Math.floor( Math.random() * 359 );
+	const saturation = generateRandomNumber( 0.3, 0.7 );
+	const dark = generateRandomNumber( 0, 0.15 );
+	const pale = generateRandomNumber( 0.85, 1 );
+	const delta = ( ( pale - dark ) / 4 );
+	const mid = dark + delta;
+	const light = dark + ( delta * 2 );
+	const complementaryHue = ( primary + 180 ) % 360;
+	const seed = Math.floor( ( 85 * Math.random() ) + 5 ); // we want it to be at least 5 degrees
+	let secondary = ( complementaryHue + seed ) % 360;
+	let tertiary = ( complementaryHue - seed ) % 360;
+	if ( secondary < 0 ) {
+		secondary = 360 + secondary;
+	}
+	if ( tertiary < 0 ) {
+		tertiary = 360 + tertiary;
+	}
+
+	const colorLinkLightness = isDarkMode ? 0.7 : 0.4;
+	const colorLinkLightnessStep = isDarkMode ? -0.05 : 0.05;
+
+	const vars = {
+		'background-color-warning': hslToRgb( tertiary, saturation, isDarkMode ? dark : pale ),
+		'background-color-base': hslToRgb( tertiary, saturation, isDarkMode ? mid : light ),
+		'background-color-article': hslToRgb( secondary, saturation, isDarkMode ? dark : pale ),
+		'background-color-thumb': hslToRgb( tertiary, saturation, isDarkMode ? dark : pale ),
+		'color-thumb': hslToRgb( tertiary, saturation, isDarkMode ? pale : dark ),
+		'color-base': hslToRgb( primary, saturation, isDarkMode ? pale : dark ),
+		'color-gray': hslToRgb( primary, saturation, isDarkMode ? light : mid ),
+		'color-gray-2': hslToRgb( primary, saturation, isDarkMode ? mid : light ),
+		'color-link': hslToRgb( secondary, saturation, colorLinkLightness ),
+		'color-link--active': hslToRgb( secondary, saturation, colorLinkLightness + colorLinkLightnessStep ),
+		'color-link--visited': hslToRgb( secondary, saturation, colorLinkLightness + ( colorLinkLightnessStep / 2 ) )
 	};
 
+	return Object.assign( rgbVarsToHex( vars ), {
+		'font-family': "'Roboto',-apple-system,BlinkMacSystemFont,'Segoe UI','Oxygen','Ubuntu','Cantarell','Helvetica Neue',sans-serif",
+		'icon-filter': isDarkMode ? 'invert(1)' : 'none',
+		'color-link-new': '@color-link',
+		'color-link-stub': '@color-link',
+		'color-link-external': '@color-link',
+		'color-link-new--visited': '@color-link--visited'
+	} );
 };
 
 export const getLessVarsCode = ( vars ) => {
