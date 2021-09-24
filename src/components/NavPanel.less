@@ -1,7 +1,10 @@
 @import '../variables.less';
 
+@width-nav-grow: 600px;
+
 header {
 	text-align: right;
+	flex-flow: column;
 
 	&:after {
 		content: '';
@@ -99,7 +102,7 @@ header div {
 	font-size: 1.142em; // (16/14) em;
 }
 
-@media all and ( max-width: 1400px ) {
+@media all and ( max-width: @width-nav-grow ) {
 	nav,
 	header {
 		border-bottom: solid 3px #000;
@@ -114,9 +117,24 @@ header div {
 	main {
 		order: 2;
 	}
+
+
+	header,
+	.page--home ~ nav {
+		height: 50vh;
+	}
+
+	nav > a {
+		align-items: center;
+		justify-content: center;
+	}
+
+	#create {
+		display: none;
+	}
 }
 
-@media all and ( min-width: 1400px ) {
+@media all and ( min-width: @width-nav-grow ) {
 	nav,
 	header {
 		height: 100%;
