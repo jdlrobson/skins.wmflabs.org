@@ -57,7 +57,7 @@
 		</div>
 		<p class="filter-title">
 			<span v-if="fetched">Showing {{ filteredSkins.length }} / {{ skins.length }} skins.</span>
-			<a v-if="filterKey"
+			<a v-if="showReset"
 				class="reset"
 				@click="resetAll">Show all skins</a>
 	&nbsp;
@@ -149,6 +149,12 @@ export default {
 		};
 	},
 	computed: {
+		showReset() {
+			return this.filterKey || this.filterMightBreak ||
+				this.filterMaintained || this.filterDependencies ||
+				this.filterCompatible || this.filterStable ||
+				this.query;
+		},
 		mwUrlEdit() {
 			return `https://www.mediawiki.org/w/index.php?action=edit&preload=Template%3ASkin%2FSample&title=Skin%3A${this.query}&venoscript=1`;
 		},
@@ -164,6 +170,7 @@ export default {
 			this.filterDependencies = filterDependencies.set( false );
 			this.filterCompatible = filterCompatible.set( false );
 			this.filterStable = filterStable.set( false );
+			this.filteredSkins = this.skins;
 			this.$router.push( {
 				path: '/explore'
 			} );
@@ -249,6 +256,7 @@ export default {
 
 .searcher {
 	position: relative;
+	text-align: center;
 }
 
 .search__input {
@@ -306,17 +314,15 @@ a {
 }
 
 .searcher__filter-list {
-	width: 275px;
-	position: absolute;
+	display: block;
 	z-index: 5;
 	background: @color-explore-dark;
 	color: #000;
-	top: 0;
-	right: -4px;
+	margin: auto;
 	text-align: left;
 
 	@media ( min-width: 1400px ) {
-		max-width: 400px;
+		max-width: 450px;
 	}
 }
 
