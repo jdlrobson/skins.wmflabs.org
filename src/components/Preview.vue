@@ -10,6 +10,7 @@
 			<iframe ref="iframe"
 				sandbox="allow-same-origin allow-scripts"
 				:class="iframeClass"
+				:style="iframeStyle"
 				:src="href"
 				:width="w"
 				:height="h"></iframe>
@@ -89,6 +90,7 @@ export default {
 	},
 	data() {
 		return {
+			windowWidth: 0,
 			window: null,
 			anon: this.anonDefault,
 			medium: !!localStorage.getItem( 'medium' )
@@ -97,6 +99,17 @@ export default {
 	computed: {
 		createIssue() {
 			return `https://github.com/jdlrobson/skins.wmflabs.org/issues/new?assignees=&labels=&template=enable-preview-for-${this.name}-on-skins-wmflabs-org.md&title=Please+enable+my+skin+for+live+preview+option`;
+		},
+		iframeStyle() {
+			switch ( this.medium ) {
+				case 'm':
+				case 't':
+					return '';
+				default:
+					// center
+					const offset = this.windowWidth - 768;
+					return `translate: ${offset/2}px;`;
+			}
 		},
 		iframeClass() {
 			switch ( this.medium ) {
@@ -180,6 +193,7 @@ export default {
 	},
 	mounted() {
 		this.refresh();
+		this.windowWidth = this.$el.clientWidth;
 	},
 	updated() {
 		this.refresh();
@@ -190,7 +204,7 @@ export default {
 <style lang="less">
 @import '../variables.less';
 :root {
-	--preview-width: 720;
+	--preview-width: 768;
 	--preview-height: 240;
 	--preview-width-mobile: 360;
 	--preview-width-tablet: 768;
@@ -203,7 +217,7 @@ export default {
 .preview__area {
 	position: relative;
 	overflow: hidden;
-	background: black;
+	background: @color-create-light;
 	width: var(--preview-width);
 	text-align: center;
 	max-height: 240px;
@@ -229,6 +243,7 @@ iframe {
 .iframe--tablet {
 	--scale-tablet: calc( var(--preview-width) / var(--preview-width-tablet) );
 	transform: scale(var(--scale-tablet), var(--scale-tablet));
+	width: calc( var(--preview-width-tablet) * 1px );
 }
 
 .iframe--mobile {

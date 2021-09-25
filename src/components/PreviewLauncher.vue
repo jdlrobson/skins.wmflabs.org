@@ -5,7 +5,7 @@
 			@click="activatePreview"
 		>
 			<img :src="src">
-			<unmaintained-skin v-if="!available" class="no-preview"></unmaintained-skin>
+			<unmaintained-skin v-if="!maintained" class="no-preview"></unmaintained-skin>
 		</div>
 		<preview v-else
 			:href="href"
@@ -26,6 +26,10 @@ export default {
 		UnmaintainedSkin
 	},
 	props: {
+		maintained: {
+			type: Boolean,
+			required: true
+		},
 		available: {
 			type: Boolean,
 			required: true
@@ -63,7 +67,9 @@ export default {
 	},
 	methods: {
 		activatePreview() {
-			this.previewInactive = false;
+			if ( this.available ) {
+				this.previewInactive = false;
+			}
 		},
 		changeArticle( a ) {
 			this.testArticle = a;

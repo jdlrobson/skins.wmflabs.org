@@ -9,6 +9,7 @@
 				:src="srcLarge"
 				:skinkey="skinkey"
 				:name="name"
+				:maintained="!unmaintained"
 				:available="preview">
 			</preview-launcher>
 			<h3 v-if="infoIsLoaded">
@@ -80,7 +81,7 @@ export default {
 			if ( !this.infoIsLoaded ) {
 				return false;
 			}
-			return !this.stable || !this.preview || this.experimental ||
+			return !this.stable || this.experimental ||
 				!this.compatible ||
 				this.mightBreak || this.hasDependencies || this.beta || this.unmaintained;
 		},
@@ -94,6 +95,9 @@ export default {
 		}
 	},
 	mounted: function () {
+		if ( this.$el.clientWidth < 768 ) {
+			this.preview = false;
+		}
 		api.fetchSkinInfo( this.$route.params.key ).then( ( skin ) => {
 			this.name = skin.name;
 			if ( skin.src ) {
@@ -106,7 +110,6 @@ export default {
 			this.hasDependencies = skin.hasDependencies;
 			this.mightBreak = skin.mightBreak;
 			this.experimental = skin.experimental;
-			this.preview = skin.compatible;
 			this.links = skin.links;
 			this.infoIsLoaded = true;
 		}, () => {
