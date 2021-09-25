@@ -70,7 +70,7 @@ header {
 
 		span {
 			padding-bottom: 30px;
-			width: 255px;
+			width: 250px;
 			font-size: unit( ( 15 / 16 ), rem );
 		}
 
@@ -144,26 +144,47 @@ header div {
 		flex-grow: 1;
 		flex-direction: column;
 
+		// On a 900px height viewport, each link should have 300px high border.
+		@height-nav-link-border: 33.3%;
+
 		&:before,
 		&:after {
 			position: absolute;
-			height: 600px;
+			height: @height-nav-link-border * 2;
 			border-left: solid 2px #000;
 		}
 
-		a {
+		> div,
+		> a {
 			width: 100%;
+			height: 50%;
 		}
 
 		> a:first-child {
 			align-items: flex-end;
-			border-bottom: solid 2px #000;
+			position: relative;
+
+			&:after {
+				content: '';
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				width: 300px;
+				border-bottom: solid 2px #000;
+			}
 		}
 	}
 
 	header {
+		align-items: flex-end;
+
 		> a {
 			justify-content: flex-end;
+
+			&:first-child:after {
+				left: auto;
+				right: 0;
+			}
 		}
 	}
 
