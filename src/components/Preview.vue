@@ -227,6 +227,7 @@ iframe {
 	margin: auto;
 	background: white;
 	display: block;
+	border: 0;
 }
 
 .iframe--tablet,
