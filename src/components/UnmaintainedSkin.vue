@@ -12,12 +12,6 @@ import dead from './assets/unmaintained.svg';
 
 export default {
 	name: 'NoPreviewAvailable',
-	props: {
-		url: {
-			type: String,
-			required: true
-		}
-	},
 	computed: {
 		dead() {
 			return dead;
