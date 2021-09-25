@@ -60,10 +60,11 @@ export default {
 
 .page__showcase {
 	display: flex;
-	justify-content: space-between;
+	justify-content: center;
 	flex-direction: row;
 	flex-flow: row wrap;
 	row-gap: 30px;
+	column-gap: 30px;
 	align-items: start;
 	align-content: start;
 	overflow: scroll;
