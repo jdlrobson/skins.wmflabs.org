@@ -6,6 +6,7 @@
 		<div class="content">
 			<h2>{{ name }}</h2>
 			<preview-launcher
+				v-if="infoIsLoaded"
 				:src="srcLarge"
 				:skinkey="skinkey"
 				:name="name"
