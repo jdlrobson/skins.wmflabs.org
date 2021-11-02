@@ -123,7 +123,7 @@ export default {
 		// Additional key to filter name against
 		filterKey: {
 			type: String,
-			required: true
+			default: ''
 		},
 		showNoResultsMessage: {
 			type: Boolean,
