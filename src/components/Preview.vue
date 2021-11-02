@@ -101,14 +101,14 @@ export default {
 			return `https://github.com/jdlrobson/skins.wmflabs.org/issues/new?assignees=&labels=&template=enable-preview-for-${this.name}-on-skins-wmflabs-org.md&title=Please+enable+my+skin+for+live+preview+option`;
 		},
 		iframeStyle() {
+			const offset = ( this.windowWidth - 768 ) / 2;
 			switch ( this.medium ) {
 				case 'm':
 				case 't':
 					return '';
 				default:
 					// center
-					const offset = this.windowWidth - 768;
-					return `translate: ${offset/2}px;`;
+					return `translate: ${offset}px;`;
 			}
 		},
 		iframeClass() {
