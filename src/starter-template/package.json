@@ -1,0 +1,29 @@
+{
+	"name": "mediawiki-boilerplate",
+	"version": "1.0.0",
+	"description": "Generate skins and extensions from nothing.",
+	"main": "bundle.js",
+	"devDependencies": {
+		"@babel/preset-env": "7.13.8",
+		"@babel/core": "7.15.5",
+		"@rollup/plugin-json": "4.1.0",
+		"eslint": "7.31.0",
+		"eslint-config-wikimedia": "0.20.0",
+		"jest": "27.0.6",
+		"jszip": "3.5.0",
+		"rollup": "2.59.0",
+		"rollup-plugin-string": "3.0.0",
+		"stylelint": "13.13.1",
+		"stylelint-config-wikimedia": "0.11.1"
+	},
+	"scripts": {
+		"build": "rollup -c rollup.config.js",
+		"lint": "eslint . && stylelint **/*.less",
+		"test": "npm run lint && jest --testRegex tests/*.test.js --coverage"
+	},
+	"author": "Jon Robson",
+	"dependencies": {
+		"@rollup/plugin-commonjs": "^21.0.1",
+		"@rollup/plugin-node-resolve": "^13.0.6"
+	}
+}

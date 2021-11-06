@@ -7,8 +7,7 @@
 		"deploy": "parcel build index.html --out-dir /var/www/html/",
 		"start": "parcel index.html",
 		"lint": "eslint . && stylelint **/*.less",
-		"clean": "rm src/starter-template/package-lock.json && rm -rf src/starter-template/node_modules",
-		"test": "npm run clean && npm run lint && jest --testRegex tests/*.test.js --coverage"
+		"test": "npm run lint && jest --testRegex tests/*.test.js --coverage"
 	},
 	"author": "",
 	"license": "ISC",
@@ -31,8 +30,8 @@
 		"vue-template-compiler": "2.6.12"
 	},
 	"dependencies": {
-		"jszip": "3.5.0",
 		"less": "4.1.0",
+		"mediawiki-boilerplate": "file:src/starter-template",
 		"mustache": "4.1.0",
 		"vue": "2.6.12",
 		"vue-json-viewer": "2.2.18",

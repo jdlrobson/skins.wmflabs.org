@@ -1,0 +1,16 @@
+{
+	"root": true,
+	"extends": [
+		"../.eslintrc.json"
+	],
+	"parserOptions": {
+		"ecmaVersion": 6
+	},
+	"globals": {
+		"global": true
+	},
+	"env": {
+		"es6": true,
+		"jest": true
+	}
+}

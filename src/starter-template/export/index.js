@@ -1,9 +1,12 @@
 import JSZip from 'jszip';
 import FileSaver from './FileSaver.js';
-import { SKINS_LAB_VERSION, MW_MIN_VERSION, getFeaturesFromStyles } from '../index.js';
+import { getFeaturesFromStyles } from '../utils.js';
 import packageJSON from '../_package.json';
 import eslintJSON from '../_eslintrc.json';
 import stylelintJSON from '../_stylelintrc.json';
+
+const SKINS_LAB_VERSION = '2.0';
+const MW_MIN_VERSION = '1.37.0';
 
 function stringifyjson( json ) {
 	return JSON.stringify( json, null, 2 );
@@ -44,11 +47,11 @@ function addi18n( name, rootfolder ) {
  * @param {string} name  e.g. Vector
  * @param {string[]} styles paths
  * @param {string[]} packageFiles path
- * @param {string[]} [messages] keys used by skin
- * @param {string[]} [skinFeatures] feature keys used by skin
+ * @param {string[]} messages keys used by skin
+ * @param {string[]} skinFeatures feature keys used by skin
  * @return {string}
  */
-function skinjson( name, styles, packageFiles, messages = [], skinFeatures = [] ) {
+function skinjson( name, styles, packageFiles, messages, skinFeatures ) {
 	const folderName = getFolderNameFromName( name );
 	const skinKey = getSkinKeyFromName( name );
 	const TOOL_LINK = `[https://skins.wmflabs.org skins.wmflabs.org v.${SKINS_LAB_VERSION}]`;
@@ -81,9 +84,9 @@ function skinjson( name, styles, packageFiles, messages = [], skinFeatures = [] 
 								'mediawiki.ui.button',
 								`skins.${skinKey}.styles`
 							],
-							scripts: [
+							scripts: packageFiles.length ? [
 								`skins.${skinKey}`
-							]
+							] : []
 						}
 					]
 				}
@@ -102,10 +105,10 @@ function skinjson( name, styles, packageFiles, messages = [], skinFeatures = [] 
 					targets: [ 'desktop', 'mobile' ],
 					styles
 				},
-				[ `skins.${skinKey}` ]: {
+				[ `skins.${skinKey}` ]: packageFiles.length ? {
 					targets: [ 'desktop', 'mobile' ],
 					packageFiles
-				}
+				} : undefined
 			}
 		}
 	);
@@ -135,6 +138,10 @@ function build( name, styles, templates, scripts = {}, messages = [], Zipper = J
 	const skinFeatures = getFeaturesFromStyles( styles[ 'skin.less' ] );
 	// Create the files in the root folder
 
+	const jsfiles = ( scripts[ 'skin.js' ] ? [ 'resources/skin.js' ] : [] ).concat(
+		Object.keys( scripts ).filter( ( scriptFileName ) => scriptFileName !== 'skin.js' )
+			.map( ( scriptFileName ) => `resources/${scriptFileName}` )
+	);
 	rootfolder.file( 'skin.json',
 		skinjson(
 			name,
@@ -146,9 +153,7 @@ function build( name, styles, templates, scripts = {}, messages = [], Zipper = J
 				// its in the src folder.
 				.map( ( styleFileName ) => `resources/${styleFileName}` )
 				.concat( [ 'resources/skin.less' ] ),
-			Object.keys( scripts ).filter( ( scriptFileName ) => scriptFileName !== 'skin.js' )
-				.map( ( scriptFileName ) => `resources/${scriptFileName}` )
-				.concat( scripts[ 'skin.js' ] ? [ 'resources/skin.js' ] : [] ),
+			jsfiles,
 			messages,
 			skinFeatures
 		)

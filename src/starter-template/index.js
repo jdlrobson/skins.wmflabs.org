@@ -1,62 +1,82 @@
-/* global __dirname:false */
-import fs from 'fs';
 import build from './export/index.js';
 import JSZip from 'jszip';
+import FooterList from './FooterList.mustache';
+import Portlet from './Portlet.mustache';
+import ContentIndicators from './ContentIndicators.mustache';
+import Notices from './Notices.mustache';
+import ContentHeading from './ContentHeading.mustache';
+import ContentActions from './ContentActions.mustache';
+import ContentNamespaces from './ContentNamespaces.mustache';
+import ContentBody from './ContentBody.mustache';
+import ContentTagline from './ContentTagline.mustache';
+import Footer from './Footer.mustache';
+import Logo from './Logo.mustache';
+import Search from './Search.mustache';
+import WPSearch from './WPSearch.mustache';
+import Sidebar from './Sidebar.mustache';
+import Notifications from './Notifications.mustache';
+import PersonalMenu from './PersonalMenu.mustache';
+import Languages from './Languages.mustache';
+import Dropdown from './Dropdown.mustache';
+import AdminBar from './AdminBar.mustache';
+import AdminBarHome from './AdminBarHome.mustache';
+import AdminBarUser from './AdminBarUser.mustache';
+import AdminBarWithEdit from './AdminBarWithEdit.mustache';
+import EditBar from './EditBar.mustache';
 
-export const SKINS_LAB_VERSION = '2.0';
-export const MW_MIN_VERSION = '1.37.0';
-
-const FooterList = fs.readFileSync( `${__dirname}/FooterList.mustache` ).toString();
-const Portlet = fs.readFileSync( `${__dirname}/Portlet.mustache` ).toString();
-const ContentIndicators = fs.readFileSync( `${__dirname}/ContentIndicators.mustache` ).toString();
-const Notices = fs.readFileSync( `${__dirname}/Notices.mustache` ).toString();
-const ContentHeading = fs.readFileSync( `${__dirname}/ContentHeading.mustache` ).toString();
-const ContentActions = fs.readFileSync( `${__dirname}/ContentActions.mustache` ).toString();
-const ContentNamespaces = fs.readFileSync( `${__dirname}/ContentNamespaces.mustache` ).toString();
-const ContentBody = fs.readFileSync( `${__dirname}/ContentBody.mustache` ).toString();
-const ContentTagline = fs.readFileSync( `${__dirname}/ContentTagline.mustache` ).toString();
-const Footer = fs.readFileSync( `${__dirname}/Footer.mustache` ).toString();
-const Logo = fs.readFileSync( `${__dirname}/Logo.mustache` ).toString();
-const Search = fs.readFileSync( `${__dirname}/Search.mustache` ).toString();
-const WPSearch = fs.readFileSync( `${__dirname}/WPSearch.mustache` ).toString();
-const Sidebar = fs.readFileSync( `${__dirname}/Sidebar.mustache` ).toString();
-const Notifications = fs.readFileSync( `${__dirname}/Notifications.mustache` ).toString();
-const PersonalMenu = fs.readFileSync( `${__dirname}/PersonalMenu.mustache` ).toString();
-const Languages = fs.readFileSync( `${__dirname}/Languages.mustache` ).toString();
-const Dropdown = fs.readFileSync( `${__dirname}/Dropdown.mustache` ).toString();
-const AdminBar = fs.readFileSync( `${__dirname}/AdminBar.mustache` ).toString();
-const AdminBarHome = fs.readFileSync( `${__dirname}/AdminBarHome.mustache` ).toString();
-const AdminBarUser = fs.readFileSync( `${__dirname}/AdminBarUser.mustache` ).toString();
-const AdminBarWithEdit = fs.readFileSync( `${__dirname}/AdminBarWithEdit.mustache` ).toString();
-const EditBar = fs.readFileSync( `${__dirname}/EditBar.mustache` ).toString();
+import AdminBarHomeLESS from './AdminBarHome.less';
+import AdminBarUserLESS from './AdminBarUser.less';
+import AdminBarWithEditLESS from './AdminBar.less';
+import AdminBarLESS from './AdminBar.less';
+import EditBarLESS from './EditBar.less';
+import PersonalMenuLESS from './PersonalMenu.less';
+import ContentActionsLESS from './ContentActions.less';
+import DropdownLESS from './Dropdown.less';
+import ContentNamespacesLESS from './ContentNamespaces.less';
+import PortletLESS from './Portlet.less';
+import NotificationsLESS from './Notifications.less';
+import SidebarLESS from './Sidebar.less';
+import FooterLESS from './Footer.less';
+import LogoLESS from './Logo.less';
+import SearchLESS from './Search.less';
+import { getFeaturesFromStyles, getTemplatesFromSourceCode } from './utils';
 
 export const COMPONENT_STYLES = {
-	AdminBarHome: fs.readFileSync( `${__dirname}/AdminBarHome.less` ).toString(),
-	AdminBarUser: fs.readFileSync( `${__dirname}/AdminBarUser.less` ).toString(),
-	AdminBarWithEdit: fs.readFileSync( `${__dirname}/AdminBar.less` ).toString(),
-	AdminBar: fs.readFileSync( `${__dirname}/AdminBar.less` ).toString(),
-	EditBar: fs.readFileSync( `${__dirname}/EditBar.less` ).toString(),
-	PersonalMenu: fs.readFileSync( `${__dirname}/PersonalMenu.less` ).toString(),
-	ContentActions: fs.readFileSync( `${__dirname}/ContentActions.less` ).toString(),
-	Dropdown: fs.readFileSync( `${__dirname}/Dropdown.less` ).toString(),
-	ContentNamespaces: fs.readFileSync( `${__dirname}/ContentNamespaces.less` ).toString(),
-	Portlet: fs.readFileSync( `${__dirname}/Portlet.less` ).toString(),
-	Notifications: fs.readFileSync( `${__dirname}/Notifications.less` ).toString(),
-	Sidebar: fs.readFileSync( `${__dirname}/Sidebar.less` ).toString(),
-	Footer: fs.readFileSync( `${__dirname}/Footer.less` ).toString(),
-	Logo: fs.readFileSync( `${__dirname}/Logo.less` ).toString(),
-	Search: fs.readFileSync( `${__dirname}/Search.less` ).toString()
+	AdminBarHome: AdminBarHomeLESS,
+	AdminBarUser: AdminBarUserLESS,
+	AdminBarWithEdit: AdminBarWithEditLESS,
+	AdminBar: AdminBarLESS,
+	EditBar: EditBarLESS,
+	PersonalMenu: PersonalMenuLESS,
+	ContentActions: ContentActionsLESS,
+	Dropdown: DropdownLESS,
+	ContentNamespaces: ContentNamespacesLESS,
+	Portlet: PortletLESS,
+	Notifications: NotificationsLESS,
+	Sidebar: SidebarLESS,
+	Footer: FooterLESS,
+	Logo: LogoLESS,
+	Search: SearchLESS
 };
 
+import normalize from './ResourceLoaderSkinModule/normalize.css';
+import elements from './ResourceLoaderSkinModule/elements.css';
+import CONTENT_TABLES from './ResourceLoaderSkinModule/content-tables.css';
+import CONTENT_LINKS from './ResourceLoaderSkinModule/content-links.css';
+import CONTENT_MEDIA from './ResourceLoaderSkinModule/content-media.css';
+import INTERFACE_MESSAGE_BOX from './ResourceLoaderSkinModule/interface-message-box.css';
+import INTERFACE_CATEGORY from './ResourceLoaderSkinModule/interface-category.css';
+import INTERFACE_TOC from './ResourceLoaderSkinModule/toc.css';
+
 export const FEATURE_STYLES = {
-	normalize: fs.readFileSync( `${__dirname}/ResourceLoaderSkinModule/normalize.css` ).toString(),
-	elements: fs.readFileSync( `${__dirname}/ResourceLoaderSkinModule/elements.css` ).toString(),
-	'content-tables': fs.readFileSync( `${__dirname}/ResourceLoaderSkinModule/content-tables.css` ).toString(),
-	'content-links': fs.readFileSync( `${__dirname}/ResourceLoaderSkinModule/content-links.css` ).toString(),
-	'content-media': fs.readFileSync( `${__dirname}/ResourceLoaderSkinModule/content-media.css` ).toString(),
-	'interface-message-box': fs.readFileSync( `${__dirname}/ResourceLoaderSkinModule/interface-message-box.css` ).toString(),
-	'interface-category': fs.readFileSync( `${__dirname}/ResourceLoaderSkinModule/interface-category.css` ).toString(),
-	toc: fs.readFileSync( `${__dirname}/ResourceLoaderSkinModule/toc.css` ).toString()
+	normalize,
+	elements,
+	'content-tables': CONTENT_TABLES,
+	'content-links': CONTENT_LINKS,
+	'content-media': CONTENT_MEDIA,
+	'interface-message-box': INTERFACE_MESSAGE_BOX,
+	'interface-category': INTERFACE_CATEGORY,
+	toc: INTERFACE_TOC
 };
 
 export const PARTIALS = {
@@ -95,7 +115,9 @@ export const messages = () => {
 	} );
 	return msgs;
 };
-export const DEFAULT_SKIN_MUSTACHE = fs.readFileSync( `${__dirname}/skin.mustache` ).toString();
+
+import DEFAULT_SKIN_MUSTACHE from './skin.mustache';
+export { DEFAULT_SKIN_MUSTACHE };
 
 /**
  * @param {number} c
@@ -248,7 +270,7 @@ export const getLessVarsCode = ( vars ) => {
 	} ).join( '\n' );
 };
 
-const DEFAULT_SKIN_LESS = fs.readFileSync( `${__dirname}/skin.less` ).toString();
+import DEFAULT_SKIN_LESS from './skin.less';
 
 export const generateStylesheetLESS = () => {
 	return `/* Styles */
@@ -276,19 +298,6 @@ document.body.addEventListener('click', function (ev) {
 window.dispatchEvent(new Event('load'));
 </script>
 `;
-
-// Keep synced with https://github.com/jdlrobson/mediawiki-skins-skinjson/blob/master/skin.json#L37
-export const DEFAULT_FEATURES = {
-	normalize: true,
-	elements: true,
-	'content-tables': true,
-	'content-links': true,
-	'content-media': true,
-	'content-links-external': false,
-	'interface-message-box': true,
-	'interface-category': true,
-	toc: true
-};
 
 /**
  *
@@ -320,25 +329,6 @@ ${COMPONENT_STYLES[ name ]}
 `;
 	} );
 	return mapping;
-}
-
-export function getTemplatesFromSourceCode( partials, sourceCode ) {
-	const usedPartials = {};
-	Object.keys( partials ).filter( ( name ) => {
-		// Is the partial in the sourceCode?
-		const re = new RegExp( `{{> *${name} *}}` );
-		return !!sourceCode.match( re );
-	} ).forEach( ( key ) => {
-		const others = Object.keys( getTemplatesFromSourceCode( partials, partials[ key ] ) );
-		usedPartials[ key ] = partials[ key ];
-		others.forEach( ( otherKey ) => {
-			usedPartials[ otherKey ] = partials[ otherKey ];
-		} );
-	} );
-
-	return Object.assign( usedPartials, {
-		skin: sourceCode
-	} );
 }
 
 /**
@@ -399,21 +389,6 @@ function getComponentLESSRaw( componentNames ) {
 	).join( '\n' );
 }
 
-export function getFeaturesFromStyles( styles ) {
-	const match = styles.match( /\/\*+ +ResourceLoaderSkinModule: ([^*]*) *[*]+/ );
-	const result = {};
-	if ( match && match[ 1 ] ) {
-		match[ 1 ].split( ',' ).map( ( a ) => a.trim() ).forEach( ( key ) => {
-			if ( DEFAULT_FEATURES[ key ] !== undefined ) {
-				result[ key ] = true;
-			}
-		} );
-		return result;
-	} else {
-		return DEFAULT_FEATURES;
-	}
-}
-
 export function getLESSFromTemplate( mustache ) {
 	return getComponentLESSRaw(
 		Object.keys(
@@ -421,3 +396,15 @@ export function getLESSFromTemplate( mustache ) {
 		)
 	);
 }
+
+function getFeatureStylesheet( key ) {
+	return FEATURE_STYLES[ key ] || '';
+}
+
+export function getResourceLoaderSkinModuleStylesFromStylesheet( styles ) {
+	return Object.keys( getFeaturesFromStyles( styles ) )
+		.map( ( key ) => getFeatureStylesheet( key ) )
+		.join( '\n' );
+}
+
+export { build };

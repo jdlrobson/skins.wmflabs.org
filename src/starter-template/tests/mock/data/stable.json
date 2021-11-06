@@ -1,0 +1,26 @@
+{
+	"batchcomplete": true,
+	"limits": {
+		"categorymembers": 500,
+		"pageimages": 50
+	},
+	"query": {
+		"pages": [
+			{
+				"pageid": 99451,
+				"ns": 106,
+				"title": "Skin:Vector",
+				"pageviews": {
+					"2021-07-27": 49,
+					"2021-07-28": 40,
+					"2021-07-29": null
+				},
+				"thumbnail": {
+					"source": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Dantman-Skin-vector.png/400px-Dantman-Skin-vector.png",
+					"width": 400,
+					"height": 160
+				}
+			}
+		]
+	}
+}

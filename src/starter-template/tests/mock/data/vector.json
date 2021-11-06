@@ -1,0 +1,39 @@
+{
+	"batchcomplete": true,
+	"query": {
+		"pages": [
+			{
+				"pageid": 99451,
+				"ns": 106,
+				"title": "Skin:Vector",
+				"categories": [
+					{
+						"ns": 14,
+						"title": "Category:All skins"
+					}
+				],
+				"extract": "Vector is a skin for MediaWiki which became default in 2010.\nIn recent years the skin underwent a number of changes, e.g. the switch to Mustache  and the addition of new features.",
+				"extlinks": [
+					{
+						"url": "https://kde.org"
+					},
+					{
+						"url": "https://gerrit.wikimedia.org/g/"
+					},
+					{
+						"url": "https://gitlab.com"
+					},
+					{
+						"url": "https://bitbucket.org"
+					},
+					{
+						"url": "https://sourceforge.net"
+					},
+					{
+						"url": "https://github.com/wikimedia/mediawiki-skins-Vector"
+					}
+				]
+			}
+		]
+	}
+}

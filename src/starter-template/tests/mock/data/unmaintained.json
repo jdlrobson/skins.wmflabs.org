@@ -1,0 +1,21 @@
+{
+	"batchcomplete": true,
+	"limits": {
+		"categorymembers": 500,
+		"pageimages": 50
+	},
+	"query": {
+		"pages": [
+			{
+				"pageid": 125255,
+				"ns": 106,
+				"title": "Skin:VectorBlue",
+				"pageviews": {
+					"2021-07-27": 2,
+					"2021-07-28": 4,
+					"2021-07-29": null
+				}
+			}
+		]
+	}
+}

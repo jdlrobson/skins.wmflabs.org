@@ -1,0 +1,35 @@
+{
+	"root": true,
+	"env": {
+		"es6": true
+	},
+	"parserOptions": {
+		"sourceType": "module"
+	},
+	"extends": [
+		"wikimedia/client-es6",
+		"wikimedia/jquery",
+		"wikimedia/mediawiki"
+	],
+	"rules": {
+		"no-jquery/variable-pattern": "off",
+		"no-implicit-globals": "off",
+		"max-len": "off",
+		"max-statements-per-line": "off",
+		"no-restricted-syntax": "off",
+		"compat/compat": "off",
+		"no-alert": "off",
+		"no-new": "off"
+	},
+	"overrides": [
+		{
+			"files": "**/**/*.vue",
+			"extends": "wikimedia/vue-es6",
+			"rules": {
+				"max-statements-per-line": "off",
+				"max-len": "off",
+				"vue/no-boolean-default": "off"
+			}
+		}
+	]
+}

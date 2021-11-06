@@ -1,0 +1,26 @@
+{
+	"batchcomplete": true,
+	"limits": {
+		"categorymembers": 500,
+		"pageimages": 50
+	},
+	"query": {
+		"pages": [
+			{
+				"pageid": 151242,
+				"ns": 106,
+				"title": "Skin:P2wiki",
+				"pageviews": {
+					"2021-07-27": 3,
+					"2021-07-28": 9,
+					"2021-07-29": null
+				},
+				"thumbnail": {
+					"source": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Screenshot_of_P2Wiki_skin_for_MediaWiki.png/400px-Screenshot_of_P2Wiki_skin_for_MediaWiki.png",
+					"width": 400,
+					"height": 288
+				}
+			}
+		]
+	}
+}

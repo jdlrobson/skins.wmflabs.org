@@ -87,7 +87,7 @@ import Page from './Page.vue';
 
 import {
 	getResourceLoaderSkinModuleStylesFromStylesheet
-} from '../utils';
+} from 'mediawiki-boilerplate';
 
 const LANGUAGES = {
 	'msg-otherlanguages': 'Read in another language'

@@ -1,7 +1,7 @@
 import { DEFAULT_FEATURES,
-	getFeaturesFromStyles,
-	getTemplatesFromSourceCode
-} from '../src/starter-template';
+	getTemplatesFromSourceCode,
+	getFeaturesFromStyles
+} from '../utils.js';
 
 describe( 'utils', () => {
 
