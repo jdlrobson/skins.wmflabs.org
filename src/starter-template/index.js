@@ -102,17 +102,18 @@ export const PARTIALS = {
 	WPSearch
 };
 
-export const messages = () => {
+export const messages = ( templates ) => {
 	const msgs = [];
-	Object.keys( PARTIALS ).forEach( ( key ) => {
-		const text = PARTIALS[ key ];
+	const extractMessages = ( text ) => {
 		const match = text.match( /{{msg-[^}]*}}/g );
 		if ( match ) {
 			match.forEach( ( result ) => {
 				msgs.push( result.replace( '{{msg-', '' ).replace( '}}', '' ) );
 			} );
 		}
-	} );
+	}
+	Object.keys( PARTIALS ).forEach( ( key ) => extractMessages( PARTIALS[key] ) );
+	Object.keys( templates ).forEach( ( key ) => extractMessages( templates[key] ) );
 	return msgs;
 };
 
@@ -360,7 +361,7 @@ ${importStatements}
 		{
 			'skin.js': js
 		},
-		messages(),
+		messages( templates ),
 		options.Zipper || JSZip,
 		options.CustomFileSaver
 	);
