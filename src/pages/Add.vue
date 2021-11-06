@@ -73,7 +73,7 @@
 /* global less */
 import { PARTIALS, getLessVarsCode, getLessVarsRaw, JQUERY,
 	buildSkin, getLESSFromTemplate, randomColor,
-	DEFAULT_SKIN_MUSTACHE, generateStylesheetLESS, SCRIPTS, messages } from '../starter-template';
+	SCRIPTS, messages } from '../starter-template';
 import api from '../api.js';
 import { TEST_ARTICLES, HOST, LESS_RENDER_OPTIONS } from '../constants';
 import { render } from 'mustache';
@@ -84,15 +84,24 @@ import Preview from '../components/Preview.vue';
 import nameMe from '../nameMe';
 import JsonViewer from 'vue-json-viewer';
 import Page from './Page.vue';
+import fs from 'fs';
 
 import {
 	getResourceLoaderSkinModuleStylesFromStylesheet
 } from 'mediawiki-boilerplate';
 
+const DEFAULT_SKIN_MUSTACHE = fs.readFileSync(`${__dirname}/assets/skin.mustache`).toString();
+const DEFAULT_SKIN_LESS = fs.readFileSync(`${__dirname}/assets/skin.less`).toString();
 const LANGUAGES = {
 	'msg-otherlanguages': 'Read in another language'
 };
 const DEFAULT_HTML = '<!DOCTYPE HTML><html><body>Loading preview...</body></html>';
+
+const generateStylesheetLESS = () => {
+	return `/* Styles */
+${DEFAULT_SKIN_LESS}
+`;
+};
 
 const DEFAULT_SKIN_PROPS = {
 	html: DEFAULT_HTML,

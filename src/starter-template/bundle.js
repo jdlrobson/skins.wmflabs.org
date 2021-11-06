@@ -11822,10 +11822,6 @@ var INTERFACE_CATEGORY = "@media screen{#catlinks{text-align:left}.catlinks{bord
 
 var INTERFACE_TOC = ".toctogglecheckbox:checked ~ ul{display:none}@media screen{.toc,.toccolours{border:1px solid #a2a9b1;background-color:#f8f9fa;padding:5px;font-size:95%}.toc{display:table;padding:7px}.toc h2{display:inline;border:0;padding:0;font-size:100%;font-weight:bold}.toc .toctitle{text-align:center}.toc ul{list-style:none;margin:0.3em 0;padding:0;text-align:left}.toc ul ul{margin:0 0 0 2em}table.toc{border-collapse:collapse}table.toc td{padding:0}.tocnumber,.toctext{display:table-cell;text-decoration:inherit}.tocnumber{color:#202122;padding-left:0;padding-right:0.5em}.mw-content-ltr .tocnumber{padding-left:0;padding-right:0.5em}.mw-content-rtl .tocnumber{padding-left:0.5em;padding-right:0}.toctogglecheckbox{display:inline !important;position:absolute;opacity:0;z-index:-1}.toctogglespan{font-size:94%}.toctogglespan:before{content:' ['}.toctogglespan:after{content:']'}.toctogglelabel{cursor:pointer;color:#0645ad}.toctogglelabel:hover{text-decoration:underline}.toctogglecheckbox:focus + .toctitle .toctogglelabel{text-decoration:underline;outline:dotted 1px;outline:auto -webkit-focus-ring-color}.toctogglecheckbox:checked + .toctitle .toctogglelabel:after{content:'(showtoc)'}.toctogglecheckbox:not(:checked) + .toctitle .toctogglelabel:after{content:'(hidetoc)'}.toc .toctitle{direction:ltr}.mw-content-ltr .toc ul,.mw-content-rtl .mw-content-ltr .toc ul{text-align:left}.mw-content-rtl .toc ul,.mw-content-ltr .mw-content-rtl .toc ul{text-align:right}.mw-content-ltr .toc ul ul,.mw-content-rtl .mw-content-ltr .toc ul ul{margin:0 0 0 2em}.mw-content-rtl .toc ul ul,.mw-content-ltr .mw-content-rtl .toc ul ul{margin:0 2em 0 0}}@media print{.toctogglecheckbox:checked + .toctitle{display:none}.toc{background-color:#f9f9f9;border:1pt solid #aaa;padding:5px;display:table}.tocnumber,.toctext{display:table-cell}.tocnumber{padding-left:0;padding-right:0.5em}.mw-content-ltr .tocnumber{padding-left:0;padding-right:0.5em}.mw-content-rtl .tocnumber{padding-left:0.5em;padding-right:0}}\n";
 
-var skin = "<header class=\"mw-header\">\n\t{{>Logo}}\n\t{{>Notifications}}\n\t{{>Dropdown}}{{>PersonalMenu}}\n\t{{>Search}}\n\t{{>Sidebar}}\n</header>\n{{>Notices}}\n<main id=\"content\" class=\"mw-body\">\n\t<header class=\"content__header\">\n\t\t{{>ContentIndicators}}\n\t\t{{>ContentHeading}}\n\t\t{{>ContentTagline}}\n\t\t{{>ContentNamespaces}}\n\t\t{{>ContentActions}}\n\t</header>\n\t{{>ContentBody}}\n</main>\n<nav>\n\t{{>Languages}}\n</nav>\n{{>Footer}}\n";
-
-var DEFAULT_SKIN_LESS = "/** ResourceLoaderSkinModule: normalize,elements,content-tables,content-links,content-media,interface-message-box,interface-category,toc */\n\nhtml {\n\tbackground: @background-color-base;\n\tmargin: 0;\n\tpadding: 0 0 20px;\n}\n\nbody {\n\tbackground: @background-color-article;\n\tmax-width: 800px;\n\tmargin: 0 auto;\n\tfont-family: @font-family;\n\n\t> header,\n\t> main,\n\t> nav,\n\t> footer {\n\t\tpadding: 1em;\n\t}\n}\n\nbody,\nh1,\nh2,\nh3,\nh4,\nh5,\nh6 {\n\tcolor: @color-base;\n}\n\na {\n\tcolor: @color-link;\n\n\t&:visited {\n\t\tcolor: @color-link--visited;\n\t}\n}\n\n/** HEADER */\n\n.mw-header {\n\tmin-height: 50px;\n\tmargin: 0 10px 8px;\n\tdisplay: flex;\n\tflex-wrap: wrap;\n\talign-items: center;\n\tposition: relative;\n\tz-index: 3;\n\n\t@media ( max-width: @width-breakpoint-tablet ) {\n\t\tpadding: 1em 8px;\n\t\tmargin: 0;\n\t}\n}\n\n/** CONTENT */\n\nmain {\n\tborder-bottom: solid 20px @background-color-base;\n}\n\n.content {\n\t&__header {\n\t\tposition: relative;\n\t}\n\n\t&__heading {\n\t\tpadding: 0 50px 0 0;\n\t\tmargin: 0;\n\t\tborder-bottom: 0;\n\t\tfloat: left;\n\t}\n\n\t&__language-btn {\n\t\tfloat: right;\n\t}\n\n\t&__indicators {\n\t\tposition: absolute;\n\t\ttop: 10px;\n\t\tright: 0;\n\t}\n\n\t&__tagline {\n\t\tclear: both;\n\t\tcolor: @color-base;\n\t\tfont-size: 0.85em;\n\t\tmargin-bottom: 12px;\n\t\tline-height: 1;\n\n\t\t&:empty {\n\t\t\tdisplay: none;\n\t\t}\n\t}\n\n\t&__actions {\n\t\tdisplay: flex;\n\t}\n}\n\n/* The following rules will not be needed in future */\n.mw-editsection {\n\tfont-size: 0.85em;\n\tmargin-left: 8px;\n}\n\n.messagebox {\n\tcolor: @color-base;\n\tbackground-color: @background-color-warning;\n\tborder-color: @color-gray;\n\n\ta {\n\t\tcolor: @color-base;\n\t\tfont-weight: bold;\n\t}\n}\n\n.thumbimage {\n\tbackground: transparent;\n\tborder: 0;\n}\n\n.toc,\ndiv.thumbinner {\n\tborder-color: @color-gray;\n\tbackground-color: @background-color-thumb;\n\tcolor: @color-thumb;\n\n\t.toctogglelabel,\n\ta {\n\t\tcolor: @color-thumb;\n\t}\n}\n";
-
 const COMPONENT_STYLES = {
 	AdminBarHome: AdminBarHomeLESS,
 	AdminBarUser: AdminBarUserLESS,
@@ -12043,13 +12039,6 @@ const getLessVarsCode = ( vars ) => {
 	} ).join( '\n' );
 };
 
-const generateStylesheetLESS = () => {
-	return `/* Styles */
-${DEFAULT_SKIN_LESS}
-`;
-
-};
-
 const JQUERY = `
 <script src="https://en.wikipedia.org//w/resources/lib/jquery/jquery.js"></script>
 `;
@@ -12179,14 +12168,12 @@ function getResourceLoaderSkinModuleStylesFromStylesheet( styles ) {
 }
 
 exports.COMPONENT_STYLES = COMPONENT_STYLES;
-exports.DEFAULT_SKIN_MUSTACHE = skin;
 exports.FEATURE_STYLES = FEATURE_STYLES;
 exports.JQUERY = JQUERY;
 exports.PARTIALS = PARTIALS;
 exports.SCRIPTS = SCRIPTS;
 exports.build = build;
 exports.buildSkin = buildSkin;
-exports.generateStylesheetLESS = generateStylesheetLESS;
 exports.getComponentLESSFiles = getComponentLESSFiles;
 exports.getLESSFromTemplate = getLESSFromTemplate;
 exports.getLessVarsCode = getLessVarsCode;

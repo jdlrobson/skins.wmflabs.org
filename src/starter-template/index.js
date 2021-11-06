@@ -116,9 +116,6 @@ export const messages = () => {
 	return msgs;
 };
 
-import DEFAULT_SKIN_MUSTACHE from './skin.mustache';
-export { DEFAULT_SKIN_MUSTACHE };
-
 /**
  * @param {number} c
  * @return {string} hex
@@ -268,15 +265,6 @@ export const getLessVarsCode = ( vars ) => {
 	return Object.keys( vars ).map( ( key ) => {
 		return `@${key}: ${vars[ key ]};`;
 	} ).join( '\n' );
-};
-
-import DEFAULT_SKIN_LESS from './skin.less';
-
-export const generateStylesheetLESS = () => {
-	return `/* Styles */
-${DEFAULT_SKIN_LESS}
-`;
-
 };
 
 export const JQUERY = `
