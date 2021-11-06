@@ -11478,6 +11478,25 @@ function getFeaturesFromStyles( styles ) {
 	}
 }
 
+function getTemplatesFromSourceCode( partials, sourceCode ) {
+	const usedPartials = {};
+	Object.keys( partials ).filter( ( name ) => {
+		// Is the partial in the sourceCode?
+		const re = new RegExp( `{{> *${name} *}}` );
+		return !!sourceCode.match( re );
+	} ).forEach( ( key ) => {
+		const others = Object.keys( getTemplatesFromSourceCode( partials, partials[ key ] ) );
+		usedPartials[ key ] = partials[ key ];
+		others.forEach( ( otherKey ) => {
+			usedPartials[ otherKey ] = partials[ otherKey ];
+		} );
+	} );
+
+	return Object.assign( usedPartials, {
+		skin: sourceCode
+	} );
+}
+
 var scripts = {
 	test: "npm -s run lint",
 	lint: "npm -s run lint:js && npm -s run lint:styles && npm -s run lint:i18n",
@@ -11564,11 +11583,11 @@ function addi18n( name, rootfolder ) {
  * @param {string} name  e.g. Vector
  * @param {string[]} styles paths
  * @param {string[]} packageFiles path
- * @param {string[]} [messages] keys used by skin
- * @param {string[]} [skinFeatures] feature keys used by skin
+ * @param {string[]} messages keys used by skin
+ * @param {string[]} skinFeatures feature keys used by skin
  * @return {string}
  */
-function skinjson( name, styles, packageFiles, messages = [], skinFeatures = [] ) {
+function skinjson( name, styles, packageFiles, messages, skinFeatures ) {
 	const folderName = getFolderNameFromName( name );
 	const skinKey = getSkinKeyFromName( name );
 	const TOOL_LINK = `[https://skins.wmflabs.org skins.wmflabs.org v.${SKINS_LAB_VERSION}]`;
@@ -11601,9 +11620,9 @@ function skinjson( name, styles, packageFiles, messages = [], skinFeatures = [] 
 								'mediawiki.ui.button',
 								`skins.${skinKey}.styles`
 							],
-							scripts: [
+							scripts: packageFiles.length ? [
 								`skins.${skinKey}`
-							]
+							] : []
 						}
 					]
 				}
@@ -11622,10 +11641,10 @@ function skinjson( name, styles, packageFiles, messages = [], skinFeatures = [] 
 					targets: [ 'desktop', 'mobile' ],
 					styles
 				},
-				[ `skins.${skinKey}` ]: {
+				[ `skins.${skinKey}` ]: packageFiles.length ? {
 					targets: [ 'desktop', 'mobile' ],
 					packageFiles
-				}
+				} : undefined
 			}
 		}
 	);
@@ -11655,6 +11674,10 @@ function build( name, styles, templates, scripts = {}, messages = [], Zipper = l
 	const skinFeatures = getFeaturesFromStyles( styles[ 'skin.less' ] );
 	// Create the files in the root folder
 
+	const jsfiles = ( scripts[ 'skin.js' ] ? [ 'resources/skin.js' ] : [] ).concat(
+		Object.keys( scripts ).filter( ( scriptFileName ) => scriptFileName !== 'skin.js' )
+			.map( ( scriptFileName ) => `resources/${scriptFileName}` )
+	);
 	rootfolder.file( 'skin.json',
 		skinjson(
 			name,
@@ -11666,9 +11689,7 @@ function build( name, styles, templates, scripts = {}, messages = [], Zipper = l
 				// its in the src folder.
 				.map( ( styleFileName ) => `resources/${styleFileName}` )
 				.concat( [ 'resources/skin.less' ] ),
-			Object.keys( scripts ).filter( ( scriptFileName ) => scriptFileName !== 'skin.js' )
-				.map( ( scriptFileName ) => `resources/${scriptFileName}` )
-				.concat( scripts[ 'skin.js' ] ? [ 'resources/skin.js' ] : [] ),
+			jsfiles,
 			messages,
 			skinFeatures
 		)
@@ -12081,25 +12102,6 @@ ${COMPONENT_STYLES[ name ]}
 	return mapping;
 }
 
-function getTemplatesFromSourceCode( partials, sourceCode ) {
-	const usedPartials = {};
-	Object.keys( partials ).filter( ( name ) => {
-		// Is the partial in the sourceCode?
-		const re = new RegExp( `{{> *${name} *}}` );
-		return !!sourceCode.match( re );
-	} ).forEach( ( key ) => {
-		const others = Object.keys( getTemplatesFromSourceCode( partials, partials[ key ] ) );
-		usedPartials[ key ] = partials[ key ];
-		others.forEach( ( otherKey ) => {
-			usedPartials[ otherKey ] = partials[ otherKey ];
-		} );
-	} );
-
-	return Object.assign( usedPartials, {
-		skin: sourceCode
-	} );
-}
-
 /**
  * Generate a ZIP file for a given skin.
  *
@@ -12190,6 +12192,5 @@ exports.getLESSFromTemplate = getLESSFromTemplate;
 exports.getLessVarsCode = getLessVarsCode;
 exports.getLessVarsRaw = getLessVarsRaw;
 exports.getResourceLoaderSkinModuleStylesFromStylesheet = getResourceLoaderSkinModuleStylesFromStylesheet;
-exports.getTemplatesFromSourceCode = getTemplatesFromSourceCode;
 exports.messages = messages;
 exports.randomColor = randomColor;

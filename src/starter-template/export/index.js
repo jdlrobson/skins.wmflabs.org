@@ -1,9 +1,9 @@
 import JSZip from 'jszip';
 import FileSaver from './FileSaver.js';
 import { getFeaturesFromStyles } from '../utils.js';
-import packageJSON from '../_package.json';
-import eslintJSON from '../_eslintrc.json';
-import stylelintJSON from '../_stylelintrc.json';
+import packageJSON from './assets/_package.json';
+import eslintJSON from './assets/_eslintrc.json';
+import stylelintJSON from './assets/_stylelintrc.json';
 
 const SKINS_LAB_VERSION = '2.0';
 const MW_MIN_VERSION = '1.37.0';
