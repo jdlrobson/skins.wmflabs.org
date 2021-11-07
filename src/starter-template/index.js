@@ -325,8 +325,8 @@ ${COMPONENT_STYLES[ name ]}
  *
  * @param {string} name
  * @param {string} mustache
- * @param {string} less
- * @param {string} js
+ * @param {string|Object} less
+ * @param {string|Object} js
  * @param {Object} variables
  * @param {Object} options
  */
@@ -336,6 +336,8 @@ export function buildSkin( name, mustache, less, js = '', variables = {}, option
 		'mediawiki.skin.variables',
 		'variables.less'
 	] );
+	const isStringModeLESS = typeof less === 'string';
+	const isStringModeJS = typeof js === 'string';
 	let importStatements = Object.keys( styles )
 		.map( ( key ) => `@import "${key}";` ).join( '\n' );
 
@@ -349,8 +351,10 @@ export function buildSkin( name, mustache, less, js = '', variables = {}, option
 		name,
 		Object.assign(
 			styles,
+			isStringModeLESS ? {
+				[ mainCss ]: less
+			} : less,
 			{
-				[ mainCss ]: less,
 				'variables.less': getLessVarsCode( variables ),
 				'skin.less': `@import 'mediawiki.skin.variables.less';
 @import "variables.less";
@@ -358,9 +362,9 @@ ${importStatements}
 `
 			} ),
 		templates,
-		{
+		isStringModeJS ? {
 			'skin.js': js
-		},
+		} : js,
 		messages( templates ),
 		options.Zipper || JSZip,
 		options.CustomFileSaver
