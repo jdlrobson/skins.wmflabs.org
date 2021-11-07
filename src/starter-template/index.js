@@ -329,6 +329,8 @@ ${COMPONENT_STYLES[ name ]}
  * @param {string|Object} js
  * @param {Object} variables
  * @param {Object} options
+ * @param {bool} options.isCSS
+ * @param {Object|null} options.skinFeatures
  */
 export function buildSkin( name, mustache, less, js = '', variables = {}, options = {} ) {
 	const templates = getTemplatesFromSourceCode( PARTIALS, mustache );
@@ -347,6 +349,14 @@ export function buildSkin( name, mustache, less, js = '', variables = {}, option
 	}
 	const mainCss = options.isCSS ? 'common.css' : 'common.less';
 
+	let skinFeatures = `/** ${name} */
+`;
+	if ( options.skinFeatures ) {
+		const features = Object.keys(options.skinFeatures).join(',');
+		skinFeatures += `/** ResourceLoaderSkinModule: ${features} */
+`;
+	}
+
 	build(
 		name,
 		Object.assign(
@@ -356,7 +366,8 @@ export function buildSkin( name, mustache, less, js = '', variables = {}, option
 			} : less,
 			{
 				'variables.less': getLessVarsCode( variables ),
-				'skin.less': `@import 'mediawiki.skin.variables.less';
+				'skin.less': `${skinFeatures}
+@import 'mediawiki.skin.variables.less';
 @import "variables.less";
 ${importStatements}
 `
