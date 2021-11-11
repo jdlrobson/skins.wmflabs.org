@@ -331,6 +331,7 @@ ${COMPONENT_STYLES[ name ]}
  * @param {Object} options
  * @param {bool} options.isCSS
  * @param {Object|null} options.skinFeatures
+ * @param {Object|null} options.skinOptions
  */
 export function buildSkin( name, mustache, less, js = '', variables = {}, options = {} ) {
 	const templates = getTemplatesFromSourceCode( PARTIALS, mustache );
@@ -378,7 +379,8 @@ ${importStatements}
 		} : js,
 		messages( templates ),
 		options.Zipper || JSZip,
-		options.CustomFileSaver
+		options.CustomFileSaver,
+		options.skinOptions
 	);
 }
 

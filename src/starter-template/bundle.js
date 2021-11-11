@@ -11588,9 +11588,10 @@ function addi18n( name, rootfolder ) {
  * @param {string[]} packageFiles path
  * @param {string[]} messages keys used by skin
  * @param {string[]} skinFeatures feature keys used by skin
+ * @param {Object} skinOptions
  * @return {string}
  */
-function skinjson( name, styles, packageFiles, messages, skinFeatures ) {
+function skinjson( name, styles, packageFiles, messages, skinFeatures, skinOptions ) {
 	const folderName = getFolderNameFromName( name );
 	const skinKey = getSkinKeyFromName( name );
 	const TOOL_LINK = `[https://skins.wmflabs.org skins.wmflabs.org v.${SKINS_LAB_VERSION}]`;
@@ -11614,7 +11615,7 @@ function skinjson( name, styles, packageFiles, messages, skinFeatures ) {
 				[ skinKey ]: {
 					class: 'SkinMustache',
 					args: [
-						{
+						Object.assign( {
 							name: name,
 							responsive: true,
 							messages: messages,
@@ -11626,7 +11627,7 @@ function skinjson( name, styles, packageFiles, messages, skinFeatures ) {
 							scripts: packageFiles.length ? [
 								`skins.${skinKey}`
 							] : []
-						}
+						}, skinOptions )
 					]
 				}
 			},
@@ -11666,7 +11667,7 @@ function skinjson( name, styles, packageFiles, messages, skinFeatures ) {
  * @param {FileSaver} [myFileSaver]
  * @return {Promise}
  */
-function build( name, styles, templates, scripts = {}, messages = [], Zipper = lib, myFileSaver = FileSaver ) {
+function build( name, styles, templates, scripts = {}, messages = [], Zipper = lib, myFileSaver = FileSaver, skinOptions = {} ) {
 	const zip = new Zipper();
 	const folderName = getFolderNameFromName( name );
 	const rootfolder = zip.folder( folderName );
@@ -11694,7 +11695,8 @@ function build( name, styles, templates, scripts = {}, messages = [], Zipper = l
 				.concat( [ 'resources/skin.less' ] ),
 			jsfiles,
 			messages,
-			skinFeatures
+			skinFeatures,
+			skinOptions
 		)
 	);
 	rootfolder.file( 'package.json', stringifyjson( packageJSON ) );
@@ -12106,6 +12108,7 @@ ${COMPONENT_STYLES[ name ]}
  * @param {Object} options
  * @param {bool} options.isCSS
  * @param {Object|null} options.skinFeatures
+ * @param {Object|null} options.skinOptions
  */
 function buildSkin( name, mustache, less, js = '', variables = {}, options = {} ) {
 	const templates = getTemplatesFromSourceCode( PARTIALS, mustache );
@@ -12153,7 +12156,8 @@ ${importStatements}
 		} : js,
 		messages( templates ),
 		options.Zipper || lib,
-		options.CustomFileSaver
+		options.CustomFileSaver,
+		options.skinOptions
 	);
 }
 
