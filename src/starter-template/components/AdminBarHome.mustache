@@ -5,6 +5,12 @@
         </a>
     </li>
     <li class="mw-adminbar-search">
-        {{#data-search-box}}{{{html-button-search-fallback}}}{{/data-search-box}}
+        {{#data-search-box}}
+        <form action="{{form-action}}">
+        <input type="checkbox" class="mw-adminbar-search__toggle">
+        <input type="search" class="mw-adminbar-search__input" {{{html-input-attributes}}}>
+        <input type="submit" {{{html-button-fulltext-attributes}}}>
+        </form>
+        {{/data-search-box}}
     </li>
 </ul>
