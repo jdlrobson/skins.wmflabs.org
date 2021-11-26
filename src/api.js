@@ -110,7 +110,7 @@ function queryMediaWikiSkins( category, compatible, gcmcontinue = '', pages = []
 								.reduce( ( count, total = 0 ) => total + count, 0 )
 						} );
 					} ).filter( ( p ) => {
-						return p.title.indexOf( '/' ) === -1 && p.title.indexOf( 'Skin:' ) > -1;
+						return p.title.indexOf( '/' ) === -1 && p.title.indexOf( 'Skin:' ) > -1 && p.title !== 'Skin:Example';
 					} )
 				);
 			}
