@@ -245,7 +245,7 @@ export default {
 					} )
 					.then( ( r ) => r.json() ).then( ( json ) => {
 						const msgs = {};
-						messages().forEach( ( key ) => {
+						messages( {} ).forEach( ( key ) => {
 							const templateKey = 'msg-' + key;
 							if ( !json[ templateKey ] ) {
 								msgs[ templateKey ] = `{{${key}}}`;
