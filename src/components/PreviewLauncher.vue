@@ -5,8 +5,8 @@
 			@click="activatePreview"
 		>
 			<img :src="src">
-			<no-preview>
-				<p v-if="!preview">Preview unavailable</p>
+			<no-preview v-if="!available">
+				<p v-if="!available">Preview unavailable</p>
 				<p v-if="!maintained">
 					This skin appears to be <strong>unmaintained</strong>
 				</p>
