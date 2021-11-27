@@ -153,7 +153,8 @@ function getSkinIndex() {
 		} );
 }
 function fetchSkinInfo( key ) {
-	return getSkinIndex().then( () => {
+	return getSkinIndex().then( ( compatibleSkins ) => {
+		const isCompatible = compatibleSkins[key] && compatibleSkins[key].compatible;
 		const skin = skins[ key ] || false;
 		if ( !skin ) {
 			return Promise.reject();
@@ -217,6 +218,7 @@ function fetchSkinInfo( key ) {
 				}
 				return Object.assign( {
 					links,
+					isCompatible,
 					summary, stable, categories
 				}, skin );
 			} );
