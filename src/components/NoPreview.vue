@@ -1,9 +1,7 @@
 <template>
-	<div class="unmaintained-skin">
+	<div class="unmaintained-skin no-preview">
 		<img :src="dead" alt="unmaintained skin">
-		<p>
-			This skin appears to be <strong>unmaintained</strong>
-		</p>
+		<slot />
 	</div>
 </template>
 
@@ -21,6 +19,12 @@ export default {
 </script>
 
 <style lang="less" scoped>
+
+	.no-preview > img {
+		height: 200px;
+		width: 200px;
+	}
+
 	.unmaintained-skin {
 		display: flex;
 		align-items: center;

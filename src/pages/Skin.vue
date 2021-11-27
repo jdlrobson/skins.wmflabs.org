@@ -104,6 +104,7 @@ export default {
 			if ( skin.src ) {
 				this.src = skin.src;
 			}
+			this.preview = this.preview && skin.isCompatible;
 			this.summary = skin.summary;
 			this.stable = skin.stable;
 			this.beta = skin.beta;

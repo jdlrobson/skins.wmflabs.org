@@ -5,7 +5,12 @@
 			@click="activatePreview"
 		>
 			<img :src="src">
-			<unmaintained-skin v-if="!maintained" class="no-preview"></unmaintained-skin>
+			<no-preview>
+				<p v-if="!preview">Preview unavailable</p>
+				<p v-if="!maintained">
+					This skin appears to be <strong>unmaintained</strong>
+				</p>
+			</no-preview>
 		</div>
 		<preview v-else
 			:href="href"
@@ -16,14 +21,14 @@
 
 <script>
 import { HOST, TEST_ARTICLES, DEFAULT_SKIN_IMAGE } from '../constants';
-import UnmaintainedSkin from './UnmaintainedSkin.vue';
+import NoPreview from './NoPreview.vue';
 import Preview from './Preview.vue';
 
 export default {
 	name: 'PreviewLauncher',
 	components: {
 		Preview,
-		UnmaintainedSkin
+		NoPreview
 	},
 	props: {
 		maintained: {
@@ -108,11 +113,6 @@ export default {
 			text-align: center;
 			height: 26px;
 			opacity: 0.9;
-		}
-
-		.no-preview > img {
-			height: 200px;
-			width: 200px;
 		}
 
 		&.screenshot--disabled {
