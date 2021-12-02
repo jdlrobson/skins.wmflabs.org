@@ -11589,9 +11589,10 @@ function addi18n( name, rootfolder ) {
  * @param {string[]} messages keys used by skin
  * @param {string[]} skinFeatures feature keys used by skin
  * @param {Object} skinOptions
+ * @param {string} license of skin
  * @return {string}
  */
-function skinjson( name, styles, packageFiles, messages, skinFeatures, skinOptions ) {
+function skinjson( name, styles, packageFiles, messages, skinFeatures, skinOptions, license ) {
 	const folderName = getFolderNameFromName( name );
 	const skinKey = getSkinKeyFromName( name );
 	const TOOL_LINK = `[https://skins.wmflabs.org skins.wmflabs.org v.${SKINS_LAB_VERSION}]`;
@@ -11608,7 +11609,7 @@ function skinjson( name, styles, packageFiles, messages, skinFeatures, skinOptio
 			requires: {
 				MediaWiki: `>= ${MW_MIN_VERSION}`
 			},
-			'license-name': 'GPL-2.0-or-later',
+			'license-name': license,
 			// eslint-disable-next-line camelcase
 			manifest_version: 2,
 			ValidSkinNames: {
@@ -11665,9 +11666,12 @@ function skinjson( name, styles, packageFiles, messages, skinFeatures, skinOptio
  * @param {Array} messages (keys) used by template
  * @param {JSZip} [Zipper] constructor
  * @param {FileSaver} [myFileSaver]
+ * @param {string} [license] (optional) it defaults to GPL-2.0-or-later
  * @return {Promise}
  */
-function build( name, styles, templates, scripts = {}, messages = [], Zipper = lib, myFileSaver = FileSaver, skinOptions = {} ) {
+function build( name, styles, templates, scripts = {}, messages = [], Zipper = lib, myFileSaver = FileSaver, skinOptions = {},
+	license = 'GPL-2.0-or-later'
+) {
 	const zip = new Zipper();
 	const folderName = getFolderNameFromName( name );
 	const rootfolder = zip.folder( folderName );
@@ -11696,7 +11700,8 @@ function build( name, styles, templates, scripts = {}, messages = [], Zipper = l
 			jsfiles,
 			messages,
 			skinFeatures,
-			skinOptions
+			skinOptions,
+			license
 		)
 	);
 	rootfolder.file( 'package.json', stringifyjson( packageJSON ) );
@@ -12109,6 +12114,7 @@ ${COMPONENT_STYLES[ name ]}
  * @param {bool} options.isCSS
  * @param {Object|null} options.skinFeatures
  * @param {Object|null} options.skinOptions
+ * @param {string} options.license License of skin
  */
 function buildSkin( name, mustache, less, js = '', variables = {}, options = {} ) {
 	const templates = getTemplatesFromSourceCode( PARTIALS, mustache );
@@ -12157,7 +12163,8 @@ ${importStatements}
 		messages( templates ),
 		options.Zipper || lib,
 		options.CustomFileSaver,
-		options.skinOptions
+		options.skinOptions,
+		options.license
 	);
 }
 
