@@ -33,7 +33,9 @@ function getDemoEnabledSkins() {
 }
 
 function getSkinKeyFromName( name ) {
-	let key = name.replace( /[ !]/g, '' ).toLowerCase();
+	let key = name.replace( /[ !]/g, '' )
+		.toLowerCase()
+		.replace( /\//, '-' );
 	if ( SKIN_KEY_SPECIAL_CASES[ key ] ) {
 		key = SKIN_KEY_SPECIAL_CASES[ key ];
 	}
@@ -110,7 +112,11 @@ function queryMediaWikiSkins( category, compatible, gcmcontinue = '', pages = []
 								.reduce( ( count, total = 0 ) => total + count, 0 )
 						} );
 					} ).filter( ( p ) => {
-						return p.title.indexOf( '/' ) === -1 && p.title.indexOf( 'Skin:' ) > -1 && p.title !== 'Skin:Example';
+						const isSkinVariant = p.title.indexOf( '/' ) > -1;
+						const skinKey = p.title.toLowerCase().replace(/\//, '-' ).replace('skin:', '');
+						return isSkinVariant ?
+							compatible.indexOf( skinKey ) > -1 :
+							p.title.indexOf( 'Skin:' ) > -1 && p.title !== 'Skin:Example';
 					} )
 				);
 			}
@@ -174,7 +180,13 @@ function fetchSkinInfo( key ) {
 						text: 'View on mediawiki.org',
 						href: info.title ? `https://mediawiki.org/wiki/${info.title}` : ''
 					} );
-					info.extlinks.map( ( link ) => link.url ).forEach( ( url ) => {
+					if ( skin.name.indexOf( '/' ) > -1 ) {
+						links.push( {
+							text: 'View parent skin on MediaWiki.org',
+							href: `https://mediawiki.org/wiki/Skin:${skin.name.split('/')[0]}`
+						} );
+					}
+					( info.extlinks || [] ).map( ( link ) => link.url ).forEach( ( url ) => {
 						if ( url.match( /https:\/\/github.com/ ) && url.match( /\.git/ ) ) {
 							links.push( {
 								text: 'View on github',
