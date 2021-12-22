@@ -17,6 +17,7 @@ export const DEFAULT_SKIN_IMAGE = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgA
 export const SKIN_KEY_SPECIAL_CASES = {
 	minervaneue: 'minerva',
 	2018: 's2018',
+	bluelib: 'bluelib-royalblue',
 	scratchwikiskin: 'scratchwikiskin2'
 };
 
