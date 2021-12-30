@@ -1,7 +1,7 @@
 <template>
 	<div class="unmaintained-skin no-preview">
 		<img :src="dead" alt="unmaintained skin">
-		<slot />
+		<slot></slot>
 	</div>
 </template>
 

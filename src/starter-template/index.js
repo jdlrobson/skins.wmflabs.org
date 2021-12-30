@@ -111,9 +111,9 @@ export const messages = ( templates ) => {
 				msgs.push( result.replace( '{{msg-', '' ).replace( '}}', '' ) );
 			} );
 		}
-	}
-	Object.keys( PARTIALS ).forEach( ( key ) => extractMessages( PARTIALS[key] ) );
-	Object.keys( templates ).forEach( ( key ) => extractMessages( templates[key] ) );
+	};
+	Object.keys( PARTIALS ).forEach( ( key ) => extractMessages( PARTIALS[ key ] ) );
+	Object.keys( templates ).forEach( ( key ) => extractMessages( templates[ key ] ) );
 	return msgs;
 };
 
@@ -329,7 +329,7 @@ ${COMPONENT_STYLES[ name ]}
  * @param {string|Object} js
  * @param {Object} variables
  * @param {Object} options
- * @param {bool} options.isCSS
+ * @param {boolean} options.isCSS
  * @param {Object|null} options.skinFeatures
  * @param {Object|null} options.skinOptions
  * @param {string} options.license License of skin
@@ -354,7 +354,7 @@ export function buildSkin( name, mustache, less, js = '', variables = {}, option
 	let skinFeatures = `/** ${name} */
 `;
 	if ( options.skinFeatures ) {
-		const features = Object.keys(options.skinFeatures).join(',');
+		const features = Object.keys( options.skinFeatures ).join( ',' );
 		skinFeatures += `/** ResourceLoaderSkinModule: ${features} */
 `;
 	}

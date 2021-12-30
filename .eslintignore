@@ -4,6 +4,7 @@ package-lock.json
 /dist
 /node_modules/*
 # External dependencies
+/src/starter-template/bundle.js
 /src/starter-template/export/FileSaver.js
 /src/starter-template/package.json
 /src/starter-template/package-lock.json

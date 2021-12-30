@@ -14,9 +14,9 @@ export function getFeaturesFromStyles( styles ) {
 	const match = styles.match( /\/\*+ +ResourceLoaderSkinModule: ([^*]*) *[*]+/ );
 	const result = {};
 	if ( match && match[ 1 ] ) {
-		Object.keys(DEFAULT_FEATURES).forEach((key) => {
-			result[key] = false;
-		});
+		Object.keys( DEFAULT_FEATURES ).forEach( ( key ) => {
+			result[ key ] = false;
+		} );
 		match[ 1 ].split( ',' ).map( ( a ) => a.trim() ).forEach( ( key ) => {
 			if ( DEFAULT_FEATURES[ key ] !== undefined ) {
 				result[ key ] = true;

@@ -67,8 +67,10 @@
 				😞
 			</div>
 			<p>No skins match that name.</p>
-			<p>If the skin exists it may not be compatible with the latest MediaWiki version
-				and be <a href="https://www.mediawiki.org/wiki/Category:Unstable_skins">marked as unstable</a>.</p>
+			<p>
+				If the skin exists it may not be compatible with the latest MediaWiki version
+				and be <a href="https://www.mediawiki.org/wiki/Category:Unstable_skins">marked as unstable</a>.
+			</p>
 			<p>You can <a :href="mwUrlEdit">add this skin to MediaWiki.org</a></p>
 		</div>
 	</div>

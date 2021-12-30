@@ -113,7 +113,7 @@ function queryMediaWikiSkins( category, compatible, gcmcontinue = '', pages = []
 						} );
 					} ).filter( ( p ) => {
 						const isSkinVariant = p.title.indexOf( '/' ) > -1;
-						const skinKey = p.title.toLowerCase().replace(/\//, '-' ).replace('skin:', '');
+						const skinKey = p.title.toLowerCase().replace( /\//, '-' ).replace( 'skin:', '' );
 						return isSkinVariant ?
 							compatible.indexOf( skinKey ) > -1 :
 							p.title.indexOf( 'Skin:' ) > -1 && p.title !== 'Skin:Example';
@@ -160,7 +160,7 @@ function getSkinIndex() {
 }
 function fetchSkinInfo( key ) {
 	return getSkinIndex().then( ( compatibleSkins ) => {
-		const isCompatible = compatibleSkins[key] && compatibleSkins[key].compatible;
+		const isCompatible = compatibleSkins[ key ] && compatibleSkins[ key ].compatible;
 		const skin = skins[ key ] || false;
 		if ( !skin ) {
 			return Promise.reject();
@@ -183,7 +183,7 @@ function fetchSkinInfo( key ) {
 					if ( skin.name.indexOf( '/' ) > -1 ) {
 						links.push( {
 							text: 'View parent skin on MediaWiki.org',
-							href: `https://mediawiki.org/wiki/Skin:${skin.name.split('/')[0]}`
+							href: `https://mediawiki.org/wiki/Skin:${skin.name.split( '/' )[ 0 ]}`
 						} );
 					}
 					( info.extlinks || [] ).map( ( link ) => link.url ).forEach( ( url ) => {

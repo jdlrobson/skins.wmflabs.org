@@ -6,7 +6,9 @@
 		>
 			<img :src="src">
 			<no-preview v-if="!available">
-				<p v-if="!available">Preview unavailable</p>
+				<p v-if="!available">
+					Preview unavailable
+				</p>
 				<p v-if="!maintained">
 					This skin appears to be <strong>unmaintained</strong>
 				</p>

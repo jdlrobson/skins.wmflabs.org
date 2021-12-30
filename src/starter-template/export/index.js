@@ -114,6 +114,7 @@ function skinjson( name, styles, packageFiles, messages, skinFeatures, skinOptio
  * @param {Array} messages (keys) used by template
  * @param {JSZip} [Zipper] constructor
  * @param {FileSaver} [myFileSaver]
+ * @param {Object} [skinOptions]
  * @param {string} [license] (optional) it defaults to GPL-2.0-or-later
  * @return {Promise}
  */
