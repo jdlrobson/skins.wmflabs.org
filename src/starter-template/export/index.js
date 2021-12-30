@@ -8,23 +8,10 @@ import stylelintJSON from './assets/_stylelintrc.json';
 const SKINS_LAB_VERSION = '2.0';
 const MW_MIN_VERSION = '1.37.0';
 
-function stringifyjson( json ) {
-	return JSON.stringify( json, null, 2 );
-}
-
-function camelcase( str ) {
-	return str.replace( /(?:^\w|[A-Z]|\b\w)/g, function ( word ) {
-		return word.toUpperCase();
-	} ).replace( /\s+/g, '' );
-}
-
-function getFolderNameFromName( name ) {
-	return camelcase( name );
-}
-
-function getSkinKeyFromName( name ) {
-	return getFolderNameFromName( name ).toLowerCase();
-}
+import { stringifyjson,
+	getFolderNameFromName,
+	getSkinKeyFromName
+} from './utils';
 
 function addi18n( name, rootfolder ) {
 	const TOOL_LINK = `[https://skins.wmflabs.org skins.wmflabs.org v.${SKINS_LAB_VERSION}]`;
