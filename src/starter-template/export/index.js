@@ -1,14 +1,12 @@
 import JSZip from 'jszip';
 import FileSaver from './FileSaver.js';
 import { getFeaturesFromStyles } from '../utils.js';
-import packageJSON from './assets/_package.json';
-import eslintJSON from './assets/_eslintrc.json';
-import stylelintJSON from './assets/_stylelintrc.json';
 
 const SKINS_LAB_VERSION = '2.0';
 const MW_MIN_VERSION = '1.37.0';
 
 import { stringifyjson,
+	addDevTools,
 	getFolderNameFromName,
 	getSkinKeyFromName
 } from './utils';
@@ -153,12 +151,7 @@ function build( name, styles, templates, scripts = {}, messages = [], Zipper = J
 			license
 		)
 	);
-	rootfolder.file( 'package.json', stringifyjson( packageJSON ) );
-	rootfolder.file( '.eslintrc.json', stringifyjson( eslintJSON ) );
-	rootfolder.file( '.stylelintrc.json', stringifyjson( stylelintJSON ) );
-	rootfolder.file( '.gitignore', `.eslintcache
-node_modules/
-` );
+	addDevTools( rootfolder );
 
 	// create styles and script files in `resources` folder
 	Object.keys( styles ).forEach( ( filename ) => {
