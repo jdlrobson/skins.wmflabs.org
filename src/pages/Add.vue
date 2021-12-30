@@ -29,7 +29,9 @@
 			>
 			</preview>
 			<div class="page__edit-area">
-				<btn class="reset-btn" :destructive="true" @click="reset">
+				<btn class="reset-btn"
+					:destructive="true"
+					@click="reset">
 					Reset
 				</btn>
 				<tabs>
@@ -65,12 +67,18 @@
 					:sort="true"
 					:copyable="true"></json-viewer>
 			</div>
+			<p>
+				Making an extension? Try the
+				<router-link to="build/extension">
+					extension builder
+				</router-link>!
+			</p>
 		</div>
 	</page>
 </template>
 
 <script>
-/* global less */
+/* global less, __dirname */
 import { PARTIALS, getLessVarsCode, getLessVarsRaw, JQUERY,
 	buildSkin, getLESSFromTemplate, randomColor,
 	SCRIPTS, messages } from '../starter-template';
@@ -91,8 +99,8 @@ import {
 	getResourceLoaderSkinModuleStylesFromStylesheet
 } from 'mediawiki-boilerplate';
 
-const DEFAULT_SKIN_MUSTACHE = fs.readFileSync(`${__dirname}/assets/skin.mustache`).toString();
-const DEFAULT_SKIN_LESS = fs.readFileSync(`${__dirname}/assets/skin.less`).toString();
+const DEFAULT_SKIN_MUSTACHE = fs.readFileSync( `${__dirname}/assets/skin.mustache` ).toString();
+const DEFAULT_SKIN_LESS = fs.readFileSync( `${__dirname}/assets/skin.less` ).toString();
 const LANGUAGES = {
 	'msg-otherlanguages': 'Read in another language'
 };
