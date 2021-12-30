@@ -416,3 +416,6 @@ export function getResourceLoaderSkinModuleStylesFromStylesheet( styles ) {
 }
 
 export { build };
+
+import buildExtension from './export/extension';
+export { buildExtension };
