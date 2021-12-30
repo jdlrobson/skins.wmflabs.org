@@ -14,11 +14,11 @@
 						Change name
 					</button>
 				</div>
-				<button class="btn"
+				<btn
 					:disabled="skinname === ''"
 					@click="download">
 					Download
-				</button>
+				</btn>
 			</div>
 			<preview :html="html"
 				:name="skinname"
@@ -29,9 +29,9 @@
 			>
 			</preview>
 			<div class="page__edit-area">
-				<button class="btn btn--destructive reset-btn" @click="reset">
+				<btn class="reset-btn" :destructive="true" @click="reset">
 					Reset
-				</button>
+				</btn>
 				<tabs>
 					<tab title="HTML ( Mustache )">
 						<textarea class="editor-textarea"
@@ -42,10 +42,10 @@
 						<textarea class="editor-textarea"
 							:value="less"
 							@input="updateCSS"></textarea>
-						<button class="btn css-theme-changer"
+						<btn class="css-theme-changer"
 							@click="newTheme">
 							Change theme
-						</button>
+						</btn>
 						<color-chart :colors="colorChart"
 							@toggleColor="toggleColor"></color-chart>
 					</tab>
@@ -78,6 +78,7 @@ import api from '../api.js';
 import { TEST_ARTICLES, HOST, LESS_RENDER_OPTIONS } from '../constants';
 import { render } from 'mustache';
 import ColorChart from '../components/ColorChart.vue';
+import Btn from '../components/Btn.vue';
 import Tabs from '../components/Tabs.vue';
 import Tab from '../components/Tab.vue';
 import Preview from '../components/Preview.vue';
@@ -133,6 +134,7 @@ function getCached() {
 export default {
 	name: 'Add',
 	components: {
+		Btn,
 		Page,
 		Tabs,
 		Tab,
@@ -367,64 +369,13 @@ input {
 	}
 }
 
-.btn {
-	color: #fff;
-	background: #000;
-	text-transform: uppercase;
-	padding: 11px 10px;
-	min-width: 98px;
-	position: relative;
-	border: solid 3px transparent;
-	height: 40px;
-	font-weight: bold;
-	text-decoration: none;
-	vertical-align: top;
-	text-align: center;
-	line-height: 1;
-	box-sizing: border-box;
-
-	&:focus,
-	&:hover {
-		background: @color-create-darkest;
-	}
-
-	&:active {
-		background: @color-create-darkest;
-		border-color: #000;
-		opacity: 0.8;
-	}
-
-	&::disabled {
-		opacity: 0.5;
-	}
-}
-
-.reset-btn {
+.btn.reset-btn {
 	position: absolute;
 	min-width: 68px;
 	right: 0;
 	top: -67px;
 	width: 68px;
 	padding: 0;
-}
-
-.btn--destructive {
-	background: @color-reset;
-	color: #fff;
-
-	&:focus,
-	&:hover,
-	&:active {
-		background: @color-reset;
-		color: transparent;
-		background-repeat: no-repeat;
-		background-position: center;
-		background-image: url(../components/assets/reset.svg);
-	}
-
-	&:active {
-		opacity: 0.8;
-	}
 }
 
 .data-explorer {
