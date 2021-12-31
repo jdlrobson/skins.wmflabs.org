@@ -334,6 +334,7 @@ ${COMPONENT_STYLES[ name ]}
  * @param {boolean} options.isCSS
  * @param {Object|null} options.skinFeatures
  * @param {Object|null} options.skinOptions
+ * @param {Object|null} options.messages
  * @param {string} options.license License of skin
  */
 export function buildSkin( name, mustache, less, js = '', variables = {}, options = {} ) {
@@ -384,7 +385,8 @@ ${importStatements}
 		options.Zipper || JSZip,
 		options.CustomFileSaver,
 		options.skinOptions,
-		options.license
+		options.license,
+		options.messages
 	);
 }
 

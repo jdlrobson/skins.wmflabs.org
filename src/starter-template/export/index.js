@@ -11,18 +11,24 @@ import { stringifyjson,
 	getSkinKeyFromName
 } from './utils';
 
-function addi18n( name, rootfolder ) {
+/**
+ * 
+ * @param {string} name 
+ * @param {Folder} rootfolder 
+ * @param {Object} messages 
+ */
+function addi18n( name, rootfolder, messages = {} ) {
 	const TOOL_LINK = `[https://skins.wmflabs.org skins.wmflabs.org v.${SKINS_LAB_VERSION}]`;
 	const skinKey = getSkinKeyFromName( name );
 	const i18nfolder = rootfolder.folder( 'i18n' );
-	const en = {
+	const en = Object.assign( messages.en || {}, {
 		[ `skinname-${skinKey}` ]: name,
 		[ `${name}-desc` ]: `A skin created by ${TOOL_LINK}`
-	};
-	const qqq = {
+	} );
+	const qqq = Object.assign( messages.qqq || {}, {
 		[ `skinname-${skinKey}` ]: '{{optional}}',
 		[ `${skinKey}-desc` ]: `{{desc|what=skin|name=${name}|url=https://www.mediawiki.org/wiki/Skin:${name}}}`
-	};
+	} );
 	i18nfolder.file( 'en.json', stringifyjson( en ) );
 	i18nfolder.file( 'qqq.json', stringifyjson( qqq ) );
 }
@@ -114,10 +120,12 @@ function skinjson( name, styles, packageFiles, messages, skinFeatures, skinOptio
  * @param {FileSaver} [myFileSaver]
  * @param {Object} [skinOptions]
  * @param {string} [license] (optional) it defaults to GPL-2.0-or-later
+ * @param {Object} [messageObj] (optional) for populating i18n jsons. e.g. {en: {key: 'i18n'}}
  * @return {Promise}
  */
 function build( name, styles, templates, scripts = {}, messages = [], Zipper = JSZip, myFileSaver = FileSaver, skinOptions = {},
-	license = 'GPL-2.0-or-later'
+	license = 'GPL-2.0-or-later',
+	messageObj = {}
 ) {
 	const zip = new Zipper();
 	const folderName = getFolderNameFromName( name );
@@ -167,7 +175,7 @@ function build( name, styles, templates, scripts = {}, messages = [], Zipper = J
 	} );
 
 	// setup i18n
-	addi18n( name, rootfolder );
+	addi18n( name, rootfolder, messageObj );
 	/* images.forEach((image) => {
         imagesfolder.file(image.name, image.text);
     }) */
