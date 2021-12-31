@@ -11749,6 +11749,8 @@ function build( name, styles, templates, scripts = {}, messages = [], Zipper = l
 
 var FooterList = "<ul id=\"{{id}}\">\n{{#array-items}}\n<li id=\"{{id}}\">{{{html}}}</li>\n{{/array-items}}\n</ul>\n";
 
+var CompactFooter = "<p>\n{{#data-footer.data-icons.array-items}}{{{html}}}&nbsp;{{/data-footer.data-icons.array-items}}\n</p>\n{{#data-footer.data-info.array-items}}<div>{{{html}}}</div>{{/data-footer.data-info.array-items}}\n<div>\n{{#data-footer.data-places.array-items}}<span>{{{html}}}</span>&nbsp;&nbsp;{{/data-footer.data-places.array-items}}\n</div>\n";
+
 var Portlet = "<div role=\"navigation\" id=\"{{id}}\" class=\"{{class}}\" title=\"{{html-tooltip}}\"\n    aria-labelledby=\"{{id}}-label\">\n    <input type=\"checkbox\" aria-labelledby=\"{{id}}-label\" />\n    <h3 id=\"{{id}}-label\" {{{html-user-language-attributes}}}>{{label}}</h3>\n    <div class=\"mw-portlet-body\">\n        <ul {{{html-user-language-attributes}}}>\n            {{{html-items}}}\n        </ul>\n        {{{html-after-portal}}}\n    </div>\n</div>\n";
 
 var ContentIndicators = "<div class=\"content__indicators mw-indicators mw-body-content\">\n    {{#array-indicators}}\n    <div id=\"{{id}}\" class=\"{{class}}\">{{{html}}}</div>\n    {{/array-indicators}}\n</div>\n";
@@ -11783,7 +11785,7 @@ var Languages = "{{#data-portlets.data-variants}}{{>Portlet}}{{/data-portlets.da
 
 var Dropdown = "<div class=\"mw-portlet-dropdown\">\n<!-- will turn next child portlet into a dropdown -->\n</div>\n";
 
-var AdminBar = "<div class=\"mw-adminbar\">\n    <div class=\"mw-adminbar-start\">\n        {{>AdminBarHome}}\n    </div>\n    <div class=\"mw-adminbar-end\" {{{html-user-language-attributes}}}>\n        {{>AdminBarUser}}\n    </div>\n</div>\n";
+var AdminBar = "<div class=\"mw-adminbar {{#is-anon}}mw-adminbar--anon{{/is-anon}}\">\n    <div class=\"mw-adminbar-start\">\n        {{>AdminBarHome}}\n    </div>\n    <div class=\"mw-adminbar-end\" {{{html-user-language-attributes}}}>\n        {{>AdminBarUser}}\n    </div>\n</div>\n";
 
 var AdminBarHome = "<ul>\n    <li class=\"mw-adminbar-logo\">\n        <a href=\"{{link-mainpage}}\">\n            Home\n        </a>\n    </li>\n    <li class=\"mw-adminbar-search\">\n        {{#data-search-box}}\n        <form action=\"{{form-action}}\">\n        <input type=\"checkbox\" class=\"mw-adminbar-search__toggle\">\n        <input type=\"search\" class=\"mw-adminbar-search__input\" {{{html-input-attributes}}}>\n        <input type=\"submit\" {{{html-button-fulltext-attributes}}}>\n        </form>\n        {{/data-search-box}}\n    </li>\n</ul>";
 
@@ -12018,6 +12020,7 @@ const FEATURE_STYLES = {
 const PARTIALS = {
 	EditBar,
 	AdminBar, AdminBarWithEdit, AdminBarUser, AdminBarHome,
+	CompactFooter,
 	Languages,
 	Dropdown,
 	Notifications,

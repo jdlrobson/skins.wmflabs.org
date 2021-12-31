@@ -1,6 +1,7 @@
 import build from './export/index.js';
 import JSZip from 'jszip';
 import FooterList from './components/FooterList.mustache';
+import CompactFooter from './components/CompactFooter.mustache';
 import Portlet from './components/Portlet.mustache';
 import ContentIndicators from './components/ContentIndicators.mustache';
 import Notices from './components/Notices.mustache';
@@ -82,6 +83,7 @@ export const FEATURE_STYLES = {
 export const PARTIALS = {
 	EditBar,
 	AdminBar, AdminBarWithEdit, AdminBarUser, AdminBarHome,
+	CompactFooter,
 	Languages,
 	Dropdown,
 	Notifications,
