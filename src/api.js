@@ -59,7 +59,7 @@ function queryMediaWikiSkins( category, compatible, gcmcontinue = '', pages = []
 &clcategories=${CATEGORY_ADDITIONAL_REQUIREMENTS}%7C${CATEGORY_REQUIRE_MODIFICATION}%7C${CATEGORY_INCOMPATIBLE_WITH_MEDIAWIKI_MASTER}
 &cllimit=${MAX}
 &piprop=thumbnail&pithumbsize=400&pilimit=${MAX}
-&pvipmetric=pageviews&pvipdays=90
+&pvipmetric=pageviews&pvipdays=60
 &generator=categorymembers&gcmlimit=${MAX}&gcmtitle=${encodeURIComponent( category )}&gcmnamespace=106
 &gcmcontinue=${gcmcontinue}`.replace( /\n/g, '' );
 
@@ -138,8 +138,7 @@ function queryMediaWikiAllSkins( compatible ) {
 	return Promise.all( [
 		queryMediaWikiSkins( CATEGORY_SKINS, compatible ),
 		queryMediaWikiSkins( CATEGORY_BETA_SKINS, compatible ),
-		queryMediaWikiSkins( CATEGORY_EXPERIMENTAL_SKINS, compatible ),
-		queryMediaWikiSkins( CATEGORY_UNMAINTAINED_SKINS, compatible )
+		queryMediaWikiSkins( CATEGORY_EXPERIMENTAL_SKINS, compatible )
 	] ).then( ( ...args ) => args[ 0 ].length > 1 ?
 		args[ 0 ][ 0 ].concat.apply( args[ 0 ][ 0 ], args[ 0 ].slice( 1 ) ) :
 		args[ 0 ][ 0 ]
