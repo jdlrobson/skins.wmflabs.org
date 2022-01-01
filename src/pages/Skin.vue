@@ -13,6 +13,9 @@
 				:maintained="!unmaintained"
 				:available="preview">
 			</preview-launcher>
+			<p v-if="author">
+				by {{ author }}
+			</p>
 			<h3 v-if="infoIsLoaded">
 				About:
 			</h3>
@@ -67,6 +70,7 @@ export default {
 			skinkey: this.$route.params.key,
 			name: this.$route.params.key.replace( /[^⠀]/g, '⠀' ) + '⠀',
 			links: [],
+			author: '',
 			beta: false,
 			hasDependencies: false,
 			experimental: false,
@@ -105,6 +109,7 @@ export default {
 				this.src = skin.src;
 			}
 			this.preview = this.preview && skin.isCompatible;
+			this.author = skin.author;
 			this.summary = skin.summary;
 			this.stable = skin.stable;
 			this.beta = skin.beta;

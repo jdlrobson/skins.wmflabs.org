@@ -157,6 +157,36 @@ function getSkinIndex() {
 			return skins;
 		} );
 }
+function cleanMwHTML( str ) {
+	return str.replace(
+		/(&lt;\/translate&gt;|&lt;translate&gt;)/gi,
+		'',
+	).replace(
+		// external link tvars
+		/\[&lt;tvar\|[^&]*&gt;[^&]*&lt;\/&gt; ([^\]]*)\]/g,
+		'$1'
+	).replace(
+		// [[&lt;tvar name=3&gt;Special:MyLanguage/Manual:Skins&lt;/tvar&gt;|skin]]
+		/\[\[&lt;tvar name\=[^&]*&gt;[^&]*&lt;\/tvar&gt;\|([^\]]*)\]\]/g,
+		'$1'
+	).replace(
+		// standard link tvars
+		/\[\[&lt;tvar\|[^&]*&gt;[^&]*&lt;\/&gt;\|([^\]]*)\]\]/g,
+		'$1'
+	).replace(
+		/&lt;tvar\|[^&]*&gt;([^&]*)&lt;\/&gt;/g,
+		'$1'
+	).replace(
+		// [[ ]]
+		/\[\[[^&]*&lt;\/&gt;\|([^\]]*)\]\]*/g,
+		'$1'
+	).replace(
+		//&lt;tvar name=1&gt;<b>Lakeus</b>&lt;/tvar&gt;
+		/&lt;tvar name=[^&]*&gt;([^&]*)&lt;\/tvar&gt;/,
+		'$1'
+	);
+}
+
 function fetchSkinInfo( key ) {
 	return getSkinIndex().then( ( compatibleSkins ) => {
 		const isCompatible = compatibleSkins[ key ] && compatibleSkins[ key ].compatible;
@@ -164,17 +194,40 @@ function fetchSkinInfo( key ) {
 		if ( !skin ) {
 			return Promise.reject();
 		}
-		// https://www.mediawiki.org/wiki/Special:ApiSandbox#action=query&format=json&prop=categories%7Cextracts%7Cextlinks&titles=Skin%3AMinerva_Neue&redirects=1&formatversion=2&cllimit=max&exsentences=3&exlimit=max&exintro=1&explaintext=1&ellimit=max
-		return cachedJSONFetch( `https://www.mediawiki.org/w/api.php?action=query&format=json&prop=categories%7Cextracts%7Cextlinks&redirects=1&formatversion=2&cllimit=max&exsentences=3&exlimit=max&exintro=1&explaintext=1&ellimit=max&origin=*&titles=Skin%3A${skin.name}` )
-			.then( ( result ) => {
+		const title = `Skin%3A${skin.name}`;
+		return Promise.all( [
+			// https://www.mediawiki.org/wiki/Special:ApiSandbox#action=query&format=json&prop=categories%7Cextracts%7Cextlinks&titles=Skin%3AMinerva_Neue&redirects=1&formatversion=2&cllimit=max&exsentences=3&exlimit=max&exintro=1&explaintext=1&ellimit=max
+			cachedJSONFetch( `https://www.mediawiki.org/w/api.php?action=query&format=json&prop=categories%7Cextracts%7Cextlinks&redirects=1&formatversion=2&cllimit=max&exsentences=3&exlimit=max&exintro=1&explaintext=1&ellimit=max&origin=*&titles=${title}` ),
+			cachedJSONFetch( `https://www.mediawiki.org/w/api.php?action=parse&format=json&origin=*&page=${title}&section=0` )
+		] )
+			.then( ( responseObjects ) => {
+				const result = responseObjects[0];
+				const template = document.createElement( 'template' );
+				const doc = template.content;
+				const html = responseObjects[1].parse.text['*'];
+				template.innerHTML = cleanMwHTML( html );
+				const firstP = doc.querySelectorAll( '.mw-parser-output > p' )[ 0 ];
+				let author = '';
+				doc.querySelectorAll( '.infobox tr' ).forEach((row) => {
+					let field;
+					row.querySelectorAll('td').forEach((td, i) => {
+						if ( i === 0 ) {
+							field = td.textContent.trim().toLowerCase();
+						} else if ( i === 1 ) {
+							if ( field === 'author(s)' ) {
+								author = td.textContent.trim();
+							}
+						}
+					});
+				});
 				const links = [];
 				let summary,
 					stable, categories;
 				try {
 					const p = result.query.pages;
 					const info = p[ 0 ];
+					summary = firstP ? firstP.textContent : 'No skin information available';
 					categories = ( p.categories || [] ).map( ( c ) => c.title );
-					summary = info.extract;
 					links.push( {
 						text: 'View on mediawiki.org',
 						href: info.title ? `https://mediawiki.org/wiki/${info.title}` : ''
@@ -225,11 +278,11 @@ function fetchSkinInfo( key ) {
 						}
 					} );
 				} catch ( e ) {
-					summary = 'No skin information available';
 				}
 				return Object.assign( {
 					links,
 					isCompatible,
+					author,
 					summary, stable, categories
 				}, skin );
 			} );
