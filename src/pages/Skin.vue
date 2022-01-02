@@ -16,6 +16,7 @@
 			<p v-if="author">
 				by {{ author }}
 			</p>
+			<p v-if="created">Published to MediaWiki.org on {{ created }}</p>
 			<h3 v-if="infoIsLoaded">
 				About:
 			</h3>
@@ -70,6 +71,7 @@ export default {
 			skinkey: this.$route.params.key,
 			name: this.$route.params.key.replace( /[^⠀]/g, '⠀' ) + '⠀',
 			links: [],
+			created: '',
 			author: '',
 			beta: false,
 			hasDependencies: false,
@@ -118,6 +120,7 @@ export default {
 			this.mightBreak = skin.mightBreak;
 			this.experimental = skin.experimental;
 			this.links = skin.links;
+			this.created = new Date( skin.created ).getFullYear();
 			this.infoIsLoaded = true;
 		}, () => {
 			this.$router.replace( { path: '/404' } );

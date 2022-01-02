@@ -158,7 +158,7 @@ function getSkinIndex() {
 		} );
 }
 function cleanMwHTML( str ) {
-	return str.replace(
+	return strreplace(
 		/(&lt;\/translate&gt;|&lt;translate&gt;)/gi,
 		'',
 	).replace(
@@ -195,9 +195,10 @@ function fetchSkinInfo( key ) {
 			return Promise.reject();
 		}
 		const title = `Skin%3A${skin.name}`;
+		const revisionsQuery = `rvdir=newer&rvlimit=1&rvprop=timestamp`;
 		return Promise.all( [
 			// https://www.mediawiki.org/wiki/Special:ApiSandbox#action=query&format=json&prop=categories%7Cextracts%7Cextlinks&titles=Skin%3AMinerva_Neue&redirects=1&formatversion=2&cllimit=max&exsentences=3&exlimit=max&exintro=1&explaintext=1&ellimit=max
-			cachedJSONFetch( `https://www.mediawiki.org/w/api.php?action=query&format=json&prop=categories%7Cextlinks&redirects=1&formatversion=2&cllimit=max&origin=*&titles=${title}` ),
+			cachedJSONFetch( `https://www.mediawiki.org/w/api.php?action=query&format=json&${revisionsQuery}&prop=revisions%7Ccategories%7Cextlinks&redirects=1&formatversion=2&cllimit=max&origin=*&titles=${title}` ),
 			cachedJSONFetch( `https://www.mediawiki.org/w/api.php?action=parse&format=json&origin=*&page=${title}&section=0` )
 		] )
 			.then( ( responseObjects ) => {
@@ -221,8 +222,9 @@ function fetchSkinInfo( key ) {
 					});
 				});
 				const links = [];
-				let summary,
+				let summary, created,
 					stable, categories;
+
 				try {
 					const p = result.query.pages;
 					const info = p[ 0 ];
@@ -232,12 +234,14 @@ function fetchSkinInfo( key ) {
 						text: 'View on mediawiki.org',
 						href: info.title ? `https://mediawiki.org/wiki/${info.title}` : ''
 					} );
+					const firstRevision = info.revisions[ 0 ];
 					if ( skin.name.indexOf( '/' ) > -1 ) {
 						links.push( {
 							text: 'View parent skin on MediaWiki.org',
 							href: `https://mediawiki.org/wiki/Skin:${skin.name.split( '/' )[ 0 ]}`
 						} );
 					}
+					created = firstRevision ? firstRevision.timestamp : null;
 					( info.extlinks || [] ).map( ( link ) => link.url ).forEach( ( url ) => {
 						if ( url.match( /https:\/\/github.com/ ) && url.match( /\.git/ ) ) {
 							links.push( {
@@ -281,6 +285,7 @@ function fetchSkinInfo( key ) {
 				}
 				return Object.assign( {
 					links,
+					created,
 					isCompatible,
 					author,
 					summary, stable, categories
