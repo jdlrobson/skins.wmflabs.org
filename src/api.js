@@ -158,7 +158,11 @@ function getSkinIndex() {
 		} );
 }
 function cleanMwHTML( str ) {
-	return strreplace(
+	return str.replace(
+		// &lt;tvar name=1&gt;...&lt;/tvar&gt;
+		/&lt;tvar name\=[^&]*&gt;([^&]*)&lt;\/tvar&gt;/,
+		'$1'
+	).replace(
 		/(&lt;\/translate&gt;|&lt;translate&gt;)/gi,
 		'',
 	).replace(
