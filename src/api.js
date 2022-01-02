@@ -197,7 +197,7 @@ function fetchSkinInfo( key ) {
 		const title = `Skin%3A${skin.name}`;
 		return Promise.all( [
 			// https://www.mediawiki.org/wiki/Special:ApiSandbox#action=query&format=json&prop=categories%7Cextracts%7Cextlinks&titles=Skin%3AMinerva_Neue&redirects=1&formatversion=2&cllimit=max&exsentences=3&exlimit=max&exintro=1&explaintext=1&ellimit=max
-			cachedJSONFetch( `https://www.mediawiki.org/w/api.php?action=query&format=json&prop=categories%7Cextracts%7Cextlinks&redirects=1&formatversion=2&cllimit=max&exsentences=3&exlimit=max&exintro=1&explaintext=1&ellimit=max&origin=*&titles=${title}` ),
+			cachedJSONFetch( `https://www.mediawiki.org/w/api.php?action=query&format=json&prop=categories%7Cextlinks&redirects=1&formatversion=2&cllimit=max&origin=*&titles=${title}` ),
 			cachedJSONFetch( `https://www.mediawiki.org/w/api.php?action=parse&format=json&origin=*&page=${title}&section=0` )
 		] )
 			.then( ( responseObjects ) => {
