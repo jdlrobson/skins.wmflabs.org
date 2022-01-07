@@ -12,8 +12,7 @@ function aliasFileName( folderName ) {
 }
 
 function makeServiceWiring( folderName ) {
-	return `
-<?php
+	return `<?php
 use MediaWiki\\MediaWikiServices;
 
 return [
