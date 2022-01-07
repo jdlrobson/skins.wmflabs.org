@@ -121,8 +121,9 @@ function queryMediaWikiSkins( category, compatible, gcmcontinue = '', pages = []
 				);
 			}
 
-			if ( r.continue && r.continue.gcmcontinue ) {
-				return queryMediaWikiSkins( category, compatible, r.continue.gcmcontinue, pages );
+			if ( r.continue ) {
+				const continueKey = Object.keys( r.continue ).map( ( key ) => `${key}=${r.continue[key]}` ).join( '&' );
+				return queryMediaWikiSkins( category, compatible, continueKey, pages );
 			} else {
 				return pages;
 			}
