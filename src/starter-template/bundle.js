@@ -11852,8 +11852,7 @@ function aliasFileName( folderName ) {
 }
 
 function makeServiceWiring( folderName ) {
-	return `
-<?php
+	return `<?php
 use MediaWiki\\MediaWikiServices;
 
 return [
@@ -11896,8 +11895,22 @@ $specialPageAliases['en'] = [
 `;
 }
 
-function extjson( folderName ) {
+function capitalize( str ) {
+	return str.charAt( 0 ).toUpperCase() + str.slice(1);
+}
+
+function getHookMethod( hookName ) {
+	return `on${capitalize(hookName)}`; 
+}
+
+function extjson( folderName, options ) {
 	const extensionKey = getSkinKeyFromName( folderName );
+	const Hooks = {};
+	const namespace = `${folderName}\\`;
+
+	Object.keys( options.hooks || {} ).forEach( ( hookName ) => {
+		Hooks[ hookName ] = `${namespace}Hooks::${getHookMethod( hookName )}`;
+	} );
 	return stringifyjson( {
 		name: folderName,
 		author: [],
@@ -11932,9 +11945,7 @@ function extjson( folderName ) {
 			localBasePath: '',
 			remoteExtPath: `${folderName}`
 		},
-		Hooks: {
-
-		},
+		Hooks,
 		config: {
 
 		},
@@ -11957,6 +11968,29 @@ function addi18n( rootfolder, name ) {
 	i18nfolder.file( 'qqq.json', stringifyjson( qqq ) );
 }
 
+function makeHooksFile( name, hooks ) {
+	const methods = Object.keys( hooks ).map( ( key ) => {
+		if ( key === 'SkinAfterPortlet' ) {
+			return `	/**
+	 * @see https://www.mediawiki.org/wiki/Manual:Hooks/SkinAfterPortlet
+	 * @param Skin $skin
+	 * @param string $portlet
+	 * @param string $html
+	 */
+	public static function ${getHookMethod( key ) }( $skin, $portlet, &$html ) {
+		// Code goes here.
+		$html .= '${name} custom HTML for ' . $portlet;
+	}`
+		}
+	});
+	return `<?php
+namespace ${name};
+
+class Hooks {
+${methods}
+}`;
+
+}
 /**
  *
  * @param {string} name
@@ -11970,7 +12004,7 @@ function buildExtension( name, options = {} ) {
 	const folderName = getFolderNameFromName( name );
 	const rootfolder = zip.folder( folderName );
 	rootfolder.file( 'extension.json',
-		extjson( folderName )
+		extjson( folderName, options )
 	);
 	addi18n( rootfolder, name );
 	addDevTools( rootfolder );
@@ -11984,6 +12018,12 @@ function buildExtension( name, options = {} ) {
 		'ServiceWiring.php',
 		makeServiceWiring( name )
 	);
+	if ( options.hooks ) {
+		includesFolder.file(
+			'Hooks.php',
+			makeHooksFile( name, options.hooks )
+		);
+	}
 
 	return zip.generateAsync( { type: 'blob' } )
 		.then( ( content ) => {
