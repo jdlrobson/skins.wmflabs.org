@@ -4,6 +4,11 @@
 		<p>Let's build an extension!</p>
 		<form>
 			<input v-model="name" placeholder="Extension name">
+			<h2>Hooks</h2>
+			<p>
+				<input type="checkbox" name="hookSkinAfterPortlet" v-model="hookSkinAfterPortlet">
+				<label>SkinAfterPortlet: Add HTML after a portlet.</label>
+			</p>
 			<btn
 				:disabled="!name"
 				@click="newExtension">
@@ -21,6 +26,7 @@ import { getCachedProperties, setCachedProperty } from './cachedProperties';
 
 const LS_NAMESPACE = 'ext-builder';
 const DEFAULTS = {
+	hookSkinAfterPortlet: false,
 	name: ''
 };
 
@@ -42,7 +48,11 @@ export default {
 		newExtension() {
 			buildExtension(
 				this.name,
-				{}
+				{
+					hooks: {
+						SkinAfterPortlet: this.hookSkinAfterPortlet
+					}
+				}
 			);
 		}
 	}
