@@ -61,7 +61,7 @@ function queryMediaWikiSkins( category, compatible, gcmcontinue = '', pages = []
 &piprop=thumbnail&pithumbsize=400&pilimit=${MAX}
 &pvipmetric=pageviews&pvipdays=60
 &generator=categorymembers&gcmlimit=${MAX}&gcmtitle=${encodeURIComponent( category )}&gcmnamespace=106
-&gcmcontinue=${gcmcontinue}`.replace( /\n/g, '' );
+&${gcmcontinue}`.replace( /\n/g, '' );
 
 	return cachedJSONFetch( url ).then( ( r ) => {
 		if ( r ) {
