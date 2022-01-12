@@ -324,6 +324,10 @@ ${COMPONENT_STYLES[ name ]}
 	return mapping;
 }
 
+import {
+	getSkinKeyFromName
+} from './export/utils';
+
 /**
  * Generate a ZIP file for a given skin.
  *
@@ -340,7 +344,8 @@ ${COMPONENT_STYLES[ name ]}
  * @param {string} options.license License of skin
  */
 export function buildSkin( name, mustache, less, js = '', variables = {}, options = {} ) {
-	const templates = getTemplatesFromSourceCode( PARTIALS, mustache );
+	const skinKey = getSkinKeyFromName( name );
+	const templates = getTemplatesFromSourceCode( PARTIALS, mustache, skinKey );
 	const styles = getComponentLESSFiles( Object.keys( templates ), [
 		'mediawiki.skin.variables',
 		'variables.less'

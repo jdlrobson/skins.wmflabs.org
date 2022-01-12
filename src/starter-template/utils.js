@@ -28,17 +28,32 @@ export function getFeaturesFromStyles( styles ) {
 	}
 }
 
-export function getTemplatesFromSourceCode( partials, sourceCode ) {
+/**
+ * @param {string} template
+ * @param {string} skinKey
+ */
+ function localizeTemplate( template, skinKey ) {
+	return template.replace(/msg-skinname-/g, `msg-${skinKey}-` );
+}
+
+export function getTemplatesFromSourceCode( partials, sourceCode, skinKey ) {
 	const usedPartials = {};
 	Object.keys( partials ).filter( ( name ) => {
 		// Is the partial in the sourceCode?
 		const re = new RegExp( `{{> *${name} *}}` );
 		return !!sourceCode.match( re );
 	} ).forEach( ( key ) => {
-		const others = Object.keys( getTemplatesFromSourceCode( partials, partials[ key ] ) );
-		usedPartials[ key ] = partials[ key ];
+		const others = Object.keys( getTemplatesFromSourceCode( partials, partials[ key ], skinKey ) );
+		usedPartials[ key ] = localizeTemplate( partials[ key ], skinKey );
 		others.forEach( ( otherKey ) => {
-			usedPartials[ otherKey ] = partials[ otherKey ];
+			if ( otherKey === 'skin' ) {
+				return; // not a partial.
+			}
+			const standardTemplate = partials[ otherKey ];
+			const localizedTemplate = skinKey ?
+				localizeTemplate( standardTemplate, skinKey ) :
+				standardTemplate;
+			usedPartials[ otherKey ] = localizedTemplate;
 		} );
 	} );
 
