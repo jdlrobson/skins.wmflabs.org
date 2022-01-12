@@ -24,6 +24,7 @@ import AdminBarHome from './components/AdminBarHome.mustache';
 import AdminBarUser from './components/AdminBarUser.mustache';
 import AdminBarWithEdit from './components/AdminBarWithEdit.mustache';
 import EditBar from './components/EditBar.mustache';
+import CategoryPortlet from './components/CategoryPortlet.mustache';
 
 import AdminBarHomeLESS from './components/AdminBarHome.less';
 import AdminBarUserLESS from './components/AdminBarUser.less';
@@ -82,6 +83,7 @@ export const FEATURE_STYLES = {
 
 export const PARTIALS = {
 	EditBar,
+	CategoryPortlet,
 	AdminBar, AdminBarWithEdit, AdminBarUser, AdminBarHome,
 	CompactFooter,
 	Languages,
