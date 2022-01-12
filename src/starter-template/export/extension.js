@@ -76,6 +76,7 @@ function extjson( folderName, options ) {
 		author: [],
 		url: `https://www.mediawiki.org/wiki/Extension:${folderName}`,
 		descriptionmsg: `${extensionKey}-desc`,
+		'license-name': options.license || 'GPL-2.0-or-later',
 		requires: {
 			MediaWiki: '>= 1.38.0'
 		},
@@ -155,6 +156,9 @@ ${methods}
  *
  * @param {string} name
  * @param {Object} options
+ * @param {string} options.license name of license
+ * @param {Object} options.hooks to register. Keys are valid hooks. Values
+ *   are booleans about whether they are enabled.
  * @return {Promise}
  */
 export default function buildExtension( name, options = {} ) {
