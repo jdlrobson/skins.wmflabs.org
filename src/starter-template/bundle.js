@@ -11481,17 +11481,32 @@ function getFeaturesFromStyles( styles ) {
 	}
 }
 
-function getTemplatesFromSourceCode( partials, sourceCode ) {
+/**
+ * @param {string} template
+ * @param {string} skinKey
+ */
+ function localizeTemplate( template, skinKey ) {
+	return template.replace(/msg-skinname-/g, `msg-${skinKey}-` );
+}
+
+function getTemplatesFromSourceCode( partials, sourceCode, skinKey ) {
 	const usedPartials = {};
 	Object.keys( partials ).filter( ( name ) => {
 		// Is the partial in the sourceCode?
 		const re = new RegExp( `{{> *${name} *}}` );
 		return !!sourceCode.match( re );
 	} ).forEach( ( key ) => {
-		const others = Object.keys( getTemplatesFromSourceCode( partials, partials[ key ] ) );
-		usedPartials[ key ] = partials[ key ];
+		const others = Object.keys( getTemplatesFromSourceCode( partials, partials[ key ], skinKey ) );
+		usedPartials[ key ] = localizeTemplate( partials[ key ], skinKey );
 		others.forEach( ( otherKey ) => {
-			usedPartials[ otherKey ] = partials[ otherKey ];
+			if ( otherKey === 'skin' ) {
+				return; // not a partial.
+			}
+			const standardTemplate = partials[ otherKey ];
+			const localizedTemplate = skinKey ?
+				localizeTemplate( standardTemplate, skinKey ) :
+				standardTemplate;
+			usedPartials[ otherKey ] = localizedTemplate;
 		} );
 	} );
 
@@ -11765,13 +11780,13 @@ var ContentIndicators = "<div class=\"content__indicators mw-indicators mw-body-
 
 var Notices = "<div id=\"siteNotice\">{{{html-site-notice}}}</div>\n{{{html-user-message}}}\n";
 
-var ContentHeading = "<h1 class=\"firstHeading content__heading\" {{{html-user-language-attributes}}}>{{{html-title}}}</h1>\n<a href=\"#lang\" class=\"mw-interlanguage-selector mw-ui-button content__language-btn\">{{msg-otherlanguages}}</a>\n";
+var ContentHeading = "{{{html-title-heading}}}\n<a href=\"#lang\" class=\"mw-interlanguage-selector mw-ui-button content__language-btn\">{{msg-otherlanguages}}</a>\n";
 
 var ContentActions = "<div class=\"content__actions\">\n{{#data-portlets.data-views}}{{>Portlet}}{{/data-portlets.data-views}}\n{{>Dropdown}}{{#data-portlets.data-actions}}{{>Portlet}}{{/data-portlets.data-actions}}\n</div>\n";
 
 var ContentNamespaces = "{{#data-portlets.data-namespaces}}{{>Portlet}}{{/data-portlets.data-namespaces}}\n";
 
-var ContentBody = "{{{html-body-content}}}\n{{#html-categories}}{{{.}}}{{/html-categories}}\n{{{html-after-content}}}";
+var ContentBody = "{{{html-body-content}}}\n{{#data-portlets}}\n{{>CategoryPortlet}}\n{{/data-portlets}}\n{{{html-after-content}}}\n";
 
 var ContentTagline = "<div class=\"content__tagline\">\n    <span>{{msg-tagline}}</span>\n    <span>{{{html-subtitle}}}</span>\n    <span>{{{html-undelete-link}}}</span>\n</div>\n";
 
@@ -11803,9 +11818,11 @@ var AdminBarWithEdit = "<div class=\"mw-adminbar\">\n    <div class=\"mw-adminba
 
 var EditBar = "<ul class=\"mw-edit-bar\">\n    {{#data-portlets.data-views}}\n    {{{html-items}}}\n    {{/data-portlets.data-views}}\n    {{#data-portlets.data-namespaces}}\n    {{{html-items}}}\n    {{/data-portlets.data-namespaces}}\n</ul>\n";
 
-var AdminBarHomeLESS = "// stylelint-disable function-url-quotes\n// Icons from https://doc.wikimedia.org/oojs-ui/master/demos/?page=icons&theme=wikimediaui&direction=ltr&platform=desktop\n// Converted to data uri using https://yoksel.github.io/url-encoder/\n.mw-adminbar-logo {\n\tbackground-image: url( \"data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='%23fff'%3E%3Ctitle%3E home %3C/title%3E%3Cpath d='M10 1L0 10h3v9h4v-4.6c0-1.47 1.31-2.66 3-2.66s3 1.19 3 2.66V19h4v-9h3L10 1z'/%3E%3C/svg%3E%0A\" );\n}\n\n.mw-adminbar-start ul li.mw-adminbar-search {\n\twidth: auto;\n\n\tform {\n\t\tdisplay: flex;\n\t\theight: 32px;\n\t\tposition: relative;\n\t}\n\n\t.mw-adminbar-search__toggle {\n\t\tposition: absolute;\n\t\tright: 0;\n\t\twidth: 40px;\n\t\theight: 100%;\n\t}\n\n\t.mw-adminbar-search__input {\n\t\tcolor: white;\n\t\tbackground: black;\n\t\topacity: 1;\n\t}\n\n\t.searchButton {\n\t\tbackground-color: transparent;\n\t\tborder: 0;\n\t\tbackground-image: url( \"data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='white'%3E%3Ctitle%3E search %3C/title%3E%3Cpath fill-rule='evenodd' d='M12.2 13.6a7 7 0 111.4-1.4l5.4 5.4-1.4 1.4-5.4-5.4zM13 8A5 5 0 113 8a5 5 0 0110 0z'/%3E%3C/svg%3E%0A\" );\n\t\twidth: 40px;\n\t\tbackground-position: center center;\n\t\topacity: 1;\n\t\tbackground-repeat: no-repeat;\n\t\tcolor: transparent !important;\n\t\tpadding: 0;\n\t}\n}\n\n.mw-adminbar-search__toggle {\n\t& + .mw-adminbar-search__input {\n\t\tdisplay: none;\n\t}\n\t&:checked + .mw-adminbar-search__input {\n\t\tdisplay: block;\n\t}\n}\n\n.mw-adminbar-search__input {\n\tmin-width: 150px;\n}";
+var CategoryPortlet = "<div id=\"catlinks\" class=\"catlinks\" data-mw=\"interface\">\n\t{{#data-category-normal}}\n\t<div id=\"{{id}}\" class=\"{{class}}\">\n\t\t<ul>{{{html-items}}}</ul>\n\t\t{{{html-after-portal}}}\n\t</div>\n\t{{/data-category-normal}}\n\t{{^data-category-normal}}\n\t<p>{{msg-skinname-no-categories}}</p>\n\t{{/data-category-normal}}\n\t{{#data-category-hidden}}\n\t<div id=\"{{id}}\" class=\"{{class}}\">\n\t\t<ul>{{{html-items}}}</ul>\n\t\t{{{html-after-portal}}}\n\t</div>\n\t{{/data-category-hidden}}\n</div>\n";
 
-var AdminBarUserLESS = "// stylelint-disable function-url-quotes\n@height-adminbar: 32px;\n@bg-adminbar: #1d2327;\n\n// userAvatarOutline\n.mw-adminbar-icon-user:before {\n\tbackground-image: url( \"data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Ctitle%3E user avatar %3C/title%3E%3Cpath d='M10 8c1.7 0 3.06-1.35 3.06-3S11.7 2 10 2 6.94 3.35 6.94 5 8.3 8 10 8zm0 2c-2.8 0-5.06-2.24-5.06-5S7.2 0 10 0s5.06 2.24 5.06 5-2.26 5-5.06 5zm-7 8h14v-1.33c0-1.75-2.31-3.56-7-3.56s-7 1.81-7 3.56V18zm7-6.89c6.66 0 9 3.33 9 5.56V20H1v-3.33c0-2.23 2.34-5.56 9-5.56z'/%3E%3C/svg%3E%0A\" );\n}\n\n#pt-notifications-notice,\n#pt-talk-alert {\n\tdisplay: none;\n}\n\n.mw-adminbar-notifications li {\n\tfilter: invert( 1 );\n}\n\n#pt-notifications-alert {\n\tpadding-top: 5px;\n\tdisplay: block;\n\theight: 100%;\n\tbox-sizing: border-box;\n\n\ta {\n\t\t// stylelint-disable-next-line declaration-no-important\n\t\theight: 100% !important;\n\t\tbackground-repeat: no-repeat;\n\t}\n}\n\n#p-personal {\n\tposition: relative;\n\talign-self: center;\n\n\tinput {\n\t\topacity: 0;\n\t\tposition: absolute;\n\t\twidth: 100%;\n\t\theight: @height-adminbar;\n\t\tz-index: 2;\n\n\t\t~ .mw-portlet-body {\n\t\t\tdisplay: none;\n\t\t}\n\n\t\t&:checked ~ .mw-portlet-body {\n\t\t\tdisplay: block;\n\t\t}\n\t}\n\n\th3 {\n\t\tmargin: 0;\n\t\tpadding: 0;\n\t\twidth: @height-adminbar;\n\t\theight: @height-adminbar;\n\t\ttext-indent: 999px;\n\t\toverflow: hidden;\n\t\tfloat: right;\n\t\tcursor: pointer;\n\n\t\t&:before {\n\t\t\tcontent: '';\n\t\t\twidth: 100%;\n\t\t\theight: @height-adminbar;\n\t\t\tdisplay: block;\n\t\t\tbackground-repeat: no-repeat;\n\t\t\tbackground-position: center;\n\t\t\tfilter: invert( 1 );\n\t\t}\n\t}\n\n\t@arrow-size: 10px;\n\t@arrow-size-2x: @arrow-size * 2;\n\tul {\n\t\tposition: absolute;\n\t\tright: 0;\n\t\ttop: @arrow-size;\n\t\tmargin: @height-adminbar 0 0;\n\t\tpadding: 0 20px 20px;\n\t\tlist-style: none;\n\t\tbackground: @bg-adminbar;\n\t\tmin-width: 150px;\n\n\t\t&:before {\n\t\t\tcontent: '';\n\t\t\tdisplay: block;\n\t\t\tposition: absolute;\n\t\t\ttop: -@arrow-size-2x;\n\t\t\tright: @arrow-size / 2;\n\t\t\theight: @arrow-size-2x;\n\t\t\twidth: @arrow-size-2x;\n\t\t\tborder-left: @arrow-size solid transparent;\n\t\t\tborder-right: @arrow-size solid transparent;\n\t\t\tborder-bottom: @arrow-size solid @bg-adminbar;\n\t\t}\n\t}\n\n\ta {\n\t\tcolor: #fff;\n\t}\n}\n";
+var AdminBarHomeLESS = "// stylelint-disable function-url-quotes\n// Icons from https://doc.wikimedia.org/oojs-ui/master/demos/?page=icons&theme=wikimediaui&direction=ltr&platform=desktop\n// Converted to data uri using https://yoksel.github.io/url-encoder/\n.mw-adminbar-logo {\n\tbackground-image: url( \"data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='%23fff'%3E%3Ctitle%3E home %3C/title%3E%3Cpath d='M10 1L0 10h3v9h4v-4.6c0-1.47 1.31-2.66 3-2.66s3 1.19 3 2.66V19h4v-9h3L10 1z'/%3E%3C/svg%3E%0A\" );\n}\n\n.mw-adminbar-start ul li.mw-adminbar-search {\n\twidth: auto;\n\n\tform {\n\t\tdisplay: flex;\n\t\theight: 32px;\n\t\tposition: relative;\n\t}\n\n\t.mw-adminbar-search__toggle {\n\t\tposition: absolute;\n\t\tright: 0;\n\t\twidth: 40px;\n\t\theight: 100%;\n\t}\n\n\t.mw-adminbar-search__input {\n\t\tcolor: white;\n\t\tbackground: black;\n\t\topacity: 1;\n\t}\n\n\t.searchButton {\n\t\tbackground-color: transparent;\n\t\tborder: 0;\n\t\tbackground-image: url( \"data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='white'%3E%3Ctitle%3E search %3C/title%3E%3Cpath fill-rule='evenodd' d='M12.2 13.6a7 7 0 111.4-1.4l5.4 5.4-1.4 1.4-5.4-5.4zM13 8A5 5 0 113 8a5 5 0 0110 0z'/%3E%3C/svg%3E%0A\" );\n\t\twidth: 40px;\n\t\tbackground-position: center center;\n\t\topacity: 1;\n\t\tbackground-repeat: no-repeat;\n\t\tcolor: transparent !important;\n\t\tpadding: 0;\n\t\tmin-height: auto;\n\t}\n}\n\n.mw-adminbar-search__toggle {\n\t& + .mw-adminbar-search__input {\n\t\tdisplay: none;\n\t}\n\t&:checked + .mw-adminbar-search__input {\n\t\tdisplay: block;\n\t}\n}\n\n.mw-adminbar-search__input {\n\tmin-width: 150px;\n}";
+
+var AdminBarUserLESS = "// stylelint-disable function-url-quotes\n@height-adminbar: 32px;\n@bg-adminbar: #1d2327;\n\n// userAvatarOutline\n.mw-adminbar-icon-user:before {\n\tbackground-image: url( \"data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Ctitle%3E user avatar %3C/title%3E%3Cpath d='M10 8c1.7 0 3.06-1.35 3.06-3S11.7 2 10 2 6.94 3.35 6.94 5 8.3 8 10 8zm0 2c-2.8 0-5.06-2.24-5.06-5S7.2 0 10 0s5.06 2.24 5.06 5-2.26 5-5.06 5zm-7 8h14v-1.33c0-1.75-2.31-3.56-7-3.56s-7 1.81-7 3.56V18zm7-6.89c6.66 0 9 3.33 9 5.56V20H1v-3.33c0-2.23 2.34-5.56 9-5.56z'/%3E%3C/svg%3E%0A\" );\n}\n\n#pt-notifications-notice,\n#pt-talk-alert {\n\tdisplay: none;\n}\n\n.mw-adminbar-notifications li {\n\tfilter: invert( 1 );\n}\n\n#pt-notifications-alert {\n\tpadding-top: 5px;\n\twidth: 40px;\n\tdisplay: block;\n\theight: 100%;\n\tbox-sizing: border-box;\n\n\ta {\n\t\t// stylelint-disable-next-line declaration-no-important\n\t\theight: 100% !important;\n\t\tmargin: auto !important;\n\t\topacity: 1 !important;\n\t\tbackground-repeat: no-repeat;\n\t}\n}\n\n#p-personal {\n\tposition: relative;\n\talign-self: center;\n\n\tinput {\n\t\topacity: 0;\n\t\tposition: absolute;\n\t\twidth: 100%;\n\t\theight: @height-adminbar;\n\t\tz-index: 2;\n\n\t\t~ .mw-portlet-body {\n\t\t\tdisplay: none;\n\t\t}\n\n\t\t&:checked ~ .mw-portlet-body {\n\t\t\tdisplay: block;\n\t\t}\n\t}\n\n\th3 {\n\t\tmargin: 0;\n\t\tpadding: 0;\n\t\twidth: @height-adminbar;\n\t\theight: @height-adminbar;\n\t\ttext-indent: 999px;\n\t\toverflow: hidden;\n\t\tfloat: right;\n\t\tcursor: pointer;\n\n\t\t&:before {\n\t\t\tcontent: '';\n\t\t\twidth: 100%;\n\t\t\theight: @height-adminbar;\n\t\t\tdisplay: block;\n\t\t\tbackground-repeat: no-repeat;\n\t\t\tbackground-position: center;\n\t\t\tfilter: invert( 1 );\n\t\t}\n\t}\n\n\t@arrow-size: 10px;\n\t@arrow-size-2x: @arrow-size * 2;\n\tul {\n\t\tposition: absolute;\n\t\tright: 0;\n\t\ttop: @arrow-size;\n\t\tmargin: @height-adminbar 0 0;\n\t\tpadding: 0 20px 20px;\n\t\tlist-style: none;\n\t\tbackground: @bg-adminbar;\n\t\tmin-width: 150px;\n\n\t\t&:before {\n\t\t\tcontent: '';\n\t\t\tdisplay: block;\n\t\t\tposition: absolute;\n\t\t\ttop: -@arrow-size-2x;\n\t\t\tright: @arrow-size / 2;\n\t\t\theight: @arrow-size-2x;\n\t\t\twidth: @arrow-size-2x;\n\t\t\tborder-left: @arrow-size solid transparent;\n\t\t\tborder-right: @arrow-size solid transparent;\n\t\t\tborder-bottom: @arrow-size solid @bg-adminbar;\n\t\t}\n\t}\n\n\ta {\n\t\tcolor: #fff;\n\t}\n}\n";
 
 var AdminBarLESS = "@height-adminbar: 32px;\n@bg-adminbar: #1d2327;\n\nhtml {\n\t// stylelint-disable-next-line declaration-no-important\n\tmargin-top: 32px !important;\n}\n\n.mw-adminbar {\n\tdirection: ltr;\n\tcolor: #c3c4c7;\n\t// stylelint-disable-next-line declaration-property-unit-disallowed-list\n\tfont-size: 13px;\n\tfont-weight: bold;\n\tfont-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen-Sans', 'Ubuntu', 'Cantarell', 'Helvetica Neue', sans-serif;\n\tline-height: 2.46153846;\n\theight: @height-adminbar;\n\tposition: fixed;\n\ttop: 0;\n\tleft: 0;\n\twidth: 100%;\n\tmin-width: 600px;\n\tz-index: 99999;\n\tdisplay: flex;\n\tbackground: @bg-adminbar;\n\talign-items: center;\n\n\tul {\n\t\tmargin: 0;\n\t\tpadding: 0;\n\t}\n\n\tli {\n\t\tdisplay: block;\n\t}\n\n\tinput {\n\t\topacity: 0;\n\t}\n\n\tli:hover,\n\tinput:hover ~ h3 {\n\t\tcursor: pointer;\n\t\tbackground-color: #333;\n\t}\n}\n\n.mw-adminbar-start {\n\tdisplay: flex;\n\tflex-grow: 1;\n\tmargin-left: 8px;\n\toverflow: hidden;\n}\n\n.mw-adminbar-end {\n\tdisplay: flex;\n\tjustify-content: flex-end;\n\theight: 100%;\n\tpadding-right: 50px;\n\n\t> a {\n\t\tdisplay: block;\n\t\twidth: 40px;\n\t\toverflow: hidden;\n\n\t\t&:before {\n\t\t\tcontent: '';\n\t\t\theight: 100%;\n\t\t\tdisplay: block;\n\t\t\tbackground-repeat: no-repeat;\n\t\t\tfilter: invert( 1 );\n\t\t\tbackground-size: 20px 20px;\n\t\t\tbackground-position: center;\n\t\t}\n\t}\n}\n\n.mw-adminbar-start li,\n.mw-adminbar-ns li,\n.mw-adminbar-views li {\n\twidth: 40px;\n\tfilter: invert( 0 );\n\tbackground-repeat: no-repeat;\n\theight: 100%;\n\tbackground-position: center;\n\tmargin: 0;\n\n\ta {\n\t\tcolor: transparent;\n\t}\n}\n\n.mw-adminbar-start ul,\n.mw-adminbar-views,\n.mw-adminbar-ns {\n\theight: 32px;\n\tmargin: 0;\n\tpadding: 0;\n\tdisplay: flex;\n\n\tli {\n\t\twidth: 40px;\n\t\theight: 100%;\n\t\toverflow: hidden;\n\t\tmargin-right: 4px;\n\t\tdisplay: inline-block;\n\n\t\ta {\n\t\t\tposition: absolute;\n\t\t\ttop: 0;\n\t\t\tbottom: 0;\n\t\t}\n\t}\n}\n";
 
@@ -11916,6 +11933,7 @@ function extjson( folderName, options ) {
 		author: [],
 		url: `https://www.mediawiki.org/wiki/Extension:${folderName}`,
 		descriptionmsg: `${extensionKey}-desc`,
+		'license-name': options.license || 'GPL-2.0-or-later',
 		requires: {
 			MediaWiki: '>= 1.38.0'
 		},
@@ -11995,6 +12013,9 @@ ${methods}
  *
  * @param {string} name
  * @param {Object} options
+ * @param {string} options.license name of license
+ * @param {Object} options.hooks to register. Keys are valid hooks. Values
+ *   are booleans about whether they are enabled.
  * @return {Promise}
  */
 function buildExtension( name, options = {} ) {
@@ -12067,6 +12088,7 @@ const FEATURE_STYLES = {
 
 const PARTIALS = {
 	EditBar,
+	CategoryPortlet,
 	AdminBar, AdminBarWithEdit, AdminBarUser, AdminBarHome,
 	CompactFooter,
 	Languages,
@@ -12323,7 +12345,8 @@ ${COMPONENT_STYLES[ name ]}
  * @param {string} options.license License of skin
  */
 function buildSkin( name, mustache, less, js = '', variables = {}, options = {} ) {
-	const templates = getTemplatesFromSourceCode( PARTIALS, mustache );
+	const skinKey = getSkinKeyFromName( name );
+	const templates = getTemplatesFromSourceCode( PARTIALS, mustache, skinKey );
 	const styles = getComponentLESSFiles( Object.keys( templates ), [
 		'mediawiki.skin.variables',
 		'variables.less'
