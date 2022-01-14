@@ -1,7 +1,9 @@
-<p>
-{{#data-footer.data-icons.array-items}}{{{html}}}&nbsp;{{/data-footer.data-icons.array-items}}
+{{#data-footer.data-icons}}
+<p class="{{id}} {{className}}">
+{{#array-items}}{{{html}}}&nbsp;{{/array-items}}
 </p>
-{{#data-footer.data-info.array-items}}<div>{{{html}}}</div>{{/data-footer.data-info.array-items}}
+{{/data-footer.data-icons}}
+{{#data-footer.data-info.array-items}}<div class="{{id}}">{{{html}}}</div>{{/data-footer.data-info.array-items}}
 <div>
-{{#data-footer.data-places.array-items}}<span>{{{html}}}</span>&nbsp;&nbsp;{{/data-footer.data-places.array-items}}
+{{#data-footer.data-places.array-items}}<span class="{{id}}">{{{html}}}</span>&nbsp;&nbsp;{{/data-footer.data-places.array-items}}
 </div>
