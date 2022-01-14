@@ -339,7 +339,7 @@ import {
  * @param {Object} options
  * @param {boolean} options.isCSS
  * @param {Object|null} options.skinFeatures
- * @param {Object|null} options.skinOptions
+ * @param {Object|null} options.skinOptions to be passed directly to ValidSkinName args
  * @param {Object|null} options.messages
  * @param {string} options.license License of skin
  */

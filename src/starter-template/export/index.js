@@ -1,7 +1,7 @@
 import JSZip from 'jszip';
 import FileSaver from './FileSaver.js';
 import { getFeaturesFromStyles } from '../utils.js';
-
+import { generateHooksDefinition, makeHooksFile } from './extension.js';
 const SKINS_LAB_VERSION = '2.0';
 const MW_MIN_VERSION = '1.37.0';
 
@@ -40,16 +40,16 @@ function addi18n( name, rootfolder, messages = {} ) {
  * @param {string[]} packageFiles path
  * @param {string[]} messages keys used by skin
  * @param {string[]} skinFeatures feature keys used by skin
- * @param {Object} skinOptions
+ * @param {Object} skinOptions for populating ValidSkinNames args
  * @param {string} license of skin
- * @return {string}
+ * @return {Object}
  */
 function skinjson( name, styles, packageFiles, messages, skinFeatures, skinOptions, license ) {
 	const folderName = getFolderNameFromName( name );
 	const skinKey = getSkinKeyFromName( name );
 	const TOOL_LINK = `[https://skins.wmflabs.org skins.wmflabs.org v.${SKINS_LAB_VERSION}]`;
 
-	return stringifyjson(
+	return (
 		{
 			name,
 			version: '1.0.0',
@@ -141,7 +141,7 @@ function build( name, styles, templates, scripts = {}, messages = [], Zipper = J
 		Object.keys( scripts ).filter( ( scriptFileName ) => scriptFileName !== 'skin.js' )
 			.map( ( scriptFileName ) => `resources/${scriptFileName}` )
 	);
-	rootfolder.file( 'skin.json',
+	const skinJSON = (
 		skinjson(
 			name,
 			// only `css` files need to be listed in manifest
@@ -159,6 +159,34 @@ function build( name, styles, templates, scripts = {}, messages = [], Zipper = J
 			license
 		)
 	);
+
+	// Currently not supported. Map to hook in interim
+	// https://phabricator.wikimedia.org/T298734
+	if ( skinOptions.bodyClasses ) {
+		const namespaceName = folderName.replace(/-/g, '' );
+		const includesFolder = rootfolder.folder( 'includes' );
+		skinJSON.Hooks = generateHooksDefinition( namespaceName, {
+			OutputPageBodyAttributes: true
+		} )
+		skinJSON.AutoloadNamespaces = {
+			[ `${namespaceName}\\` ]: 'includes/'
+		};
+		const hooks = {
+			OutputPageBodyAttributes: function () {
+				return {
+					args: [
+						'$out',
+						'$sk',
+						'&$bodyAttrs'
+					],
+					body: `	$bodyAttrs['class'] .= ' ${skinOptions.bodyClasses.join( ' ' )}';`
+				}
+			}
+		};
+		includesFolder.file( 'Hooks.php', makeHooksFile( namespaceName, hooks ) );
+	}
+
+	rootfolder.file( 'skin.json', stringifyjson( skinJSON ) );
 	addDevTools( rootfolder );
 
 	// create styles and script files in `resources` folder

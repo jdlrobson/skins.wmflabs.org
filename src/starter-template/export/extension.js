@@ -63,14 +63,23 @@ function getHookMethod( hookName ) {
 	return `on${capitalize(hookName)}`; 
 }
 
-function extjson( folderName, options ) {
-	const extensionKey = getSkinKeyFromName( folderName );
+/**
+ * @param {string} camelCaseName
+ * @param {Object} hooks
+ */
+function generateHooksDefinition( camelCaseName, hooks ) {
 	const Hooks = {};
-	const namespace = `${folderName}\\`;
-
-	Object.keys( options.hooks || {} ).forEach( ( hookName ) => {
+	const namespace = `${camelCaseName}\\`;
+	Object.keys( hooks ).forEach( ( hookName ) => {
 		Hooks[ hookName ] = `${namespace}Hooks::${getHookMethod( hookName )}`;
 	} );
+	return Hooks;
+}
+
+function extjson( folderName, options ) {
+	const extensionKey = getSkinKeyFromName( folderName );
+	const Hooks = generateHooksDefinition( folderName, options.hooks || {} );
+
 	return stringifyjson( {
 		name: folderName,
 		author: [],
@@ -129,21 +138,40 @@ function addi18n( rootfolder, name ) {
 	i18nfolder.file( 'qqq.json', stringifyjson( qqq ) );
 }
 
+/**
+ * @param {string} name of namespace
+ * @param {Object} hooks where key is hook name and that maps
+ *  to boolean (generated method body) OR string (predefined message body)
+ * @return {string}
+ */
 function makeHooksFile( name, hooks ) {
-	const methods = Object.keys( hooks ).map( ( key ) => {
-		if ( key === 'SkinAfterPortlet' ) {
-			return `	/**
-	 * @see https://www.mediawiki.org/wiki/Manual:Hooks/SkinAfterPortlet
-	 * @param Skin $skin
-	 * @param string $portlet
-	 * @param string $html
-	 */
-	public static function ${getHookMethod( key ) }( $skin, $portlet, &$html ) {
+	const predefined = {
+		'SkinAfterPortlet': `	/**
+	* @see https://www.mediawiki.org/wiki/Manual:Hooks/SkinAfterPortlet
+	* @param Skin $skin
+	* @param string $portlet
+	* @param string $html
+	*/
+	public static function ${getHookMethod( 'SkinAfterPortlet' ) }( $skin, $portlet, &$html ) {
 		// Code goes here.
 		$html .= '${name} custom HTML for ' . $portlet;
 	}`
+	};
+
+	const methods = Object.keys( hooks ).map( ( key ) => {
+		const body = hooks[key];
+		if ( typeof body === 'boolean' ) {
+			return predefined[body] || `	public static function ${getHookMethod( key )}() {}`;
+		} else {
+			const method = body();
+			return `	/**
+	* @see https://www.mediawiki.org/wiki/Manual:Hooks/${key}
+	*/
+	public static function ${getHookMethod( key ) }( ${ method.args.join( ', ') }) {
+		${method.body}
+	}`;
 		}
-	})
+	} );
 	return `<?php
 namespace ${name};
 
@@ -152,6 +180,9 @@ ${methods}
 }`;
 
 }
+
+export { generateHooksDefinition, makeHooksFile };
+
 /**
  *
  * @param {string} name
