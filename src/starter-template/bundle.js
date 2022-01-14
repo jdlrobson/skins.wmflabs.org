@@ -11586,6 +11586,228 @@ node_modules/
 ` );
 }
 
+function aliasFileName( folderName ) {
+	return `${folderName}.alias.php`;
+}
+
+function makeServiceWiring( folderName ) {
+	return `<?php
+use MediaWiki\\MediaWikiServices;
+
+return [
+	'${folderName}.Config' => static function ( MediaWikiServices $services ) {
+		return $services->getService( 'ConfigFactory' )
+				->makeConfig( ${folderName.toLowerCase()} );
+	},
+];
+`;
+}
+
+function makeAliasFile( folderName, specialPages ) {
+
+	const aliases = {};
+
+	specialPages.forEach( ( name ) => {
+		aliases[ name ] = [ name ];
+	} );
+
+	return `<?php
+/**
+ * Aliases for ${folderName} extension
+ *
+ * @file
+ * @ingroup Extensions
+ */
+
+$specialPageAliases = [];
+
+/** English (English) */
+$specialPageAliases['en'] = [
+	${
+	Object.keys( aliases ).map( ( specialName ) => {
+		return `'${specialName}' => ${
+			JSON.stringify( aliases[ specialName ] )
+		},`;
+	} ).join( '\n' )
+}
+];
+`;
+}
+
+function capitalize( str ) {
+	return str.charAt( 0 ).toUpperCase() + str.slice(1);
+}
+
+function getHookMethod( hookName ) {
+	return `on${capitalize(hookName)}`; 
+}
+
+/**
+ * @param {string} camelCaseName
+ * @param {Object} hooks
+ */
+function generateHooksDefinition( camelCaseName, hooks ) {
+	const Hooks = {};
+	const namespace = `${camelCaseName}\\`;
+	Object.keys( hooks ).forEach( ( hookName ) => {
+		Hooks[ hookName ] = `${namespace}Hooks::${getHookMethod( hookName )}`;
+	} );
+	return Hooks;
+}
+
+function extjson( folderName, options ) {
+	const extensionKey = getSkinKeyFromName( folderName );
+	const Hooks = generateHooksDefinition( folderName, options.hooks || {} );
+
+	return stringifyjson( {
+		name: folderName,
+		author: [],
+		url: `https://www.mediawiki.org/wiki/Extension:${folderName}`,
+		descriptionmsg: `${extensionKey}-desc`,
+		'license-name': options.license || 'GPL-2.0-or-later',
+		requires: {
+			MediaWiki: '>= 1.38.0'
+		},
+		ConfigRegistry: {
+			[ extensionKey ]: 'GlobalVarConfig::newInstance'
+		},
+		SpecialPages: {
+			/* @todo */
+		},
+		APIModules: {
+			/* @todo */
+		},
+		MessagesDirs: {
+			[ extensionKey ]: [
+				'i18n'
+			]
+		},
+		ExtensionMessagesFiles: {
+			[ `${folderName}Alias` ]: `${aliasFileName( folderName )}`
+		},
+		AutoloadNamespaces: {
+			[ `${folderName}\\` ]: 'includes/'
+		},
+		ResourceModules: {
+		},
+		ResourceFileModulePaths: {
+			localBasePath: '',
+			remoteExtPath: `${folderName}`
+		},
+		Hooks,
+		config: {
+
+		},
+		DefaultUserOptions: {},
+		ServiceWiringFiles: [
+			'includes/ServiceWiring.php'
+		],
+		// eslint-disable-next-line camelcase
+		manifest_version: 2
+	} );
+}
+
+function addi18n$1( rootfolder, name ) {
+	const i18nfolder = rootfolder.folder( 'i18n' );
+	const en = {
+		[ `${name.toLowerCase()}-desc` ]: 'A new extension.'
+	};
+	const qqq = {};
+	i18nfolder.file( 'en.json', stringifyjson( en ) );
+	i18nfolder.file( 'qqq.json', stringifyjson( qqq ) );
+}
+
+/**
+ * @param {string} name of namespace
+ * @param {Object} hooks where key is hook name and that maps
+ *  to boolean (generated method body) OR string (predefined message body)
+ * @return {string}
+ */
+function makeHooksFile( name, hooks ) {
+	const predefined = {
+		'SkinAfterPortlet': `	/**
+	* @see https://www.mediawiki.org/wiki/Manual:Hooks/SkinAfterPortlet
+	* @param Skin $skin
+	* @param string $portlet
+	* @param string $html
+	*/
+	public static function ${getHookMethod( 'SkinAfterPortlet' ) }( $skin, $portlet, &$html ) {
+		// Code goes here.
+		$html .= '${name} custom HTML for ' . $portlet;
+	}`
+	};
+
+	const methods = Object.keys( hooks ).map( ( key ) => {
+		const body = hooks[key];
+		if ( typeof body === 'boolean' ) {
+			return predefined[body] || `	public static function ${getHookMethod( key )}() {}`;
+		} else {
+			const method = body();
+			return `	/**
+	* @see https://www.mediawiki.org/wiki/Manual:Hooks/${key}
+	*/
+	public static function ${getHookMethod( key ) }( ${ method.args.join( ', ') }) {
+		${method.body}
+	}`;
+		}
+	} );
+	return `<?php
+namespace ${name};
+
+class Hooks {
+${methods}
+}`;
+
+}
+
+/**
+ *
+ * @param {string} name
+ * @param {Object} options
+ * @param {string} options.license name of license
+ * @param {Object} options.hooks to register. Keys are valid hooks. Values
+ *   are booleans about whether they are enabled.
+ * @return {Promise}
+ */
+function buildExtension( name, options = {} ) {
+	const Zipper = options.Zipper || lib;
+	const myFileSaver = options.FileSaver || FileSaver;
+	const zip = new Zipper();
+	const folderName = getFolderNameFromName( name );
+	const rootfolder = zip.folder( folderName );
+	rootfolder.file( 'extension.json',
+		extjson( folderName, options )
+	);
+	addi18n$1( rootfolder, name );
+	addDevTools( rootfolder );
+	/* const resourcesFolder = */rootfolder.folder( 'resources' );
+	const includesFolder = rootfolder.folder( 'includes' );
+	rootfolder.file(
+		aliasFileName( name ),
+		makeAliasFile( name, [] )
+	);
+	includesFolder.file(
+		'ServiceWiring.php',
+		makeServiceWiring( name )
+	);
+	if ( options.hooks ) {
+		includesFolder.file(
+			'Hooks.php',
+			makeHooksFile( name, options.hooks )
+		);
+	}
+
+	return zip.generateAsync( { type: 'blob' } )
+		.then( ( content ) => {
+			const saver = myFileSaver();
+			return saver( content, `${folderName}.zip` );
+		} ).then( ( saveResult ) => {
+			return {
+				zip, saveResult
+			};
+		} );
+}
+
 const SKINS_LAB_VERSION = '2.0';
 const MW_MIN_VERSION = '1.37.0';
 
@@ -11595,7 +11817,7 @@ const MW_MIN_VERSION = '1.37.0';
  * @param {Folder} rootfolder 
  * @param {Object} messages 
  */
-function addi18n$1( name, rootfolder, messages = {} ) {
+function addi18n( name, rootfolder, messages = {} ) {
 	const TOOL_LINK = `[https://skins.wmflabs.org skins.wmflabs.org v.${SKINS_LAB_VERSION}]`;
 	const skinKey = getSkinKeyFromName( name );
 	const i18nfolder = rootfolder.folder( 'i18n' );
@@ -11618,16 +11840,16 @@ function addi18n$1( name, rootfolder, messages = {} ) {
  * @param {string[]} packageFiles path
  * @param {string[]} messages keys used by skin
  * @param {string[]} skinFeatures feature keys used by skin
- * @param {Object} skinOptions
+ * @param {Object} skinOptions for populating ValidSkinNames args
  * @param {string} license of skin
- * @return {string}
+ * @return {Object}
  */
 function skinjson( name, styles, packageFiles, messages, skinFeatures, skinOptions, license ) {
 	const folderName = getFolderNameFromName( name );
 	const skinKey = getSkinKeyFromName( name );
 	const TOOL_LINK = `[https://skins.wmflabs.org skins.wmflabs.org v.${SKINS_LAB_VERSION}]`;
 
-	return stringifyjson(
+	return (
 		{
 			name,
 			version: '1.0.0',
@@ -11719,7 +11941,7 @@ function build( name, styles, templates, scripts = {}, messages = [], Zipper = l
 		Object.keys( scripts ).filter( ( scriptFileName ) => scriptFileName !== 'skin.js' )
 			.map( ( scriptFileName ) => `resources/${scriptFileName}` )
 	);
-	rootfolder.file( 'skin.json',
+	const skinJSON = (
 		skinjson(
 			name,
 			// only `css` files need to be listed in manifest
@@ -11737,6 +11959,33 @@ function build( name, styles, templates, scripts = {}, messages = [], Zipper = l
 			license
 		)
 	);
+
+	// Currently not supported. Map to hook.
+	if ( skinOptions.bodyClasses ) {
+		const namespaceName = folderName.replace(/-/g, '' );
+		const includesFolder = rootfolder.folder( 'includes' );
+		skinJSON.Hooks = generateHooksDefinition( namespaceName, {
+			OutputPageBodyAttributes: true
+		} );
+		skinJSON.AutoloadNamespaces = {
+			[ `${namespaceName}\\` ]: 'includes/'
+		};
+		const hooks = {
+			OutputPageBodyAttributes: function () {
+				return {
+					args: [
+						'$out',
+						'$sk',
+						'&$bodyAttrs'
+					],
+					body: `	$bodyAttrs['class'] .= ' ${skinOptions.bodyClasses.join( ' ' )}';`
+				}
+			}
+		};
+		includesFolder.file( 'Hooks.php', makeHooksFile( namespaceName, hooks ) );
+	}
+
+	rootfolder.file( 'skin.json', stringifyjson( skinJSON ) );
 	addDevTools( rootfolder );
 
 	// create styles and script files in `resources` folder
@@ -11753,7 +12002,7 @@ function build( name, styles, templates, scripts = {}, messages = [], Zipper = l
 	} );
 
 	// setup i18n
-	addi18n$1( name, rootfolder, messageObj );
+	addi18n( name, rootfolder, messageObj );
 	/* images.forEach((image) => {
         imagesfolder.file(image.name, image.text);
     }) */
@@ -11863,199 +12112,6 @@ var INTERFACE_MESSAGE_BOX = ".messagebox,.errorbox,.warningbox,.successbox{color
 var INTERFACE_CATEGORY = "@media screen{#catlinks{text-align:left}.catlinks{border:1px solid #a2a9b1;background-color:#f8f9fa;padding:5px;margin-top:1em;clear:both}.catlinks ul{display:inline;margin:0;padding:0;list-style:none}.catlinks li{display:inline-block;line-height:1.25em;border-left:1px solid #a2a9b1;margin:0.125em 0;padding:0 0.5em}.catlinks li:first-child{padding-left:0.25em;border-left:0}.catlinks li a.mw-redirect{font-style:italic}.mw-hidden-cats-hidden,.catlinks-allhidden{display:none}}@media print{.catlinks ul{display:inline;padding:0;list-style:none}.catlinks li{display:inline-block;line-height:1.15;margin:0.1em 0;border-left:1pt solid #aaa;padding:0 0.4em}.catlinks li:first-child{border-left:0;padding-left:0.2em}.mw-hidden-catlinks,.catlinks{display:none}}\n";
 
 var INTERFACE_TOC = ".toctogglecheckbox:checked ~ ul{display:none}@media screen{.toc,.toccolours{border:1px solid #a2a9b1;background-color:#f8f9fa;padding:5px;font-size:95%}.toc{display:table;padding:7px}.toc h2{display:inline;border:0;padding:0;font-size:100%;font-weight:bold}.toc .toctitle{text-align:center}.toc ul{list-style:none;margin:0.3em 0;padding:0;text-align:left}.toc ul ul{margin:0 0 0 2em}table.toc{border-collapse:collapse}table.toc td{padding:0}.tocnumber,.toctext{display:table-cell;text-decoration:inherit}.tocnumber{color:#202122;padding-left:0;padding-right:0.5em}.mw-content-ltr .tocnumber{padding-left:0;padding-right:0.5em}.mw-content-rtl .tocnumber{padding-left:0.5em;padding-right:0}.toctogglecheckbox{display:inline !important;position:absolute;opacity:0;z-index:-1}.toctogglespan{font-size:94%}.toctogglespan:before{content:' ['}.toctogglespan:after{content:']'}.toctogglelabel{cursor:pointer;color:#0645ad}.toctogglelabel:hover{text-decoration:underline}.toctogglecheckbox:focus + .toctitle .toctogglelabel{text-decoration:underline;outline:dotted 1px;outline:auto -webkit-focus-ring-color}.toctogglecheckbox:checked + .toctitle .toctogglelabel:after{content:'(showtoc)'}.toctogglecheckbox:not(:checked) + .toctitle .toctogglelabel:after{content:'(hidetoc)'}.toc .toctitle{direction:ltr}.mw-content-ltr .toc ul,.mw-content-rtl .mw-content-ltr .toc ul{text-align:left}.mw-content-rtl .toc ul,.mw-content-ltr .mw-content-rtl .toc ul{text-align:right}.mw-content-ltr .toc ul ul,.mw-content-rtl .mw-content-ltr .toc ul ul{margin:0 0 0 2em}.mw-content-rtl .toc ul ul,.mw-content-ltr .mw-content-rtl .toc ul ul{margin:0 2em 0 0}}@media print{.toctogglecheckbox:checked + .toctitle{display:none}.toc{background-color:#f9f9f9;border:1pt solid #aaa;padding:5px;display:table}.tocnumber,.toctext{display:table-cell}.tocnumber{padding-left:0;padding-right:0.5em}.mw-content-ltr .tocnumber{padding-left:0;padding-right:0.5em}.mw-content-rtl .tocnumber{padding-left:0.5em;padding-right:0}}\n";
-
-function aliasFileName( folderName ) {
-	return `${folderName}.alias.php`;
-}
-
-function makeServiceWiring( folderName ) {
-	return `<?php
-use MediaWiki\\MediaWikiServices;
-
-return [
-	'${folderName}.Config' => static function ( MediaWikiServices $services ) {
-		return $services->getService( 'ConfigFactory' )
-				->makeConfig( ${folderName.toLowerCase()} );
-	},
-];
-`;
-}
-
-function makeAliasFile( folderName, specialPages ) {
-
-	const aliases = {};
-
-	specialPages.forEach( ( name ) => {
-		aliases[ name ] = [ name ];
-	} );
-
-	return `<?php
-/**
- * Aliases for ${folderName} extension
- *
- * @file
- * @ingroup Extensions
- */
-
-$specialPageAliases = [];
-
-/** English (English) */
-$specialPageAliases['en'] = [
-	${
-	Object.keys( aliases ).map( ( specialName ) => {
-		return `'${specialName}' => ${
-			JSON.stringify( aliases[ specialName ] )
-		},`;
-	} ).join( '\n' )
-}
-];
-`;
-}
-
-function capitalize( str ) {
-	return str.charAt( 0 ).toUpperCase() + str.slice(1);
-}
-
-function getHookMethod( hookName ) {
-	return `on${capitalize(hookName)}`; 
-}
-
-function extjson( folderName, options ) {
-	const extensionKey = getSkinKeyFromName( folderName );
-	const Hooks = {};
-	const namespace = `${folderName}\\`;
-
-	Object.keys( options.hooks || {} ).forEach( ( hookName ) => {
-		Hooks[ hookName ] = `${namespace}Hooks::${getHookMethod( hookName )}`;
-	} );
-	return stringifyjson( {
-		name: folderName,
-		author: [],
-		url: `https://www.mediawiki.org/wiki/Extension:${folderName}`,
-		descriptionmsg: `${extensionKey}-desc`,
-		'license-name': options.license || 'GPL-2.0-or-later',
-		requires: {
-			MediaWiki: '>= 1.38.0'
-		},
-		ConfigRegistry: {
-			[ extensionKey ]: 'GlobalVarConfig::newInstance'
-		},
-		SpecialPages: {
-			/* @todo */
-		},
-		APIModules: {
-			/* @todo */
-		},
-		MessagesDirs: {
-			[ extensionKey ]: [
-				'i18n'
-			]
-		},
-		ExtensionMessagesFiles: {
-			[ `${folderName}Alias` ]: `${aliasFileName( folderName )}`
-		},
-		AutoloadNamespaces: {
-			[ `${folderName}\\` ]: 'includes/'
-		},
-		ResourceModules: {
-		},
-		ResourceFileModulePaths: {
-			localBasePath: '',
-			remoteExtPath: `${folderName}`
-		},
-		Hooks,
-		config: {
-
-		},
-		DefaultUserOptions: {},
-		ServiceWiringFiles: [
-			'includes/ServiceWiring.php'
-		],
-		// eslint-disable-next-line camelcase
-		manifest_version: 2
-	} );
-}
-
-function addi18n( rootfolder, name ) {
-	const i18nfolder = rootfolder.folder( 'i18n' );
-	const en = {
-		[ `${name.toLowerCase()}-desc` ]: 'A new extension.'
-	};
-	const qqq = {};
-	i18nfolder.file( 'en.json', stringifyjson( en ) );
-	i18nfolder.file( 'qqq.json', stringifyjson( qqq ) );
-}
-
-function makeHooksFile( name, hooks ) {
-	const methods = Object.keys( hooks ).map( ( key ) => {
-		if ( key === 'SkinAfterPortlet' ) {
-			return `	/**
-	 * @see https://www.mediawiki.org/wiki/Manual:Hooks/SkinAfterPortlet
-	 * @param Skin $skin
-	 * @param string $portlet
-	 * @param string $html
-	 */
-	public static function ${getHookMethod( key ) }( $skin, $portlet, &$html ) {
-		// Code goes here.
-		$html .= '${name} custom HTML for ' . $portlet;
-	}`
-		}
-	});
-	return `<?php
-namespace ${name};
-
-class Hooks {
-${methods}
-}`;
-
-}
-/**
- *
- * @param {string} name
- * @param {Object} options
- * @param {string} options.license name of license
- * @param {Object} options.hooks to register. Keys are valid hooks. Values
- *   are booleans about whether they are enabled.
- * @return {Promise}
- */
-function buildExtension( name, options = {} ) {
-	const Zipper = options.Zipper || lib;
-	const myFileSaver = options.FileSaver || FileSaver;
-	const zip = new Zipper();
-	const folderName = getFolderNameFromName( name );
-	const rootfolder = zip.folder( folderName );
-	rootfolder.file( 'extension.json',
-		extjson( folderName, options )
-	);
-	addi18n( rootfolder, name );
-	addDevTools( rootfolder );
-	/* const resourcesFolder = */rootfolder.folder( 'resources' );
-	const includesFolder = rootfolder.folder( 'includes' );
-	rootfolder.file(
-		aliasFileName( name ),
-		makeAliasFile( name, [] )
-	);
-	includesFolder.file(
-		'ServiceWiring.php',
-		makeServiceWiring( name )
-	);
-	if ( options.hooks ) {
-		includesFolder.file(
-			'Hooks.php',
-			makeHooksFile( name, options.hooks )
-		);
-	}
-
-	return zip.generateAsync( { type: 'blob' } )
-		.then( ( content ) => {
-			const saver = myFileSaver();
-			return saver( content, `${folderName}.zip` );
-		} ).then( ( saveResult ) => {
-			return {
-				zip, saveResult
-			};
-		} );
-}
 
 const COMPONENT_STYLES = {
 	AdminBarHome: AdminBarHomeLESS,
@@ -12340,7 +12396,7 @@ ${COMPONENT_STYLES[ name ]}
  * @param {Object} options
  * @param {boolean} options.isCSS
  * @param {Object|null} options.skinFeatures
- * @param {Object|null} options.skinOptions
+ * @param {Object|null} options.skinOptions to be passed directly to ValidSkinName args
  * @param {Object|null} options.messages
  * @param {string} options.license License of skin
  */
