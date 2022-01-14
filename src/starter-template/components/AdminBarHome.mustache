@@ -8,7 +8,8 @@
         {{#data-search-box}}
         <form action="{{form-action}}">
         <input type="checkbox" class="mw-adminbar-search__toggle">
-        <input type="search" class="mw-adminbar-search__input" {{{html-input-attributes}}}>
+        <input type="search" class="mw-adminbar-search__input mw-searchInput"
+            {{{html-input-attributes}}}>
         <input type="submit" {{{html-button-fulltext-attributes}}}>
         </form>
         {{/data-search-box}}
