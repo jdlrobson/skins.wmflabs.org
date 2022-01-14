@@ -69,7 +69,7 @@ function skinjson( name, styles, packageFiles, messages, skinFeatures, skinOptio
 					class: 'SkinMustache',
 					args: [
 						Object.assign( {
-							name: name,
+							name: skinKey,
 							responsive: true,
 							messages: messages,
 							styles: [
@@ -163,6 +163,7 @@ function build( name, styles, templates, scripts = {}, messages = [], Zipper = J
 	// Currently not supported. Map to hook in interim
 	// https://phabricator.wikimedia.org/T298734
 	if ( skinOptions.bodyClasses ) {
+		const skinKey = Object.keys(skinJSON.ValidSkinNames)[0];
 		const namespaceName = folderName.replace(/-/g, '' );
 		const includesFolder = rootfolder.folder( 'includes' );
 		skinJSON.Hooks = generateHooksDefinition( namespaceName, {
@@ -179,7 +180,9 @@ function build( name, styles, templates, scripts = {}, messages = [], Zipper = J
 						'$sk',
 						'&$bodyAttrs'
 					],
-					body: `	$bodyAttrs['class'] .= ' ${skinOptions.bodyClasses.join( ' ' )}';`
+					body: `if ( $sk->getSkinName() === '${skinKey}' ) {
+			$bodyAttrs['class'] .= ' ${skinOptions.bodyClasses.join( ' ' )}';
+		}`
 				}
 			}
 		};
