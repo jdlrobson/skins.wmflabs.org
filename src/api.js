@@ -153,7 +153,28 @@ function getSkinIndex() {
 	return getDemoEnabledSkins().then( ( compatible ) => queryMediaWikiAllSkins( compatible ) )
 		.then( ( skinPages ) => {
 			skinPages.forEach( ( skin ) => {
-				skins[ skin.key ] = skin;
+				const isVariant = skin.name.indexOf( '/' ) > -1;
+				const parentSkin = isVariant ? skin.name.split( '/' )[ 0 ] : null;
+				skins[ skin.key ] = Object.assign( skin, {
+					parentSkinUrl: isVariant ? `https://mediawiki.org/wiki/Skin:${parentSkin}` : null,
+					parentSkinKey: isVariant ? getSkinKeyFromName( parentSkin ) : null,
+					isVariant
+				} );
+			} );
+			// with skins fully populated run again.
+			Object.keys( skins ).forEach( ( skinKey ) => {
+				const skin = skins[skinKey];
+				if ( skin.isVariant ) {
+					const parentSkin = skins[skin.parentSkinKey];
+					// Copy across these keys.
+					if ( parentSkin ) {
+						[ 'src', 'compatible', 'unmaintained',
+							'experimental', 'stable', 'beta', 'hasDependencies', 'mightBreak', 'score'
+						].forEach( ( copyKey ) => {
+							skins[skinKey][copyKey] = parentSkin[copyKey];
+						} );
+					}
+				}
 			} );
 			return skins;
 		} );
@@ -240,10 +261,10 @@ function fetchSkinInfo( key ) {
 						href: info.title ? `https://mediawiki.org/wiki/${info.title}` : ''
 					} );
 					const firstRevision = info.revisions[ 0 ];
-					if ( skin.name.indexOf( '/' ) > -1 ) {
+					if ( skin.parentSkinUrl ) {
 						links.push( {
 							text: 'View parent skin on MediaWiki.org',
-							href: `https://mediawiki.org/wiki/Skin:${skin.name.split( '/' )[ 0 ]}`
+							href: skin.parentSkinUrl
 						} );
 					}
 					created = firstRevision ? firstRevision.timestamp : null;
@@ -303,7 +324,7 @@ function fetchSkins() {
 	return getSkinIndex().then( () => {
 		return {
 			skins: Object.keys( skins ).map( ( key ) => {
-				return skins[ key ];
+				return Object.assign({}, skins[ key ] );
 			} )
 		};
 	} );
