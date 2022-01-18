@@ -220,7 +220,7 @@ export default {
 	background: @color-create-light;
 	width: var(--preview-width);
 	text-align: center;
-	max-height: 240px;
+	height: 340px;
 }
 
 iframe {
