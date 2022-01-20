@@ -80,7 +80,7 @@ function skinjson(
 						Object.assign( {
 							name: skinKey,
 							responsive: true,
-							messages: messages,
+							messages,
 							styles: [
 								'mediawiki.ui.icon',
 								'mediawiki.ui.button',
@@ -157,6 +157,7 @@ function build( name, styles, templates, scripts = {}, messages = [], Zipper = J
 		Object.keys( scripts ).filter( ( scriptFileName ) => scriptFileName !== 'skin.js' )
 			.map( ( scriptFileName ) => `resources/${scriptFileName}` )
 	);
+	const skinKey = getSkinKeyFromName( name );
 	const skinJSON = (
 		skinjson(
 			name,
@@ -169,7 +170,13 @@ function build( name, styles, templates, scripts = {}, messages = [], Zipper = J
 				.map( ( styleFileName ) => `resources/${styleFileName}` )
 				.concat( [ 'resources/skin.less' ] ),
 			jsfiles,
-			messages,
+			Array.from(
+				new Set(
+					messages.map(
+						(msg) => msg.replace( 'skinname-', `${skinKey}-` )
+					)
+				)
+			),
 			skinFeatures,
 			skinOptions,
 			license,
