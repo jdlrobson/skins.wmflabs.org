@@ -341,6 +341,7 @@ import {
  * @param {Object|null} options.skinFeatures
  * @param {Object|null} options.skinOptions to be passed directly to ValidSkinName args
  * @param {Object|null} options.messages
+ * @param {Array|null} options.authors
  * @param {string} options.license License of skin
  */
 export function buildSkin( name, mustache, less, js = '', variables = {}, options = {} ) {
@@ -393,7 +394,8 @@ ${importStatements}
 		options.CustomFileSaver,
 		options.skinOptions,
 		options.license,
-		options.messages
+		options.messages,
+		options.authors
 	);
 }
 

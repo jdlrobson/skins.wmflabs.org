@@ -15,14 +15,15 @@ import { stringifyjson,
  * 
  * @param {string} name 
  * @param {Folder} rootfolder 
- * @param {Object} messages 
+ * @param {Object} messages
+ * @param {Array} authors
  */
-function addi18n( name, rootfolder, messages = {} ) {
+function addi18n( name, rootfolder, messages = {}, authors = [] ) {
 	const TOOL_LINK = `[https://skins.wmflabs.org skins.wmflabs.org v.${SKINS_LAB_VERSION}]`;
 	const skinKey = getSkinKeyFromName( name );
 	const i18nfolder = rootfolder.folder( 'i18n' );
 	const metadata = {
-		authors: [ "..." ]
+		authors
 	};
 	const en = Object.assign( {
 		"@metadata": metadata,
@@ -47,18 +48,23 @@ function addi18n( name, rootfolder, messages = {} ) {
  * @param {string[]} skinFeatures feature keys used by skin
  * @param {Object} skinOptions for populating ValidSkinNames args
  * @param {string} license of skin
+ * @param {array} author of skin
  * @return {Object}
  */
-function skinjson( name, styles, packageFiles, messages, skinFeatures, skinOptions, license ) {
+function skinjson(
+	name, styles, packageFiles, messages, skinFeatures, skinOptions, license,
+	authors
+) {
 	const folderName = getFolderNameFromName( name );
 	const skinKey = getSkinKeyFromName( name );
 	const TOOL_LINK = `[https://skins.wmflabs.org skins.wmflabs.org v.${SKINS_LAB_VERSION}]`;
+	const author = authors ? authors : [ `${TOOL_LINK}` ];
 
 	return (
 		{
 			name,
 			version: '1.0.0',
-			author: [ `${TOOL_LINK}` ],
+			author,
 			url: `https://www.mediawiki.org/wiki/Skin:${folderName}`,
 			descriptionmsg: `${skinKey}-skin-desc`,
 			namemsg: `skinname-${skinKey}`,
@@ -129,11 +135,13 @@ function skinjson( name, styles, packageFiles, messages, skinFeatures, skinOptio
  * @param {Object} [skinOptions]
  * @param {string} [license] (optional) it defaults to GPL-2.0-or-later
  * @param {Object} [messageObj] (optional) for populating i18n jsons. e.g. {en: {key: 'i18n'}}
+ * @param {Array|null} authors of the skin
  * @return {Promise}
  */
 function build( name, styles, templates, scripts = {}, messages = [], Zipper = JSZip, myFileSaver = FileSaver, skinOptions = {},
 	license = 'GPL-2.0-or-later',
-	messageObj = {}
+	messageObj = {},
+	authors = null
 ) {
 	const zip = new Zipper();
 	const folderName = getFolderNameFromName( name );
@@ -164,7 +172,8 @@ function build( name, styles, templates, scripts = {}, messages = [], Zipper = J
 			messages,
 			skinFeatures,
 			skinOptions,
-			license
+			license,
+			authors
 		)
 	);
 
@@ -214,7 +223,7 @@ function build( name, styles, templates, scripts = {}, messages = [], Zipper = J
 	} );
 
 	// setup i18n
-	addi18n( name, rootfolder, messageObj );
+	addi18n( name, rootfolder, messageObj, authors || [ '...' ] );
 	/* images.forEach((image) => {
         imagesfolder.file(image.name, image.text);
     }) */
