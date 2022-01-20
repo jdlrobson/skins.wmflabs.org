@@ -357,7 +357,8 @@ export function buildSkin( name, mustache, less, js = '', variables = {}, option
 		.map( ( key ) => `@import "${key}";` ).join( '\n' );
 
 	if ( !options.isCSS ) {
-		importStatements += `@import "common.less";
+		importStatements += `
+@import "common.less";
 `;
 	}
 	const mainCss = options.isCSS ? 'common.css' : 'common.less';
