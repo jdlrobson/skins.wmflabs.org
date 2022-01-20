@@ -11527,7 +11527,7 @@ var scripts = {
 var devDependencies = {
 	"eslint-config-wikimedia": "0.20.0",
 	"grunt-banana-checker": "0.9.0",
-	"stylelint-config-wikimedia": "0.10.3"
+	"stylelint-config-wikimedia": "0.11.1"
 };
 var packageJSON = {
 	"private": true,
@@ -11566,7 +11566,8 @@ function camelcase( str ) {
 }
 
 function stringifyjson( json ) {
-	return JSON.stringify( json, null, 2 );
+	return `${JSON.stringify( json, null, '\t' )}
+`;
 }
 
 function getFolderNameFromName( name ) {
@@ -11815,20 +11816,26 @@ const MW_MIN_VERSION = '1.38.0';
  * 
  * @param {string} name 
  * @param {Folder} rootfolder 
- * @param {Object} messages 
+ * @param {Object} messages
+ * @param {Array} authors
  */
-function addi18n( name, rootfolder, messages = {} ) {
+function addi18n( name, rootfolder, messages = {}, authors = [] ) {
 	const TOOL_LINK = `[https://skins.wmflabs.org skins.wmflabs.org v.${SKINS_LAB_VERSION}]`;
 	const skinKey = getSkinKeyFromName( name );
 	const i18nfolder = rootfolder.folder( 'i18n' );
-	const en = Object.assign( messages.en || {}, {
+	const metadata = {
+		authors
+	};
+	const en = Object.assign( {
+		"@metadata": metadata,
 		[ `skinname-${skinKey}` ]: name,
-		[ `${name}-desc` ]: `A skin created by ${TOOL_LINK}`
-	} );
-	const qqq = Object.assign( messages.qqq || {}, {
+		[ `${skinKey}-desc` ]: `A skin created by ${TOOL_LINK}`
+	}, messages.en || {} );
+	const qqq = Object.assign( {
+		"@metadata": metadata,
 		[ `skinname-${skinKey}` ]: '{{optional}}',
 		[ `${skinKey}-desc` ]: `{{desc|what=skin|name=${name}|url=https://www.mediawiki.org/wiki/Skin:${name}}}`
-	} );
+	}, messages.qqq || {} );
 	i18nfolder.file( 'en.json', stringifyjson( en ) );
 	i18nfolder.file( 'qqq.json', stringifyjson( qqq ) );
 }
@@ -11842,28 +11849,32 @@ function addi18n( name, rootfolder, messages = {} ) {
  * @param {string[]} skinFeatures feature keys used by skin
  * @param {Object} skinOptions for populating ValidSkinNames args
  * @param {string} license of skin
+ * @param {array} author of skin
+ * @param {Object} skinStyles
  * @return {Object}
  */
-function skinjson( name, styles, packageFiles, messages, skinFeatures, skinOptions, license ) {
+function skinjson(
+	name, styles, packageFiles, messages, skinFeatures, skinOptions, license,
+	authors, skinStyles
+) {
 	const folderName = getFolderNameFromName( name );
 	const skinKey = getSkinKeyFromName( name );
 	const TOOL_LINK = `[https://skins.wmflabs.org skins.wmflabs.org v.${SKINS_LAB_VERSION}]`;
+	const author = authors ? authors : [ `${TOOL_LINK}` ];
 
 	return (
 		{
 			name,
 			version: '1.0.0',
-			namemsg: `skinname-${skinKey}`,
-			descriptionmsg: `${skinKey}-skin-desc`,
+			author,
 			url: `https://www.mediawiki.org/wiki/Skin:${folderName}`,
-			author: [ `${TOOL_LINK}` ],
+			descriptionmsg: `${skinKey}-skin-desc`,
+			namemsg: `skinname-${skinKey}`,
+			'license-name': license,
 			type: 'skin',
 			requires: {
 				MediaWiki: `>= ${MW_MIN_VERSION}`
 			},
-			'license-name': license,
-			// eslint-disable-next-line camelcase
-			manifest_version: 2,
 			ValidSkinNames: {
 				[ skinKey ]: {
 					class: 'SkinMustache',
@@ -11871,7 +11882,7 @@ function skinjson( name, styles, packageFiles, messages, skinFeatures, skinOptio
 						Object.assign( {
 							name: skinKey,
 							responsive: true,
-							messages: messages,
+							messages,
 							styles: [
 								'mediawiki.ui.icon',
 								'mediawiki.ui.button',
@@ -11887,10 +11898,6 @@ function skinjson( name, styles, packageFiles, messages, skinFeatures, skinOptio
 			MessagesDirs: {
 				[ folderName ]: [ 'i18n' ]
 			},
-			ResourceFileModulePaths: {
-				localBasePath: '',
-				remoteSkinPath: folderName
-			},
 			ResourceModules: {
 				[ `skins.${skinKey}.styles` ]: {
 					class: 'ResourceLoaderSkinModule',
@@ -11902,7 +11909,16 @@ function skinjson( name, styles, packageFiles, messages, skinFeatures, skinOptio
 					targets: [ 'desktop', 'mobile' ],
 					packageFiles
 				} : undefined
-			}
+			},
+			ResourceFileModulePaths: {
+				localBasePath: '',
+				remoteSkinPath: folderName
+			},
+			"ResourceModuleSkinStyles": {
+				[ skinKey ]: skinStyles
+			},
+			// eslint-disable-next-line camelcase
+			manifest_version: 2,
 		}
 	);
 }
@@ -11916,17 +11932,16 @@ function skinjson( name, styles, packageFiles, messages, skinFeatures, skinOptio
  * the mustache suffix and the text is its content
  * @param {Object} scripts key is the name of the script file e.g. `skin.js` and the text is its content
  * @param {Array} messages (keys) used by template
- * @param {JSZip} [Zipper] constructor
- * @param {FileSaver} [myFileSaver]
- * @param {Object} [skinOptions]
- * @param {string} [license] (optional) it defaults to GPL-2.0-or-later
- * @param {Object} [messageObj] (optional) for populating i18n jsons. e.g. {en: {key: 'i18n'}}
+ * @param {Object} options
  * @return {Promise}
  */
-function build( name, styles, templates, scripts = {}, messages = [], Zipper = lib, myFileSaver = FileSaver, skinOptions = {},
-	license = 'GPL-2.0-or-later',
-	messageObj = {}
-) {
+function build( name, styles, templates, scripts = {}, messages = [], options = {} ) {
+	const Zipper = options.Zipper || lib;
+	const myFileSaver = options.CustomFileSaver || FileSaver;
+	const skinOptions = options.skinOptions || {};
+	const license = options.license;
+	const messageObj = options.messages;
+	const authors = options.authors;
 	const zip = new Zipper();
 	const folderName = getFolderNameFromName( name );
 	const rootfolder = zip.folder( folderName );
@@ -11941,6 +11956,8 @@ function build( name, styles, templates, scripts = {}, messages = [], Zipper = l
 		Object.keys( scripts ).filter( ( scriptFileName ) => scriptFileName !== 'skin.js' )
 			.map( ( scriptFileName ) => `resources/${scriptFileName}` )
 	);
+
+	const skinKey = getSkinKeyFromName( name );
 	const skinJSON = (
 		skinjson(
 			name,
@@ -11953,10 +11970,18 @@ function build( name, styles, templates, scripts = {}, messages = [], Zipper = l
 				.map( ( styleFileName ) => `resources/${styleFileName}` )
 				.concat( [ 'resources/skin.less' ] ),
 			jsfiles,
-			messages,
+			Array.from(
+				new Set(
+					messages.map(
+						(msg) => msg.replace( 'skinname-', `${skinKey}-` )
+					)
+				)
+			),
 			skinFeatures,
 			skinOptions,
-			license
+			license,
+			authors,
+			options.skinStyles
 		)
 	);
 
@@ -12006,7 +12031,7 @@ function build( name, styles, templates, scripts = {}, messages = [], Zipper = l
 	} );
 
 	// setup i18n
-	addi18n( name, rootfolder, messageObj );
+	addi18n( name, rootfolder, messageObj, authors || [ '...' ] );
 	/* images.forEach((image) => {
         imagesfolder.file(image.name, image.text);
     }) */
@@ -12097,7 +12122,7 @@ var SidebarLESS = ".toggle-list__list {\n\tposition: fixed;\n\tleft: 0;\n\ttop: 
 
 var FooterLESS = ".mw-footer {\n\tborder-top: solid 20px @background-color-base;\n\tpadding: 20px 0;\n\n\tli {\n\t\tdisplay: inline-block;\n\t\tmargin-right: 20px;\n\t}\n}\n";
 
-var LogoLESS = "#p-logo {\n\tmin-width: 240px;\n\tmargin-left: 40px;\n\tmin-height: 70px;\n\tflex-grow: 1;\n\n\th1 {\n\t\tfont-size: 1rem;\n\t\tmargin: 0;\n\t\tborder: 0;\n\t\tpadding: 0 0 0 10px;\n\t}\n\n\ta {\n\t\tdisplay: flex;\n\t\talign-content: center;\n\t\theight: 70px;\n\t\talign-items: center;\n\t}\n\n\t@media ( max-width: @width-breakpoint-tablet ) {\n\t\tmin-width: 170px;\n\t\tmax-width: none;\n\t\tfont-size: 0.75em;\n\n\t\t.icon {\n\t\t\tdisplay: none;\n\t\t}\n\t}\n}\n";
+var LogoLESS = "#p-logo {\n\tmin-width: 240px;\n\tmin-height: 70px;\n\tflex-grow: 1;\n\n\th1 {\n\t\tfont-size: 1rem;\n\t\tmargin: 0;\n\t\tborder: 0;\n\t\tpadding: 0 0 0 10px;\n\t}\n\n\ta {\n\t\tdisplay: flex;\n\t\talign-content: center;\n\t\theight: 70px;\n\t\talign-items: center;\n\t}\n\n\t@media ( max-width: @width-breakpoint-tablet ) {\n\t\tmin-width: 170px;\n\t\tmax-width: none;\n\t\tfont-size: 0.75em;\n\n\t\t.icon {\n\t\t\tdisplay: none;\n\t\t}\n\t}\n}\n";
 
 var SearchLESS = "#p-search {\n\twidth: 100%;\n\tpadding: 0 8px;\n\n\t#searchInput {\n\t\tbackground-image: url( data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2220%22%20height%3D%2220%22%20viewBox%3D%220%200%2020%2020%22%3E%3Ctitle%3Esearch%3C%2Ftitle%3E%3Cg%20fill%3D%22%2354595d%22%3E%3Cpath%20d%3D%22M7.5%2013a5.5%205.5%200%20100-11%205.5%205.5%200%20000%2011zm4.55.46A7.43%207.43%200%20017.5%2015a7.5%207.5%200%20115.96-2.95l6.49%206.49-1.41%201.41-6.49-6.49z%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E );\n\t\tbackground-color: #fff;\n\t\t-webkit-appearance: none;\n\t\tmax-width: 450px;\n\t\tmargin-top: 0;\n\t\theight: 2.25em;\n\t\tborder: solid 1px @color-gray-2;\n\t\tborder-radius: 2px;\n\t\tpadding: 7px 0 7px 29px;\n\t\tbox-shadow: 0 1px 1px rgba( 0, 0, 0, 0.05 );\n\t\toutline: 0;\n\t\tbackground-position: left 6px center;\n\t\tbackground-repeat: no-repeat;\n\t\tbackground-size: 18px;\n\n\t\t@media ( max-width: @width-breakpoint-tablet ) {\n\t\t\twidth: 100%;\n\t\t}\n\t}\n\n\t#searchButton {\n\t\t.client-js & {\n\t\t\tdisplay: none;\n\t\t}\n\t}\n\n\th3 {\n\t\tdisplay: none;\n\t}\n}\n";
 
@@ -12402,6 +12427,8 @@ ${COMPONENT_STYLES[ name ]}
  * @param {Object|null} options.skinFeatures
  * @param {Object|null} options.skinOptions to be passed directly to ValidSkinName args
  * @param {Object|null} options.messages
+ * @param {Array|null} options.authors
+ * @param {Object} options.skinStyles
  * @param {string} options.license License of skin
  */
 function buildSkin( name, mustache, less, js = '', variables = {}, options = {} ) {
@@ -12417,7 +12444,8 @@ function buildSkin( name, mustache, less, js = '', variables = {}, options = {} 
 		.map( ( key ) => `@import "${key}";` ).join( '\n' );
 
 	if ( !options.isCSS ) {
-		importStatements += `@import "common.less";
+		importStatements += `
+@import "common.less";
 `;
 	}
 	const mainCss = options.isCSS ? 'common.css' : 'common.less';
@@ -12438,7 +12466,8 @@ function buildSkin( name, mustache, less, js = '', variables = {}, options = {} 
 				[ mainCss ]: less
 			} : less,
 			{
-				'variables.less': getLessVarsCode( variables ),
+				'variables.less': `${getLessVarsCode( variables )}
+`,
 				'skin.less': `${skinFeatures}
 @import 'mediawiki.skin.variables.less';
 @import "variables.less";
@@ -12450,11 +12479,7 @@ ${importStatements}
 			'skin.js': js
 		} : js,
 		messages( templates ),
-		options.Zipper || lib,
-		options.CustomFileSaver,
-		options.skinOptions,
-		options.license,
-		options.messages
+		options
 	);
 }
 

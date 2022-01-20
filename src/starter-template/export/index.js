@@ -49,11 +49,12 @@ function addi18n( name, rootfolder, messages = {}, authors = [] ) {
  * @param {Object} skinOptions for populating ValidSkinNames args
  * @param {string} license of skin
  * @param {array} author of skin
+ * @param {Object} skinStyles
  * @return {Object}
  */
 function skinjson(
 	name, styles, packageFiles, messages, skinFeatures, skinOptions, license,
-	authors
+	authors, skinStyles
 ) {
 	const folderName = getFolderNameFromName( name );
 	const skinKey = getSkinKeyFromName( name );
@@ -113,7 +114,7 @@ function skinjson(
 				remoteSkinPath: folderName
 			},
 			"ResourceModuleSkinStyles": {
-				[ skinKey ]: {}
+				[ skinKey ]: skinStyles
 			},
 			// eslint-disable-next-line camelcase
 			manifest_version: 2,
@@ -130,19 +131,16 @@ function skinjson(
  * the mustache suffix and the text is its content
  * @param {Object} scripts key is the name of the script file e.g. `skin.js` and the text is its content
  * @param {Array} messages (keys) used by template
- * @param {JSZip} [Zipper] constructor
- * @param {FileSaver} [myFileSaver]
- * @param {Object} [skinOptions]
- * @param {string} [license] (optional) it defaults to GPL-2.0-or-later
- * @param {Object} [messageObj] (optional) for populating i18n jsons. e.g. {en: {key: 'i18n'}}
- * @param {Array|null} authors of the skin
+ * @param {Object} options
  * @return {Promise}
  */
-function build( name, styles, templates, scripts = {}, messages = [], Zipper = JSZip, myFileSaver = FileSaver, skinOptions = {},
-	license = 'GPL-2.0-or-later',
-	messageObj = {},
-	authors = null
-) {
+function build( name, styles, templates, scripts = {}, messages = [], options = {} ) {
+	const Zipper = options.Zipper || JSZip;
+	const myFileSaver = options.CustomFileSaver || FileSaver;
+	const skinOptions = options.skinOptions || {};
+	const license = options.license;
+	const messageObj = options.messages;
+	const authors = options.authors;
 	const zip = new Zipper();
 	const folderName = getFolderNameFromName( name );
 	const rootfolder = zip.folder( folderName );
@@ -157,6 +155,7 @@ function build( name, styles, templates, scripts = {}, messages = [], Zipper = J
 		Object.keys( scripts ).filter( ( scriptFileName ) => scriptFileName !== 'skin.js' )
 			.map( ( scriptFileName ) => `resources/${scriptFileName}` )
 	);
+
 	const skinKey = getSkinKeyFromName( name );
 	const skinJSON = (
 		skinjson(
@@ -180,7 +179,8 @@ function build( name, styles, templates, scripts = {}, messages = [], Zipper = J
 			skinFeatures,
 			skinOptions,
 			license,
-			authors
+			authors,
+			options.skinStyles
 		)
 	);
 

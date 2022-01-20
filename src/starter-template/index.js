@@ -342,6 +342,7 @@ import {
  * @param {Object|null} options.skinOptions to be passed directly to ValidSkinName args
  * @param {Object|null} options.messages
  * @param {Array|null} options.authors
+ * @param {Object} options.skinStyles
  * @param {string} options.license License of skin
  */
 export function buildSkin( name, mustache, less, js = '', variables = {}, options = {} ) {
@@ -379,7 +380,8 @@ export function buildSkin( name, mustache, less, js = '', variables = {}, option
 				[ mainCss ]: less
 			} : less,
 			{
-				'variables.less': getLessVarsCode( variables ),
+				'variables.less': `${getLessVarsCode( variables )}
+`,
 				'skin.less': `${skinFeatures}
 @import 'mediawiki.skin.variables.less';
 @import "variables.less";
@@ -391,12 +393,7 @@ ${importStatements}
 			'skin.js': js
 		} : js,
 		messages( templates ),
-		options.Zipper || JSZip,
-		options.CustomFileSaver,
-		options.skinOptions,
-		options.license,
-		options.messages,
-		options.authors
+		options
 	);
 }
 
