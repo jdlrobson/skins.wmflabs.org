@@ -314,12 +314,11 @@ export function getComponentLESSFiles( componentNames, imports ) {
 	const mapping = {};
 	getComponentLESSFileNames( componentNames ).forEach( ( name ) => {
 		const importStatements = imports.map(
-			( lessFile ) => `@import "${lessFile}";`
+			( lessFile ) => `@import '${lessFile}';`
 		).join( '\n' );
-		mapping[ `${name}.less` ] = `
-${importStatements}
-${COMPONENT_STYLES[ name ]}
-`;
+		mapping[ `${name}.less` ] = `${importStatements}
+
+${COMPONENT_STYLES[ name ]}`;
 	} );
 	return mapping;
 }
@@ -355,11 +354,11 @@ export function buildSkin( name, mustache, less, js = '', variables = {}, option
 	const isStringModeLESS = typeof less === 'string';
 	const isStringModeJS = typeof js === 'string';
 	let importStatements = Object.keys( styles )
-		.map( ( key ) => `@import "${key}";` ).join( '\n' );
+		.map( ( key ) => `@import '${key}';` ).join( '\n' );
 
 	if ( !options.isCSS ) {
 		importStatements += `
-@import "common.less";
+@import 'common.less';
 `;
 	}
 	const mainCss = options.isCSS ? 'common.css' : 'common.less';
@@ -384,9 +383,8 @@ export function buildSkin( name, mustache, less, js = '', variables = {}, option
 `,
 				'skin.less': `${skinFeatures}
 @import 'mediawiki.skin.variables.less';
-@import "variables.less";
-${importStatements}
-`
+@import 'variables.less';
+${importStatements}`
 			} ),
 		templates,
 		isStringModeJS ? {
