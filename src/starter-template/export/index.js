@@ -58,17 +58,15 @@ function skinjson( name, styles, packageFiles, messages, skinFeatures, skinOptio
 		{
 			name,
 			version: '1.0.0',
-			namemsg: `skinname-${skinKey}`,
-			descriptionmsg: `${skinKey}-skin-desc`,
-			url: `https://www.mediawiki.org/wiki/Skin:${folderName}`,
 			author: [ `${TOOL_LINK}` ],
+			url: `https://www.mediawiki.org/wiki/Skin:${folderName}`,
+			descriptionmsg: `${skinKey}-skin-desc`,
+			namemsg: `skinname-${skinKey}`,
+			'license-name': license,
 			type: 'skin',
 			requires: {
 				MediaWiki: `>= ${MW_MIN_VERSION}`
 			},
-			'license-name': license,
-			// eslint-disable-next-line camelcase
-			manifest_version: 2,
 			ValidSkinNames: {
 				[ skinKey ]: {
 					class: 'SkinMustache',
@@ -92,10 +90,6 @@ function skinjson( name, styles, packageFiles, messages, skinFeatures, skinOptio
 			MessagesDirs: {
 				[ folderName ]: [ 'i18n' ]
 			},
-			ResourceFileModulePaths: {
-				localBasePath: '',
-				remoteSkinPath: folderName
-			},
 			ResourceModules: {
 				[ `skins.${skinKey}.styles` ]: {
 					class: 'ResourceLoaderSkinModule',
@@ -107,7 +101,16 @@ function skinjson( name, styles, packageFiles, messages, skinFeatures, skinOptio
 					targets: [ 'desktop', 'mobile' ],
 					packageFiles
 				} : undefined
-			}
+			},
+			ResourceFileModulePaths: {
+				localBasePath: '',
+				remoteSkinPath: folderName
+			},
+			"ResourceModuleSkinStyles": {
+				[ skinKey ]: {}
+			},
+			// eslint-disable-next-line camelcase
+			manifest_version: 2,
 		}
 	);
 }
