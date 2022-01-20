@@ -9,7 +9,8 @@ function camelcase( str ) {
 }
 
 export function stringifyjson( json ) {
-	return JSON.stringify( json, null, 2 );
+	return `${JSON.stringify( json, null, '\t' )}
+`;
 }
 
 export function getFolderNameFromName( name ) {
