@@ -21,14 +21,19 @@ function addi18n( name, rootfolder, messages = {} ) {
 	const TOOL_LINK = `[https://skins.wmflabs.org skins.wmflabs.org v.${SKINS_LAB_VERSION}]`;
 	const skinKey = getSkinKeyFromName( name );
 	const i18nfolder = rootfolder.folder( 'i18n' );
-	const en = Object.assign( messages.en || {}, {
+	const metadata = {
+		authors: [ "..." ]
+	};
+	const en = Object.assign( {
+		"@metadata": metadata,
 		[ `skinname-${skinKey}` ]: name,
-		[ `${name}-desc` ]: `A skin created by ${TOOL_LINK}`
-	} );
-	const qqq = Object.assign( messages.qqq || {}, {
+		[ `${skinKey}-desc` ]: `A skin created by ${TOOL_LINK}`
+	}, messages.en || {} );
+	const qqq = Object.assign( {
+		"@metadata": metadata,
 		[ `skinname-${skinKey}` ]: '{{optional}}',
 		[ `${skinKey}-desc` ]: `{{desc|what=skin|name=${name}|url=https://www.mediawiki.org/wiki/Skin:${name}}}`
-	} );
+	}, messages.qqq || {} );
 	i18nfolder.file( 'en.json', stringifyjson( en ) );
 	i18nfolder.file( 'qqq.json', stringifyjson( qqq ) );
 }
