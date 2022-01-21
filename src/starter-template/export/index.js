@@ -157,6 +157,13 @@ function build( name, styles, templates, scripts = {}, messages = [], options = 
 	);
 
 	const skinKey = getSkinKeyFromName( name );
+	const skinMessages = Array.from(
+		new Set(
+			messages.map(
+				(msg) => msg.replace( 'skinname-', `${skinKey}-` )
+			)
+		)
+	);
 	const skinJSON = (
 		skinjson(
 			name,
@@ -169,13 +176,7 @@ function build( name, styles, templates, scripts = {}, messages = [], options = 
 				.map( ( styleFileName ) => `resources/${styleFileName}` )
 				.concat( [ 'resources/skin.less' ] ),
 			jsfiles,
-			Array.from(
-				new Set(
-					messages.map(
-						(msg) => msg.replace( 'skinname-', `${skinKey}-` )
-					)
-				)
-			),
+			skinMessages,
 			skinFeatures,
 			skinOptions,
 			license,
@@ -230,6 +231,18 @@ function build( name, styles, templates, scripts = {}, messages = [], options = 
 	} );
 
 	// setup i18n
+	messageObj.qqq = messageObj.qqq || {};
+	const ourMessages = {
+		'no-categories': 'Message to show when no categories available'
+	};
+	skinMessages.forEach((key) => {
+		const lookup = key.split('-').slice(1).join('-');
+		const ours = ourMessages[lookup];
+		if ( ours ) {
+			messageObj.qqq[key] = ours;
+		}
+	} );
+
 	addi18n( name, rootfolder, messageObj, authors || [ '...' ] );
 	/* images.forEach((image) => {
         imagesfolder.file(image.name, image.text);
