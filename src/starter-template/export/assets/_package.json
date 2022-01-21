@@ -7,7 +7,7 @@
 		"lint:fix:styles": "npm -s run lint:styles -- --fix",
 		"lint:js": "eslint --cache .",
 		"lint:styles": "stylelint \"**/*.{less,css}\"",
-		"lint:i18n": "banana-checker --requireLowerCase=0 i18n/"
+		"lint:i18n": "banana-checker i18n/"
 	},
 	"devDependencies": {
 		"eslint-config-wikimedia": "0.20.0",
