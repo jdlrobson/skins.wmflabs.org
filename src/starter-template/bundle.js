@@ -11463,8 +11463,9 @@ const DEFAULT_FEATURES = {
 	toc: true
 };
 
+const REGEX_SKIN_MODULE = /\/\*+ +ResourceLoaderSkinModule: ([^*]*) *[*]+/;
 function getFeaturesFromStyles( styles ) {
-	const match = styles.match( /\/\*+ +ResourceLoaderSkinModule: ([^*]*) *[*]+/ );
+	const match = styles.match( REGEX_SKIN_MODULE );
 	const result = {};
 	if ( match && match[ 1 ] ) {
 		Object.keys( DEFAULT_FEATURES ).forEach( ( key ) => {
@@ -11958,6 +11959,13 @@ function build( name, styles, templates, scripts = {}, messages = [], options = 
 	);
 
 	const skinKey = getSkinKeyFromName( name );
+	const skinMessages = Array.from(
+		new Set(
+			messages.map(
+				(msg) => msg.replace( 'skinname-', `${skinKey}-` )
+			)
+		)
+	);
 	const skinJSON = (
 		skinjson(
 			name,
@@ -11970,13 +11978,7 @@ function build( name, styles, templates, scripts = {}, messages = [], options = 
 				.map( ( styleFileName ) => `resources/${styleFileName}` )
 				.concat( [ 'resources/skin.less' ] ),
 			jsfiles,
-			Array.from(
-				new Set(
-					messages.map(
-						(msg) => msg.replace( 'skinname-', `${skinKey}-` )
-					)
-				)
-			),
+			skinMessages,
 			skinFeatures,
 			skinOptions,
 			license,
@@ -12031,6 +12033,18 @@ function build( name, styles, templates, scripts = {}, messages = [], options = 
 	} );
 
 	// setup i18n
+	messageObj.qqq = messageObj.qqq || {};
+	const ourMessages = {
+		'no-categories': 'Message to show when no categories available'
+	};
+	skinMessages.forEach((key) => {
+		const lookup = key.split('-').slice(1).join('-');
+		const ours = ourMessages[lookup];
+		if ( ours ) {
+			messageObj.qqq[key] = ours;
+		}
+	} );
+
 	addi18n( name, rootfolder, messageObj, authors || [ '...' ] );
 	/* images.forEach((image) => {
         imagesfolder.file(image.name, image.text);
@@ -12102,7 +12116,7 @@ var AdminBarHomeLESS = "// stylelint-disable function-url-quotes\n// Icons from 
 
 var AdminBarUserLESS = "// stylelint-disable function-url-quotes\n@height-adminbar: 32px;\n@bg-adminbar: #1d2327;\n\n// userAvatarOutline\n.mw-adminbar-icon-user:before {\n\tbackground-image: url( \"data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Ctitle%3E user avatar %3C/title%3E%3Cpath d='M10 8c1.7 0 3.06-1.35 3.06-3S11.7 2 10 2 6.94 3.35 6.94 5 8.3 8 10 8zm0 2c-2.8 0-5.06-2.24-5.06-5S7.2 0 10 0s5.06 2.24 5.06 5-2.26 5-5.06 5zm-7 8h14v-1.33c0-1.75-2.31-3.56-7-3.56s-7 1.81-7 3.56V18zm7-6.89c6.66 0 9 3.33 9 5.56V20H1v-3.33c0-2.23 2.34-5.56 9-5.56z'/%3E%3C/svg%3E%0A\" );\n}\n\n#pt-notifications-notice,\n#pt-talk-alert {\n\tdisplay: none;\n}\n\n.mw-adminbar-notifications li {\n\tfilter: invert( 1 );\n}\n\n#pt-notifications-alert {\n\tpadding-top: 5px;\n\twidth: 40px;\n\tdisplay: block;\n\theight: 100%;\n\tbox-sizing: border-box;\n\n\ta {\n\t\t// stylelint-disable-next-line declaration-no-important\n\t\theight: 100% !important;\n\t\tmargin: auto !important;\n\t\topacity: 1 !important;\n\t\tbackground-repeat: no-repeat;\n\t}\n}\n\n#p-personal {\n\tposition: relative;\n\talign-self: center;\n\n\tinput {\n\t\topacity: 0;\n\t\tposition: absolute;\n\t\twidth: 100%;\n\t\theight: @height-adminbar;\n\t\tz-index: 2;\n\n\t\t~ .mw-portlet-body {\n\t\t\tdisplay: none;\n\t\t}\n\n\t\t&:checked ~ .mw-portlet-body {\n\t\t\tdisplay: block;\n\t\t}\n\t}\n\n\th3 {\n\t\tmargin: 0;\n\t\tpadding: 0;\n\t\twidth: @height-adminbar;\n\t\theight: @height-adminbar;\n\t\ttext-indent: 999px;\n\t\toverflow: hidden;\n\t\tfloat: right;\n\t\tcursor: pointer;\n\n\t\t&:before {\n\t\t\tcontent: '';\n\t\t\twidth: 100%;\n\t\t\theight: @height-adminbar;\n\t\t\tdisplay: block;\n\t\t\tbackground-repeat: no-repeat;\n\t\t\tbackground-position: center;\n\t\t\tfilter: invert( 1 );\n\t\t}\n\t}\n\n\t@arrow-size: 10px;\n\t@arrow-size-2x: @arrow-size * 2;\n\tul {\n\t\tposition: absolute;\n\t\tright: 0;\n\t\ttop: @arrow-size;\n\t\tmargin: @height-adminbar 0 0;\n\t\tpadding: 0 20px 20px;\n\t\tlist-style: none;\n\t\tbackground: @bg-adminbar;\n\t\tmin-width: 150px;\n\n\t\t&:before {\n\t\t\tcontent: '';\n\t\t\tdisplay: block;\n\t\t\tposition: absolute;\n\t\t\ttop: -@arrow-size-2x;\n\t\t\tright: @arrow-size / 2;\n\t\t\theight: @arrow-size-2x;\n\t\t\twidth: @arrow-size-2x;\n\t\t\tborder-left: @arrow-size solid transparent;\n\t\t\tborder-right: @arrow-size solid transparent;\n\t\t\tborder-bottom: @arrow-size solid @bg-adminbar;\n\t\t}\n\t}\n\n\ta {\n\t\tcolor: #fff;\n\t}\n}\n";
 
-var AdminBarLESS = "@height-adminbar: 32px;\n@bg-adminbar: #1d2327;\n\nhtml {\n\t// stylelint-disable-next-line declaration-no-important\n\tmargin-top: 32px !important;\n}\n\n.mw-adminbar {\n\tdirection: ltr;\n\tcolor: #c3c4c7;\n\t// stylelint-disable-next-line declaration-property-unit-disallowed-list\n\tfont-size: 13px;\n\tfont-weight: bold;\n\tfont-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen-Sans', 'Ubuntu', 'Cantarell', 'Helvetica Neue', sans-serif;\n\tline-height: 2.46153846;\n\theight: @height-adminbar;\n\tposition: fixed;\n\ttop: 0;\n\tleft: 0;\n\twidth: 100%;\n\tmin-width: 600px;\n\tz-index: 99999;\n\tdisplay: flex;\n\tbackground: @bg-adminbar;\n\talign-items: center;\n\n\tul {\n\t\tmargin: 0;\n\t\tpadding: 0;\n\t}\n\n\tli {\n\t\tdisplay: block;\n\t}\n\n\tinput {\n\t\topacity: 0;\n\t}\n\n\tli:hover,\n\tinput:hover ~ h3 {\n\t\tcursor: pointer;\n\t\tbackground-color: #333;\n\t}\n}\n\n.mw-adminbar-start {\n\tdisplay: flex;\n\tflex-grow: 1;\n\tmargin-left: 8px;\n\toverflow: hidden;\n}\n\n.mw-adminbar-end {\n\tdisplay: flex;\n\tjustify-content: flex-end;\n\theight: 100%;\n\tpadding-right: 50px;\n\n\t> a {\n\t\tdisplay: block;\n\t\twidth: 40px;\n\t\toverflow: hidden;\n\n\t\t&:before {\n\t\t\tcontent: '';\n\t\t\theight: 100%;\n\t\t\tdisplay: block;\n\t\t\tbackground-repeat: no-repeat;\n\t\t\tfilter: invert( 1 );\n\t\t\tbackground-size: 20px 20px;\n\t\t\tbackground-position: center;\n\t\t}\n\t}\n}\n\n.mw-adminbar-start li,\n.mw-adminbar-ns li,\n.mw-adminbar-views li {\n\twidth: 40px;\n\tfilter: invert( 0 );\n\tbackground-repeat: no-repeat;\n\theight: 100%;\n\tbackground-position: center;\n\tmargin: 0;\n\n\ta {\n\t\tcolor: transparent;\n\t}\n}\n\n.mw-adminbar-start ul,\n.mw-adminbar-views,\n.mw-adminbar-ns {\n\theight: 32px;\n\tmargin: 0;\n\tpadding: 0;\n\tdisplay: flex;\n\n\tli {\n\t\twidth: 40px;\n\t\theight: 100%;\n\t\toverflow: hidden;\n\t\tmargin-right: 4px;\n\t\tdisplay: inline-block;\n\n\t\ta {\n\t\t\tposition: absolute;\n\t\t\ttop: 0;\n\t\t\tbottom: 0;\n\t\t}\n\t}\n}\n";
+var AdminBarLESS = "@height-adminbar: 32px;\n@bg-adminbar: #1d2327;\n\nhtml {\n\t// stylelint-disable-next-line declaration-no-important\n\tmargin-top: 32px !important;\n}\n\n.mw-adminbar {\n\tdirection: ltr;\n\tcolor: #c3c4c7;\n\t// stylelint-disable-next-line declaration-property-unit-disallowed-list\n\tfont-size: 13px;\n\tfont-weight: bold;\n\tfont-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen-Sans', 'Ubuntu', 'Cantarell', 'Helvetica Neue', sans-serif;\n\tline-height: 2.46153846;\n\theight: @height-adminbar;\n\tposition: fixed;\n\ttop: 0;\n\tleft: 0;\n\twidth: 100%;\n\tmin-width: 600px;\n\tz-index: 99999;\n\tdisplay: flex;\n\tbackground: @bg-adminbar;\n\talign-items: center;\n\n\tul {\n\t\tmargin: 0;\n\t\tpadding: 0;\n\t}\n\n\tli {\n\t\tdisplay: block;\n\t}\n\n\tinput {\n\t\topacity: 0;\n\t}\n\n\tli:hover,\n\tinput:hover ~ h3 {\n\t\tcursor: pointer;\n\t\tbackground-color: #333;\n\t}\n\n\t.mw-edit-bar {\n\t\tbackground-color: transparent;\n\t}\n}\n\n.mw-adminbar-start {\n\tdisplay: flex;\n\tflex-grow: 1;\n\tmargin-left: 8px;\n\toverflow: hidden;\n}\n\n.mw-adminbar-end {\n\tdisplay: flex;\n\tjustify-content: flex-end;\n\theight: 100%;\n\tpadding-right: 50px;\n\n\t> a {\n\t\tdisplay: block;\n\t\twidth: 40px;\n\t\toverflow: hidden;\n\n\t\t&:before {\n\t\t\tcontent: '';\n\t\t\theight: 100%;\n\t\t\tdisplay: block;\n\t\t\tbackground-repeat: no-repeat;\n\t\t\tfilter: invert( 1 );\n\t\t\tbackground-size: 20px 20px;\n\t\t\tbackground-position: center;\n\t\t}\n\t}\n}\n\n.mw-adminbar-start li,\n.mw-adminbar-ns li,\n.mw-adminbar-views li {\n\twidth: 40px;\n\tfilter: invert( 0 );\n\tbackground-repeat: no-repeat;\n\theight: 100%;\n\tbackground-position: center;\n\tmargin: 0;\n\n\ta {\n\t\tcolor: transparent;\n\t}\n}\n\n.mw-adminbar-start ul,\n.mw-adminbar-views,\n.mw-adminbar-ns {\n\theight: 32px;\n\tmargin: 0;\n\tpadding: 0;\n\tdisplay: flex;\n\n\tli {\n\t\twidth: 40px;\n\t\theight: 100%;\n\t\toverflow: hidden;\n\t\tmargin-right: 4px;\n\t\tdisplay: inline-block;\n\n\t\ta {\n\t\t\tposition: absolute;\n\t\t\ttop: 0;\n\t\t\tbottom: 0;\n\t\t}\n\t}\n}\n";
 
 var EditBarLESS = "// Icons from https://doc.wikimedia.org/oojs-ui/master/demos/?page=icons&theme=wikimediaui&direction=ltr&platform=desktop\n// Converted to data uri using https://yoksel.github.io/url-encoder/\n// stylelint-disable function-url-quotes\n\n.mw-edit-bar {\n\tlist-style: none;\n\tmargin: 20px 0 0;\n\tbackground: transparent;\n\tdisplay: flex;\n\tpadding: 10px;\n\talign-items: center;\n\tbackground-color: #777;\n\n\tli {\n\t\twidth: 40px;\n\t\theight: 100%;\n\t\tbackground-repeat: no-repeat;\n\t\tbackground-position: center;\n\n\t\ta {\n\t\t\t// stylelint-disable-next-line declaration-no-important\n\t\t\tcolor: transparent !important;\n\t\t}\n\t}\n\n\t#ca-viewsource {\n\t\tbackground-image: url( \"data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Ctitle%3E edit lock %3C/title%3E%3Cpath fill='white' d='M12 12a2 2 0 01-2-2V5.25l-9 9V19h4.75l7-7zm7-8h-.5V2.5a2.5 2.5 0 00-5 0V4H13a1 1 0 00-1 1v4a1 1 0 001 1h6a1 1 0 001-1V5a1 1 0 00-1-1zm-3 4a1 1 0 111-1 1 1 0 01-1 1zm1.5-4h-3V2.75C14.5 2 14.5 1 16 1s1.5 1 1.5 1.75z'/%3E%3C/svg%3E%0A\" );\n\t}\n\n\t#ca-edit {\n\t\tbackground-image: url( \"data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' %3E%3Ctitle%3E edit %3C/title%3E%3Cpath fill='white' d='M16.77 8l1.94-2a1 1 0 000-1.41l-3.34-3.3a1 1 0 00-1.41 0L12 3.23zM1 14.25V19h4.75l9.96-9.96-4.75-4.75z'/%3E%3C/svg%3E%0A\" );\n\t}\n\n\t#ca-talk {\n\t\tbackground-image: url( \"data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='%23fff'%3E%3Ctitle%3E speech bubble %3C/title%3E%3Cpath d='M6 14H0v6z'/%3E%3Crect width='20' height='16' rx='2'/%3E%3C/svg%3E%0A\" );\n\t\tbackground-size: 15px;\n\t}\n\n\t#ca-history {\n\t\tbackground-image: url( \"data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='white'%3E%3Ctitle%3E history %3C/title%3E%3Cpath d='M9 6v5h.06l2.48 2.47 1.41-1.41L11 10.11V6z'/%3E%3Cpath d='M10 1a9 9 0 00-7.85 13.35L.5 16H6v-5.5l-2.38 2.38A7 7 0 1110 17v2a9 9 0 000-18z'/%3E%3C/svg%3E%0A\" );\n\t}\n\n\t#ca-nstab-main,\n\t#ca-nstab-help,\n\t#ca-ve-edit,\n\t#ca-view {\n\t\tdisplay: none;\n\t}\n}\n";
 
@@ -12408,8 +12422,7 @@ function getComponentLESSFiles( componentNames, imports ) {
 		).join( '\n' );
 		mapping[ `${name}.less` ] = `${importStatements}
 
-${COMPONENT_STYLES[ name ]}
-`;
+${COMPONENT_STYLES[ name ]}`;
 	} );
 	return mapping;
 }
