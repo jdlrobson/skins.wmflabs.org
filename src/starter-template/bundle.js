@@ -11463,9 +11463,8 @@ const DEFAULT_FEATURES = {
 	toc: true
 };
 
-const REGEX_SKIN_MODULE = /\/\*+ +ResourceLoaderSkinModule: ([^*]*) *[*]+/;
 function getFeaturesFromStyles( styles ) {
-	const match = styles.match( REGEX_SKIN_MODULE );
+	const match = styles.match( /\/\*+ +ResourceLoaderSkinModule: ([^*]*) *[*]+/ );
 	const result = {};
 	if ( match && match[ 1 ] ) {
 		Object.keys( DEFAULT_FEATURES ).forEach( ( key ) => {
@@ -11523,7 +11522,7 @@ var scripts = {
 	"lint:fix:styles": "npm -s run lint:styles -- --fix",
 	"lint:js": "eslint --cache .",
 	"lint:styles": "stylelint \"**/*.{less,css}\"",
-	"lint:i18n": "banana-checker --requireLowerCase=0 i18n/"
+	"lint:i18n": "banana-checker i18n/"
 };
 var devDependencies = {
 	"eslint-config-wikimedia": "0.20.0",
