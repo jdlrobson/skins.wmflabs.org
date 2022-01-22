@@ -374,7 +374,10 @@ export function buildSkin( name, mustache, less, js = '', variables = {}, option
 `;
 
 	if ( options.skinFeatures ) {
-		const features = Object.keys( options.skinFeatures ).join( ',' );
+		const features = Object.keys( options.skinFeatures )
+			// Filter out any that are disabled.
+			.filter((key) => options.skinFeatures[key])
+			.join( ',' );
 		skinFeatures += `/** ResourceLoaderSkinModule: ${features} */
 `;
 	}
