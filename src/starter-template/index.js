@@ -1,6 +1,6 @@
 import build from './export/index.js';
-import JSZip from 'jszip';
 import FooterList from './components/FooterList.mustache';
+import CategoryPlain from './components/CategoryPlain.mustache';
 import CompactFooter from './components/CompactFooter.mustache';
 import Portlet from './components/Portlet.mustache';
 import ContentIndicators from './components/ContentIndicators.mustache';
@@ -12,6 +12,7 @@ import ContentBody from './components/ContentBody.mustache';
 import ContentTagline from './components/ContentTagline.mustache';
 import Footer from './components/Footer.mustache';
 import Logo from './components/Logo.mustache';
+import LanguageButton from './components/LanguageButton.mustache';
 import Search from './components/Search.mustache';
 import WPSearch from './components/WPSearch.mustache';
 import Sidebar from './components/Sidebar.mustache';
@@ -34,12 +35,14 @@ import EditBarLESS from './components/EditBar.less';
 import PersonalMenuLESS from './components/PersonalMenu.less';
 import ContentActionsLESS from './components/ContentActions.less';
 import DropdownLESS from './components/Dropdown.less';
+import CategoryPlainLESS from './components/CategoryPlain.less';
 import ContentNamespacesLESS from './components/ContentNamespaces.less';
 import PortletLESS from './components/Portlet.less';
 import NotificationsLESS from './components/Notifications.less';
 import SidebarLESS from './components/Sidebar.less';
 import FooterLESS from './components/Footer.less';
 import LogoLESS from './components/Logo.less';
+import LanguageButtonLESS from './components/LanguageButton.less';
 import SearchLESS from './components/Search.less';
 import { getFeaturesFromStyles, getTemplatesFromSourceCode } from './utils';
 
@@ -48,6 +51,7 @@ export const COMPONENT_STYLES = {
 	AdminBarUser: AdminBarUserLESS,
 	AdminBarWithEdit: AdminBarWithEditLESS,
 	AdminBar: AdminBarLESS,
+	CategoryPlain: CategoryPlainLESS,
 	EditBar: EditBarLESS,
 	PersonalMenu: PersonalMenuLESS,
 	ContentActions: ContentActionsLESS,
@@ -58,7 +62,8 @@ export const COMPONENT_STYLES = {
 	Sidebar: SidebarLESS,
 	Footer: FooterLESS,
 	Logo: LogoLESS,
-	Search: SearchLESS
+	Search: SearchLESS,
+	LanguageButton: LanguageButtonLESS
 };
 
 import normalize from './ResourceLoaderSkinModule/normalize.css';
@@ -82,7 +87,9 @@ export const FEATURE_STYLES = {
 };
 
 export const PARTIALS = {
+	CategoryPlain,
 	EditBar,
+	LanguageButton,
 	CategoryPortlet,
 	AdminBar, AdminBarWithEdit, AdminBarUser, AdminBarHome,
 	CompactFooter,
@@ -365,6 +372,7 @@ export function buildSkin( name, mustache, less, js = '', variables = {}, option
 
 	let skinFeatures = `/** ${name} */
 `;
+
 	if ( options.skinFeatures ) {
 		const features = Object.keys( options.skinFeatures ).join( ',' );
 		skinFeatures += `/** ResourceLoaderSkinModule: ${features} */
