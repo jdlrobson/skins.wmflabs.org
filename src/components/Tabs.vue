@@ -58,7 +58,7 @@ export default {
 	height: 40px;
 	margin-right: 8px;
 	align-self: flex-end;
-	color: @color-white;
+	color: @color-black;
 	background: @color-create-main;
 	padding-top: 11px;
 	padding-bottom: 11px;
@@ -69,6 +69,6 @@ export default {
 }
 .tabs__link--selected {
 	background: @color-white;
-	color: @color-create-dark;
+	color: @color-black;
 }
 </style>
