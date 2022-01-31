@@ -94,6 +94,13 @@ describe( 'utils', () => {
 				Foo: 'Another partial'
 			},
 			[ 'AnotherPartialInception', 'Partial', 'PartialInception', 'skin' ]
+		],
+		[
+			'A {{>RecursiveTemplate}} is an interesting use case',
+			{
+				RecursiveTemplate: '{{>RecursiveTemplate}}'
+			},
+			[ 'RecursiveTemplate', 'skin' ]
 		]
 
 	] )( 'getTemplatesFromSourceCode', ( sourceCode, templates, expected ) => {

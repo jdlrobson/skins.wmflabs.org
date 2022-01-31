@@ -36,14 +36,18 @@ export function getFeaturesFromStyles( styles ) {
 	return template.replace(/msg-skinname-/g, `msg-${skinKey}-` );
 }
 
-export function getTemplatesFromSourceCode( partials, sourceCode, skinKey ) {
+export function getTemplatesFromSourceCode( partials, sourceCode, skinKey, templateName = 's' ) {
 	const usedPartials = {};
 	Object.keys( partials ).filter( ( name ) => {
 		// Is the partial in the sourceCode?
 		const re = new RegExp( `{{> *${name} *}}` );
-		return !!sourceCode.match( re );
+		return !!sourceCode.match( re ) &&
+			// avoid recursion.
+			templateName !== name;
 	} ).forEach( ( key ) => {
-		const others = Object.keys( getTemplatesFromSourceCode( partials, partials[ key ], skinKey ) );
+		const others = Object.keys(
+			getTemplatesFromSourceCode( partials, partials[ key ], skinKey, key )
+		);
 		usedPartials[ key ] = localizeTemplate( partials[ key ], skinKey );
 		others.forEach( ( otherKey ) => {
 			if ( otherKey === 'skin' ) {
