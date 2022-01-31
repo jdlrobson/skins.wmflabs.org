@@ -15,7 +15,7 @@ export default [
 		component: BuildExtension
 	},
 	{
-		path: '/explore',
+		path: '/explore/:filter?',
 		component: Explore
 	},
 	{

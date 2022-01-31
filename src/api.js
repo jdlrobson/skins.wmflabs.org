@@ -1,6 +1,6 @@
 const skins = {};
 
-import { CATEGORY_SKINS,
+import { CATEGORY_SKINS, HOST,
 	SKIN_KEY_SPECIAL_CASES, CATEGORY_BETA_SKINS,
 	CATEGORY_EXPERIMENTAL_SKINS,
 	CATEGORY_INCOMPATIBLE_WITH_MEDIAWIKI_MASTER,
@@ -20,15 +20,29 @@ function cachedJSONFetch( url ) {
 }
 
 function getSkinJSON( title, isAnon ) {
-	return fetch( `https://skins-demo.wmflabs.org/wiki/${title}?useskin=skinjson&testuser=${isAnon ? 0 : 1}` )
+	return fetch( `${HOST}/wiki/${title}?useskin=skinjson&testuser=${isAnon ? 0 : 1}` )
 		.then( ( r ) => r.json() );
 }
 
 function getDemoEnabledSkins() {
-	return cachedJSONFetch( 'https://skins-demo.wmflabs.org/w/api.php?origin=*&action=query&format=json&meta=siteinfo&siprop=skins' )
+	return cachedJSONFetch( `${HOST}w/rest.php/v1/skins` )
 		.then( ( data ) => {
-			const compatible = data.query.skins.map( ( skin ) => skin.code );
-			return compatible;
+			Object.keys( data.skins ).forEach( key => {
+				const author = data.skins[key].author || [ 'unknown' ];
+				data.skins[key].author = author.map((author) => {
+					if ( author.indexOf( '[' ) === 0 ) {
+						if ( author.indexOf( '|' ) > -1 ) {
+							return author.split( '|' )[1].replace( ']]', '' );
+						} else {
+							return author.split( ' ' ).slice( 1 ).join( ' ' )
+								.replace( ']', '' );
+						}
+					} else {
+						return author;
+					}
+				});
+			});
+			return data.skins;
 		} );
 }
 
@@ -44,12 +58,13 @@ function getSkinKeyFromName( name ) {
 
 /**
  * @param {string} category
- * @param {Array} compatible skin keys
+ * @param {Object} installedSkins mapping skin keys to info
  * @param {string} [gcmcontinue]
  * @param {Array} [pages]
  * @return {Promise}
  */
-function queryMediaWikiSkins( category, compatible, gcmcontinue = '', pages = [] ) {
+function queryMediaWikiSkins( category, installedSkins, gcmcontinue = '', pages = [] ) {
+	const compatible = Object.keys( installedSkins );
 	// clcategory is used to check if the skin is in "CATEGORY_ADDITIONAL_REQUIREMENTS"
 	// cllimit set at 50 the maximum value for page images.
 	const MAX = 50;
@@ -110,7 +125,7 @@ function queryMediaWikiSkins( category, compatible, gcmcontinue = '', pages = []
 							pageviews: Object.keys( pv )
 								.map( ( pvkey ) => pv[ pvkey ] )
 								.reduce( ( count, total = 0 ) => total + count, 0 )
-						} );
+						}, ( installedSkins[key] || {} ) );
 					} ).filter( ( p ) => {
 						const isSkinVariant = p.title.indexOf( '/' ) > -1;
 						const skinKey = p.title.toLowerCase().replace( /\//, '-' ).replace( 'skin:', '' );
@@ -123,7 +138,7 @@ function queryMediaWikiSkins( category, compatible, gcmcontinue = '', pages = []
 
 			if ( r.continue ) {
 				const continueKey = Object.keys( r.continue ).map( ( key ) => `${key}=${r.continue[key]}` ).join( '&' );
-				return queryMediaWikiSkins( category, compatible, continueKey, pages );
+				return queryMediaWikiSkins( category, installedSkins, continueKey, pages );
 			} else {
 				return pages;
 			}
@@ -132,7 +147,7 @@ function queryMediaWikiSkins( category, compatible, gcmcontinue = '', pages = []
 }
 
 /**
- * @param {Array} compatible skin keys
+ * @param {Object} compatible skin keys mapped to info
  * @return {Promise}
  */
 function queryMediaWikiAllSkins( compatible ) {
@@ -234,16 +249,11 @@ function fetchSkinInfo( key ) {
 				const html = responseObjects[1].parse.text['*'];
 				template.innerHTML = cleanMwHTML( html );
 				const firstP = doc.querySelectorAll( '.mw-parser-output > p' )[ 0 ];
-				let author = '';
 				doc.querySelectorAll( '.infobox tr' ).forEach((row) => {
 					let field;
 					row.querySelectorAll('td').forEach((td, i) => {
 						if ( i === 0 ) {
 							field = td.textContent.trim().toLowerCase();
-						} else if ( i === 1 ) {
-							if ( field === 'author(s)' ) {
-								author = td.textContent.trim();
-							}
 						}
 					});
 				});
@@ -313,7 +323,6 @@ function fetchSkinInfo( key ) {
 					links,
 					created,
 					isCompatible,
-					author,
 					summary, stable, categories
 				}, skin );
 			} );

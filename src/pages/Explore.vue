@@ -1,6 +1,9 @@
 <template>
 	<page class="page--explore">
-		<searcher class="page__header" @search="onSearch"></searcher>
+		<searcher class="page__header"
+			:filter="this.$route.params.filter"
+			:filter-key="this.$route.params.key"
+			@search="onSearch"></searcher>
 		<div class="page__showcase">
 			<snapshot v-for="skin in skins"
 				:key="skin.key"

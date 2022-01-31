@@ -13,9 +13,17 @@
 				:maintained="!unmaintained"
 				:available="preview">
 			</preview-launcher>
-			<p v-if="author">
-				by {{ author }}
+			<p>
+				by <span
+					v-for="(author, i) in authors"
+					:key="'author-' + i"
+					><router-link
+						:to="'/explore/author:' + author">{{ author }}</router-link>&nbsp;</span>
 			</p>
+			<p v-if="license">Licensed under
+				<router-link
+					:to="`/explore/license:${license}`">
+					<strong>{{ license }}</strong></router-link></p>
 			<p v-if="created">Published to MediaWiki.org on {{ created }}</p>
 			<h3 v-if="infoIsLoaded">
 				About:
@@ -72,7 +80,8 @@ export default {
 			name: this.$route.params.key.replace( /[^⠀]/g, '⠀' ) + '⠀',
 			links: [],
 			created: '',
-			author: '',
+			license: '',
+			authors: [],
 			beta: false,
 			hasDependencies: false,
 			experimental: false,
@@ -111,9 +120,10 @@ export default {
 				this.src = skin.src;
 			}
 			this.preview = this.preview && skin.isCompatible;
-			this.author = skin.author;
+			this.authors = ( skin.author || [] ).filter((a) => a !== '...');
 			this.summary = skin.summary;
 			this.stable = skin.stable;
+			this.license = skin['license-name'];
 			this.beta = skin.beta;
 			this.unmaintained = skin.unmaintained;
 			this.hasDependencies = skin.hasDependencies;

@@ -124,6 +124,10 @@ export default {
 		CustomCheckbox
 	},
 	props: {
+		filter: {
+			type: String,
+			default: ''
+		},
 		// Additional key to filter name against
 		filterKey: {
 			type: String,
@@ -135,7 +139,18 @@ export default {
 		}
 	},
 	data() {
+		let key;
+		const filters = {};
+		( this.filter || '' ).split( ':' ).forEach( ( str, i ) => {
+			if ( i % 2 === 0 ) {
+				key = str;
+			} else {
+				filters[key] = str;
+			}
+		});
 		return {
+			author: filters.author,
+			license: filters.license,
 			showFilters: false,
 			fetched: false,
 			skins: [
@@ -144,7 +159,7 @@ export default {
 				{}, {}, {}
 			],
 			filteredSkins: [],
-			query: query.get(),
+			query: filters.author ? filters.query : query.get(),
 			filterMightBreak: filterMightBreak.get(),
 			filterMaintained: filterMaintained.get(),
 			filterDependencies: filterDependencies.get(),
@@ -156,7 +171,7 @@ export default {
 		showReset() {
 			return this.filterKey || this.filterMightBreak ||
 				this.filterMaintained || this.filterDependencies ||
-				this.filterCompatible || this.filterStable ||
+				this.filterCompatible || this.filterStable || this.author ||
 				this.query;
 		},
 		mwUrlEdit() {
@@ -185,6 +200,12 @@ export default {
 		search() {
 			const q = this.query;
 			const result = this.skins.filter( ( skin ) => {
+				if ( !q && this.author && !( skin.author || [] ).includes( this.author ) ) {
+					return false;
+				}
+				if ( !q && this.license && ( skin['license-name'] || '' ) !== this.license ) {
+					return false;
+				}
 				if ( this.filterKey && skin.key !== this.filterKey ) { return false; }
 				if ( this.filterMightBreak && skin.mightBreak ) { return false; }
 				if ( this.filterMaintained && skin.unmaintained ) { return false; }
@@ -227,10 +248,13 @@ export default {
 			this.search();
 		},
 		setQuery( ev ) {
+			this.author = null;
+			this.license = null;
 			this.query = ev.target.value;
 			query.set( this.query );
 			this.search();
 			this.$emit( 'input', ev );
+			this.$router.replace( `/explore/query:${this.query}` );
 		}
 	},
 	updated() {
