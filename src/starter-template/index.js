@@ -26,6 +26,8 @@ import AdminBarUser from './components/AdminBarUser.mustache';
 import AdminBarWithEdit from './components/AdminBarWithEdit.mustache';
 import EditBar from './components/EditBar.mustache';
 import CategoryPortlet from './components/CategoryPortlet.mustache';
+import TableOfContents from './components/TableOfContents.mustache';
+import TableOfContents__line from './components/TableOfContents__line.mustache';
 
 import AdminBarHomeLESS from './components/AdminBarHome.less';
 import AdminBarUserLESS from './components/AdminBarUser.less';
@@ -44,6 +46,7 @@ import FooterLESS from './components/Footer.less';
 import LogoLESS from './components/Logo.less';
 import LanguageButtonLESS from './components/LanguageButton.less';
 import SearchLESS from './components/Search.less';
+import TableOfContentsLESS from './components/TableOfContents.less';
 import { getFeaturesFromStyles, getTemplatesFromSourceCode } from './utils';
 
 export const COMPONENT_STYLES = {
@@ -63,6 +66,7 @@ export const COMPONENT_STYLES = {
 	Footer: FooterLESS,
 	Logo: LogoLESS,
 	Search: SearchLESS,
+	TableOfContents: TableOfContentsLESS,
 	LanguageButton: LanguageButtonLESS
 };
 
@@ -87,6 +91,8 @@ export const FEATURE_STYLES = {
 };
 
 export const PARTIALS = {
+	TableOfContents__line,
+	TableOfContents,
 	CategoryPlain,
 	EditBar,
 	LanguageButton,

@@ -11489,14 +11489,18 @@ function getFeaturesFromStyles( styles ) {
 	return template.replace(/msg-skinname-/g, `msg-${skinKey}-` );
 }
 
-function getTemplatesFromSourceCode( partials, sourceCode, skinKey ) {
+function getTemplatesFromSourceCode( partials, sourceCode, skinKey, templateName = 's' ) {
 	const usedPartials = {};
 	Object.keys( partials ).filter( ( name ) => {
 		// Is the partial in the sourceCode?
 		const re = new RegExp( `{{> *${name} *}}` );
-		return !!sourceCode.match( re );
+		return !!sourceCode.match( re ) &&
+			// avoid recursion.
+			templateName !== name;
 	} ).forEach( ( key ) => {
-		const others = Object.keys( getTemplatesFromSourceCode( partials, partials[ key ], skinKey ) );
+		const others = Object.keys(
+			getTemplatesFromSourceCode( partials, partials[ key ], skinKey, key )
+		);
 		usedPartials[ key ] = localizeTemplate( partials[ key ], skinKey );
 		others.forEach( ( otherKey ) => {
 			if ( otherKey === 'skin' ) {
@@ -12063,6 +12067,8 @@ function build( name, styles, templates, scripts = {}, messages = [], options = 
 
 var FooterList = "<ul id=\"{{id}}\">\n{{#array-items}}\n<li id=\"{{id}}\">{{{html}}}</li>\n{{/array-items}}\n</ul>\n";
 
+var CategoryPlain = "{{#data-portlets}}<span\n\tclass=\"catlinks mw-skin-category-plain\"\n\tdata-mw=\"interface\">\n    {{^data-category-normal}}{{msg-skinname-no-categories}}{{/data-category-normal}}\n    {{#data-category-normal}}\n\t<ul class=\"{{class}}\">\n\t{{{html-items}}}\n\t{{/data-category-normal}}\n\t{{#data-category-hidden}}\n\t<li class=\"{{class}}\">\n\t\t<ul>{{{html-items}}}</ul>\n\t</li>\n\t{{/data-category-hidden}}\n\t</ul>\n</span>{{/data-portlets}}\n";
+
 var CompactFooter = "{{#data-footer.data-icons}}\n<p class=\"{{id}} {{className}}\">\n{{#array-items}}{{{html}}}&nbsp;{{/array-items}}\n</p>\n{{/data-footer.data-icons}}\n{{#data-footer.data-info.array-items}}<div class=\"{{id}}\">{{{html}}}</div>{{/data-footer.data-info.array-items}}\n<div>\n{{#data-footer.data-places.array-items}}<span class=\"{{id}}\">{{{html}}}</span>&nbsp;&nbsp;{{/data-footer.data-places.array-items}}\n</div>\n";
 
 var Portlet = "<div role=\"navigation\" id=\"{{id}}\" class=\"{{class}}\" title=\"{{html-tooltip}}\"\n    aria-labelledby=\"{{id}}-label\">\n    <input type=\"checkbox\" aria-labelledby=\"{{id}}-label\" />\n    <h3 id=\"{{id}}-label\" {{{html-user-language-attributes}}}>{{label}}</h3>\n    <div class=\"mw-portlet-body\">\n        <ul {{{html-user-language-attributes}}}>\n            {{{html-items}}}\n        </ul>\n        {{{html-after-portal}}}\n    </div>\n</div>\n";
@@ -12084,6 +12090,8 @@ var ContentTagline = "<div class=\"content__tagline\">\n    <span>{{msg-tagline}
 var Footer = "<footer id=\"footer\" class=\"mw-footer\" role=\"contentinfo\" {{{html-user-language-attributes}}}>\n    {{#data-footer}}\n    {{!}}{{#data-icons}}{{>FooterList}}{{/data-icons}}\n    {{!}}<div id=\"footer-list\">\n    {{!}}{{#data-info}}{{>FooterList}}{{/data-info}}\n    {{!}}{{#data-places}}{{>FooterList}}{{/data-places}}\n    {{!}}</div>\n    {{/data-footer}}\n</footer>\n";
 
 var Logo = "<div id=\"p-logo\" class=\"mw-portlet\" role=\"banner\">\n    <a href=\"{{link-mainpage}}\">\n    {{#data-logos}}\n        {{#icon}}<img class=\"icon\" src=\"{{.}}\" width=\"40\" height=\"40\">{{/icon}}\n        {{#wordmark}}<img src=\"{{src}}\" width=\"{{width}}\" height=\"{{height}}\">{{/wordmark}}\n        {{^wordmark}}<h1>{{msg-sitetitle}}</h1>{{/wordmark}}\n    {{/data-logos}}\n    </a>\n</div>";
+
+var LanguageButton = "{{#data-portlets.data-languages}}\n<nav class=\"language-button {{class}}\" id=\"{{id}}\">\n    <input type=\"checkbox\" class=\"mw-interlanguage-selector\">\n    <div class=\"mw-ui-button mw-ui-quiet mw-ui-progressive\">\n        Read in another language\n    </div>\n    <div class=\"language-button-dropdown\">\n        <ul>{{{html-items}}}</ul>\n    </div>\n</nav>\n{{/data-portlets.data-languages}}\n";
 
 var Search = "{{#data-search-box}}\n<form action=\"{{form-action}}\" role=\"search\" class=\"mw-portlet\" id=\"p-search\">\n    <input type=\"hidden\" name=\"title\" value=\"{{page-title}}\">\n    <h3>\n        <label for=\"searchInput\">{{msg-search}}</label>\n    </h3>\n    {{{html-input}}}\n    {{{html-button-search}}}\n</form>\n{{/data-search-box}}";
 
@@ -12109,7 +12117,11 @@ var AdminBarWithEdit = "<div class=\"mw-adminbar\" {{#is-anon}}mw-adminbar--anon
 
 var EditBar = "<ul class=\"mw-edit-bar\">\n    {{#data-portlets.data-views}}\n    {{{html-items}}}\n    {{/data-portlets.data-views}}\n    {{#data-portlets.data-namespaces}}\n    {{{html-items}}}\n    {{/data-portlets.data-namespaces}}\n</ul>\n";
 
-var CategoryPortlet = "<div id=\"catlinks\" class=\"catlinks\" data-mw=\"interface\">\n\t{{#data-category-normal}}\n\t<div id=\"{{id}}\" class=\"{{class}}\">\n\t\t<ul>{{{html-items}}}</ul>\n\t\t{{{html-after-portal}}}\n\t</div>\n\t{{/data-category-normal}}\n\t{{^data-category-normal}}\n\t<p>{{msg-skinname-no-categories}}</p>\n\t{{/data-category-normal}}\n\t{{#data-category-hidden}}\n\t<div id=\"{{id}}\" class=\"{{class}}\">\n\t\t<ul>{{{html-items}}}</ul>\n\t\t{{{html-after-portal}}}\n\t</div>\n\t{{/data-category-hidden}}\n</div>\n";
+var CategoryPortlet = "{{#is-article}}\n<div id=\"catlinks\" class=\"catlinks\" data-mw=\"interface\">\n\t{{#data-category-normal}}\n\t<div id=\"{{id}}\" class=\"{{class}}\">\n\t\t<ul>{{{html-items}}}</ul>\n\t\t{{{html-after-portal}}}\n\t</div>\n\t{{/data-category-normal}}\n\t{{^data-category-normal}}\n\t<p>{{msg-skinname-no-categories}}</p>\n\t{{/data-category-normal}}\n\t{{#data-category-hidden}}\n\t<div id=\"{{id}}\" class=\"{{class}}\">\n\t\t<ul>{{{html-items}}}</ul>\n\t\t{{{html-after-portal}}}\n\t</div>\n\t{{/data-category-hidden}}\n</div>\n{{/is-article}}";
+
+var TableOfContents = "<div id=\"toc\">\n    <h1>Table Of Contents</h1>\n    <input type=\"checkbox\" checked>\n    <div>\n        <ul>\n        {{#array-sections}}\n        {{>TableOfContents__line}}\n        {{/array-sections}}\n        </ul>\n    </div>\n</div>\n";
+
+var TableOfContents__line = "<li>\n    {{number}}.{{index}} <a href=\"#{{anchor}}\">{{line}}</a>\n    <ul>\n    {{#array-sections}}\n    {{>TableOfContents__line}}\n    {{/array-sections}}\n    </ul>\n</li>\n";
 
 var AdminBarHomeLESS = "// stylelint-disable function-url-quotes\n// Icons from https://doc.wikimedia.org/oojs-ui/master/demos/?page=icons&theme=wikimediaui&direction=ltr&platform=desktop\n// Converted to data uri using https://yoksel.github.io/url-encoder/\n.mw-adminbar-logo {\n\tbackground-image: url( \"data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='%23fff'%3E%3Ctitle%3E home %3C/title%3E%3Cpath d='M10 1L0 10h3v9h4v-4.6c0-1.47 1.31-2.66 3-2.66s3 1.19 3 2.66V19h4v-9h3L10 1z'/%3E%3C/svg%3E%0A\" );\n}\n\n.mw-adminbar-start ul li.mw-adminbar-search {\n\twidth: auto;\n\n\tform {\n\t\tdisplay: flex;\n\t\theight: 32px;\n\t\tposition: relative;\n\t}\n\n\t.mw-adminbar-search__toggle {\n\t\tposition: absolute;\n\t\tright: 0;\n\t\twidth: 40px;\n\t\theight: 100%;\n\t}\n\n\t.mw-adminbar-search__input {\n\t\tcolor: white;\n\t\tbackground: black;\n\t\topacity: 1;\n\t}\n\n\t.searchButton {\n\t\tbackground-color: transparent;\n\t\tborder: 0;\n\t\tbackground-image: url( \"data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='white'%3E%3Ctitle%3E search %3C/title%3E%3Cpath fill-rule='evenodd' d='M12.2 13.6a7 7 0 111.4-1.4l5.4 5.4-1.4 1.4-5.4-5.4zM13 8A5 5 0 113 8a5 5 0 0110 0z'/%3E%3C/svg%3E%0A\" );\n\t\twidth: 40px;\n\t\tbackground-position: center center;\n\t\topacity: 1;\n\t\tbackground-repeat: no-repeat;\n\t\tcolor: transparent !important;\n\t\tpadding: 0;\n\t\tmin-height: auto;\n\t}\n}\n\n.mw-adminbar-search__toggle {\n\t& + .mw-adminbar-search__input {\n\t\tdisplay: none;\n\t}\n\t&:checked + .mw-adminbar-search__input {\n\t\tdisplay: block;\n\t}\n}\n\n.mw-adminbar-search__input {\n\tmin-width: 150px;\n}";
 
@@ -12125,6 +12137,8 @@ var ContentActionsLESS = ".mw-portlet-views {\n\tflex-grow: 1;\n\n\tul {\n\t\tdi
 
 var DropdownLESS = "/* Checkbox hack dropdown */\n.mw-portlet-dropdown ~ .mw-portlet {\n\tli {\n\t\tdisplay: block;\n\t\tpadding: 0.75em 0.875em;\n\t}\n\n\t.mw-portlet-body {\n\t\tdisplay: none;\n\n\t\tul {\n\t\t\tbackground: @background-color-article;\n\t\t\tposition: absolute;\n\t\t\toverflow-y: auto;\n\t\t\tz-index: 2;\n\t\t\tbox-shadow: 0 5px 17px 0 rgba( 0, 0, 0, 0.24 ), 0 0 1px @color-gray;\n\t\t\tright: 0;\n\t\t\tmin-width: 200px;\n\t\t}\n\t}\n\n\tinput:checked {\n\t\t~ .mw-portlet-body ul {\n\t\t\topacity: 1;\n\t\t\tvisibility: visible;\n\t\t}\n\n\t\t~ .mw-portlet-body {\n\t\t\tdisplay: block;\n\t\t\topacity: 1;\n\t\t}\n\t}\n}\n";
 
+var CategoryPlainLESS = ".mw-skin-category-plain {\n\tul {\n\t\tmargin: 0;\n\t}\n\tul, li {\n\t\tdisplay: inline;\n\t\tmargin-right: 8px;\n\t}\n\n\t.mw-hidden-cats-hidden {\n\t\tdisplay: none;\n\t}\n}\n";
+
 var ContentNamespacesLESS = ".mw-portlet-namespaces {\n\tmargin-top: 10px;\n\tborder-bottom: 1px solid @color-gray-2;\n\n\ta {\n\t\tfont-size: 0.85em;\n\t\tmargin: 0 10px 0 0;\n\t\tcolor: @color-base;\n\t\tfont-weight: bold;\n\t\tpadding-bottom: 6px;\n\t\tdisplay: inline-block;\n\t}\n\n\tli.selected {\n\t\tborder-bottom: 2px solid @color-base;\n\t\tmargin-bottom: -1px;\n\t}\n}\n";
 
 var PortletLESS = ".mw-portlet {\n\tposition: relative;\n\n\tul {\n\t\tmargin: 0;\n\t}\n\n\th3 {\n\t\tdisplay: none;\n\t}\n\n\tli {\n\t\tdisplay: inline-block;\n\t\tmargin-right: 10px;\n\t}\n\n\tinput[ type='checkbox' ] {\n\t\tdisplay: block;\n\t\tposition: absolute;\n\t\topacity: 0;\n\t\tcursor: pointer;\n\t\ttop: 0;\n\t\tleft: 0;\n\t\tz-index: 1;\n\t\twidth: 100%;\n\t\theight: 100%;\n\t\tmargin: 0;\n\t\tpadding: 0;\n\t}\n}\n";
@@ -12135,9 +12149,13 @@ var SidebarLESS = ".toggle-list__list {\n\tposition: fixed;\n\tleft: 0;\n\ttop: 
 
 var FooterLESS = ".mw-footer {\n\tborder-top: solid 20px @background-color-base;\n\tpadding: 20px 0;\n\n\tli {\n\t\tdisplay: inline-block;\n\t\tmargin-right: 20px;\n\t}\n}\n";
 
-var LogoLESS = "#p-logo {\n\tmin-width: 240px;\n\tmin-height: 70px;\n\tflex-grow: 1;\n\n\th1 {\n\t\tfont-size: 1rem;\n\t\tmargin: 0;\n\t\tborder: 0;\n\t\tpadding: 0 0 0 10px;\n\t}\n\n\ta {\n\t\tdisplay: flex;\n\t\talign-content: center;\n\t\theight: 70px;\n\t\talign-items: center;\n\t}\n\n\t@media ( max-width: @width-breakpoint-tablet ) {\n\t\tmin-width: 170px;\n\t\tmax-width: none;\n\t\tfont-size: 0.75em;\n\n\t\t.icon {\n\t\t\tdisplay: none;\n\t\t}\n\t}\n}\n";
+var LogoLESS = "#p-logo {\n\tmin-height: 70px;\n\tflex-grow: 1;\n\n\th1 {\n\t\tfont-size: 1rem;\n\t\tmargin: 0;\n\t\tborder: 0;\n\t\tpadding: 0 0 0 10px;\n\t}\n\n\timg {\n\t\tmax-width: none;\n\t}\n\n\ta {\n\t\tdisplay: flex;\n\t\talign-content: center;\n\t\theight: 70px;\n\t\talign-items: center;\n\t}\n\n\t@media ( max-width: @width-breakpoint-tablet ) {\n\t\tmin-width: 170px;\n\t\tmax-width: none;\n\t\tfont-size: 0.75em;\n\n\t\t.icon {\n\t\t\tdisplay: none;\n\t\t}\n\t}\n}\n";
+
+var LanguageButtonLESS = ".language-button {\n\tposition: relative;\n\tdisplay: inline-block;\n\n\tinput {\n\t\twidth: 100%;\n\t\tposition: absolute;\n\t\theight: 100%;\n\t\topacity: 0;\n\t}\n}\n\n.language-button-dropdown {\n\tdisplay: none;\n}\n";
 
 var SearchLESS = "#p-search {\n\twidth: 100%;\n\tpadding: 0 8px;\n\n\t#searchInput {\n\t\tbackground-image: url( data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2220%22%20height%3D%2220%22%20viewBox%3D%220%200%2020%2020%22%3E%3Ctitle%3Esearch%3C%2Ftitle%3E%3Cg%20fill%3D%22%2354595d%22%3E%3Cpath%20d%3D%22M7.5%2013a5.5%205.5%200%20100-11%205.5%205.5%200%20000%2011zm4.55.46A7.43%207.43%200%20017.5%2015a7.5%207.5%200%20115.96-2.95l6.49%206.49-1.41%201.41-6.49-6.49z%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E );\n\t\tbackground-color: #fff;\n\t\t-webkit-appearance: none;\n\t\tmax-width: 450px;\n\t\tmargin-top: 0;\n\t\theight: 2.25em;\n\t\tborder: solid 1px @color-gray-2;\n\t\tborder-radius: 2px;\n\t\tpadding: 7px 0 7px 29px;\n\t\tbox-shadow: 0 1px 1px rgba( 0, 0, 0, 0.05 );\n\t\toutline: 0;\n\t\tbackground-position: left 6px center;\n\t\tbackground-repeat: no-repeat;\n\t\tbackground-size: 18px;\n\n\t\t@media ( max-width: @width-breakpoint-tablet ) {\n\t\t\twidth: 100%;\n\t\t}\n\t}\n\n\t#searchButton {\n\t\t.client-js & {\n\t\t\tdisplay: none;\n\t\t}\n\t}\n\n\th3 {\n\t\tdisplay: none;\n\t}\n}\n";
+
+var TableOfContentsLESS = "#toc {\n    position: fixed;\n    padding: 8px;\n    top: 0;\n    right: 0;\n    display: none;\n    width: 300px;\n    height: 50vh;\n    overflow: hidden;\n    flex-direction: column;\n\n    > div {\n        overflow: scroll;\n    }\n\n    h1 {\n        text-transform: uppercase;\n        height: 50px;\n        font-size: 1em;\n        cursor: pointer;\n        background: @background-color-article;\n        text-align: center;\n        padding: 10px;\n    }\n\n    input {\n        position: absolute;\n        left: 0;\n        top: 0;\n        width: 100%;\n        height: 50px;\n        margin-top: 8px;\n        opacity: 0;\n    }\n\n    input ~ div {\n        display: none;\n    }\n\n    input:checked ~ div {\n        display: block;\n        background: @background-color-article;\n    }\n\n\t@media ( min-width: @width-breakpoint-desktop ) {\n        display: flex;\n    }\n}\n";
 
 var normalize = "body{margin:0}main{display:block}hr{box-sizing:content-box;height:0;overflow:visible}abbr[title]{border-bottom:1px dotted;cursor:help}@supports (text-decoration:underline dotted){abbr[title]{border-bottom:0;text-decoration:underline dotted}}pre,code,tt,kbd,samp{font-family:monospace,monospace}sub,sup{line-height:1}img{border:0}button,input,optgroup,select,textarea{margin:0}button::-moz-focus-inner,[type='button']::-moz-focus-inner,[type='reset']::-moz-focus-inner,[type='submit']::-moz-focus-inner{border-style:none;padding:0}legend{color:inherit;padding:0}\n";
 
@@ -12160,6 +12178,7 @@ const COMPONENT_STYLES = {
 	AdminBarUser: AdminBarUserLESS,
 	AdminBarWithEdit: AdminBarLESS,
 	AdminBar: AdminBarLESS,
+	CategoryPlain: CategoryPlainLESS,
 	EditBar: EditBarLESS,
 	PersonalMenu: PersonalMenuLESS,
 	ContentActions: ContentActionsLESS,
@@ -12170,7 +12189,9 @@ const COMPONENT_STYLES = {
 	Sidebar: SidebarLESS,
 	Footer: FooterLESS,
 	Logo: LogoLESS,
-	Search: SearchLESS
+	Search: SearchLESS,
+	TableOfContents: TableOfContentsLESS,
+	LanguageButton: LanguageButtonLESS
 };
 
 const FEATURE_STYLES = {
@@ -12185,7 +12206,11 @@ const FEATURE_STYLES = {
 };
 
 const PARTIALS = {
+	TableOfContents__line,
+	TableOfContents,
+	CategoryPlain,
 	EditBar,
+	LanguageButton,
 	CategoryPortlet,
 	AdminBar, AdminBarWithEdit, AdminBarUser, AdminBarHome,
 	CompactFooter,
@@ -12464,8 +12489,12 @@ function buildSkin( name, mustache, less, js = '', variables = {}, options = {} 
 
 	let skinFeatures = `/** ${name} */
 `;
+
 	if ( options.skinFeatures ) {
-		const features = Object.keys( options.skinFeatures ).join( ',' );
+		const features = Object.keys( options.skinFeatures )
+			// Filter out any that are disabled.
+			.filter((key) => options.skinFeatures[key])
+			.join( ',' );
 		skinFeatures += `/** ResourceLoaderSkinModule: ${features} */
 `;
 	}
