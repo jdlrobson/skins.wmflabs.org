@@ -50,11 +50,12 @@ function addi18n( name, rootfolder, messages = {}, authors = [] ) {
  * @param {string} license of skin
  * @param {array} author of skin
  * @param {Object} skinStyles
+ * @param {boolean} toc whether to include in article.
  * @return {Object}
  */
 function skinjson(
 	name, styles, packageFiles, messages, skinFeatures, skinOptions, license,
-	authors, skinStyles
+	authors, skinStyles, toc
 ) {
 	const folderName = getFolderNameFromName( name );
 	const skinKey = getSkinKeyFromName( name );
@@ -81,6 +82,7 @@ function skinjson(
 						Object.assign( {
 							name: skinKey,
 							responsive: true,
+							toc,
 							messages,
 							styles: [
 								'mediawiki.ui.icon',
@@ -181,7 +183,10 @@ function build( name, styles, templates, scripts = {}, messages = [], options = 
 			skinOptions,
 			license,
 			authors,
-			options.skinStyles
+			options.skinStyles,
+			// If no reference to data-toc in master template,
+			// assume toc should be included.
+			templates.skin.indexOf( '#data-toc' ) === -1
 		)
 	);
 
