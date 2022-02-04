@@ -190,35 +190,6 @@ function build( name, styles, templates, scripts = {}, messages = [], options = 
 		)
 	);
 
-	// Currently not supported. Map to hook in interim
-	// https://phabricator.wikimedia.org/T298734
-	if ( skinOptions.bodyClasses ) {
-		const skinKey = Object.keys(skinJSON.ValidSkinNames)[0];
-		const namespaceName = folderName.replace(/-/g, '' );
-		const includesFolder = rootfolder.folder( 'includes' );
-		skinJSON.Hooks = generateHooksDefinition( namespaceName, {
-			OutputPageBodyAttributes: true
-		} )
-		skinJSON.AutoloadNamespaces = {
-			[ `${namespaceName}\\` ]: 'includes/'
-		};
-		const hooks = {
-			OutputPageBodyAttributes: function () {
-				return {
-					args: [
-						'$out',
-						'$sk',
-						'&$bodyAttrs'
-					],
-					body: `if ( $sk->getSkinName() === '${skinKey}' ) {
-			$bodyAttrs['class'] .= ' ${skinOptions.bodyClasses.join( ' ' )}';
-		}`
-				}
-			}
-		};
-		includesFolder.file( 'Hooks.php', makeHooksFile( namespaceName, hooks ) );
-	}
-
 	rootfolder.file( 'skin.json', stringifyjson( skinJSON ) );
 	addDevTools( rootfolder );
 

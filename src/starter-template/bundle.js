@@ -11855,11 +11855,12 @@ function addi18n( name, rootfolder, messages = {}, authors = [] ) {
  * @param {string} license of skin
  * @param {array} author of skin
  * @param {Object} skinStyles
+ * @param {boolean} toc whether to include in article.
  * @return {Object}
  */
 function skinjson(
 	name, styles, packageFiles, messages, skinFeatures, skinOptions, license,
-	authors, skinStyles
+	authors, skinStyles, toc
 ) {
 	const folderName = getFolderNameFromName( name );
 	const skinKey = getSkinKeyFromName( name );
@@ -11886,6 +11887,7 @@ function skinjson(
 						Object.assign( {
 							name: skinKey,
 							responsive: true,
+							toc,
 							messages,
 							styles: [
 								'mediawiki.ui.icon',
@@ -11986,38 +11988,12 @@ function build( name, styles, templates, scripts = {}, messages = [], options = 
 			skinOptions,
 			license,
 			authors,
-			options.skinStyles
+			options.skinStyles,
+			// If no reference to data-toc in master template,
+			// assume toc should be included.
+			templates.skin.indexOf( '#data-toc' ) === -1
 		)
 	);
-
-	// Currently not supported. Map to hook in interim
-	// https://phabricator.wikimedia.org/T298734
-	if ( skinOptions.bodyClasses ) {
-		const skinKey = Object.keys(skinJSON.ValidSkinNames)[0];
-		const namespaceName = folderName.replace(/-/g, '' );
-		const includesFolder = rootfolder.folder( 'includes' );
-		skinJSON.Hooks = generateHooksDefinition( namespaceName, {
-			OutputPageBodyAttributes: true
-		} );
-		skinJSON.AutoloadNamespaces = {
-			[ `${namespaceName}\\` ]: 'includes/'
-		};
-		const hooks = {
-			OutputPageBodyAttributes: function () {
-				return {
-					args: [
-						'$out',
-						'$sk',
-						'&$bodyAttrs'
-					],
-					body: `if ( $sk->getSkinName() === '${skinKey}' ) {
-			$bodyAttrs['class'] .= ' ${skinOptions.bodyClasses.join( ' ' )}';
-		}`
-				}
-			}
-		};
-		includesFolder.file( 'Hooks.php', makeHooksFile( namespaceName, hooks ) );
-	}
 
 	rootfolder.file( 'skin.json', stringifyjson( skinJSON ) );
 	addDevTools( rootfolder );
@@ -12089,7 +12065,7 @@ var ContentTagline = "<div class=\"content__tagline\">\n    <span>{{msg-tagline}
 
 var Footer = "<footer id=\"footer\" class=\"mw-footer\" role=\"contentinfo\" {{{html-user-language-attributes}}}>\n    {{#data-footer}}\n    {{!}}{{#data-icons}}{{>FooterList}}{{/data-icons}}\n    {{!}}<div id=\"footer-list\">\n    {{!}}{{#data-info}}{{>FooterList}}{{/data-info}}\n    {{!}}{{#data-places}}{{>FooterList}}{{/data-places}}\n    {{!}}</div>\n    {{/data-footer}}\n</footer>\n";
 
-var Logo = "<div id=\"p-logo\" class=\"mw-portlet\" role=\"banner\">\n    <a href=\"{{link-mainpage}}\">\n    {{#data-logos}}\n        {{#icon}}<img class=\"icon\" src=\"{{.}}\" width=\"40\" height=\"40\">{{/icon}}\n        {{#wordmark}}<img src=\"{{src}}\" width=\"{{width}}\" height=\"{{height}}\">{{/wordmark}}\n        {{^wordmark}}<h1>{{msg-sitetitle}}</h1>{{/wordmark}}\n    {{/data-logos}}\n    </a>\n</div>";
+var Logo = "<div id=\"p-logo\" class=\"mw-portlet mw-logo\" role=\"banner\">\n    <a href=\"{{link-mainpage}}\">\n    {{#data-logos}}\n        {{#icon}}<img class=\"icon\" src=\"{{.}}\" width=\"40\" height=\"40\">{{/icon}}\n        {{#wordmark}}<img src=\"{{src}}\" width=\"{{width}}\" height=\"{{height}}\">{{/wordmark}}\n        {{^wordmark}}<h1>{{msg-sitetitle}}</h1>{{/wordmark}}\n    {{/data-logos}}\n    </a>\n</div>";
 
 var LanguageButton = "{{#data-portlets.data-languages}}\n<nav class=\"language-button {{class}}\" id=\"{{id}}\">\n    <input type=\"checkbox\" class=\"mw-interlanguage-selector\">\n    <div class=\"mw-ui-button mw-ui-quiet mw-ui-progressive\">\n        Read in another language\n    </div>\n    <div class=\"language-button-dropdown\">\n        <ul>{{{html-items}}}</ul>\n    </div>\n</nav>\n{{/data-portlets.data-languages}}\n";
 
