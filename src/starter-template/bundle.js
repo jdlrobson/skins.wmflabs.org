@@ -12065,7 +12065,7 @@ var ContentTagline = "<div class=\"content__tagline\">\n    <span>{{msg-tagline}
 
 var Footer = "<footer id=\"footer\" class=\"mw-footer\" role=\"contentinfo\" {{{html-user-language-attributes}}}>\n    {{#data-footer}}\n    {{!}}{{#data-icons}}{{>FooterList}}{{/data-icons}}\n    {{!}}<div id=\"footer-list\">\n    {{!}}{{#data-info}}{{>FooterList}}{{/data-info}}\n    {{!}}{{#data-places}}{{>FooterList}}{{/data-places}}\n    {{!}}</div>\n    {{/data-footer}}\n</footer>\n";
 
-var Logo = "<div id=\"p-logo\" class=\"mw-portlet mw-logo\" role=\"banner\">\n    <a href=\"{{link-mainpage}}\">\n    {{#data-logos}}\n        {{#icon}}<img class=\"icon\" src=\"{{.}}\" width=\"40\" height=\"40\">{{/icon}}\n        {{#wordmark}}<img src=\"{{src}}\" width=\"{{width}}\" height=\"{{height}}\">{{/wordmark}}\n        {{^wordmark}}<h1>{{msg-sitetitle}}</h1>{{/wordmark}}\n    {{/data-logos}}\n    </a>\n</div>";
+var Logo = "<div id=\"p-logo\" class=\"mw-portlet\" role=\"banner\">\n    <a href=\"{{link-mainpage}}\">\n    {{#data-logos}}\n        {{#icon}}<img class=\"icon\" src=\"{{.}}\" width=\"40\" height=\"40\">{{/icon}}\n        {{#wordmark}}<img src=\"{{src}}\" width=\"{{width}}\" height=\"{{height}}\">{{/wordmark}}\n        {{^wordmark}}<h1>{{msg-sitetitle}}</h1>{{/wordmark}}\n    {{/data-logos}}\n    </a>\n</div>";
 
 var LanguageButton = "{{#data-portlets.data-languages}}\n<nav class=\"language-button {{class}}\" id=\"{{id}}\">\n    <input type=\"checkbox\" class=\"mw-interlanguage-selector\">\n    <div class=\"mw-ui-button mw-ui-quiet mw-ui-progressive\">\n        Read in another language\n    </div>\n    <div class=\"language-button-dropdown\">\n        <ul>{{{html-items}}}</ul>\n    </div>\n</nav>\n{{/data-portlets.data-languages}}\n";
 
