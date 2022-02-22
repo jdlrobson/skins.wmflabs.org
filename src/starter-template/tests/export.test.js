@@ -97,7 +97,7 @@ alert(e);`;
 			const styleModule = skinjson.ResourceModules[ 'skins.complexskin.styles' ];
 			const INVERTED_DEFAULT_FEATURES = {};
 			Object.keys( DEFAULT_FEATURES ).forEach( ( key ) => {
-				INVERTED_DEFAULT_FEATURES[key] = false;
+				INVERTED_DEFAULT_FEATURES[ key ] = false;
 			} );
 
 			expect( styleModule.features ).toStrictEqual(

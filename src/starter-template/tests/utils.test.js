@@ -7,7 +7,7 @@ describe( 'utils', () => {
 
 	const INVERTED_DEFAULT_FEATURES = {};
 	Object.keys( DEFAULT_FEATURES ).forEach( ( key ) => {
-		INVERTED_DEFAULT_FEATURES[key] = false;
+		INVERTED_DEFAULT_FEATURES[ key ] = false;
 	} );
 	it.each( [
 		[
