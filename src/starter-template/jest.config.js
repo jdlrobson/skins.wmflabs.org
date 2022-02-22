@@ -4,6 +4,9 @@
 module.exports = {
 	// Automatically clear mock calls and instances between every test
 	clearMocks: true,
+	moduleNameMapper: {
+		jszip: '<rootDir>/tests/mock/JSZip.js'
+	},
 
 	// Indicates whether the coverage information should be collected while executing the test
 	collectCoverage: true,
@@ -32,9 +35,9 @@ module.exports = {
 	coverageThreshold: {
 		global: {
 			branches: 24,
-			functions: 46,
-			lines: 38,
-			statements: 39
+			functions: 39,
+			lines: 36,
+			statements: 36
 		}
 	},
 
