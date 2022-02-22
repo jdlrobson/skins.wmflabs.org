@@ -7,7 +7,8 @@
 		"deploy": "parcel build index.html --out-dir /var/www/html/",
 		"start": "parcel index.html",
 		"lint": "eslint . && stylelint **/*.less",
-		"test": "npm run lint && jest --testRegex tests/*.test.js --coverage"
+		"test-starter-template": "cd src/starter-template && npm test",
+		"test": "npm run lint && jest --testRegex tests/*.test.js --coverage && npm run test-starter-template"
 	},
 	"author": "",
 	"license": "ISC",

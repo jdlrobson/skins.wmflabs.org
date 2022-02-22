@@ -5,6 +5,10 @@ import { DEFAULT_FEATURES,
 
 describe( 'utils', () => {
 
+	const INVERTED_DEFAULT_FEATURES = {};
+	Object.keys( DEFAULT_FEATURES ).forEach( ( key ) => {
+		INVERTED_DEFAULT_FEATURES[key] = false;
+	} );
 	it.each( [
 		[
 			'body { color: red; }',
@@ -12,29 +16,29 @@ describe( 'utils', () => {
 		],
 		[
 			'/* ResourceLoaderSkinModule: elements */',
-			{
+			Object.assign( {}, INVERTED_DEFAULT_FEATURES, {
 				elements: true
-			}
+			} )
 		],
 		[
 			'/**    ResourceLoaderSkinModule: elements     **/',
-			{
+			Object.assign( {}, INVERTED_DEFAULT_FEATURES, {
 				elements: true
-			}
+			} )
 		],
 		[
 			'/**    ResourceLoaderSkinModule: elements,normalize     **/',
-			{
+			Object.assign( {}, INVERTED_DEFAULT_FEATURES, {
 				elements: true,
 				normalize: true
-			}
+			} )
 		],
 		[
 			'/**    ResourceLoaderSkinModule: elements,normalize,butt     **/',
-			{
+			Object.assign( {}, INVERTED_DEFAULT_FEATURES, {
 				elements: true,
 				normalize: true
-			}
+			} )
 		]
 	] )( 'getFeaturesFromStyles', ( sourceCode, expected ) => {
 		expect( getFeaturesFromStyles( sourceCode ) ).toEqual( expected ); // test

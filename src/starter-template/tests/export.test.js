@@ -1,7 +1,15 @@
 import build from '../export/index';
 import JSZip from './mock/JSZip';
+import { DEFAULT_FEATURES } from '../utils.js';
 
 describe( 'build', () => {
+
+	const CustomFileSaver = ( content ) => {
+		return () => Promise.resolve( {
+			success: true,
+			content
+		} );
+	};
 
 	it( 'smoke test', () => {
 		const LESS_CONTENT = 'body { color: red; }';
@@ -24,12 +32,9 @@ describe( 'build', () => {
 			[
 				'redlink'
 			], // messages
-			JSZip, // zipper
-			function saveAs( content ) {
-				return () => Promise.resolve( {
-					success: true,
-					content
-				} );
+			{
+				Zipper: JSZip, // zipper
+				CustomFileSaver
 			}
 		).then( ( done ) => {
 			const files = done.zip.ls();
@@ -80,12 +85,9 @@ alert(e);`;
 			[
 				'redlink'
 			], // messages
-			JSZip, // zipper
-			function saveAs( content ) {
-				return () => Promise.resolve( {
-					success: true,
-					content
-				} );
+			{
+				Zipper: JSZip, // zipper
+				CustomFileSaver
 			}
 		).then( ( done ) => {
 			const files = done.zip.ls();
@@ -93,11 +95,16 @@ alert(e);`;
 			const skinjsonfile = files.filter( ( file ) => file.name === 'ComplexSkin/skin.json' )[ 0 ];
 			const skinjson = JSON.parse( skinjsonfile.content );
 			const styleModule = skinjson.ResourceModules[ 'skins.complexskin.styles' ];
+			const INVERTED_DEFAULT_FEATURES = {};
+			Object.keys( DEFAULT_FEATURES ).forEach( ( key ) => {
+				INVERTED_DEFAULT_FEATURES[key] = false;
+			} );
+
 			expect( styleModule.features ).toStrictEqual(
-				{
+				Object.assign( {}, INVERTED_DEFAULT_FEATURES, {
 					elements: true,
 					normalize: true
-				}
+				} )
 			);
 			expect( styleModule.styles ).toStrictEqual(
 				[ 'resources/skin.css', 'resources/skin.less' ]
@@ -147,12 +154,9 @@ alert(e);`;
 			// JS
 			{},
 			[],
-			JSZip, // zipper
-			function saveAs( content ) {
-				return () => Promise.resolve( {
-					success: true,
-					content
-				} );
+			{
+				Zipper: JSZip,
+				CustomFileSaver
 			}
 		).then( ( done ) => {
 			const files = done.zip.ls();

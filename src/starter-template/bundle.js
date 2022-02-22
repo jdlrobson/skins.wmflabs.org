@@ -11484,9 +11484,10 @@ function getFeaturesFromStyles( styles ) {
 /**
  * @param {string} template
  * @param {string} skinKey
+ * @return {string}
  */
- function localizeTemplate( template, skinKey ) {
-	return template.replace(/msg-skinname-/g, `msg-${skinKey}-` );
+function localizeTemplate( template, skinKey ) {
+	return template.replace( /msg-skinname-/g, `msg-${skinKey}-` );
 }
 
 function getTemplatesFromSourceCode( partials, sourceCode, skinKey, templateName = 's' ) {
@@ -11591,239 +11592,21 @@ node_modules/
 ` );
 }
 
-function aliasFileName( folderName ) {
-	return `${folderName}.alias.php`;
-}
-
-function makeServiceWiring( folderName ) {
-	return `<?php
-use MediaWiki\\MediaWikiServices;
-
-return [
-	'${folderName}.Config' => static function ( MediaWikiServices $services ) {
-		return $services->getService( 'ConfigFactory' )
-				->makeConfig( ${folderName.toLowerCase()} );
-	},
-];
-`;
-}
-
-function makeAliasFile( folderName, specialPages ) {
-
-	const aliases = {};
-
-	specialPages.forEach( ( name ) => {
-		aliases[ name ] = [ name ];
-	} );
-
-	return `<?php
-/**
- * Aliases for ${folderName} extension
- *
- * @file
- * @ingroup Extensions
- */
-
-$specialPageAliases = [];
-
-/** English (English) */
-$specialPageAliases['en'] = [
-	${
-	Object.keys( aliases ).map( ( specialName ) => {
-		return `'${specialName}' => ${
-			JSON.stringify( aliases[ specialName ] )
-		},`;
-	} ).join( '\n' )
-}
-];
-`;
-}
-
-function capitalize( str ) {
-	return str.charAt( 0 ).toUpperCase() + str.slice(1);
-}
-
-function getHookMethod( hookName ) {
-	return `on${capitalize(hookName)}`; 
-}
-
-/**
- * @param {string} camelCaseName
- * @param {Object} hooks
- */
-function generateHooksDefinition( camelCaseName, hooks ) {
-	const Hooks = {};
-	const namespace = `${camelCaseName}\\`;
-	Object.keys( hooks ).forEach( ( hookName ) => {
-		Hooks[ hookName ] = `${namespace}Hooks::${getHookMethod( hookName )}`;
-	} );
-	return Hooks;
-}
-
-function extjson( folderName, options ) {
-	const extensionKey = getSkinKeyFromName( folderName );
-	const Hooks = generateHooksDefinition( folderName, options.hooks || {} );
-
-	return stringifyjson( {
-		name: folderName,
-		author: [],
-		url: `https://www.mediawiki.org/wiki/Extension:${folderName}`,
-		descriptionmsg: `${extensionKey}-desc`,
-		'license-name': options.license || 'GPL-2.0-or-later',
-		requires: {
-			MediaWiki: '>= 1.38.0'
-		},
-		ConfigRegistry: {
-			[ extensionKey ]: 'GlobalVarConfig::newInstance'
-		},
-		SpecialPages: {
-			/* @todo */
-		},
-		APIModules: {
-			/* @todo */
-		},
-		MessagesDirs: {
-			[ extensionKey ]: [
-				'i18n'
-			]
-		},
-		ExtensionMessagesFiles: {
-			[ `${folderName}Alias` ]: `${aliasFileName( folderName )}`
-		},
-		AutoloadNamespaces: {
-			[ `${folderName}\\` ]: 'includes/'
-		},
-		ResourceModules: {
-		},
-		ResourceFileModulePaths: {
-			localBasePath: '',
-			remoteExtPath: `${folderName}`
-		},
-		Hooks,
-		config: {
-
-		},
-		DefaultUserOptions: {},
-		ServiceWiringFiles: [
-			'includes/ServiceWiring.php'
-		],
-		// eslint-disable-next-line camelcase
-		manifest_version: 2
-	} );
-}
-
-function addi18n$1( rootfolder, name ) {
-	const i18nfolder = rootfolder.folder( 'i18n' );
-	const en = {
-		[ `${name.toLowerCase()}-desc` ]: 'A new extension.'
-	};
-	const qqq = {};
-	i18nfolder.file( 'en.json', stringifyjson( en ) );
-	i18nfolder.file( 'qqq.json', stringifyjson( qqq ) );
-}
-
-/**
- * @param {string} name of namespace
- * @param {Object} hooks where key is hook name and that maps
- *  to boolean (generated method body) OR string (predefined message body)
- * @return {string}
- */
-function makeHooksFile( name, hooks ) {
-	const predefined = {
-		'SkinAfterPortlet': `	/**
-	* @see https://www.mediawiki.org/wiki/Manual:Hooks/SkinAfterPortlet
-	* @param Skin $skin
-	* @param string $portlet
-	* @param string $html
-	*/
-	public static function ${getHookMethod( 'SkinAfterPortlet' ) }( $skin, $portlet, &$html ) {
-		// Code goes here.
-		$html .= '${name} custom HTML for ' . $portlet;
-	}`
-	};
-
-	const methods = Object.keys( hooks ).map( ( key ) => {
-		const body = hooks[key];
-		if ( typeof body === 'boolean' ) {
-			return predefined[body] || `	public static function ${getHookMethod( key )}() {}`;
-		} else {
-			const method = body();
-			return `	/**
-	* @see https://www.mediawiki.org/wiki/Manual:Hooks/${key}
-	*/
-	public static function ${getHookMethod( key ) }( ${ method.args.join( ', ') }) {
-		${method.body}
-	}`;
-		}
-	} );
-	return `<?php
-namespace ${name};
-
-class Hooks {
-${methods}
-}`;
-
-}
-
-/**
- *
- * @param {string} name
- * @param {Object} options
- * @param {string} options.license name of license
- * @param {Object} options.hooks to register. Keys are valid hooks. Values
- *   are booleans about whether they are enabled.
- * @return {Promise}
- */
-function buildExtension( name, options = {} ) {
-	const Zipper = options.Zipper || lib;
-	const myFileSaver = options.FileSaver || FileSaver;
-	const zip = new Zipper();
-	const folderName = getFolderNameFromName( name );
-	const rootfolder = zip.folder( folderName );
-	rootfolder.file( 'extension.json',
-		extjson( folderName, options )
-	);
-	addi18n$1( rootfolder, name );
-	addDevTools( rootfolder );
-	/* const resourcesFolder = */rootfolder.folder( 'resources' );
-	const includesFolder = rootfolder.folder( 'includes' );
-	rootfolder.file(
-		aliasFileName( name ),
-		makeAliasFile( name, [] )
-	);
-	includesFolder.file(
-		'ServiceWiring.php',
-		makeServiceWiring( name )
-	);
-	if ( options.hooks ) {
-		includesFolder.file(
-			'Hooks.php',
-			makeHooksFile( name, options.hooks )
-		);
-	}
-
-	return zip.generateAsync( { type: 'blob' } )
-		.then( ( content ) => {
-			const saver = myFileSaver();
-			return saver( content, `${folderName}.zip` );
-		} ).then( ( saveResult ) => {
-			return {
-				zip, saveResult
-			};
-		} );
-}
-
 const SKINS_LAB_VERSION = '2.0';
 const MW_MIN_VERSION = '1.38.0';
 
 /**
- * 
- * @param {string} name 
- * @param {Folder} rootfolder 
+ * @typedef {Object} Folder
+ * @property {Function} file
+ */
+/**
+ *
+ * @param {string} name
+ * @param {Folder} rootfolder
  * @param {Object} messages
  * @param {Array} authors
  */
-function addi18n( name, rootfolder, messages = {}, authors = [] ) {
+function addi18n$1( name, rootfolder, messages = {}, authors = [] ) {
 	const TOOL_LINK = `[https://skins.wmflabs.org skins.wmflabs.org v.${SKINS_LAB_VERSION}]`;
 	const skinKey = getSkinKeyFromName( name );
 	const i18nfolder = rootfolder.folder( 'i18n' );
@@ -11831,12 +11614,12 @@ function addi18n( name, rootfolder, messages = {}, authors = [] ) {
 		authors
 	};
 	const en = Object.assign( {
-		"@metadata": metadata,
+		'@metadata': metadata,
 		[ `skinname-${skinKey}` ]: name,
 		[ `${skinKey}-desc` ]: `A skin created by ${TOOL_LINK}`
 	}, messages.en || {} );
 	const qqq = Object.assign( {
-		"@metadata": metadata,
+		'@metadata': metadata,
 		[ `skinname-${skinKey}` ]: '{{optional}}',
 		[ `${skinKey}-desc` ]: `{{desc|what=skin|name=${name}|url=https://www.mediawiki.org/wiki/Skin:${name}}}`
 	}, messages.qqq || {} );
@@ -11853,7 +11636,7 @@ function addi18n( name, rootfolder, messages = {}, authors = [] ) {
  * @param {string[]} skinFeatures feature keys used by skin
  * @param {Object} skinOptions for populating ValidSkinNames args
  * @param {string} license of skin
- * @param {array} author of skin
+ * @param {Array} authors of skin
  * @param {Object} skinStyles
  * @param {boolean} toc whether to include in article.
  * @return {Object}
@@ -11865,7 +11648,7 @@ function skinjson(
 	const folderName = getFolderNameFromName( name );
 	const skinKey = getSkinKeyFromName( name );
 	const TOOL_LINK = `[https://skins.wmflabs.org skins.wmflabs.org v.${SKINS_LAB_VERSION}]`;
-	const author = authors ? authors : [ `${TOOL_LINK}` ];
+	const author = authors || [ `${TOOL_LINK}` ];
 
 	return (
 		{
@@ -11920,11 +11703,11 @@ function skinjson(
 				localBasePath: '',
 				remoteSkinPath: folderName
 			},
-			"ResourceModuleSkinStyles": {
+			ResourceModuleSkinStyles: {
 				[ skinKey ]: skinStyles
 			},
 			// eslint-disable-next-line camelcase
-			manifest_version: 2,
+			manifest_version: 2
 		}
 	);
 }
@@ -11946,7 +11729,7 @@ function build( name, styles, templates, scripts = {}, messages = [], options = 
 	const myFileSaver = options.CustomFileSaver || FileSaver;
 	const skinOptions = options.skinOptions || {};
 	const license = options.license;
-	const messageObj = options.messages;
+	const messageObj = options.messages || {};
 	const authors = options.authors;
 	const zip = new Zipper();
 	const folderName = getFolderNameFromName( name );
@@ -11967,7 +11750,7 @@ function build( name, styles, templates, scripts = {}, messages = [], options = 
 	const skinMessages = Array.from(
 		new Set(
 			messages.map(
-				(msg) => msg.replace( 'skinname-', `${skinKey}-` )
+				( msg ) => msg.replace( 'skinname-', `${skinKey}-` )
 			)
 		)
 	);
@@ -12016,15 +11799,15 @@ function build( name, styles, templates, scripts = {}, messages = [], options = 
 	const ourMessages = {
 		'no-categories': 'Message to show when no categories available'
 	};
-	skinMessages.forEach((key) => {
-		const lookup = key.split('-').slice(1).join('-');
-		const ours = ourMessages[lookup];
+	skinMessages.forEach( ( key ) => {
+		const lookup = key.split( '-' ).slice( 1 ).join( '-' );
+		const ours = ourMessages[ lookup ];
 		if ( ours ) {
-			messageObj.qqq[key] = ours;
+			messageObj.qqq[ key ] = ours;
 		}
 	} );
 
-	addi18n( name, rootfolder, messageObj, authors || [ '...' ] );
+	addi18n$1( name, rootfolder, messageObj, authors || [ '...' ] );
 	/* images.forEach((image) => {
         imagesfolder.file(image.name, image.text);
     }) */
@@ -12097,11 +11880,11 @@ var CategoryPortlet = "{{#is-article}}\n<div id=\"catlinks\" class=\"catlinks\" 
 
 var TableOfContents = "<div id=\"toc-sticky\">\n    <h1>Table Of Contents</h1>\n    <input type=\"checkbox\" checked>\n    <div>\n        <ul>\n        {{#array-sections}}\n        {{>TableOfContents__line}}\n        {{/array-sections}}\n        </ul>\n    </div>\n</div>\n";
 
-var TableOfContents__line = "<li>\n    {{number}}.{{index}} <a href=\"#{{anchor}}\">{{line}}</a>\n    <ul>\n    {{#array-sections}}\n    {{>TableOfContents__line}}\n    {{/array-sections}}\n    </ul>\n</li>\n";
+var TableOfContentsLine = "<li>\n    {{number}}.{{index}} <a href=\"#{{anchor}}\">{{line}}</a>\n    <ul>\n    {{#array-sections}}\n    {{>TableOfContents__line}}\n    {{/array-sections}}\n    </ul>\n</li>\n";
 
-var AdminBarHomeLESS = "// stylelint-disable function-url-quotes\n// Icons from https://doc.wikimedia.org/oojs-ui/master/demos/?page=icons&theme=wikimediaui&direction=ltr&platform=desktop\n// Converted to data uri using https://yoksel.github.io/url-encoder/\n.mw-adminbar-logo {\n\tbackground-image: url( \"data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='%23fff'%3E%3Ctitle%3E home %3C/title%3E%3Cpath d='M10 1L0 10h3v9h4v-4.6c0-1.47 1.31-2.66 3-2.66s3 1.19 3 2.66V19h4v-9h3L10 1z'/%3E%3C/svg%3E%0A\" );\n}\n\n.mw-adminbar-start ul li.mw-adminbar-search {\n\twidth: auto;\n\n\tform {\n\t\tdisplay: flex;\n\t\theight: 32px;\n\t\tposition: relative;\n\t}\n\n\t.mw-adminbar-search__toggle {\n\t\tposition: absolute;\n\t\tright: 0;\n\t\twidth: 40px;\n\t\theight: 100%;\n\t}\n\n\t.mw-adminbar-search__input {\n\t\tcolor: white;\n\t\tbackground: black;\n\t\topacity: 1;\n\t}\n\n\t.searchButton {\n\t\tbackground-color: transparent;\n\t\tborder: 0;\n\t\tbackground-image: url( \"data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='white'%3E%3Ctitle%3E search %3C/title%3E%3Cpath fill-rule='evenodd' d='M12.2 13.6a7 7 0 111.4-1.4l5.4 5.4-1.4 1.4-5.4-5.4zM13 8A5 5 0 113 8a5 5 0 0110 0z'/%3E%3C/svg%3E%0A\" );\n\t\twidth: 40px;\n\t\tbackground-position: center center;\n\t\topacity: 1;\n\t\tbackground-repeat: no-repeat;\n\t\tcolor: transparent !important;\n\t\tpadding: 0;\n\t\tmin-height: auto;\n\t}\n}\n\n.mw-adminbar-search__toggle {\n\t& + .mw-adminbar-search__input {\n\t\tdisplay: none;\n\t}\n\t&:checked + .mw-adminbar-search__input {\n\t\tdisplay: block;\n\t}\n}\n\n.mw-adminbar-search__input {\n\tmin-width: 150px;\n}";
+var AdminBarHomeLESS = "// stylelint-disable function-url-quotes\n// Icons from https://doc.wikimedia.org/oojs-ui/master/demos/?page=icons&theme=wikimediaui&direction=ltr&platform=desktop\n// Converted to data uri using https://yoksel.github.io/url-encoder/\n.mw-adminbar-logo {\n\tbackground-image: url( \"data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='%23fff'%3E%3Ctitle%3E home %3C/title%3E%3Cpath d='M10 1L0 10h3v9h4v-4.6c0-1.47 1.31-2.66 3-2.66s3 1.19 3 2.66V19h4v-9h3L10 1z'/%3E%3C/svg%3E%0A\" );\n}\n\n.mw-adminbar-start ul li.mw-adminbar-search {\n\twidth: auto;\n\n\tform {\n\t\tdisplay: flex;\n\t\theight: 32px;\n\t\tposition: relative;\n\t}\n\n\t.mw-adminbar-search__toggle {\n\t\tposition: absolute;\n\t\tright: 0;\n\t\twidth: 40px;\n\t\theight: 100%;\n\t}\n\n\t.mw-adminbar-search__input {\n\t\tcolor: #fff;\n\t\tbackground: #000;\n\t\topacity: 1;\n\t}\n\n\t.searchButton {\n\t\tbackground-color: transparent;\n\t\tborder: 0;\n\t\tbackground-image: url( \"data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='white'%3E%3Ctitle%3E search %3C/title%3E%3Cpath fill-rule='evenodd' d='M12.2 13.6a7 7 0 111.4-1.4l5.4 5.4-1.4 1.4-5.4-5.4zM13 8A5 5 0 113 8a5 5 0 0110 0z'/%3E%3C/svg%3E%0A\" );\n\t\twidth: 40px;\n\t\tbackground-position: center center;\n\t\topacity: 1;\n\t\tbackground-repeat: no-repeat;\n\t\tcolor: transparent !important;\n\t\tpadding: 0;\n\t\tmin-height: auto;\n\t}\n}\n\n.mw-adminbar-search__toggle {\n\t& + .mw-adminbar-search__input {\n\t\tdisplay: none;\n\t}\n\n\t&:checked + .mw-adminbar-search__input {\n\t\tdisplay: block;\n\t}\n}\n\n.mw-adminbar-search__input {\n\tmin-width: 150px;\n}\n";
 
-var AdminBarUserLESS = "// stylelint-disable function-url-quotes\n@height-adminbar: 32px;\n@bg-adminbar: #1d2327;\n\n// userAvatarOutline\n.mw-adminbar-icon-user:before {\n\tbackground-image: url( \"data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Ctitle%3E user avatar %3C/title%3E%3Cpath d='M10 8c1.7 0 3.06-1.35 3.06-3S11.7 2 10 2 6.94 3.35 6.94 5 8.3 8 10 8zm0 2c-2.8 0-5.06-2.24-5.06-5S7.2 0 10 0s5.06 2.24 5.06 5-2.26 5-5.06 5zm-7 8h14v-1.33c0-1.75-2.31-3.56-7-3.56s-7 1.81-7 3.56V18zm7-6.89c6.66 0 9 3.33 9 5.56V20H1v-3.33c0-2.23 2.34-5.56 9-5.56z'/%3E%3C/svg%3E%0A\" );\n}\n\n#pt-notifications-notice,\n#pt-talk-alert {\n\tdisplay: none;\n}\n\n.mw-adminbar-notifications li {\n\tfilter: invert( 1 );\n}\n\n#pt-notifications-alert {\n\tpadding-top: 5px;\n\twidth: 40px;\n\tdisplay: block;\n\theight: 100%;\n\tbox-sizing: border-box;\n\n\ta {\n\t\t// stylelint-disable-next-line declaration-no-important\n\t\theight: 100% !important;\n\t\tmargin: auto !important;\n\t\topacity: 1 !important;\n\t\tbackground-repeat: no-repeat;\n\t}\n}\n\n#p-personal {\n\tposition: relative;\n\talign-self: center;\n\n\tinput {\n\t\topacity: 0;\n\t\tposition: absolute;\n\t\twidth: 100%;\n\t\theight: @height-adminbar;\n\t\tz-index: 2;\n\n\t\t~ .mw-portlet-body {\n\t\t\tdisplay: none;\n\t\t}\n\n\t\t&:checked ~ .mw-portlet-body {\n\t\t\tdisplay: block;\n\t\t}\n\t}\n\n\th3 {\n\t\tmargin: 0;\n\t\tpadding: 0;\n\t\twidth: @height-adminbar;\n\t\theight: @height-adminbar;\n\t\ttext-indent: 999px;\n\t\toverflow: hidden;\n\t\tfloat: right;\n\t\tcursor: pointer;\n\n\t\t&:before {\n\t\t\tcontent: '';\n\t\t\twidth: 100%;\n\t\t\theight: @height-adminbar;\n\t\t\tdisplay: block;\n\t\t\tbackground-repeat: no-repeat;\n\t\t\tbackground-position: center;\n\t\t\tfilter: invert( 1 );\n\t\t}\n\t}\n\n\t@arrow-size: 10px;\n\t@arrow-size-2x: @arrow-size * 2;\n\tul {\n\t\tposition: absolute;\n\t\tright: 0;\n\t\ttop: @arrow-size;\n\t\tmargin: @height-adminbar 0 0;\n\t\tpadding: 0 20px 20px;\n\t\tlist-style: none;\n\t\tbackground: @bg-adminbar;\n\t\tmin-width: 150px;\n\n\t\t&:before {\n\t\t\tcontent: '';\n\t\t\tdisplay: block;\n\t\t\tposition: absolute;\n\t\t\ttop: -@arrow-size-2x;\n\t\t\tright: @arrow-size / 2;\n\t\t\theight: @arrow-size-2x;\n\t\t\twidth: @arrow-size-2x;\n\t\t\tborder-left: @arrow-size solid transparent;\n\t\t\tborder-right: @arrow-size solid transparent;\n\t\t\tborder-bottom: @arrow-size solid @bg-adminbar;\n\t\t}\n\t}\n\n\ta {\n\t\tcolor: #fff;\n\t}\n}\n";
+var AdminBarUserLESS = "// stylelint-disable function-url-quotes\n@height-adminbar: 32px;\n@bg-adminbar: #1d2327;\n\n// userAvatarOutline\n.mw-adminbar-icon-user:before {\n\tbackground-image: url( \"data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Ctitle%3E user avatar %3C/title%3E%3Cpath d='M10 8c1.7 0 3.06-1.35 3.06-3S11.7 2 10 2 6.94 3.35 6.94 5 8.3 8 10 8zm0 2c-2.8 0-5.06-2.24-5.06-5S7.2 0 10 0s5.06 2.24 5.06 5-2.26 5-5.06 5zm-7 8h14v-1.33c0-1.75-2.31-3.56-7-3.56s-7 1.81-7 3.56V18zm7-6.89c6.66 0 9 3.33 9 5.56V20H1v-3.33c0-2.23 2.34-5.56 9-5.56z'/%3E%3C/svg%3E%0A\" );\n}\n\n#pt-notifications-notice,\n#pt-talk-alert {\n\tdisplay: none;\n}\n\n.mw-adminbar-notifications li {\n\tfilter: invert( 1 );\n}\n\n#pt-notifications-alert {\n\tpadding-top: 5px;\n\twidth: 40px;\n\tdisplay: block;\n\theight: 100%;\n\tbox-sizing: border-box;\n\n\ta {\n\t\t// stylelint-disable-next-line declaration-no-important\n\t\theight: 100% !important;\n\t\tmargin: auto !important;\n\t\topacity: 1 !important;\n\t\tbackground-repeat: no-repeat;\n\t}\n}\n\n#p-personal {\n\tposition: relative;\n\talign-self: center;\n\n\tinput {\n\t\topacity: 0;\n\t\tposition: absolute;\n\t\twidth: 100%;\n\t\theight: @height-adminbar;\n\t\tz-index: 2;\n\n\t\t~ .mw-portlet-body {\n\t\t\tdisplay: none;\n\t\t}\n\n\t\t&:checked ~ .mw-portlet-body {\n\t\t\tdisplay: block;\n\t\t}\n\t}\n\n\th3 {\n\t\tmargin: 0;\n\t\tpadding: 0;\n\t\twidth: @height-adminbar;\n\t\theight: @height-adminbar;\n\t\ttext-indent: 999px;\n\t\toverflow: hidden;\n\t\tfloat: right;\n\t\tcursor: pointer;\n\n\t\t&:before {\n\t\t\tcontent: '';\n\t\t\twidth: 100%;\n\t\t\theight: @height-adminbar;\n\t\t\tdisplay: block;\n\t\t\tbackground-repeat: no-repeat;\n\t\t\tbackground-position: center;\n\t\t\tfilter: invert( 1 );\n\t\t}\n\t}\n\n\t@arrow-size: 10px;\n\t@arrow-size-2x: @arrow-size * 2;\n\n\tul {\n\t\tposition: absolute;\n\t\tright: 0;\n\t\ttop: @arrow-size;\n\t\tmargin: @height-adminbar 0 0;\n\t\tpadding: 0 20px 20px;\n\t\tlist-style: none;\n\t\tbackground: @bg-adminbar;\n\t\tmin-width: 150px;\n\n\t\t&:before {\n\t\t\tcontent: '';\n\t\t\tdisplay: block;\n\t\t\tposition: absolute;\n\t\t\ttop: -@arrow-size-2x;\n\t\t\tright: @arrow-size / 2;\n\t\t\theight: @arrow-size-2x;\n\t\t\twidth: @arrow-size-2x;\n\t\t\tborder-left: @arrow-size solid transparent;\n\t\t\tborder-right: @arrow-size solid transparent;\n\t\t\tborder-bottom: @arrow-size solid @bg-adminbar;\n\t\t}\n\t}\n\n\ta {\n\t\tcolor: #fff;\n\t}\n}\n";
 
 var AdminBarLESS = "@height-adminbar: 32px;\n@bg-adminbar: #1d2327;\n\nhtml {\n\t// stylelint-disable-next-line declaration-no-important\n\tmargin-top: 32px !important;\n}\n\n.mw-adminbar {\n\tdirection: ltr;\n\tcolor: #c3c4c7;\n\t// stylelint-disable-next-line declaration-property-unit-disallowed-list\n\tfont-size: 13px;\n\tfont-weight: bold;\n\tfont-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen-Sans', 'Ubuntu', 'Cantarell', 'Helvetica Neue', sans-serif;\n\tline-height: 2.46153846;\n\theight: @height-adminbar;\n\tposition: fixed;\n\ttop: 0;\n\tleft: 0;\n\twidth: 100%;\n\tmin-width: 600px;\n\tz-index: 99999;\n\tdisplay: flex;\n\tbackground: @bg-adminbar;\n\talign-items: center;\n\n\tul {\n\t\tmargin: 0;\n\t\tpadding: 0;\n\t}\n\n\tli {\n\t\tdisplay: block;\n\t}\n\n\tinput {\n\t\topacity: 0;\n\t}\n\n\tli:hover,\n\tinput:hover ~ h3 {\n\t\tcursor: pointer;\n\t\tbackground-color: #333;\n\t}\n\n\t.mw-edit-bar {\n\t\tbackground-color: transparent;\n\t}\n}\n\n.mw-adminbar-start {\n\tdisplay: flex;\n\tflex-grow: 1;\n\tmargin-left: 8px;\n\toverflow: hidden;\n}\n\n.mw-adminbar-end {\n\tdisplay: flex;\n\tjustify-content: flex-end;\n\theight: 100%;\n\tpadding-right: 50px;\n\n\t> a {\n\t\tdisplay: block;\n\t\twidth: 40px;\n\t\toverflow: hidden;\n\n\t\t&:before {\n\t\t\tcontent: '';\n\t\t\theight: 100%;\n\t\t\tdisplay: block;\n\t\t\tbackground-repeat: no-repeat;\n\t\t\tfilter: invert( 1 );\n\t\t\tbackground-size: 20px 20px;\n\t\t\tbackground-position: center;\n\t\t}\n\t}\n}\n\n.mw-adminbar-start li,\n.mw-adminbar-ns li,\n.mw-adminbar-views li {\n\twidth: 40px;\n\tfilter: invert( 0 );\n\tbackground-repeat: no-repeat;\n\theight: 100%;\n\tbackground-position: center;\n\tmargin: 0;\n\n\ta {\n\t\tcolor: transparent;\n\t}\n}\n\n.mw-adminbar-start ul,\n.mw-adminbar-views,\n.mw-adminbar-ns {\n\theight: 32px;\n\tmargin: 0;\n\tpadding: 0;\n\tdisplay: flex;\n\n\tli {\n\t\twidth: 40px;\n\t\theight: 100%;\n\t\toverflow: hidden;\n\t\tmargin-right: 4px;\n\t\tdisplay: inline-block;\n\n\t\ta {\n\t\t\tposition: absolute;\n\t\t\ttop: 0;\n\t\t\tbottom: 0;\n\t\t}\n\t}\n}\n";
 
@@ -12113,7 +11896,7 @@ var ContentActionsLESS = ".mw-portlet-views {\n\tflex-grow: 1;\n\n\tul {\n\t\tdi
 
 var DropdownLESS = "/* Checkbox hack dropdown */\n.mw-portlet-dropdown ~ .mw-portlet {\n\tli {\n\t\tdisplay: block;\n\t\tpadding: 0.75em 0.875em;\n\t}\n\n\t.mw-portlet-body {\n\t\tdisplay: none;\n\n\t\tul {\n\t\t\tbackground: @background-color-article;\n\t\t\tposition: absolute;\n\t\t\toverflow-y: auto;\n\t\t\tz-index: 2;\n\t\t\tbox-shadow: 0 5px 17px 0 rgba( 0, 0, 0, 0.24 ), 0 0 1px @color-gray;\n\t\t\tright: 0;\n\t\t\tmin-width: 200px;\n\t\t}\n\t}\n\n\tinput:checked {\n\t\t~ .mw-portlet-body ul {\n\t\t\topacity: 1;\n\t\t\tvisibility: visible;\n\t\t}\n\n\t\t~ .mw-portlet-body {\n\t\t\tdisplay: block;\n\t\t\topacity: 1;\n\t\t}\n\t}\n}\n";
 
-var CategoryPlainLESS = ".mw-skin-category-plain {\n\tul {\n\t\tmargin: 0;\n\t}\n\tul, li {\n\t\tdisplay: inline;\n\t\tmargin-right: 8px;\n\t}\n\n\t.mw-hidden-cats-hidden {\n\t\tdisplay: none;\n\t}\n}\n";
+var CategoryPlainLESS = ".mw-skin-category-plain {\n\tul {\n\t\tmargin: 0;\n\t}\n\n\tul,\n\tli {\n\t\tdisplay: inline;\n\t\tmargin-right: 8px;\n\t}\n\n\t.mw-hidden-cats-hidden {\n\t\tdisplay: none;\n\t}\n}\n";
 
 var ContentNamespacesLESS = ".mw-portlet-namespaces {\n\tmargin-top: 10px;\n\tborder-bottom: 1px solid @color-gray-2;\n\n\ta {\n\t\tfont-size: 0.85em;\n\t\tmargin: 0 10px 0 0;\n\t\tcolor: @color-base;\n\t\tfont-weight: bold;\n\t\tpadding-bottom: 6px;\n\t\tdisplay: inline-block;\n\t}\n\n\tli.selected {\n\t\tborder-bottom: 2px solid @color-base;\n\t\tmargin-bottom: -1px;\n\t}\n}\n";
 
@@ -12131,7 +11914,7 @@ var LanguageButtonLESS = ".language-button {\n\tposition: relative;\n\tdisplay: 
 
 var SearchLESS = "#p-search {\n\twidth: 100%;\n\tpadding: 0 8px;\n\n\t#searchInput {\n\t\tbackground-image: url( data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2220%22%20height%3D%2220%22%20viewBox%3D%220%200%2020%2020%22%3E%3Ctitle%3Esearch%3C%2Ftitle%3E%3Cg%20fill%3D%22%2354595d%22%3E%3Cpath%20d%3D%22M7.5%2013a5.5%205.5%200%20100-11%205.5%205.5%200%20000%2011zm4.55.46A7.43%207.43%200%20017.5%2015a7.5%207.5%200%20115.96-2.95l6.49%206.49-1.41%201.41-6.49-6.49z%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E );\n\t\tbackground-color: #fff;\n\t\t-webkit-appearance: none;\n\t\tmax-width: 450px;\n\t\tmargin-top: 0;\n\t\theight: 2.25em;\n\t\tborder: solid 1px @color-gray-2;\n\t\tborder-radius: 2px;\n\t\tpadding: 7px 0 7px 29px;\n\t\tbox-shadow: 0 1px 1px rgba( 0, 0, 0, 0.05 );\n\t\toutline: 0;\n\t\tbackground-position: left 6px center;\n\t\tbackground-repeat: no-repeat;\n\t\tbackground-size: 18px;\n\n\t\t@media ( max-width: @width-breakpoint-tablet ) {\n\t\t\twidth: 100%;\n\t\t}\n\t}\n\n\t#searchButton {\n\t\t.client-js & {\n\t\t\tdisplay: none;\n\t\t}\n\t}\n\n\th3 {\n\t\tdisplay: none;\n\t}\n}\n";
 
-var TableOfContentsLESS = "#toc-sticky {\n    position: fixed;\n    padding: 8px;\n    top: 0;\n    right: 0;\n    display: none;\n    width: 300px;\n    height: 50vh;\n    overflow: hidden;\n    flex-direction: column;\n\n    > div {\n        overflow: scroll;\n    }\n\n    h1 {\n        text-transform: uppercase;\n        height: 50px;\n        font-size: 1em;\n        cursor: pointer;\n        background: @background-color-article;\n        text-align: center;\n        padding: 10px;\n        margin: 0;\n    }\n\n    input {\n        position: absolute;\n        left: 0;\n        top: 0;\n        width: 100%;\n        height: 50px;\n        margin-top: 8px;\n        opacity: 0;\n    }\n\n    input ~ div {\n        display: none;\n    }\n\n    input:checked ~ div {\n        display: block;\n        background: @background-color-article;\n    }\n\n\t@media ( min-width: @width-breakpoint-desktop ) {\n        display: flex;\n    }\n}\n";
+var TableOfContentsLESS = "#toc-sticky {\n\tposition: fixed;\n\tpadding: 8px;\n\ttop: 0;\n\tright: 0;\n\tdisplay: none;\n\twidth: 300px;\n\theight: 50vh;\n\toverflow: hidden;\n\tflex-direction: column;\n\n\t> div {\n\t\toverflow: scroll;\n\t}\n\n\th1 {\n\t\ttext-transform: uppercase;\n\t\theight: 50px;\n\t\tfont-size: 1em;\n\t\tcursor: pointer;\n\t\tbackground: @background-color-article;\n\t\ttext-align: center;\n\t\tpadding: 10px;\n\t\tmargin: 0;\n\t}\n\n\tinput {\n\t\tposition: absolute;\n\t\tleft: 0;\n\t\ttop: 0;\n\t\twidth: 100%;\n\t\theight: 50px;\n\t\tmargin-top: 8px;\n\t\topacity: 0;\n\t}\n\n\tinput ~ div {\n\t\tdisplay: none;\n\t}\n\n\tinput:checked ~ div {\n\t\tdisplay: block;\n\t\tbackground: @background-color-article;\n\t}\n\n\t@media ( min-width: @width-breakpoint-desktop ) {\n\t\tdisplay: flex;\n\t}\n}\n";
 
 var normalize = "body{margin:0}main{display:block}hr{box-sizing:content-box;height:0;overflow:visible}abbr[title]{border-bottom:1px dotted;cursor:help}@supports (text-decoration:underline dotted){abbr[title]{border-bottom:0;text-decoration:underline dotted}}pre,code,tt,kbd,samp{font-family:monospace,monospace}sub,sup{line-height:1}img{border:0}button,input,optgroup,select,textarea{margin:0}button::-moz-focus-inner,[type='button']::-moz-focus-inner,[type='reset']::-moz-focus-inner,[type='submit']::-moz-focus-inner{border-style:none;padding:0}legend{color:inherit;padding:0}\n";
 
@@ -12148,6 +11931,233 @@ var INTERFACE_MESSAGE_BOX = ".messagebox,.errorbox,.warningbox,.successbox{color
 var INTERFACE_CATEGORY = "@media screen{#catlinks{text-align:left}.catlinks{border:1px solid #a2a9b1;background-color:#f8f9fa;padding:5px;margin-top:1em;clear:both}.catlinks ul{display:inline;margin:0;padding:0;list-style:none}.catlinks li{display:inline-block;line-height:1.25em;border-left:1px solid #a2a9b1;margin:0.125em 0;padding:0 0.5em}.catlinks li:first-child{padding-left:0.25em;border-left:0}.catlinks li a.mw-redirect{font-style:italic}.mw-hidden-cats-hidden,.catlinks-allhidden{display:none}}@media print{.catlinks ul{display:inline;padding:0;list-style:none}.catlinks li{display:inline-block;line-height:1.15;margin:0.1em 0;border-left:1pt solid #aaa;padding:0 0.4em}.catlinks li:first-child{border-left:0;padding-left:0.2em}.mw-hidden-catlinks,.catlinks{display:none}}\n";
 
 var INTERFACE_TOC = ".toctogglecheckbox:checked ~ ul{display:none}@media screen{.toc,.toccolours{border:1px solid #a2a9b1;background-color:#f8f9fa;padding:5px;font-size:95%}.toc{display:table;padding:7px}.toc h2{display:inline;border:0;padding:0;font-size:100%;font-weight:bold}.toc .toctitle{text-align:center}.toc ul{list-style:none;margin:0.3em 0;padding:0;text-align:left}.toc ul ul{margin:0 0 0 2em}table.toc{border-collapse:collapse}table.toc td{padding:0}.tocnumber,.toctext{display:table-cell;text-decoration:inherit}.tocnumber{color:#202122;padding-left:0;padding-right:0.5em}.mw-content-ltr .tocnumber{padding-left:0;padding-right:0.5em}.mw-content-rtl .tocnumber{padding-left:0.5em;padding-right:0}.toctogglecheckbox{display:inline !important;position:absolute;opacity:0;z-index:-1}.toctogglespan{font-size:94%}.toctogglespan:before{content:' ['}.toctogglespan:after{content:']'}.toctogglelabel{cursor:pointer;color:#0645ad}.toctogglelabel:hover{text-decoration:underline}.toctogglecheckbox:focus + .toctitle .toctogglelabel{text-decoration:underline;outline:dotted 1px;outline:auto -webkit-focus-ring-color}.toctogglecheckbox:checked + .toctitle .toctogglelabel:after{content:'(showtoc)'}.toctogglecheckbox:not(:checked) + .toctitle .toctogglelabel:after{content:'(hidetoc)'}.toc .toctitle{direction:ltr}.mw-content-ltr .toc ul,.mw-content-rtl .mw-content-ltr .toc ul{text-align:left}.mw-content-rtl .toc ul,.mw-content-ltr .mw-content-rtl .toc ul{text-align:right}.mw-content-ltr .toc ul ul,.mw-content-rtl .mw-content-ltr .toc ul ul{margin:0 0 0 2em}.mw-content-rtl .toc ul ul,.mw-content-ltr .mw-content-rtl .toc ul ul{margin:0 2em 0 0}}@media print{.toctogglecheckbox:checked + .toctitle{display:none}.toc{background-color:#f9f9f9;border:1pt solid #aaa;padding:5px;display:table}.tocnumber,.toctext{display:table-cell}.tocnumber{padding-left:0;padding-right:0.5em}.mw-content-ltr .tocnumber{padding-left:0;padding-right:0.5em}.mw-content-rtl .tocnumber{padding-left:0.5em;padding-right:0}}\n";
+
+function aliasFileName( folderName ) {
+	return `${folderName}.alias.php`;
+}
+
+function makeServiceWiring( folderName ) {
+	return `<?php
+use MediaWiki\\MediaWikiServices;
+
+return [
+	'${folderName}.Config' => static function ( MediaWikiServices $services ) {
+		return $services->getService( 'ConfigFactory' )
+				->makeConfig( ${folderName.toLowerCase()} );
+	},
+];
+`;
+}
+
+function makeAliasFile( folderName, specialPages ) {
+
+	const aliases = {};
+
+	specialPages.forEach( ( name ) => {
+		aliases[ name ] = [ name ];
+	} );
+
+	return `<?php
+/**
+ * Aliases for ${folderName} extension
+ *
+ * @file
+ * @ingroup Extensions
+ */
+
+$specialPageAliases = [];
+
+/** English (English) */
+$specialPageAliases['en'] = [
+	${
+	Object.keys( aliases ).map( ( specialName ) => {
+		return `'${specialName}' => ${
+			JSON.stringify( aliases[ specialName ] )
+		},`;
+	} ).join( '\n' )
+}
+];
+`;
+}
+
+function capitalize( str ) {
+	return str.charAt( 0 ).toUpperCase() + str.slice( 1 );
+}
+
+function getHookMethod( hookName ) {
+	return `on${capitalize( hookName )}`;
+}
+
+/**
+ * @param {string} camelCaseName
+ * @param {Object} hooks
+ * @return {Object}
+ */
+function generateHooksDefinition( camelCaseName, hooks ) {
+	const Hooks = {};
+	const namespace = `${camelCaseName}\\`;
+	Object.keys( hooks ).forEach( ( hookName ) => {
+		Hooks[ hookName ] = `${namespace}Hooks::${getHookMethod( hookName )}`;
+	} );
+	return Hooks;
+}
+
+function extjson( folderName, options ) {
+	const extensionKey = getSkinKeyFromName( folderName );
+	const Hooks = generateHooksDefinition( folderName, options.hooks || {} );
+
+	return stringifyjson( {
+		name: folderName,
+		author: [],
+		url: `https://www.mediawiki.org/wiki/Extension:${folderName}`,
+		descriptionmsg: `${extensionKey}-desc`,
+		'license-name': options.license || 'GPL-2.0-or-later',
+		requires: {
+			MediaWiki: '>= 1.38.0'
+		},
+		ConfigRegistry: {
+			[ extensionKey ]: 'GlobalVarConfig::newInstance'
+		},
+		SpecialPages: {
+			/* @todo */
+		},
+		APIModules: {
+			/* @todo */
+		},
+		MessagesDirs: {
+			[ extensionKey ]: [
+				'i18n'
+			]
+		},
+		ExtensionMessagesFiles: {
+			[ `${folderName}Alias` ]: `${aliasFileName( folderName )}`
+		},
+		AutoloadNamespaces: {
+			[ `${folderName}\\` ]: 'includes/'
+		},
+		ResourceModules: {
+		},
+		ResourceFileModulePaths: {
+			localBasePath: '',
+			remoteExtPath: `${folderName}`
+		},
+		Hooks,
+		config: {
+
+		},
+		DefaultUserOptions: {},
+		ServiceWiringFiles: [
+			'includes/ServiceWiring.php'
+		],
+		// eslint-disable-next-line camelcase
+		manifest_version: 2
+	} );
+}
+
+function addi18n( rootfolder, name ) {
+	const i18nfolder = rootfolder.folder( 'i18n' );
+	const en = {
+		[ `${name.toLowerCase()}-desc` ]: 'A new extension.'
+	};
+	const qqq = {};
+	i18nfolder.file( 'en.json', stringifyjson( en ) );
+	i18nfolder.file( 'qqq.json', stringifyjson( qqq ) );
+}
+
+/**
+ * @param {string} name of namespace
+ * @param {Object} hooks where key is hook name and that maps
+ *  to boolean (generated method body) OR string (predefined message body)
+ * @return {string}
+ */
+function makeHooksFile( name, hooks ) {
+	/* eslint-disable no-tabs */
+	const predefined = {
+		SkinAfterPortlet: `	/**
+	* @see https://www.mediawiki.org/wiki/Manual:Hooks/SkinAfterPortlet
+	* @param Skin $skin
+	* @param string $portlet
+	* @param string $html
+	*/
+	public static function ${getHookMethod( 'SkinAfterPortlet' )}( $skin, $portlet, &$html ) {
+		// Code goes here.
+		$html .= '${name} custom HTML for ' . $portlet;
+	}`
+	};
+	/* eslint-enable no-tabs */
+
+	const methods = Object.keys( hooks ).map( ( key ) => {
+		const body = hooks[ key ];
+		if ( typeof body === 'boolean' ) {
+			// eslint-disable-next-line no-tabs
+			return predefined[ body ] || `	public static function ${getHookMethod( key )}() {}`;
+		} else {
+			const method = body();
+			// eslint-disable-next-line no-tabs
+			return `	/**
+	* @see https://www.mediawiki.org/wiki/Manual:Hooks/${key}
+	*/
+	public static function ${getHookMethod( key )}( ${method.args.join( ', ' )}) {
+		${method.body}
+	}`;
+		}
+	} );
+	return `<?php
+namespace ${name};
+
+class Hooks {
+${methods}
+}`;
+
+}
+
+/**
+ *
+ * @param {string} name
+ * @param {Object} options
+ * @param {string} options.license name of license
+ * @param {Object} options.hooks to register. Keys are valid hooks. Values
+ *   are booleans about whether they are enabled.
+ * @return {Promise}
+ */
+function buildExtension( name, options = {} ) {
+	const Zipper = options.Zipper || lib;
+	const myFileSaver = options.FileSaver || FileSaver;
+	const zip = new Zipper();
+	const folderName = getFolderNameFromName( name );
+	const rootfolder = zip.folder( folderName );
+	rootfolder.file( 'extension.json',
+		extjson( folderName, options )
+	);
+	addi18n( rootfolder, name );
+	addDevTools( rootfolder );
+	/* const resourcesFolder = */rootfolder.folder( 'resources' );
+	const includesFolder = rootfolder.folder( 'includes' );
+	rootfolder.file(
+		aliasFileName( name ),
+		makeAliasFile( name, [] )
+	);
+	includesFolder.file(
+		'ServiceWiring.php',
+		makeServiceWiring( name )
+	);
+	if ( options.hooks ) {
+		includesFolder.file(
+			'Hooks.php',
+			makeHooksFile( name, options.hooks )
+		);
+	}
+
+	return zip.generateAsync( { type: 'blob' } )
+		.then( ( content ) => {
+			const saver = myFileSaver();
+			return saver( content, `${folderName}.zip` );
+		} ).then( ( saveResult ) => {
+			return {
+				zip, saveResult
+			};
+		} );
+}
 
 const COMPONENT_STYLES = {
 	AdminBarHome: AdminBarHomeLESS,
@@ -12182,7 +12192,8 @@ const FEATURE_STYLES = {
 };
 
 const PARTIALS = {
-	TableOfContents__line,
+	// eslint-disable-next-line camelcase
+	TableOfContents__line: TableOfContentsLine,
 	TableOfContents,
 	CategoryPlain,
 	EditBar,
@@ -12469,7 +12480,7 @@ function buildSkin( name, mustache, less, js = '', variables = {}, options = {} 
 	if ( options.skinFeatures ) {
 		const features = Object.keys( options.skinFeatures )
 			// Filter out any that are disabled.
-			.filter((key) => options.skinFeatures[key])
+			.filter( ( key ) => options.skinFeatures[ key ] )
 			.join( ',' );
 		skinFeatures += `/** ResourceLoaderSkinModule: ${features} */
 `;

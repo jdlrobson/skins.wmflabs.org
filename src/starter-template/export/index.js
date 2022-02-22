@@ -144,7 +144,7 @@ function build( name, styles, templates, scripts = {}, messages = [], options = 
 	const myFileSaver = options.CustomFileSaver || FileSaver;
 	const skinOptions = options.skinOptions || {};
 	const license = options.license;
-	const messageObj = options.messages;
+	const messageObj = options.messages || {};
 	const authors = options.authors;
 	const zip = new Zipper();
 	const folderName = getFolderNameFromName( name );
