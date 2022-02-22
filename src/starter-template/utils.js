@@ -31,9 +31,10 @@ export function getFeaturesFromStyles( styles ) {
 /**
  * @param {string} template
  * @param {string} skinKey
+ * @return {string}
  */
- function localizeTemplate( template, skinKey ) {
-	return template.replace(/msg-skinname-/g, `msg-${skinKey}-` );
+function localizeTemplate( template, skinKey ) {
+	return template.replace( /msg-skinname-/g, `msg-${skinKey}-` );
 }
 
 export function getTemplatesFromSourceCode( partials, sourceCode, skinKey, templateName = 's' ) {

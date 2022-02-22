@@ -27,7 +27,7 @@ import AdminBarWithEdit from './components/AdminBarWithEdit.mustache';
 import EditBar from './components/EditBar.mustache';
 import CategoryPortlet from './components/CategoryPortlet.mustache';
 import TableOfContents from './components/TableOfContents.mustache';
-import TableOfContents__line from './components/TableOfContents__line.mustache';
+import TableOfContentsLine from './components/TableOfContents__line.mustache';
 
 import AdminBarHomeLESS from './components/AdminBarHome.less';
 import AdminBarUserLESS from './components/AdminBarUser.less';
@@ -91,7 +91,8 @@ export const FEATURE_STYLES = {
 };
 
 export const PARTIALS = {
-	TableOfContents__line,
+	// eslint-disable-next-line camelcase
+	TableOfContents__line: TableOfContentsLine,
 	TableOfContents,
 	CategoryPlain,
 	EditBar,
@@ -382,7 +383,7 @@ export function buildSkin( name, mustache, less, js = '', variables = {}, option
 	if ( options.skinFeatures ) {
 		const features = Object.keys( options.skinFeatures )
 			// Filter out any that are disabled.
-			.filter((key) => options.skinFeatures[key])
+			.filter( ( key ) => options.skinFeatures[ key ] )
 			.join( ',' );
 		skinFeatures += `/** ResourceLoaderSkinModule: ${features} */
 `;

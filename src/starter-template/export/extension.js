@@ -56,16 +56,17 @@ $specialPageAliases['en'] = [
 }
 
 function capitalize( str ) {
-	return str.charAt( 0 ).toUpperCase() + str.slice(1);
+	return str.charAt( 0 ).toUpperCase() + str.slice( 1 );
 }
 
 function getHookMethod( hookName ) {
-	return `on${capitalize(hookName)}`; 
+	return `on${capitalize( hookName )}`;
 }
 
 /**
  * @param {string} camelCaseName
  * @param {Object} hooks
+ * @return {Object}
  */
 function generateHooksDefinition( camelCaseName, hooks ) {
 	const Hooks = {};
@@ -145,29 +146,33 @@ function addi18n( rootfolder, name ) {
  * @return {string}
  */
 function makeHooksFile( name, hooks ) {
+	/* eslint-disable no-tabs */
 	const predefined = {
-		'SkinAfterPortlet': `	/**
+		SkinAfterPortlet: `	/**
 	* @see https://www.mediawiki.org/wiki/Manual:Hooks/SkinAfterPortlet
 	* @param Skin $skin
 	* @param string $portlet
 	* @param string $html
 	*/
-	public static function ${getHookMethod( 'SkinAfterPortlet' ) }( $skin, $portlet, &$html ) {
+	public static function ${getHookMethod( 'SkinAfterPortlet' )}( $skin, $portlet, &$html ) {
 		// Code goes here.
 		$html .= '${name} custom HTML for ' . $portlet;
 	}`
 	};
+	/* eslint-enable no-tabs */
 
 	const methods = Object.keys( hooks ).map( ( key ) => {
-		const body = hooks[key];
+		const body = hooks[ key ];
 		if ( typeof body === 'boolean' ) {
-			return predefined[body] || `	public static function ${getHookMethod( key )}() {}`;
+			// eslint-disable-next-line no-tabs
+			return predefined[ body ] || `	public static function ${getHookMethod( key )}() {}`;
 		} else {
 			const method = body();
+			// eslint-disable-next-line no-tabs
 			return `	/**
 	* @see https://www.mediawiki.org/wiki/Manual:Hooks/${key}
 	*/
-	public static function ${getHookMethod( key ) }( ${ method.args.join( ', ') }) {
+	public static function ${getHookMethod( key )}( ${method.args.join( ', ' )}) {
 		${method.body}
 	}`;
 		}

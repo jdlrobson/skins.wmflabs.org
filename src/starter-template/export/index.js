@@ -1,7 +1,6 @@
 import JSZip from 'jszip';
 import FileSaver from './FileSaver.js';
 import { getFeaturesFromStyles } from '../utils.js';
-import { generateHooksDefinition, makeHooksFile } from './extension.js';
 const SKINS_LAB_VERSION = '2.0';
 const MW_MIN_VERSION = '1.38.0';
 
@@ -12,9 +11,13 @@ import { stringifyjson,
 } from './utils';
 
 /**
- * 
- * @param {string} name 
- * @param {Folder} rootfolder 
+ * @typedef {Object} Folder
+ * @property {Function} file
+ */
+/**
+ *
+ * @param {string} name
+ * @param {Folder} rootfolder
  * @param {Object} messages
  * @param {Array} authors
  */
@@ -26,12 +29,12 @@ function addi18n( name, rootfolder, messages = {}, authors = [] ) {
 		authors
 	};
 	const en = Object.assign( {
-		"@metadata": metadata,
+		'@metadata': metadata,
 		[ `skinname-${skinKey}` ]: name,
 		[ `${skinKey}-desc` ]: `A skin created by ${TOOL_LINK}`
 	}, messages.en || {} );
 	const qqq = Object.assign( {
-		"@metadata": metadata,
+		'@metadata': metadata,
 		[ `skinname-${skinKey}` ]: '{{optional}}',
 		[ `${skinKey}-desc` ]: `{{desc|what=skin|name=${name}|url=https://www.mediawiki.org/wiki/Skin:${name}}}`
 	}, messages.qqq || {} );
@@ -48,7 +51,7 @@ function addi18n( name, rootfolder, messages = {}, authors = [] ) {
  * @param {string[]} skinFeatures feature keys used by skin
  * @param {Object} skinOptions for populating ValidSkinNames args
  * @param {string} license of skin
- * @param {array} author of skin
+ * @param {Array} authors of skin
  * @param {Object} skinStyles
  * @param {boolean} toc whether to include in article.
  * @return {Object}
@@ -60,7 +63,7 @@ function skinjson(
 	const folderName = getFolderNameFromName( name );
 	const skinKey = getSkinKeyFromName( name );
 	const TOOL_LINK = `[https://skins.wmflabs.org skins.wmflabs.org v.${SKINS_LAB_VERSION}]`;
-	const author = authors ? authors : [ `${TOOL_LINK}` ];
+	const author = authors || [ `${TOOL_LINK}` ];
 
 	return (
 		{
@@ -115,11 +118,11 @@ function skinjson(
 				localBasePath: '',
 				remoteSkinPath: folderName
 			},
-			"ResourceModuleSkinStyles": {
+			ResourceModuleSkinStyles: {
 				[ skinKey ]: skinStyles
 			},
 			// eslint-disable-next-line camelcase
-			manifest_version: 2,
+			manifest_version: 2
 		}
 	);
 }
@@ -162,7 +165,7 @@ function build( name, styles, templates, scripts = {}, messages = [], options = 
 	const skinMessages = Array.from(
 		new Set(
 			messages.map(
-				(msg) => msg.replace( 'skinname-', `${skinKey}-` )
+				( msg ) => msg.replace( 'skinname-', `${skinKey}-` )
 			)
 		)
 	);
@@ -211,11 +214,11 @@ function build( name, styles, templates, scripts = {}, messages = [], options = 
 	const ourMessages = {
 		'no-categories': 'Message to show when no categories available'
 	};
-	skinMessages.forEach((key) => {
-		const lookup = key.split('-').slice(1).join('-');
-		const ours = ourMessages[lookup];
+	skinMessages.forEach( ( key ) => {
+		const lookup = key.split( '-' ).slice( 1 ).join( '-' );
+		const ours = ourMessages[ lookup ];
 		if ( ours ) {
-			messageObj.qqq[key] = ours;
+			messageObj.qqq[ key ] = ours;
 		}
 	} );
 
