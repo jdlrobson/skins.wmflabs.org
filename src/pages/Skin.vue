@@ -17,14 +17,19 @@
 				by <span
 					v-for="(author, i) in authors"
 					:key="'author-' + i"
-					><router-link
-						:to="'/explore/author:' + author">{{ author }}</router-link>&nbsp;</span>
+				><router-link
+					:to="'/explore/author:' + author">{{ author }}</router-link>&nbsp;</span>
 			</p>
-			<p v-if="license">Licensed under
+			<p v-if="license">
+				Licensed under
 				<router-link
 					:to="`/explore/license:${license}`">
-					<strong>{{ license }}</strong></router-link></p>
-			<p v-if="created">Published to MediaWiki.org on {{ created }}</p>
+					<strong>{{ license }}</strong>
+				</router-link>
+			</p>
+			<p v-if="created">
+				Published to MediaWiki.org on {{ created }}
+			</p>
 			<h3 v-if="infoIsLoaded">
 				About:
 			</h3>
@@ -120,10 +125,10 @@ export default {
 				this.src = skin.src;
 			}
 			this.preview = this.preview && skin.isCompatible;
-			this.authors = ( skin.author || [] ).filter((a) => a !== '...');
+			this.authors = ( skin.author || [] ).filter( ( a ) => a !== '...' );
 			this.summary = skin.summary;
 			this.stable = skin.stable;
-			this.license = skin['license-name'];
+			this.license = skin[ 'license-name' ];
 			this.beta = skin.beta;
 			this.unmaintained = skin.unmaintained;
 			this.hasDependencies = skin.hasDependencies;

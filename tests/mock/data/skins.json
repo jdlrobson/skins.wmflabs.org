@@ -1,0 +1,1193 @@
+{
+	"skins": {
+		"vector-2022": {
+			"path": "/vagrant/mediawiki/skins/Vector/skin.json",
+			"type": "skin",
+			"author": [
+				"[https://www.mediawiki.org/wiki/Reading/Web/Team Readers Web Team]",
+				"Trevor Parscal",
+				"Roan Kattouw",
+				"Alex Hollender",
+				"Bernard Wang",
+				"Clare Ming",
+				"Jan Drewniak",
+				"Jon Robson",
+				"Nick Ray",
+				"Sam Smith",
+				"Stephen Niedzielski",
+				"Volker E."
+			],
+			"descriptionmsg": "vector-skin-desc",
+			"license-name": "GPL-2.0-or-later",
+			"namemsg": "skinname-vector",
+			"url": "https://www.mediawiki.org/wiki/Skin:Vector",
+			"version": "1.0.0"
+		},
+		"vector": {
+			"path": "/vagrant/mediawiki/skins/Vector/skin.json",
+			"type": "skin",
+			"author": [
+				"[https://www.mediawiki.org/wiki/Reading/Web/Team Readers Web Team]",
+				"Trevor Parscal",
+				"Roan Kattouw",
+				"Alex Hollender",
+				"Bernard Wang",
+				"Clare Ming",
+				"Jan Drewniak",
+				"Jon Robson",
+				"Nick Ray",
+				"Sam Smith",
+				"Stephen Niedzielski",
+				"Volker E."
+			],
+			"descriptionmsg": "vector-skin-desc",
+			"license-name": "GPL-2.0-or-later",
+			"namemsg": "skinname-vector",
+			"url": "https://www.mediawiki.org/wiki/Skin:Vector",
+			"version": "1.0.0"
+		},
+		"cologneblue": {
+			"path": "/vagrant/mediawiki/skins/CologneBlue/skin.json",
+			"type": "skin",
+			"author": [
+				"Lee Daniel Crocker",
+				"..."
+			],
+			"descriptionmsg": "cologneblue-desc",
+			"license-name": "GPL-2.0-or-later",
+			"namemsg": "skinname-cologneblue",
+			"url": "https://www.mediawiki.org/wiki/Skin:Cologne_Blue"
+		},
+		"minerva": {
+			"path": "/vagrant/mediawiki/skins/MinervaNeue/skin.json",
+			"type": "skin",
+			"author": [
+				"[https://www.mediawiki.org/wiki/Reading/Web/Team Readers Web Team]",
+				"Alex Hollender",
+				"Bahodir Mansurov",
+				"Florian Schmidt",
+				"Jan Drewniak",
+				"Joaquin Hernandez",
+				"Jon Robson",
+				"Juliusz Gonera",
+				"Piotr Miazga",
+				"Ryan Kaldari",
+				"Nick Ray",
+				"Sam Smith",
+				"Stephen Niedzielski",
+				"Volker E."
+			],
+			"descriptionmsg": "minerva-skin-desc",
+			"license-name": "GPL-2.0-or-later",
+			"namemsg": "skinname-minerva",
+			"url": "https://www.mediawiki.org/wiki/Skin:MinervaNeue"
+		},
+		"modern": {
+			"path": "/vagrant/mediawiki/skins/Modern/skin.json",
+			"type": "skin",
+			"author": [
+				"River Tarnell",
+				"..."
+			],
+			"descriptionmsg": "modern-desc",
+			"license-name": "GPL-2.0-or-later",
+			"namemsg": "skinname-modern",
+			"url": "https://www.mediawiki.org/wiki/Skin:Modern"
+		},
+		"monobook": {
+			"path": "/vagrant/mediawiki/skins/MonoBook/skin.json",
+			"type": "skin",
+			"author": [
+				"Gabriel Wicke",
+				"Isarra Yos",
+				"..."
+			],
+			"descriptionmsg": "monobook-desc",
+			"license-name": "GPL-2.0-or-later",
+			"namemsg": "skinname-monobook",
+			"url": "https://www.mediawiki.org/wiki/Skin:MonoBook"
+		},
+		"timeless": {
+			"path": "/vagrant/mediawiki/skins/Timeless/skin.json",
+			"type": "skin",
+			"author": [
+				"Isarra Yos"
+			],
+			"descriptionmsg": "timeless-desc",
+			"license-name": "GPL-2.0-or-later",
+			"namemsg": "skinname-timeless",
+			"url": "https://www.mediawiki.org/wiki/Skin:Timeless",
+			"version": "0.9.1"
+		},
+		"material": {
+			"path": "/vagrant/mediawiki/skins/Material/skin.json",
+			"type": "skin",
+			"author": [
+				"[https://mediawiki.org/wiki/User:SamanthaNguyen SamanthaNguyen]",
+				"[https://mediawiki.org/wiki/User:MtMNC MtMNC]",
+				"[https://mediawiki.org/wiki/User:Jack_Phoenix Jack Phoenix]",
+				"[https://mediawiki.org/wiki/User:George_Barnick George Barnick]"
+			],
+			"descriptionmsg": "material-desc",
+			"license-name": "GPL-3.0-or-later",
+			"namemsg": "skinname-material",
+			"url": "https://www.mediawiki.org/wiki/Skin:Material",
+			"version": "1.4.0"
+		},
+		"osmfoundation": {
+			"path": "/vagrant/mediawiki/skins/OSMFoundation/skin.json",
+			"type": "skin",
+			"author": [
+				"nebulon42"
+			],
+			"descriptionmsg": "osmf-desc",
+			"license-name": "GPL-2.0+",
+			"namemsg": "skinname-osmf",
+			"url": "https://github.com/osmfoundation/osmf-mediawiki-skin"
+		},
+		"astra": {
+			"path": "/vagrant/mediawiki/skins/Astra/skin.json",
+			"type": "skin",
+			"author": [
+				"[https://skins.wmflabs.org skins.wmflabs.org v.2.0]"
+			],
+			"descriptionmsg": "astra-skin-desc",
+			"license-name": "GPL-2.0-or-later",
+			"namemsg": "skinname-astra",
+			"url": "https://www.mediawiki.org/wiki/Skin:Astra",
+			"version": "1.0.0"
+		},
+		"dgraph": {
+			"path": "/vagrant/mediawiki/skins/DGraph/skin.json",
+			"type": "skin",
+			"author": [
+				"Nischay Nahata",
+				"..."
+			],
+			"descriptionmsg": "dgraph-skin-desc",
+			"license-name": "GPL-2.0+",
+			"namemsg": "skinname-dgraph",
+			"url": "https://www.mediawiki.org/wiki/Skin:Dgraph"
+		},
+		"bluelib-paper": {
+			"path": "/vagrant/mediawiki/skins/Bluelib/skin.json",
+			"type": "skin",
+			"author": [
+				"..."
+			],
+			"descriptionmsg": "bluelib-desc",
+			"license-name": "AGPL-3.0-or-later",
+			"namemsg": "skinname-bluelib",
+			"url": "https://www.mediawiki.org/wiki/Skin:Bluelib",
+			"version": "1.0"
+		},
+		"bluelib-royalblue": {
+			"path": "/vagrant/mediawiki/skins/Bluelib/skin.json",
+			"type": "skin",
+			"author": [
+				"..."
+			],
+			"descriptionmsg": "bluelib-desc",
+			"license-name": "AGPL-3.0-or-later",
+			"namemsg": "skinname-bluelib",
+			"url": "https://www.mediawiki.org/wiki/Skin:Bluelib",
+			"version": "1.0"
+		},
+		"bluelib-sophon": {
+			"path": "/vagrant/mediawiki/skins/Bluelib/skin.json",
+			"type": "skin",
+			"author": [
+				"..."
+			],
+			"descriptionmsg": "bluelib-desc",
+			"license-name": "AGPL-3.0-or-later",
+			"namemsg": "skinname-bluelib",
+			"url": "https://www.mediawiki.org/wiki/Skin:Bluelib",
+			"version": "1.0"
+		},
+		"bluelib-amber": {
+			"path": "/vagrant/mediawiki/skins/Bluelib/skin.json",
+			"type": "skin",
+			"author": [
+				"..."
+			],
+			"descriptionmsg": "bluelib-desc",
+			"license-name": "AGPL-3.0-or-later",
+			"namemsg": "skinname-bluelib",
+			"url": "https://www.mediawiki.org/wiki/Skin:Bluelib",
+			"version": "1.0"
+		},
+		"bluelib-hacker": {
+			"path": "/vagrant/mediawiki/skins/Bluelib/skin.json",
+			"type": "skin",
+			"author": [
+				"..."
+			],
+			"descriptionmsg": "bluelib-desc",
+			"license-name": "AGPL-3.0-or-later",
+			"namemsg": "skinname-bluelib",
+			"url": "https://www.mediawiki.org/wiki/Skin:Bluelib",
+			"version": "1.0"
+		},
+		"lift": {
+			"path": "/vagrant/mediawiki/skins/Lift/skin.json",
+			"type": "skin",
+			"author": [
+				"Loren Maxwell"
+			],
+			"descriptionmsg": "lift-desc",
+			"license-name": "CC0-1.0",
+			"namemsg": "skinname-lift",
+			"url": "https://www.mediawiki.org/wiki/Skin:Lift",
+			"version": "1.1.0"
+		},
+		"flatbox": {
+			"path": "/vagrant/mediawiki/skins/Flatbox/skin.json",
+			"type": "skin",
+			"author": [
+				"..."
+			],
+			"descriptionmsg": "flatbox-desc",
+			"license-name": "CC0-1.0",
+			"namemsg": "skinname-flatbox",
+			"url": "https://www.mediawiki.org/wiki/Skin:Flatbox",
+			"version": "1.0"
+		},
+		"strapping": {
+			"path": "/vagrant/mediawiki/skins/strapping/skin.json",
+			"type": "skin",
+			"author": [
+				"Garrett LeSage"
+			],
+			"descriptionmsg": "strapping-desc",
+			"license-name": "GPL-2.0-or-later",
+			"namemsg": "skinname-strapping",
+			"url": "https://www.mediawiki.org/wiki/Skin:Strapping",
+			"version": "1.0.0"
+		},
+		"tyrian": {
+			"path": "/vagrant/mediawiki/skins/Tyrian/skin.json",
+			"type": "skin",
+			"author": [
+				"Alex Legler",
+				"Gentoo wiki project"
+			],
+			"descriptionmsg": "tyrian-desc",
+			"license-name": "GPL-2.0",
+			"namemsg": "skinname-tyrian",
+			"url": "https://www.gentoo.org/"
+		},
+		"bluell": {
+			"path": "/vagrant/mediawiki/skins/BlueLL/skin.json",
+			"type": "skin",
+			"author": [
+				"Antoine Lamielle"
+			],
+			"descriptionmsg": "bluell-desc",
+			"license-name": "BSD-2-Clause",
+			"url": "https://github.com/lingua-libre/BlueLL",
+			"version": "2.2.0"
+		},
+		"pure": {
+			"path": "/vagrant/mediawiki/skins/Pure/skin.json",
+			"type": "skin",
+			"author": [
+				"Riguz Lee"
+			],
+			"descriptionmsg": "pure-desc",
+			"license-name": "GPL-2.0+",
+			"namemsg": "skinname-pure",
+			"url": "https://github.com/drriguz/Pure"
+		},
+		"lakeus": {
+			"path": "/vagrant/mediawiki/skins/Lakeus/skin.json",
+			"type": "skin",
+			"author": [
+				"[https://github.com/lakejason0 Lakejason0]",
+				"Light beacon",
+				"Dianliang233",
+				"Winston Sung",
+				"..."
+			],
+			"descriptionmsg": "lakeus-skin-desc",
+			"license-name": "GPL-3.0-or-later",
+			"namemsg": "skinname-lakeus",
+			"url": "https://github.com/lakejason0/mediawiki-skins-Lakeus",
+			"version": "1.1.8"
+		},
+		"tunic": {
+			"path": "/vagrant/mediawiki/skins/Tunic/skin.json",
+			"type": "skin",
+			"author": [
+				"Gabriel Wicke, Timwi and HoodWiki"
+			],
+			"descriptionmsg": "tunic-desc",
+			"license-name": "GPL-2.0-or-later",
+			"namemsg": "skinname-tunic",
+			"url": "https://www.mediawiki.org/wiki/Skin:Tunic",
+			"version": "6.0.0"
+		},
+		"evelution": {
+			"path": "/vagrant/mediawiki/skins/Evelution/skin.json",
+			"type": "skin",
+			"author": [
+				"HM100",
+				"Supporters",
+				"Translators",
+				"..."
+			],
+			"descriptionmsg": "evelution-skin-desc",
+			"license-name": "GPL-3.0-or-later",
+			"namemsg": "skinname-evelution",
+			"url": "https://www.mediawiki.org/wiki/Skin:Evelution",
+			"version": "27.0.1"
+		},
+		"hive": {
+			"path": "/vagrant/mediawiki/skins/Hive/skin.json",
+			"type": "skin",
+			"author": [
+				"The Hive"
+			],
+			"descriptionmsg": "hive-desc",
+			"license-name": "gpl-3.0",
+			"namemsg": "skinname-hive"
+		},
+		"alexandria": {
+			"path": "/vagrant/mediawiki/skins/Alexandria/skin.json",
+			"type": "skin",
+			"author": [
+				"[https://skins.wmflabs.org skins.wmflabs.org v.1.0]"
+			],
+			"descriptionmsg": "alexandria-desc",
+			"license-name": "GPL-2.0-or-later",
+			"namemsg": "skinname-alexandria",
+			"url": "https://www.mediawiki.org/wiki/Skin:Alexandria",
+			"version": "1.0.0"
+		},
+		"pandora": {
+			"path": "/vagrant/mediawiki/skins/Pandora/skin.json",
+			"type": "skin",
+			"author": [
+				"[https://skins.wmflabs.org skins.wmflabs.org v.1.0]"
+			],
+			"descriptionmsg": "pandora-skin-desc",
+			"license-name": "GPL-2.0-or-later",
+			"namemsg": "skinname-pandora",
+			"url": "https://www.mediawiki.org/wiki/Skin:Pandora",
+			"version": "1.0.0"
+		},
+		"p2wiki": {
+			"path": "/vagrant/mediawiki/skins/p2wiki/skin.json",
+			"type": "skin",
+			"author": [
+				"[http://automattic.com/ Automattic]",
+				"[https://www.mediawiki.org/wiki/User:Dantman Daniel Friesen]"
+			],
+			"descriptionmsg": "p2wiki-desc",
+			"namemsg": "skinname-p2wiki",
+			"url": "https://www.mediawiki.org/wiki/Skin:P2_wiki"
+		},
+		"cosmos": {
+			"path": "/vagrant/mediawiki/skins/Cosmos/skin.json",
+			"type": "skin",
+			"author": [
+				"Universal Omega",
+				"SamanthaNguyen",
+				"..."
+			],
+			"descriptionmsg": "cosmos-desc",
+			"license-name": "GPL-2.0-or-later",
+			"namemsg": "skinname-cosmos",
+			"url": "https://www.mediawiki.org/wiki/Skin:Cosmos",
+			"version": "6.6.5"
+		},
+		"skinjson": {
+			"path": "/vagrant/mediawiki/skins/SkinJSON/skin.json",
+			"type": "skin",
+			"author": [
+				"Jon Robson"
+			],
+			"descriptionmsg": "skinjson-desc",
+			"license-name": "CC0-1.0",
+			"namemsg": "skinname-skinjson",
+			"url": "https://github.com/jdlrobson/mediawiki-skins-skinjson",
+			"version": "1.2.0"
+		},
+		"hassomecolours": {
+			"path": "/vagrant/mediawiki/skins/HasSomeColours/skin.json",
+			"type": "skin",
+			"author": [
+				"Isarra"
+			],
+			"descriptionmsg": "hassomecolours-desc",
+			"license-name": "GPL-2.0-or-later",
+			"namemsg": "skinname-hassomecolours",
+			"url": "https://www.mediawiki.org/wiki/Skin:HasSomeColours",
+			"version": "0.2"
+		},
+		"amethyst": {
+			"path": "/vagrant/mediawiki/skins/Amethyst/skin.json",
+			"type": "skin",
+			"author": [
+				"Samantha Nguyen"
+			],
+			"descriptionmsg": "amethyst-desc",
+			"license-name": "GPL-2.0+",
+			"url": "https://www.mediawiki.org/wiki/Skin:Amethyst",
+			"version": "1.0.0-alpha"
+		},
+		"nostalgia": {
+			"path": "/vagrant/mediawiki/skins/Nostalgia/skin.json",
+			"type": "skin",
+			"descriptionmsg": "nostalgia-desc",
+			"license-name": "GPL-2.0-or-later",
+			"namemsg": "skinname-nostalgia",
+			"url": "https://www.mediawiki.org/wiki/Skin:Nostalgia"
+		},
+		"nimbus": {
+			"path": "/vagrant/mediawiki/skins/Nimbus/skin.json",
+			"type": "skin",
+			"author": [
+				"Aaron Wright",
+				"David Pean",
+				"Inez Korczyński",
+				"Jack Phoenix"
+			],
+			"descriptionmsg": "nimbus-desc",
+			"license-name": "GPL-2.0-or-later",
+			"url": "https://www.mediawiki.org/wiki/Skin:Nimbus",
+			"version": "3.6.0"
+		},
+		"metrolook": {
+			"path": "/vagrant/mediawiki/skins/Metrolook/skin.json",
+			"type": "skin",
+			"author": [
+				"immewnity",
+				"Paladox",
+				"Craig Davison",
+				"lagleki"
+			],
+			"descriptionmsg": "metrolook-desc",
+			"license-name": "GPL-2.0-or-later",
+			"namemsg": "skinname-metrolook",
+			"url": "https://www.mediawiki.org/wiki/Skin:Metrolook",
+			"version": "7.0 alpha 3"
+		},
+		"gamepress": {
+			"path": "/vagrant/mediawiki/skins/Gamepress/skin.json",
+			"type": "skin",
+			"author": [
+				"[http://webtuts.pl/themes/ Aleksandra Łączek]",
+				"Jack Phoenix",
+				"[http://en.uncyclopedia.co/wiki/User:Bizzeebeever Bizzeebeever]",
+				"Samantha Nguyen"
+			],
+			"descriptionmsg": "gamepress-desc",
+			"license-name": "GPL-2.0-or-later",
+			"url": "https://www.mediawiki.org/wiki/Skin:Gamepress",
+			"version": "1.4.0"
+		},
+		"woogleshades": {
+			"path": "/vagrant/mediawiki/skins/WoOgLeShades/skin.json",
+			"type": "skin",
+			"author": [
+				"mister old man sir",
+				"..."
+			],
+			"descriptionmsg": "woogleshades-desc",
+			"license-name": "GPL-2.0-or-later",
+			"namemsg": "skinname-woogleshades",
+			"url": "https://www.mediawiki.org/wiki/Skin:WoOgLeShades",
+			"version": "1.2"
+		},
+		"poncho": {
+			"path": "/vagrant/mediawiki/skins/Poncho/skin.json",
+			"type": "skin",
+			"author": [
+				"[https://mediawiki.org/wiki/User:Sophivorus Sophivorus]"
+			],
+			"descriptionmsg": "poncho-desc",
+			"license-name": "GPL-3.0-only",
+			"url": "https://www.mediawiki.org/wiki/Skin:Poncho",
+			"version": "4.0"
+		},
+		"athena": {
+			"path": "/vagrant/mediawiki/skins/Athena/skin.json",
+			"type": "skin",
+			"author": [
+				"[https://mediawiki.org/wiki/User:Sophivorus Felipe Schenone]"
+			],
+			"descriptionmsg": "athena-desc",
+			"license-name": "GPL-3.0-only",
+			"version": "1.1"
+		},
+		"bluesky": {
+			"path": "/vagrant/mediawiki/skins/BlueSky/skin.json",
+			"type": "skin",
+			"author": [
+				"wikiHow",
+				"Jack Phoenix",
+				"Calimonius the Estrange"
+			],
+			"descriptionmsg": "bluesky-desc",
+			"license-name": "GPL-2.0-or-later",
+			"namemsg": "skinname-bluesky",
+			"url": "https://www.mediawiki.org/wiki/Skin:BlueSky",
+			"version": "1.7.0"
+		},
+		"greystuff": {
+			"path": "/vagrant/mediawiki/skins/GreyStuff/skin.json",
+			"type": "skin",
+			"author": [
+				"Calimonius the Estrange"
+			],
+			"descriptionmsg": "greystuff-desc",
+			"license-name": "GPL-2.0-or-later",
+			"url": "https://www.mediawiki.org/wiki/Skin:GreyStuff",
+			"version": "1.2.5"
+		},
+		"pivot": {
+			"path": "/vagrant/mediawiki/skins/Pivot/skin.json",
+			"type": "skin",
+			"author": [
+				"Tom Hutchison",
+				"..."
+			],
+			"descriptionmsg": "pivot-desc",
+			"license-name": "BSD-2-Clause",
+			"url": "http://github.com/hutchy68/pivot",
+			"version": "2.3.0"
+		},
+		"foreground": {
+			"path": "/vagrant/mediawiki/skins/Foreground/skin.json",
+			"type": "skin",
+			"author": [
+				"Garrick Van Buren",
+				"Jamie Thingelstad",
+				"Tom Hutchison",
+				"..."
+			],
+			"descriptionmsg": "foreground-desc",
+			"license-name": "BSD-2-Clause",
+			"url": "https://github.com/thingles/foreground",
+			"version": "2.4.1-dev"
+		},
+		"tweeki": {
+			"path": "/vagrant/mediawiki/skins/Tweeki/skin.json",
+			"type": "skin",
+			"author": [
+				"Tobias Haider"
+			],
+			"descriptionmsg": "tweeki-skin-desc",
+			"license-name": "GPL-2.0-or-later",
+			"namemsg": "skinname-tweeki",
+			"url": "https://tweeki.kollabor.at",
+			"version": "2.0.1"
+		},
+		"example": {
+			"path": "/vagrant/mediawiki/skins/Example/skin.json",
+			"type": "skin",
+			"author": [
+				"..."
+			],
+			"descriptionmsg": "example-skin-desc",
+			"license-name": "CC0-1.0",
+			"namemsg": "skinname-example",
+			"url": "https://www.mediawiki.org/wiki/Skin:Example",
+			"version": "1.0.0"
+		},
+		"truglass": {
+			"path": "/vagrant/mediawiki/skins/Truglass/skin.json",
+			"type": "skin",
+			"author": [
+				"Elliott Franklin Cable",
+				"Jack Phoenix",
+				"Samantha Nguyen"
+			],
+			"descriptionmsg": "truglass-desc",
+			"license-name": "GPL-2.0-or-later",
+			"url": "https://www.mediawiki.org/wiki/Skin:Truglass",
+			"version": "4.1.9"
+		},
+		"gumaxdd": {
+			"path": "/vagrant/mediawiki/skins/GuMaxDD/skin.json",
+			"type": "skin",
+			"author": [
+				"[http://paulgu.com/ Paul Y. Gu]",
+				"Jack Phoenix"
+			],
+			"descriptionmsg": "gumaxdd-desc",
+			"license-name": "GPL-2.0-or-later",
+			"url": "https://www.mediawiki.org/wiki/Skin:GuMaxDD",
+			"version": "1.6"
+		},
+		"splash": {
+			"path": "/vagrant/mediawiki/skins/Splash/skin.json",
+			"type": "skin",
+			"author": [
+				"Calimonius the Estrange"
+			],
+			"descriptionmsg": "splash-skin-desc",
+			"license-name": "GPL-2.0-or-later",
+			"url": "https://www.mediawiki.org/wiki/Skin:Splash",
+			"version": "2.0.1"
+		},
+		"wptouch": {
+			"path": "/vagrant/mediawiki/skins/WPtouch/skin.json",
+			"type": "skin",
+			"author": [
+				"Dale Mugford",
+				"Duane Storey",
+				"Dan Flores",
+				"Jack Phoenix"
+			],
+			"descriptionmsg": "wptouch-desc",
+			"license-name": "GPL-2.0-or-later",
+			"url": "https://www.mediawiki.org/wiki/Skin:WPtouch",
+			"version": "1.2"
+		},
+		"deskmessmirrored": {
+			"path": "/vagrant/mediawiki/skins/DeskMessMirrored/skin.json",
+			"type": "skin",
+			"author": [
+				"[http://edwardcaissie.com/ Edward Caissie]",
+				"Jack Phoenix",
+				"Samantha Nguyen"
+			],
+			"descriptionmsg": "deskmessmirrored-skin-desc",
+			"license-name": "GPL-2.0-only",
+			"url": "https://www.mediawiki.org/wiki/Skin:DeskMessMirrored",
+			"version": "3.5.0"
+		},
+		"bouquet": {
+			"path": "/vagrant/mediawiki/skins/Bouquet/skin.json",
+			"type": "skin",
+			"author": [
+				"[http://automattic.com Automattic]",
+				"Jack Phoenix",
+				"Samantha Nguyen"
+			],
+			"descriptionmsg": "bouquet-desc",
+			"license-name": "GPL-2.0-or-later",
+			"url": "https://www.mediawiki.org/wiki/Skin:Bouquet",
+			"version": "1.4.1"
+		},
+		"dusk": {
+			"path": "/vagrant/mediawiki/skins/Dusk/skin.json",
+			"type": "skin",
+			"author": [
+				"Gregory S. Hayes",
+				"Becca Wei",
+				"Jack Phoenix",
+				"Samantha Nguyen"
+			],
+			"descriptionmsg": "dusk-desc",
+			"license-name": "GPL-2.0-or-later",
+			"url": "https://www.mediawiki.org/wiki/Skin:Dusk",
+			"version": "3.3.6"
+		},
+		"dusktodawn": {
+			"path": "/vagrant/mediawiki/skins/DuskToDawn/skin.json",
+			"type": "skin",
+			"author": [
+				"[http://automattic.com/ Automattic]",
+				"Jack Phoenix",
+				"Samantha Nguyen"
+			],
+			"descriptionmsg": "dusktodawn-desc",
+			"license-name": "GPL-2.0-or-later",
+			"url": "https://www.mediawiki.org/wiki/Skin:DuskToDawn",
+			"version": "1.4.3"
+		},
+		"refreshed": {
+			"path": "/vagrant/mediawiki/skins/Refreshed/skin.json",
+			"type": "skin",
+			"author": [
+				"Adam Carter",
+				"Drew1200",
+				"George Barnick",
+				"Jack Phoenix",
+				"Lewis Cawte",
+				"MacFan4000",
+				"MtMNC",
+				"Samantha Nguyen",
+				"Seaside98",
+				"ShermanTheMythran",
+				"SirComputer"
+			],
+			"descriptionmsg": "refreshed-desc",
+			"license-name": "GPL-2.0-or-later",
+			"url": "https://www.mediawiki.org/wiki/Skin:Refreshed",
+			"version": "4.0.6"
+		},
+		"medik": {
+			"path": "/vagrant/mediawiki/skins/Medik/skin.json",
+			"type": "skin",
+			"author": [
+				"Petr Kajzar"
+			],
+			"description": "MediaWiki skin for WikiSkripta.eu",
+			"descriptionmsg": "medik-desc",
+			"license-name": "CC0-1.0",
+			"namemsg": "skinname-medik",
+			"url": "https://www.mediawiki.org/wiki/Skin:Medik",
+			"version": "3.2.5"
+		},
+		"citizen": {
+			"path": "/vagrant/mediawiki/skins/Citizen/skin.json",
+			"type": "skin",
+			"author": [
+				"[https://www.mediawiki.org/wiki/User:Alistair3149 Alistair3149]",
+				"[https://www.mediawiki.org/wiki/User:Octfx Octfx]",
+				"..."
+			],
+			"descriptionmsg": "citizen-skin-desc",
+			"license-name": "GPL-3.0-or-later",
+			"namemsg": "skinname-citizen",
+			"url": "https://www.mediawiki.org/wiki/Skin:Citizen",
+			"version": "1.10.0"
+		},
+		"liberty": {
+			"path": "/vagrant/mediawiki/skins/Liberty/skin.json",
+			"type": "skin",
+			"author": [
+				"Librewiki developers",
+				"..."
+			],
+			"descriptionmsg": "liberty-desc",
+			"license-name": "GPL-3.0-or-later",
+			"namemsg": "skinname-liberty",
+			"url": "https://gitlab.com/librewiki/Liberty-MW-Skin",
+			"version": "1.11.0"
+		},
+		"femiwiki": {
+			"path": "/vagrant/mediawiki/skins/Femiwiki/skin.json",
+			"type": "skin",
+			"author": [
+				"[https://femiwiki.com/ Femiwiki Team]"
+			],
+			"descriptionmsg": "femiwiki-desc",
+			"license-name": "AGPL-3.0-or-later",
+			"namemsg": "skinname-femiwiki",
+			"url": "https://github.com/femiwiki/FemiwikiSkin",
+			"version": "1.3.0"
+		},
+		"darkvector": {
+			"path": "/vagrant/mediawiki/skins/DarkVector/skin.json",
+			"type": "skin",
+			"author": [
+				"Malvineous",
+				"Martynov Maxim"
+			],
+			"descriptionmsg": "darkvector-skin-desc",
+			"license-name": "GPL-2.0+",
+			"namemsg": "skinname-darkvector",
+			"url": "https://www.mediawiki.org/wiki/Skin:DarkVector"
+		},
+		"aether": {
+			"path": "/vagrant/mediawiki/skins/Aether/skin.json",
+			"type": "skin",
+			"author": [
+				"Ingo Malchow",
+				"Ken Vermette",
+				"Carl Schwan"
+			],
+			"descriptionmsg": "Aether descr",
+			"license-name": "CC-BY-SA-4.0",
+			"namemsg": "skinname-aether",
+			"url": ""
+		},
+		"apex": {
+			"path": "/vagrant/mediawiki/skins/Apex/skin.json",
+			"type": "skin",
+			"author": [
+				"Trevor Parscal"
+			],
+			"descriptionmsg": "apex-desc",
+			"license-name": "GPL-2.0-or-later",
+			"namemsg": "skinname-apex",
+			"url": "https://www.mediawiki.org/wiki/Skin:Apex"
+		},
+		"anisa": {
+			"path": "/vagrant/mediawiki/skins/Anisa/skin.json",
+			"type": "skin",
+			"author": [
+				"..."
+			],
+			"descriptionmsg": "anisa-desc",
+			"license-name": "GPL-2.0-or-later",
+			"namemsg": "skinname-anisa",
+			"url": "https://www.mediawiki.org/wiki/Skin:Anisa",
+			"version": "1.0"
+		},
+		"erudite": {
+			"path": "/vagrant/mediawiki/skins/erudite/skin.json",
+			"type": "skin",
+			"author": [
+				"Nick White",
+				"Matt Wiebe",
+				"Colin Andrew Ferm"
+			],
+			"descriptionmsg": "erudite-desc",
+			"namemsg": "skinname-erudite",
+			"url": "https://www.mediawiki.org/wiki/Skin:Erudite",
+			"version": "1.8"
+		},
+		"mask": {
+			"path": "/vagrant/mediawiki/skins/Mask/skin.json",
+			"type": "skin",
+			"author": [
+				"Calimonius the Estrange",
+				"Jack Phoenix"
+			],
+			"descriptionmsg": "mask-desc",
+			"license-name": "GPL-2.0-or-later",
+			"url": "https://www.mediawiki.org/wiki/Skin:Mask",
+			"version": "0.7"
+		},
+		"tempo": {
+			"path": "/vagrant/mediawiki/skins/Tempo/skin.json",
+			"type": "skin",
+			"author": [
+				"Lojjik Braughler"
+			],
+			"descriptionmsg": "tempo-desc",
+			"license-name": "CC0-1.0",
+			"url": "https://www.mediawiki.org/wiki/Skin:Tempo",
+			"version": "1.6rc2"
+		},
+		"wikimediaapiportal": {
+			"path": "/vagrant/mediawiki/skins/WikimediaApiPortal/skin.json",
+			"type": "skin",
+			"author": [
+				"Dejan Savuljesku",
+				"Robert Vogel"
+			],
+			"descriptionmsg": "wikimediaapiportal-skin-desc",
+			"license-name": "GPL-2.0-or-later",
+			"namemsg": "skinname-wikimediaapiportal",
+			"url": "https://www.mediawiki.org/wiki/Skin:WikimediaApiPortal",
+			"version": "1.0"
+		},
+		"webplatform": {
+			"path": "/vagrant/mediawiki/skins/webplatform/skin.json",
+			"type": "skin",
+			"author": [
+				"Denis Ah-Kang",
+				"Doug Schepers",
+				"Lea Verou",
+				"PhistucK",
+				"Renoir Boulanger",
+				"Samantha Nguyen"
+			],
+			"descriptionmsg": "webplatform-desc",
+			"url": "https://www.mediawiki.org/wiki/Skin:WebPlatform",
+			"version": "1.2.3"
+		},
+		"jony": {
+			"path": "/vagrant/mediawiki/skins/Jony/skin.json",
+			"type": "skin",
+			"author": [
+				"Dialexio",
+				"iAdam1n",
+				"..."
+			],
+			"descriptionmsg": "jony-skin-desc",
+			"license-name": "GPL-2.0+",
+			"namemsg": "skinname-jony",
+			"url": "https://github.com/Dialexio/Jony",
+			"version": "1.0.7"
+		},
+		"modernskylight": {
+			"path": "/vagrant/mediawiki/skins/ModernSkylight/skin.json",
+			"type": "skin",
+			"author": [
+				"Fenet",
+				"cafeinlove"
+			],
+			"descriptionmsg": "modern-skylight-desc",
+			"license-name": "BSD-2",
+			"namemsg": "skinname-modern-skylight",
+			"url": "https://github.com/wiki-chan/modern-skylight",
+			"version": "1.0"
+		},
+		"darkcosmos": {
+			"path": "/vagrant/mediawiki/skins/DarkCosmos/skin.json",
+			"type": "skin",
+			"author": [
+				"Killarnee"
+			],
+			"descriptionmsg": "darkcosmos-desc",
+			"license-name": "GPL-2.0-or-later",
+			"namemsg": "skinname-darkcosmos",
+			"url": "https://www.mediawiki.org/wiki/Skin:DarkCosmos",
+			"version": "1.0.0"
+		},
+		"mirage": {
+			"path": "/vagrant/mediawiki/skins/Mirage/skin.json",
+			"type": "skin",
+			"author": [
+				"Mainframe98"
+			],
+			"descriptionmsg": "mirage-skin-desc",
+			"license-name": "MIT",
+			"namemsg": "skinname-mirage",
+			"url": "https://www.mediawiki.org/wiki/Skin:Mirage"
+		},
+		"scratchwikiskin2": {
+			"path": "/vagrant/mediawiki/skins/ScratchWikiSkin2/skin.json",
+			"type": "skin",
+			"author": [
+				"Original skin by JSO. Rewrite to update style and registration by Kenny2scratch. Contributions made from jvvg, blob8108, scmb1, -PRO-,"
+			],
+			"descriptionmsg": "scratchwikiskin-desc",
+			"license-name": "MIT",
+			"namemsg": "skinname-scratchwikiskin2",
+			"url": "https://github.com/InternationalScratchWiki/ScratchWikiSkin2"
+		},
+		"onyx": {
+			"path": "/vagrant/mediawiki/skins/Onyx/skin.json",
+			"type": "skin",
+			"author": [
+				"Daniel Beard",
+				"Jack Phoenix"
+			],
+			"descriptionmsg": "onyx-skin-desc",
+			"license-name": "GPL-2.0-or-later",
+			"namemsg": "onyx-skin-name",
+			"url": "https://www.halopedia.org/Halopedia:Skins/Onyx",
+			"version": "0.7.5 (Beta)"
+		},
+		"schulenburg": {
+			"path": "/vagrant/mediawiki/skins/Schulenburg/skin.json",
+			"type": "skin",
+			"author": [
+				"Tim Starling"
+			],
+			"descriptionmsg": "schulenburg-desc",
+			"url": "https://www.mediawiki.org/wiki/Skin:Schulenburg"
+		},
+		"simpletext": {
+			"path": "/vagrant/mediawiki/skins/SimpleText/skin.json",
+			"type": "skin",
+			"author": [
+				"Sam Wilson"
+			],
+			"descriptionmsg": "simpletext-desc",
+			"license-name": "GPL-3.0+",
+			"namemsg": "skinname-simpletext",
+			"url": "https://samwilson.id.au/SimpleText_MediaWiki_skin",
+			"version": "1.1.0"
+		},
+		"s2018": {
+			"path": "/vagrant/mediawiki/skins/2018/skin.json",
+			"type": "skin",
+			"author": [
+				"Morag S."
+			],
+			"descriptionmsg": "2018-desc",
+			"license-name": "MIT",
+			"namemsg": "skinname-2018",
+			"url": "https://www.mediawiki.org/wiki/Skin:2018",
+			"version": "0.1"
+		},
+		"monaco": {
+			"path": "/vagrant/mediawiki/skins/Monaco/skin.json",
+			"type": "skin",
+			"author": [
+				"'''Universal Omega'''",
+				"Inez Korczyński",
+				"Christian Williams",
+				"Daniel Friesen",
+				"James Haley",
+				"Roger Meier"
+			],
+			"descriptionmsg": "monaco-desc",
+			"license-name": "GPL-2.0-or-later",
+			"url": "https://www.mediawiki.org/wiki/Skin:Monaco",
+			"version": "2.6.4"
+		},
+		"wmau": {
+			"path": "/vagrant/mediawiki/skins/WMAU/skin.json",
+			"type": "skin",
+			"author": [
+				"Caddie Brain",
+				"Sam Wilson"
+			],
+			"descriptionmsg": "wmau-desc",
+			"license-name": "GPL-3.0+",
+			"namemsg": "skinname-wmau",
+			"url": "https://www.mediawiki.org/wiki/Skin:WMAU",
+			"version": "0.1.0"
+		},
+		"snapwikiskin": {
+			"path": "/vagrant/mediawiki/skins/snapwikiskin/skin.json",
+			"type": "skin",
+			"author": [
+				"R4356th",
+				"GrahamSH"
+			],
+			"descriptionmsg": "snapwikiskin-desc",
+			"license-name": "GPL-3.0-or-later",
+			"namemsg": "snapwikiskin",
+			"url": "https://www.mediawiki.org/wiki/Skin:Snap!_Wiki_Skin",
+			"version": "2.0.0"
+		},
+		"cavendish": {
+			"path": "/vagrant/mediawiki/skins/Cavendish/skin.json",
+			"type": "skin",
+			"author": [
+				"Daniel Schuba",
+				"Jack Phoenix",
+				"Samantha Nguyen"
+			],
+			"descriptionmsg": "cavendish-desc",
+			"license-name": "GPL-2.0-or-later",
+			"namemsg": "skinname-cavendish",
+			"url": "https://www.mediawiki.org/wiki/Skin:Cavendish",
+			"version": "2.5.0"
+		},
+		"cavendish-brown": {
+			"path": "/vagrant/mediawiki/skins/Cavendish/skin.json",
+			"type": "skin",
+			"author": [
+				"Daniel Schuba",
+				"Jack Phoenix",
+				"Samantha Nguyen"
+			],
+			"descriptionmsg": "cavendish-desc",
+			"license-name": "GPL-2.0-or-later",
+			"namemsg": "skinname-cavendish",
+			"url": "https://www.mediawiki.org/wiki/Skin:Cavendish",
+			"version": "2.5.0"
+		},
+		"cavendish-green": {
+			"path": "/vagrant/mediawiki/skins/Cavendish/skin.json",
+			"type": "skin",
+			"author": [
+				"Daniel Schuba",
+				"Jack Phoenix",
+				"Samantha Nguyen"
+			],
+			"descriptionmsg": "cavendish-desc",
+			"license-name": "GPL-2.0-or-later",
+			"namemsg": "skinname-cavendish",
+			"url": "https://www.mediawiki.org/wiki/Skin:Cavendish",
+			"version": "2.5.0"
+		},
+		"mediawikibootstrap": {
+			"path": "/vagrant/mediawiki/skins/MediaWikiBootstrap/skin.json",
+			"type": "skin",
+			"author": [
+				"[https://mediawiki.org/wiki/User:nasirkhan Nasir Khan Saikat]"
+			],
+			"descriptionmsg": "mediawikibootstrap-desc",
+			"namemsg": "skinname-mediawikibootstrap",
+			"url": "https://www.mediawiki.org/wiki/Skin:MediaWikiBootstrap",
+			"version": "1.1.0"
+		},
+		"peruna": {
+			"path": "/vagrant/mediawiki/skins/peruna/skin.json",
+			"type": "skin",
+			"author": [
+				"Taavi"
+			],
+			"descriptionmsg": "skindesc-peruna",
+			"license-name": "MIT",
+			"namemsg": "skinname-peruna",
+			"url": "https://tassu.me"
+		},
+		"collegeinsider": {
+			"path": "/vagrant/mediawiki/skins/CollegeInsider/skin.json",
+			"type": "skin",
+			"author": [
+				"Ken Hilton"
+			],
+			"description": "Skin for College Insider",
+			"url": "https://github.com/Kenny2github/CollegeInsiderSkin"
+		},
+		"cemublue": {
+			"path": "/vagrant/mediawiki/skins/Cemublue/skin.json",
+			"type": "skin",
+			"author": [
+				"ElijahPepe"
+			],
+			"descriptionmsg": "cemublue-desc",
+			"license-name": "GPL-2.0",
+			"namemsg": "skinname-cemublue",
+			"url": "https://wiki.cemu.info/"
+		},
+		"library": {
+			"path": "/vagrant/mediawiki/skins/Library/skin.json",
+			"type": "skin",
+			"author": [
+				"yongxinL"
+			],
+			"descriptionmsg": "library-desc",
+			"license-name": "GPL-2.0-or-later",
+			"namemsg": "skinname-library",
+			"url": "https://github.com/yongxinL/mediawiki-skins-Library",
+			"version": "2.0"
+		},
+		"t29v7": {
+			"path": "/vagrant/mediawiki/skins/t29v7/skin.json",
+			"type": "skin",
+			"author": [
+				"Sven Koeppel",
+				"Intar Bangwi (t29v6)"
+			],
+			"descriptionmsg": "t29v7skin-desc",
+			"license-name": "GPL-2.0-or-later",
+			"namemsg": "skinname-t29v7",
+			"url": "https://www.technikum29.de/"
+		},
+		"fortrainingng": {
+			"path": "/vagrant/mediawiki/skins/ForTraining/skin.json",
+			"type": "skin",
+			"author": [
+				"..."
+			],
+			"descriptionmsg": "fortrainingng-desc",
+			"license-name": "CC0-1.0",
+			"namemsg": "skinname-fortrainingng",
+			"url": "https://github.com/4training/mediawiki-skins-ForTrainingNG",
+			"version": "1.0"
+		},
+		"atlasmuseum": {
+			"path": "/vagrant/mediawiki/skins/AtlasMuseum/skin.json",
+			"type": "skin",
+			"author": [
+				"A-Pack"
+			],
+			"descriptionmsg": "atlasmuseum-desc",
+			"license-name": "GPL-2.0+",
+			"namemsg": "skinname-atlasmuseum"
+		},
+		"eveskin": {
+			"path": "/vagrant/mediawiki/skins/eveskin/skin.json",
+			"type": "skin",
+			"author": [
+				"Gabriel Wicke",
+				"Trevton",
+				"..."
+			],
+			"descriptionmsg": "Eveskin for mediawiki",
+			"license-name": "GPL-2.0+",
+			"namemsg": "skinname-Eveskin",
+			"url": "https://www.mediawiki.org/wiki/Skin:Eveskin",
+			"version": "1.0"
+		},
+		"wisky": {
+			"path": "/vagrant/mediawiki/skins/Wisky/skin.json",
+			"type": "skin",
+			"author": [
+				"Petr Kajzar, Lukáš Kejha"
+			],
+			"descriptionmsg": "wisky-desc",
+			"license-name": "GPL-3.0",
+			"namemsg": "skinname-wisky",
+			"url": "http://www.wikiskripta.eu",
+			"version": "1.0beta"
+		}
+	}
+}

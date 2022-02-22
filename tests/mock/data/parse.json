@@ -1,0 +1,780 @@
+{
+	"parse": {
+		"title": "Skin:Vector",
+		"pageid": 99451,
+		"revid": 5045506,
+		"text": {
+			"*": "<div class=\"mw-parser-output\"><div class=\"mw-pt-languages noprint\" lang=\"en\" dir=\"ltr\"><div class=\"mw-pt-languages-label\">Other languages:</div><ul class=\"mw-pt-languages-list\"><li><a href=\"/wiki/Skin:Vector/id\" class=\"mw-pt-progress mw-pt-progress--complete\" title=\"Kulit:Vector (100% translated)\" lang=\"id\" dir=\"ltr\">Bahasa Indonesia</a></li>\n<li><a href=\"/wiki/Skin:Vector/de\" class=\"mw-pt-progress mw-pt-progress--low\" title=\"Skin:Vector (21% translated)\" lang=\"de\" dir=\"ltr\">Deutsch</a></li>\n<li><span class=\"mw-pt-languages-ui mw-pt-languages-selected mw-pt-progress mw-pt-progress--complete\" lang=\"en\" dir=\"ltr\">English</span></li>\n<li><a href=\"/wiki/Skin:Vector/tl\" class=\"mw-pt-progress mw-pt-progress--stub\" title=\"Skin:Vector/tl (18% translated)\" lang=\"tl\" dir=\"ltr\">Tagalog</a></li>\n<li><a href=\"/wiki/Skin:Vector/vi\" class=\"mw-pt-progress mw-pt-progress--stub\" title=\"Giao diện:Vector (16% translated)\" lang=\"vi\" dir=\"ltr\">Tiếng Việt</a></li>\n<li><a href=\"/wiki/Skin:Vector/tr\" class=\"mw-pt-progress mw-pt-progress--complete\" title=\"Skin:Vector (91% translated)\" lang=\"tr\" dir=\"ltr\">Türkçe</a></li>\n<li><a href=\"/wiki/Skin:Vector/es\" class=\"mw-pt-progress mw-pt-progress--complete\" title=\"Skin:Vector (88% translated)\" lang=\"es\" dir=\"ltr\">español</a></li>\n<li><a href=\"/wiki/Skin:Vector/fr\" class=\"mw-pt-progress mw-pt-progress--complete\" title=\"Habillage:Vector (86% translated)\" lang=\"fr\" dir=\"ltr\">français</a></li>\n<li><a href=\"/wiki/Skin:Vector/it\" class=\"mw-pt-progress mw-pt-progress--stub\" title=\"Tema:Vector (16% translated)\" lang=\"it\" dir=\"ltr\">italiano</a></li>\n<li><a href=\"/wiki/Skin:Vector/hu\" class=\"mw-pt-progress mw-pt-progress--low\" title=\"Felület:Vector (21% translated)\" lang=\"hu\" dir=\"ltr\">magyar</a></li>\n<li><a href=\"/wiki/Skin:Vector/pt\" class=\"mw-pt-progress mw-pt-progress--high\" title=\"Tema:Vector (65% translated)\" lang=\"pt\" dir=\"ltr\">português</a></li>\n<li><a href=\"/wiki/Skin:Vector/pt-br\" class=\"mw-pt-progress mw-pt-progress--high\" title=\"Skin:Vector (68% translated)\" lang=\"pt-BR\" dir=\"ltr\">português do Brasil</a></li>\n<li><a href=\"/wiki/Skin:Vector/fi\" class=\"mw-pt-progress mw-pt-progress--med\" title=\"Skin:Vektori (56% translated)\" lang=\"fi\" dir=\"ltr\">suomi</a></li>\n<li><a href=\"/wiki/Skin:Vector/sv\" class=\"mw-pt-progress mw-pt-progress--stub\" title=\"Skin:Vector (18% translated)\" lang=\"sv\" dir=\"ltr\">svenska</a></li>\n<li><a href=\"/wiki/Skin:Vector/cs\" class=\"mw-pt-progress mw-pt-progress--med\" title=\"Vzhled:Vector (49% translated)\" lang=\"cs\" dir=\"ltr\">čeština</a></li>\n<li><a href=\"/wiki/Skin:Vector/be-tarask\" class=\"mw-pt-progress mw-pt-progress--stub\" title=\"Тэма афармленьня:Vector (5% translated)\" lang=\"be-tarask\" dir=\"ltr\">беларуская (тарашкевіца)</a></li>\n<li><a href=\"/wiki/Skin:Vector/bg\" class=\"mw-pt-progress mw-pt-progress--stub\" title=\"Кожа:Вектор (9% translated)\" lang=\"bg\" dir=\"ltr\">български</a></li>\n<li><a href=\"/wiki/Skin:Vector/ru\" class=\"mw-pt-progress mw-pt-progress--low\" title=\"Тема оформления:Векторное (28% translated)\" lang=\"ru\" dir=\"ltr\">русский</a></li>\n<li><a href=\"/wiki/Skin:Vector/uk\" class=\"mw-pt-progress mw-pt-progress--med\" title=\"Скін:Вектор (56% translated)\" lang=\"uk\" dir=\"ltr\">українська</a></li>\n<li><a href=\"/wiki/Skin:Vector/sd\" class=\"mw-pt-progress mw-pt-progress--stub\" title=\"Skin:Vector/sd (2% translated)\" lang=\"sd\" dir=\"rtl\">سنڌي</a></li>\n<li><a href=\"/wiki/Skin:Vector/fa\" class=\"mw-pt-progress mw-pt-progress--high\" title=\"پوسته:برداری (60% translated)\" lang=\"fa\" dir=\"rtl\">فارسی</a></li>\n<li><a href=\"/wiki/Skin:Vector/bn\" class=\"mw-pt-progress mw-pt-progress--stub\" title=\"আবরণ:ভেক্টর (16% translated)\" lang=\"bn\" dir=\"ltr\">বাংলা</a></li>\n<li><a href=\"/wiki/Skin:Vector/zh\" class=\"mw-pt-progress mw-pt-progress--complete\" title=\"Skin:Vector (88% translated)\" lang=\"zh\" dir=\"ltr\">中文</a></li>\n<li><a href=\"/wiki/Skin:Vector/ja\" class=\"mw-pt-progress mw-pt-progress--complete\" title=\"Skin:ベクター (93% translated)\" lang=\"ja\" dir=\"ltr\">日本語</a></li>\n<li><a href=\"/wiki/Skin:Vector/yue\" class=\"mw-pt-progress mw-pt-progress--low\" title=\"Skin:Vector (28% translated)\" lang=\"yue\" dir=\"ltr\">粵語</a></li>\n<li><a href=\"/wiki/Skin:Vector/ko\" class=\"mw-pt-progress mw-pt-progress--low\" title=\"스킨:벡터 (26% translated)\" lang=\"ko\" dir=\"ltr\">한국어</a></li></ul></div>\n<style data-mw-deduplicate=\"TemplateStyles:r4199118\">.mw-parser-output .note{background-position:left 7px top 50%;padding:0.5em 0.5em 0.5em 40px;margin:0.5em 0;overflow:hidden;background-color:#f8f9fa;background-repeat:no-repeat;border:1px solid #ddd}.mw-parser-output .note-inline{display:inline-block;vertical-align:middle}.mw-parser-output .note-info{background-color:#f6efe5;background-image:url(\"https://upload.wikimedia.org/wikipedia/commons/d/d5/OOjs_UI_icon_reference_20_ac6600.svg\");background-size:25px;border-color:#ac6600;padding-left:40px;min-height:28px}.mw-parser-output .note-reminder{background-color:#fff9ea;background-image:url(\"https://upload.wikimedia.org/wikipedia/commons/a/a8/OOjs_UI_icon_lightbulb-yellow.svg\");background-size:25px;border-color:#fc3;min-height:28px}.mw-parser-output .note-warn{background-color:#fff9ea;background-image:url(\"https://upload.wikimedia.org/wikipedia/commons/3/3b/OOjs_UI_icon_alert-warning.svg\");background-size:25px;border-color:#fc3;min-height:28px}.mw-parser-output .note-error{background-color:#fee7e6;background-image:url(\"https://upload.wikimedia.org/wikipedia/commons/b/bf/OOjs_UI_icon_notice-destructive.svg\");background-size:25px;border-color:#c33;min-height:28px}</style><div role=\"note\" class=\"note note-info\">This skin <a href=\"/wiki/Special:MyLanguage/MediaWiki_1.17#Bundled_extensions\" title=\"Special:MyLanguage/MediaWiki 1.17\">comes with MediaWiki 1.17</a> and above. Thus you do not have to download it again. However, you still need to follow the other instructions provided.</div>\n<style data-mw-deduplicate=\"TemplateStyles:r4704995\">.mw-parser-output .infobox{box-sizing:border-box;border:2px solid #a2a9b1;width:280px;border-collapse:collapse;border-spacing:0;background-color:white;clear:right;float:right;margin:0 0 0.5em 0.5em}.mw-parser-output .infobox-rtl{clear:left;float:left;margin:0 0.5em 0.5em 0}.mw-parser-output .infobox th{text-align:left}.mw-parser-output .infobox-rtl th{text-align:right}@media(max-width:719px){body.mediawiki .mw-parser-output .infobox{float:none;clear:both;width:100%;margin:0 0 .5em 0}}.mw-parser-output .infobox td{border:2px none #a2a9b1;padding:0.2em 0.5em;border-bottom:1px solid #f0f0f0!important}.mw-parser-output .infobox-header{background-color:#a2a9b1;color:#FFF;text-align:left}.mw-parser-output .infobox-header a{color:#FFF}.mw-parser-output .infobox-header td,.mw-parser-output .infobox-header th{padding-top:0.5em}.mw-parser-output .infobox-header img{padding:0 0.2em 0 0.5em}</style><style data-mw-deduplicate=\"TemplateStyles:r4692871\">.mw-parser-output .skin-infobox,.mw-parser-output .skin-infobox td{border-color:#a7d7f9}.mw-parser-output .skin-infobox-header{color:#000;background:#e2f4ff}.mw-parser-output .skin-infobox-header a{color:#000}</style><style data-mw-deduplicate=\"TemplateStyles:r4693211\">.mw-parser-output .ext-status-unstable,.mw-parser-output .ext-status-unstable td{border-color:#d33}.mw-parser-output .ext-status-unstable .ext-infobox-header{background-color:#d33;color:#fff}.mw-parser-output .ext-status-unstable .ext-infobox-header a{color:#fff}.mw-parser-output .ext-status-experimental,.mw-parser-output .ext-status-experimental td{border-color:#ff4500}.mw-parser-output .ext-status-experimental .ext-infobox-header{background-color:#ff4500;color:#FFF}.mw-parser-output .ext-status-experimental .ext-infobox-header a{color:#FFF}.mw-parser-output .ext-status-beta,.mw-parser-output .ext-status-beta td{border-color:#fc3}.mw-parser-output .ext-status-beta .ext-infobox-header{color:#000;background-color:#fc3}.mw-parser-output .ext-status-beta .ext-infobox-header a{color:#000}.mw-parser-output .ext-status-stable,.mw-parser-output .ext-status-stable td{border-color:#00af89}.mw-parser-output .ext-status-stable .ext-infobox-header{background-color:#00af89;color:#FFF}.mw-parser-output .ext-status-stable .ext-infobox-header a{color:#fff}.mw-parser-output .ext-status-unmaintained,.mw-parser-output .ext-status-unmaintained td{border-color:#ac6600}.mw-parser-output .ext-status-unmaintained .ext-infobox-header{background-color:#ac6600;color:#FFF}.mw-parser-output .ext-status-unmaintained .ext-infobox-header a{color:#fff}</style>\n<table class=\"infobox infobox-ltr skin-infobox ext-status-stable\">\n<caption><b><a href=\"/wiki/Special:MyLanguage/Manual:Skins\" title=\"Special:MyLanguage/Manual:Skins\">MediaWiki skins manual</a><span style=\"display:none\"><a href=\"/wiki/Manual:Skins\" title=\"Manual:Skins\"> </a></span></b> - <b><a href=\"/wiki/Special:MyLanguage/Category:All_skins\" title=\"Special:MyLanguage/Category:All skins\">category</a><span style=\"display:none\"><a href=\"/wiki/Category:All_skins\" title=\"Category:All skins\"> </a></span></b></caption>\n<tbody><tr class=\"infobox-header skin-infobox-header\" style=\"text-align:left\">\n<th colspan=\"2\" style=\"padding-top: 0.5em;\"><figure class=\"mw-halign-left\" typeof=\"mw:Image\"><a href=\"/wiki/Special:MyLanguage/Template:Skin#Content\" title=\"Special:MyLanguage/Template:Skin#Content\"><img alt=\"OOjs UI icon layout-ltr.svg\" resource=\"/wiki/File:OOjs_UI_icon_layout-ltr.svg\" src=\"//upload.wikimedia.org/wikipedia/commons/thumb/4/4e/OOjs_UI_icon_layout-ltr.svg/40px-OOjs_UI_icon_layout-ltr.svg.png\" decoding=\"async\" width=\"40\" height=\"40\" srcset=\"//upload.wikimedia.org/wikipedia/commons/thumb/4/4e/OOjs_UI_icon_layout-ltr.svg/60px-OOjs_UI_icon_layout-ltr.svg.png 1.5x, //upload.wikimedia.org/wikipedia/commons/thumb/4/4e/OOjs_UI_icon_layout-ltr.svg/80px-OOjs_UI_icon_layout-ltr.svg.png 2x\" data-file-width=\"20\" data-file-height=\"20\" /></a><figcaption></figcaption></figure> <span style=\"font-size: 130%;\">Vector</span><br />\n<a href=\"/wiki/Special:MyLanguage/Skin_status\" title=\"Special:MyLanguage/Skin status\">Release status:</a><span style=\"display:none\"><a href=\"/wiki/Skin_status\" title=\"Skin status\"> </a></span> stable</th>\n</tr>\n<tr>\n<td colspan=\"2\" style=\"text-align: center;\"><span typeof=\"mw:Image\"><a href=\"/wiki/File:Dantman-Skin-vector.png\"><img alt=\"Dantman-Skin-vector.png\" resource=\"/wiki/File:Dantman-Skin-vector.png\" src=\"//upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Dantman-Skin-vector.png/220px-Dantman-Skin-vector.png\" decoding=\"async\" width=\"220\" height=\"88\" srcset=\"//upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Dantman-Skin-vector.png/330px-Dantman-Skin-vector.png 1.5x, //upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Dantman-Skin-vector.png/440px-Dantman-Skin-vector.png 2x\" data-file-width=\"1600\" data-file-height=\"640\" /></a></span></td>\n</tr>\n\n\n\n\n\n<tr>\n<td><b><a href=\"/wiki/Special:MyLanguage/Compatibility#mediawiki_extensions\" title=\"Special:MyLanguage/Compatibility\">Compatibility policy</a><span style=\"display:none\"><a href=\"/wiki/Compatibility#mediawiki_extensions\" title=\"Compatibility\"> </a></span></b></td>\n<td>Snapshots releases along with MediaWiki. Master is not backwards compatible.</td>\n</tr>\n\n\n<tr>\n<td style=\"vertical-align: top\"><a href=\"/wiki/Special:MyLanguage/Composer\" title=\"Special:MyLanguage/Composer\">Composer</a><span style=\"display:none\"><a href=\"/wiki/Composer\" title=\"Composer\"> </a></span></td>\n<td><a rel=\"nofollow\" class=\"external text\" href=\"https://packagist.org/packages/mediawiki/vector-skin\">mediawiki/vector-skin</a></td>\n</tr>\n<tr>\n<td style=\"vertical-align: top\"><b><a href=\"/wiki/Special:MyLanguage/Template:Skin#license\" title=\"Special:MyLanguage/Template:Skin\">License</a><span style=\"display:none\"><a href=\"/wiki/Template:Skin#license\" title=\"Template:Skin\"> </a></span></b></td>\n<td><a rel=\"nofollow\" class=\"external text\" href=\"//www.gnu.org/licenses/old-licenses/gpl-2.0-standalone.html\">GNU General Public License 2.0 or later</a></td>\n</tr><tr>\n<td style=\"vertical-align: top\"><b><a href=\"/wiki/Special:MyLanguage/Template:Skin#download\" title=\"Special:MyLanguage/Template:Skin\">Download</a><span style=\"display:none\"><a href=\"/wiki/Template:Skin#download\" title=\"Template:Skin\"> </a></span></b></td>\n<td><div class=\"plainlinks\" style=\"white-space: nowrap\"><a href=\"/wiki/Special:SkinDistributor/Vector\" title=\"Special:SkinDistributor/Vector\"><b>Download skin</b></a> <br />Git <sup>[<a href=\"/wiki/Special:MyLanguage/Download_from_Git\" title=\"Special:MyLanguage/Download from Git\">?</a>]</sup>: \n<ul><li><span class=\"plainlinks\"><a rel=\"nofollow\" class=\"external text\" href=\"https://github.com/wikimedia/mediawiki-skins-Vector/archive/master.tar.gz\">Download Git master</a></span></li>\n<li><a href=\"https://gerrit.wikimedia.org/g/mediawiki/skins/Vector\" class=\"extiw\" title=\"git:mediawiki/skins/Vector\">browse repository</a> (<a href=\"https://phabricator.wikimedia.org/diffusion/SVEC\" class=\"extiw\" title=\"phab:diffusion/SVEC\">Phabricator</a> ·&#160;<a rel=\"nofollow\" class=\"external text\" href=\"https://github.com/wikimedia/mediawiki-skins-Vector\">GitHub</a>)</li>\n<li><a href=\"https://gerrit.wikimedia.org/g/mediawiki/skins/Vector/%2Blog/master\" class=\"extiw\" title=\"git:mediawiki/skins/Vector/+log/master\">commit history</a></li>\n<li><a rel=\"nofollow\" class=\"external text\" href=\"https://github.com/wikimedia/mediawiki-skins-Vector/graphs/contributors\">repository contributors (GitHub)</a></li>\n<li><a href=\"https://gerrit.wikimedia.org/r/q/project:mediawiki/skins/Vector\" class=\"extiw\" title=\"gerrit:q/project:mediawiki/skins/Vector\">code review</a></li></ul></div></td>\n</tr>\n<tr>\n<td style=\"vertical-align: top\"><b><a href=\"/wiki/Special:MyLanguage/Template:Skin#example\" title=\"Special:MyLanguage/Template:Skin\">Example</a><span style=\"display:none\"><a href=\"/wiki/Template:Skin#example\" title=\"Template:Skin\"> </a></span></b></td>\n<td><a class=\"external free\" href=\"https://en.wikipedia.org/\">https://en.wikipedia.org/</a></td>\n</tr>\n<tr>\n<td style=\"padding: 0pt;\" colspan=\"2\">\n<table class=\"mw-collapsible mw-collapsed\" style=\"border-collapse: collapse; width: 100%;\">\n<tbody><tr>\n<th style=\"vertical-align: top; text-align: left; padding: 0.2em 0.5em;\"><b><a href=\"/wiki/Special:MyLanguage/Template:Skin#parameters\" title=\"Special:MyLanguage/Template:Skin\">Parameters</a><span style=\"display:none\"><a href=\"/wiki/Template:Skin#parameters\" title=\"Template:Skin\"> </a></span></b></th>\n</tr><tr>\n<td>\n<ul><li><code><a href=\"/wiki/Special:MyLanguage/Manual:$wgVectorUseSimpleSearch\" title=\"Special:MyLanguage/Manual:$wgVectorUseSimpleSearch\">$wgVectorUseSimpleSearch</a><span style=\"display:none\"><a href=\"/wiki/Manual:$wgVectorUseSimpleSearch\" title=\"Manual:$wgVectorUseSimpleSearch\"> </a></span></code></li>\n<li><code><a href=\"/wiki/Special:MyLanguage/Manual:$wgVectorUseIconWatch\" title=\"Special:MyLanguage/Manual:$wgVectorUseIconWatch\">$wgVectorUseIconWatch</a><span style=\"display:none\"><a href=\"/wiki/Manual:$wgVectorUseIconWatch\" title=\"Manual:$wgVectorUseIconWatch\"> </a></span></code></li>\n<li><code><a href=\"/wiki/Special:MyLanguage/Manual:$wgVectorResponsive\" title=\"Special:MyLanguage/Manual:$wgVectorResponsive\">$wgVectorResponsive</a><span style=\"display:none\"><a href=\"/wiki/Manual:$wgVectorResponsive\" title=\"Manual:$wgVectorResponsive\"> </a></span></code></li></ul></td>\n</tr>\n</tbody></table></td>\n</tr>\n<tr>\n<td class=\"mw-collapsible mw-collapsed\" colspan=\"2\">\n<div class=\"mw-collapsible-header\"><b><a href=\"/wiki/Special:MyLanguage/Template:Skin#hook\" title=\"Special:MyLanguage/Template:Skin\">Hooks used</a><span style=\"display:none\"><a href=\"/wiki/Template:Skin#hook\" title=\"Template:Skin\"> </a></span></b></div>\n<style data-mw-deduplicate=\"TemplateStyles:r4701167\">.mw-parser-output .plainlist ul{line-height:inherit;list-style:none none;margin:0}.mw-parser-output .plainlist ul li{margin-bottom:0}</style><div class=\"plainlist mw-collapsible-content\"><ul><li><a href=\"/wiki/Special:MyLanguage/Manual:Hooks/BeforePageDisplayMobile\" title=\"Special:MyLanguage/Manual:Hooks/BeforePageDisplayMobile\">BeforePageDisplayMobile</a><span style=\"display:none\"><a href=\"/wiki/Manual:Hooks/BeforePageDisplayMobile\" class=\"mw-redirect\" title=\"Manual:Hooks/BeforePageDisplayMobile\"> </a></span></li><li><a href=\"/wiki/Special:MyLanguage/Manual:Hooks/GetPreferences\" title=\"Special:MyLanguage/Manual:Hooks/GetPreferences\">GetPreferences</a><span style=\"display:none\"><a href=\"/wiki/Manual:Hooks/GetPreferences\" title=\"Manual:Hooks/GetPreferences\"> </a></span></li><li><a href=\"/wiki/Special:MyLanguage/Manual:Hooks/PreferencesFormPreSave\" title=\"Special:MyLanguage/Manual:Hooks/PreferencesFormPreSave\">PreferencesFormPreSave</a><span style=\"display:none\"><a href=\"/wiki/Manual:Hooks/PreferencesFormPreSave\" title=\"Manual:Hooks/PreferencesFormPreSave\"> </a></span></li><li><a href=\"/wiki/Special:MyLanguage/Manual:Hooks/SkinTemplateNavigation\" title=\"Special:MyLanguage/Manual:Hooks/SkinTemplateNavigation\">SkinTemplateNavigation</a><span style=\"display:none\"><a href=\"/wiki/Manual:Hooks/SkinTemplateNavigation\" title=\"Manual:Hooks/SkinTemplateNavigation\"> </a></span></li><li><a href=\"/wiki/Special:MyLanguage/Manual:Hooks/LocalUserCreated\" title=\"Special:MyLanguage/Manual:Hooks/LocalUserCreated\">LocalUserCreated</a><span style=\"display:none\"><a href=\"/wiki/Manual:Hooks/LocalUserCreated\" title=\"Manual:Hooks/LocalUserCreated\"> </a></span></li></ul></div>\n</td>\n</tr>\n<tr>\n<td class=\"mw-collapsible mw-collapsed\" colspan=\"2\">\n<div class=\"mw-collapsible-header\"><b><a href=\"/wiki/Special:MyLanguage/Template:Skin#newhook\" title=\"Special:MyLanguage/Template:Skin\">Hooks provided</a><span style=\"display:none\"><a href=\"/wiki/Template:Skin#newhook\" title=\"Template:Skin\"> </a></span></b></div>\n<link rel=\"mw-deduplicated-inline-style\" href=\"mw-data:TemplateStyles:r4701167\"/><div class=\"plainlist mw-collapsible-content\"><ul><li><a href=\"/wiki/Special:MyLanguage/Skin:Vector/Hooks/VectorBeforeFooter\" title=\"Special:MyLanguage/Skin:Vector/Hooks/VectorBeforeFooter\">VectorBeforeFooter</a><span style=\"display:none\"><a href=\"/wiki/Skin:Vector/Hooks/VectorBeforeFooter\" title=\"Skin:Vector/Hooks/VectorBeforeFooter\"> </a></span></li><li><a href=\"/wiki/Special:MyLanguage/Skin:Vector/Hooks/VectorAfterToolbox\" title=\"Special:MyLanguage/Skin:Vector/Hooks/VectorAfterToolbox\">VectorAfterToolbox</a><span style=\"display:none\"><a href=\"/wiki/Skin:Vector/Hooks/VectorAfterToolbox\" title=\"Skin:Vector/Hooks/VectorAfterToolbox\"> </a></span></li></ul></div>\n</td>\n</tr>\n\n<tr>\n<td colspan=\"2\" style=\"text-align:center;\">\n<a href=\"https://translatewiki.net/wiki/Special:Translate/mediawiki-skin-vector\" class=\"extiw\" title=\"translatewiki:Special:Translate/mediawiki-skin-vector\">Translate the Vector skin</a> if it is available at translatewiki.net</td>\n</tr><tr>\n<td colspan=\"2\" style=\"text-align:center;\">Check <a href=\"//wikiapiary.com/wiki/Skin:Vector\" class=\"extiw\" title=\"wikiapiary:Skin:Vector\">usage and version matrix</a>;</td>\n</tr>\n<tr>\n<td><b><a href=\"/wiki/Special:MyLanguage/MediaWiki-Vagrant#Using_roles\" title=\"Special:MyLanguage/MediaWiki-Vagrant\">Vagrant role</a><span style=\"display:none\"><a href=\"/wiki/MediaWiki-Vagrant#Using_roles\" title=\"MediaWiki-Vagrant\"> </a></span></b></td>\n<td><a class=\"external text\" href=\"https://doc.wikimedia.org/mediawiki-vagrant/puppet_classes/role_3A_3Avector.html\">vector</a></td>\n</tr>\n<tr>\n<td style=\"vertical-align: top\">\n<b><a href=\"/wiki/Special:MyLanguage/Phabricator\" title=\"Special:MyLanguage/Phabricator\">Issues</a><span style=\"display:none\"><a href=\"/wiki/Phabricator\" title=\"Phabricator\"> </a></span>:</b></td>\n<td><a href=\"https://phabricator.wikimedia.org/tag/vector\" class=\"extiw\" title=\"phab:tag/vector\">Open tasks</a> · <a class=\"external text\" href=\"https://phabricator.wikimedia.org/maniphest/task/edit/form/1/?projects=Vector\">Report a bug</a></td>\n</tr>\n</tbody></table>\n<link rel=\"mw-deduplicated-inline-style\" href=\"mw-data:TemplateStyles:r4704995\"/><style data-mw-deduplicate=\"TemplateStyles:r4814569\">.mw-parser-output .wmf-engineering-project-box{border:1px solid #eaecf0;padding:.2em;width:300px;background:#f8f9fa;color:#222}.mw-parser-output .wmf-engineering-project-box td,.mw-parser-output .wmf-engineering-project-box th{vertical-align:top}.mw-parser-output .wmf-engineering-project-box-catlink{font-size:smaller;margin:.2em;text-align:center}.mw-parser-output .wmf-engineering-project-box-title{font-size:1.2em;margin:.2em;background:#14866d;color:#f8f9fa;padding:.5em;text-align:center;font-weight:bold}.mw-parser-output .wmf-engineering-project-box-description{margin:.2em;padding:.2em;font-style:italic}.mw-parser-output .wmf-engineering-project-box-data{font-size:.9em;margin:.2em 0;width:100%}.mw-parser-output .wmf-engineering-project-box-data th{width:25%;font-weight:normal}.mw-parser-output .wmf-engineering-project-box-previous,.mw-parser-output .wmf-engineering-project-box-next{font-size:smaller;margin:.2em}.mw-parser-output .infobox-ltr .wmf-engineering-project-box-previous,.mw-parser-output .infobox-rtl .wmf-engineering-project-box-next{float:left}.mw-parser-output .infobox-ltr .wmf-engineering-project-box-next,.mw-parser-output .infobox-rtl .wmf-engineering-project-box-previous{float:right}</style>\n<link rel=\"mw-deduplicated-inline-style\" href=\"mw-data:TemplateStyles:r4704995\"/><link rel=\"mw-deduplicated-inline-style\" href=\"mw-data:TemplateStyles:r4814569\"/>\n<table class=\"infobox infobox-ltr wmf-engineering-project-box plainlinks\"><tbody><tr><td>\n<div class=\"nomobile wmf-engineering-project-box-catlink\"><a href=\"/wiki/Special:MyLanguage/Category:WMF_Projects\" title=\"Special:MyLanguage/Category:WMF Projects\">Wikimedia Foundation project</a><span style=\"display:none\"><a href=\"/wiki/Category:WMF_Projects\" title=\"Category:WMF Projects\"> </a></span></div>\n<div class=\"wmf-engineering-project-box-title\">Vector</div>\n<div class=\"wmf-engineering-project-box-description\">&lt;translate&gt; A skin based on Monobook, with a variety of usability improvements&lt;/translate&gt;</div>\n<table class=\"wmf-engineering-project-box-data\">\n<tbody><tr>\n<th scope=\"row\">Group:</th>\n<td><a href=\"/wiki/Special:MyLanguage/Wikimedia_Features_engineering\" title=\"Special:MyLanguage/Wikimedia Features engineering\">&lt;translate&gt; Features&lt;/translate&gt;</a><span style=\"display:none\"><a href=\"/wiki/Wikimedia_Features_engineering\" title=\"Wikimedia Features engineering\"> </a></span></td>\n</tr>\n<tr>\n<th scope=\"row\">Start:</th>\n<td>2009</td>\n</tr>\n<tr class=\"mw-empty-elt\">\n</tr></tbody></table></td></tr></tbody></table>\n<p>&lt;translate&gt; <b>Vector</b> is a [[&lt;tvar name=3&gt;Special:MyLanguage/Manual:Skins&lt;/tvar&gt;|skin]] for MediaWiki which became default in 2010.&lt;/translate&gt;\n</p><p>&lt;translate&gt; In recent years the skin underwent a number of technical changes, e.g. the switch to &lt;tvar name=1&gt;<a href=\"/wiki/Special:MyLanguage/Mustache\" title=\"Special:MyLanguage/Mustache\">Mustache</a><span style=\"display:none\"><a href=\"/wiki/Mustache\" class=\"mw-redirect\" title=\"Mustache\"> </a></span>&lt;/tvar&gt; to support the construction of <a href=\"/wiki/Skin:Vector/2022\" title=\"Skin:Vector/2022\">Skin:Vector/2022</a> as part of the work done by the <a href=\"/wiki/Special:MyLanguage/Reading/Web/Desktop_Improvements\" title=\"Special:MyLanguage/Reading/Web/Desktop Improvements\">Reading/Web/Desktop Improvements</a><span style=\"display:none\"><a href=\"/wiki/Reading/Web/Desktop_Improvements\" title=\"Reading/Web/Desktop Improvements\"> </a></span> initiative.&lt;/translate&gt;\n</p><p><span id=\"Installation\"></span>\n&lt;translate&gt;\n</p>\n<!-- \nNewPP limit report\nParsed by mw1378\nCached time: 20220222015357\nCache expiry: 1814400\nReduced expiry: false\nComplications: []\nCPU time usage: 0.660 seconds\nReal time usage: 0.805 seconds\nPreprocessor visited node count: 3603/1000000\nPost‐expand include size: 48275/2097152 bytes\nTemplate argument size: 10135/2097152 bytes\nHighest expansion depth: 18/100\nExpensive parser function count: 9/500\nUnstrip recursion depth: 0/20\nUnstrip post‐expand size: 14017/5000000 bytes\nLua time usage: 0.085/10.000 seconds\nLua memory usage: 2058829/52428800 bytes\nNumber of Wikibase entities loaded: 0/400\n-->\n<!--\nTransclusion expansion time report (%,ms,calls,template)\n100.00%  413.045      1 -total\n 69.48%  286.993      1 Template:Skin\n 31.28%  129.195     27 Template:Ll\n 19.14%   79.068     56 Template:Translatable\n 17.58%   72.624     35 Template:Pagelang\n 16.76%   69.217      2 Template:Foreach\n 15.00%   61.938      1 Template:Wikimedia_engineering_project_information\n 11.00%   45.435      1 Template:Bundled\n  9.01%   37.207      1 Template:Note\n  6.93%   28.629      5 Template:Extension/HookInUse\n-->\n</div>"
+		},
+		"langlinks": [],
+		"categories": [
+			{
+				"sortkey": "VECTOR",
+				"*": "Skins_bundled_with_MediaWiki_1.17"
+			},
+			{
+				"sortkey": "VECTOR",
+				"*": "GPL_licensed_skins"
+			},
+			{
+				"sortkey": "VECTOR",
+				"*": "Stable_skins"
+			},
+			{
+				"sortkey": "VECTOR",
+				"hidden": "",
+				"*": "Skins_with_release_branches_compatibility_policy"
+			},
+			{
+				"sortkey": "VECTOR",
+				"*": "Skins_supporting_Composer"
+			},
+			{
+				"sortkey": "VECTOR",
+				"*": "Skins_in_Wikimedia_version_control"
+			},
+			{
+				"sortkey": "VECTOR",
+				"*": "BeforePageDisplayMobile_extensions"
+			},
+			{
+				"sortkey": "VECTOR",
+				"*": "GetPreferences_extensions"
+			},
+			{
+				"sortkey": "VECTOR",
+				"*": "PreferencesFormPreSave_extensions"
+			},
+			{
+				"sortkey": "VECTOR",
+				"*": "SkinTemplateNavigation_extensions"
+			},
+			{
+				"sortkey": "VECTOR",
+				"*": "LocalUserCreated_extensions"
+			},
+			{
+				"sortkey": "VECTOR",
+				"*": "All_skins"
+			},
+			{
+				"sortkey": "VECTOR",
+				"*": "WMF_Projects"
+			},
+			{
+				"sortkey": "VECTOR",
+				"hidden": "",
+				"*": "WMF_Projects_2009q1"
+			},
+			{
+				"sortkey": "VECTOR",
+				"hidden": "",
+				"*": "WMF_Projects_2009q2"
+			},
+			{
+				"sortkey": "VECTOR",
+				"hidden": "",
+				"*": "WMF_Projects_2009q3"
+			},
+			{
+				"sortkey": "VECTOR",
+				"hidden": "",
+				"*": "WMF_Projects_2009q4"
+			},
+			{
+				"sortkey": "VECTOR",
+				"hidden": "",
+				"*": "WMF_Projects_2010q1"
+			},
+			{
+				"sortkey": "VECTOR",
+				"hidden": "",
+				"*": "WMF_Projects_2010q2"
+			},
+			{
+				"sortkey": "VECTOR",
+				"hidden": "",
+				"*": "WMF_Projects_2010q3"
+			},
+			{
+				"sortkey": "VECTOR",
+				"hidden": "",
+				"*": "WMF_Projects_2010q4"
+			},
+			{
+				"sortkey": "VECTOR",
+				"hidden": "",
+				"*": "WMF_Projects_2011q1"
+			},
+			{
+				"sortkey": "VECTOR",
+				"hidden": "",
+				"*": "WMF_Projects_2011q2"
+			},
+			{
+				"sortkey": "VECTOR",
+				"hidden": "",
+				"*": "WMF_Projects_2011q3"
+			},
+			{
+				"sortkey": "VECTOR",
+				"hidden": "",
+				"*": "WMF_Projects_2011q4"
+			},
+			{
+				"sortkey": "VECTOR",
+				"hidden": "",
+				"*": "WMF_Projects_2012q1"
+			},
+			{
+				"sortkey": "VECTOR",
+				"hidden": "",
+				"*": "WMF_Projects_2012q2"
+			},
+			{
+				"sortkey": "VECTOR",
+				"hidden": "",
+				"*": "WMF_Projects_2012q3"
+			},
+			{
+				"sortkey": "VECTOR",
+				"hidden": "",
+				"*": "WMF_Projects_2012q4"
+			},
+			{
+				"sortkey": "VECTOR",
+				"hidden": "",
+				"*": "WMF_Projects_2013q1"
+			},
+			{
+				"sortkey": "VECTOR",
+				"hidden": "",
+				"*": "WMF_Projects_2013q2"
+			},
+			{
+				"sortkey": "VECTOR",
+				"hidden": "",
+				"*": "WMF_Projects_2013q3"
+			},
+			{
+				"sortkey": "VECTOR",
+				"hidden": "",
+				"*": "WMF_Projects_2013q4"
+			},
+			{
+				"sortkey": "VECTOR",
+				"hidden": "",
+				"*": "WMF_Projects_2014q1"
+			},
+			{
+				"sortkey": "VECTOR",
+				"hidden": "",
+				"*": "WMF_Projects_2014q2"
+			},
+			{
+				"sortkey": "VECTOR",
+				"hidden": "",
+				"*": "WMF_Projects_2014q3"
+			},
+			{
+				"sortkey": "VECTOR",
+				"hidden": "",
+				"*": "WMF_Projects_2014q4"
+			},
+			{
+				"sortkey": "VECTOR",
+				"hidden": "",
+				"*": "WMF_Projects_2015q1"
+			},
+			{
+				"sortkey": "VECTOR",
+				"hidden": "",
+				"*": "WMF_Projects_2015q2"
+			},
+			{
+				"sortkey": "VECTOR",
+				"hidden": "",
+				"*": "WMF_Projects_2015q3"
+			},
+			{
+				"sortkey": "VECTOR",
+				"hidden": "",
+				"*": "WMF_Projects_2015q4"
+			},
+			{
+				"sortkey": "VECTOR",
+				"hidden": "",
+				"*": "WMF_Projects_2016q1"
+			},
+			{
+				"sortkey": "VECTOR",
+				"hidden": "",
+				"*": "WMF_Projects_2016q2"
+			},
+			{
+				"sortkey": "VECTOR",
+				"hidden": "",
+				"*": "WMF_Projects_2016q3"
+			},
+			{
+				"sortkey": "VECTOR",
+				"hidden": "",
+				"*": "WMF_Projects_2016q4"
+			},
+			{
+				"sortkey": "VECTOR",
+				"hidden": "",
+				"*": "WMF_Projects_2017q1"
+			},
+			{
+				"sortkey": "VECTOR",
+				"hidden": "",
+				"*": "WMF_Projects_2017q2"
+			},
+			{
+				"sortkey": "VECTOR",
+				"hidden": "",
+				"*": "WMF_Projects_2017q3"
+			},
+			{
+				"sortkey": "VECTOR",
+				"hidden": "",
+				"*": "WMF_Projects_2017q4"
+			},
+			{
+				"sortkey": "VECTOR",
+				"hidden": "",
+				"*": "WMF_Projects_2018q1"
+			},
+			{
+				"sortkey": "VECTOR",
+				"hidden": "",
+				"*": "WMF_Projects_2018q2"
+			},
+			{
+				"sortkey": "VECTOR",
+				"hidden": "",
+				"*": "WMF_Projects_2018q3"
+			},
+			{
+				"sortkey": "VECTOR",
+				"hidden": "",
+				"*": "WMF_Projects_2018q4"
+			},
+			{
+				"sortkey": "VECTOR",
+				"hidden": "",
+				"*": "WMF_Projects_2019q1"
+			},
+			{
+				"sortkey": "VECTOR",
+				"hidden": "",
+				"*": "WMF_Projects_2019q2"
+			},
+			{
+				"sortkey": "VECTOR",
+				"hidden": "",
+				"*": "WMF_Projects_2019q3"
+			},
+			{
+				"sortkey": "VECTOR",
+				"hidden": "",
+				"*": "WMF_Projects_2019q4"
+			},
+			{
+				"sortkey": "VECTOR",
+				"hidden": "",
+				"*": "WMF_Projects_2020q1"
+			},
+			{
+				"sortkey": "VECTOR",
+				"hidden": "",
+				"*": "WMF_Projects_2020q2"
+			},
+			{
+				"sortkey": "VECTOR",
+				"hidden": "",
+				"*": "WMF_Projects_2020q3"
+			},
+			{
+				"sortkey": "VECTOR",
+				"hidden": "",
+				"*": "WMF_Projects_2020q4"
+			},
+			{
+				"sortkey": "VECTOR",
+				"hidden": "",
+				"*": "WMF_Projects_2021q1"
+			},
+			{
+				"sortkey": "VECTOR",
+				"hidden": "",
+				"*": "WMF_Projects_2021q2"
+			},
+			{
+				"sortkey": "VECTOR",
+				"hidden": "",
+				"*": "WMF_Projects_2021q3"
+			},
+			{
+				"sortkey": "VECTOR",
+				"hidden": "",
+				"*": "WMF_Projects_2021q4"
+			},
+			{
+				"sortkey": "VECTOR",
+				"hidden": "",
+				"*": "WMF_Projects_2022q1"
+			}
+		],
+		"links": [
+			{
+				"ns": 1198,
+				"exists": "",
+				"*": "Translations:Composer/Page display title/en"
+			},
+			{
+				"ns": 1198,
+				"*": "Translations:Composer/Page display title"
+			},
+			{
+				"ns": 1198,
+				"*": "Translations:Mustache/Page display title/en"
+			},
+			{
+				"ns": 1198,
+				"exists": "",
+				"*": "Translations:Reading/Web/Desktop Improvements/Page display title/en"
+			},
+			{
+				"ns": 1198,
+				"*": "Translations:Reading/Web/Desktop Improvements/Page display title"
+			},
+			{
+				"ns": 10,
+				"exists": "",
+				"*": "Template:Wikimedia engineering project information"
+			},
+			{
+				"ns": 10,
+				"exists": "",
+				"*": "Template:Wikimedia engineering project information/en"
+			},
+			{
+				"ns": 10,
+				"exists": "",
+				"*": "Template:Skin"
+			},
+			{
+				"ns": 0,
+				"exists": "",
+				"*": "Skin status"
+			},
+			{
+				"ns": 0,
+				"exists": "",
+				"*": "Compatibility"
+			},
+			{
+				"ns": 0,
+				"exists": "",
+				"*": "Composer"
+			},
+			{
+				"ns": 0,
+				"exists": "",
+				"*": "MediaWiki-Vagrant"
+			},
+			{
+				"ns": 0,
+				"exists": "",
+				"*": "Phabricator"
+			},
+			{
+				"ns": 0,
+				"exists": "",
+				"*": "Wikimedia Features engineering"
+			},
+			{
+				"ns": 0,
+				"exists": "",
+				"*": "Mustache"
+			},
+			{
+				"ns": 0,
+				"exists": "",
+				"*": "Reading/Web/Desktop Improvements"
+			},
+			{
+				"ns": 14,
+				"exists": "",
+				"*": "Category:All skins"
+			},
+			{
+				"ns": 14,
+				"exists": "",
+				"*": "Category:WMF Projects"
+			},
+			{
+				"ns": 100,
+				"exists": "",
+				"*": "Manual:Skins"
+			},
+			{
+				"ns": 100,
+				"exists": "",
+				"*": "Manual:$wgVectorUseSimpleSearch"
+			},
+			{
+				"ns": 100,
+				"exists": "",
+				"*": "Manual:$wgVectorUseIconWatch"
+			},
+			{
+				"ns": 100,
+				"exists": "",
+				"*": "Manual:$wgVectorResponsive"
+			},
+			{
+				"ns": 100,
+				"exists": "",
+				"*": "Manual:Hooks/BeforePageDisplayMobile"
+			},
+			{
+				"ns": 100,
+				"exists": "",
+				"*": "Manual:Hooks/GetPreferences"
+			},
+			{
+				"ns": 100,
+				"exists": "",
+				"*": "Manual:Hooks/PreferencesFormPreSave"
+			},
+			{
+				"ns": 100,
+				"exists": "",
+				"*": "Manual:Hooks/SkinTemplateNavigation"
+			},
+			{
+				"ns": 100,
+				"exists": "",
+				"*": "Manual:Hooks/LocalUserCreated"
+			},
+			{
+				"ns": 106,
+				"exists": "",
+				"*": "Skin:Vector/Hooks/VectorBeforeFooter"
+			},
+			{
+				"ns": 106,
+				"exists": "",
+				"*": "Skin:Vector/Hooks/VectorAfterToolbox"
+			},
+			{
+				"ns": 106,
+				"exists": "",
+				"*": "Skin:Vector/2022"
+			}
+		],
+		"templates": [
+			{
+				"ns": 10,
+				"exists": "",
+				"*": "Template:Bundled/en"
+			},
+			{
+				"ns": 10,
+				"exists": "",
+				"*": "Template:Bundled"
+			},
+			{
+				"ns": 10,
+				"exists": "",
+				"*": "Template:Note/en"
+			},
+			{
+				"ns": 10,
+				"exists": "",
+				"*": "Template:Note"
+			},
+			{
+				"ns": 10,
+				"exists": "",
+				"*": "Template:Note/styles.css"
+			},
+			{
+				"ns": 10,
+				"exists": "",
+				"*": "Template:Skin/en"
+			},
+			{
+				"ns": 10,
+				"exists": "",
+				"*": "Template:Skin"
+			},
+			{
+				"ns": 10,
+				"exists": "",
+				"*": "Template:Infobox/styles.css"
+			},
+			{
+				"ns": 10,
+				"exists": "",
+				"*": "Template:Skin/styles.css"
+			},
+			{
+				"ns": 10,
+				"exists": "",
+				"*": "Template:Extension/status.css"
+			},
+			{
+				"ns": 10,
+				"exists": "",
+				"*": "Template:Ptag/en"
+			},
+			{
+				"ns": 10,
+				"exists": "",
+				"*": "Template:Ptag"
+			},
+			{
+				"ns": 10,
+				"exists": "",
+				"*": "Template:Badge"
+			},
+			{
+				"ns": 10,
+				"exists": "",
+				"*": "Template:Badge/styles.css"
+			},
+			{
+				"ns": 10,
+				"exists": "",
+				"*": "Template:Dir"
+			},
+			{
+				"ns": 10,
+				"exists": "",
+				"*": "Template:Ll"
+			},
+			{
+				"ns": 10,
+				"exists": "",
+				"*": "Template:Localized link/en"
+			},
+			{
+				"ns": 10,
+				"exists": "",
+				"*": "Template:Localized link"
+			},
+			{
+				"ns": 10,
+				"exists": "",
+				"*": "Template:Translatable/en"
+			},
+			{
+				"ns": 10,
+				"exists": "",
+				"*": "Template:Translatable"
+			},
+			{
+				"ns": 10,
+				"exists": "",
+				"*": "Template:Pagelang"
+			},
+			{
+				"ns": 10,
+				"exists": "",
+				"*": "Template:TNTN"
+			},
+			{
+				"ns": 10,
+				"exists": "",
+				"*": "Template:Translatable template name"
+			},
+			{
+				"ns": 10,
+				"exists": "",
+				"*": "Template:WikimediaDownloadSkin/en"
+			},
+			{
+				"ns": 10,
+				"exists": "",
+				"*": "Template:WikimediaDownloadSkin"
+			},
+			{
+				"ns": 10,
+				"exists": "",
+				"*": "Template:DownloadGitHubSnapshot/en"
+			},
+			{
+				"ns": 10,
+				"exists": "",
+				"*": "Template:DownloadGitHubSnapshot"
+			},
+			{
+				"ns": 10,
+				"exists": "",
+				"*": "Template:Wg"
+			},
+			{
+				"ns": 10,
+				"exists": "",
+				"*": "Template:Plainlist"
+			},
+			{
+				"ns": 10,
+				"exists": "",
+				"*": "Template:Plainlist/styles.css"
+			},
+			{
+				"ns": 10,
+				"exists": "",
+				"*": "Template:Foreach"
+			},
+			{
+				"ns": 10,
+				"exists": "",
+				"*": "Template:Extension/HookInUse"
+			},
+			{
+				"ns": 10,
+				"exists": "",
+				"*": "Template:Endplainlist"
+			},
+			{
+				"ns": 10,
+				"exists": "",
+				"*": "Template:Extension/HookProvided"
+			},
+			{
+				"ns": 10,
+				"exists": "",
+				"*": "Template:Wikimedia engineering project information"
+			},
+			{
+				"ns": 10,
+				"exists": "",
+				"*": "Template:Wikimedia engineering project information/styles.css"
+			},
+			{
+				"ns": 10,
+				"exists": "",
+				"*": "Template:Wikimedia engineering project information/en"
+			},
+			{
+				"ns": 10,
+				"exists": "",
+				"*": "Template:Anchor"
+			},
+			{
+				"ns": 828,
+				"exists": "",
+				"*": "Module:Template translation"
+			},
+			{
+				"ns": 828,
+				"exists": "",
+				"*": "Module:String"
+			},
+			{
+				"ns": 828,
+				"exists": "",
+				"*": "Module:Extension"
+			},
+			{
+				"ns": 828,
+				"exists": "",
+				"*": "Module:Wikimedia engineering project date categories"
+			},
+			{
+				"ns": 1198,
+				"exists": "",
+				"*": "Translations:Composer/Page display title/en"
+			},
+			{
+				"ns": 1198,
+				"exists": "",
+				"*": "Translations:Reading/Web/Desktop Improvements/Page display title/en"
+			}
+		],
+		"images": [
+			"OOjs_UI_icon_layout-ltr.svg",
+			"Dantman-Skin-vector.png"
+		],
+		"externallinks": [
+			"https://packagist.org/packages/mediawiki/vector-skin",
+			"//www.gnu.org/licenses/old-licenses/gpl-2.0-standalone.html",
+			"https://github.com/wikimedia/mediawiki-skins-Vector/archive/master.tar.gz",
+			"https://github.com/wikimedia/mediawiki-skins-Vector",
+			"https://github.com/wikimedia/mediawiki-skins-Vector/graphs/contributors",
+			"https://doc.wikimedia.org/mediawiki-vagrant/puppet_classes/role_3A_3Avector.html",
+			"https://phabricator.wikimedia.org/maniphest/task/edit/form/1/?projects=Vector",
+			"https://en.wikipedia.org/"
+		],
+		"sections": [],
+		"parsewarnings": [],
+		"displaytitle": "Skin:Vector",
+		"iwlinks": [
+			{
+				"prefix": "phab",
+				"url": "https://phabricator.wikimedia.org/tag/vector/",
+				"*": "phab:tag/vector/"
+			},
+			{
+				"prefix": "phab",
+				"url": "https://phabricator.wikimedia.org/tag/mediawiki-skins-vector/",
+				"*": "phab:tag/mediawiki-skins-vector/"
+			},
+			{
+				"prefix": "phab",
+				"url": "https://phabricator.wikimedia.org/diffusion/SVEC",
+				"*": "phab:diffusion/SVEC"
+			},
+			{
+				"prefix": "phab",
+				"url": "https://phabricator.wikimedia.org/tag/vector",
+				"*": "phab:tag/vector"
+			},
+			{
+				"prefix": "git",
+				"url": "https://gerrit.wikimedia.org/g/mediawiki/skins/Vector",
+				"*": "git:mediawiki/skins/Vector"
+			},
+			{
+				"prefix": "git",
+				"url": "https://gerrit.wikimedia.org/g/mediawiki/skins/Vector/%2Blog/master",
+				"*": "git:mediawiki/skins/Vector/+log/master"
+			},
+			{
+				"prefix": "gerrit",
+				"url": "https://gerrit.wikimedia.org/r/q/project:mediawiki/skins/Vector",
+				"*": "gerrit:q/project:mediawiki/skins/Vector"
+			},
+			{
+				"prefix": "translatewiki",
+				"url": "https://translatewiki.net/wiki/Special:Translate/mediawiki-skin-vector",
+				"*": "translatewiki:Special:Translate/mediawiki-skin-vector"
+			},
+			{
+				"prefix": "wikiapiary",
+				"url": "https://wikiapiary.com/wiki/Skin:Vector",
+				"*": "wikiapiary:Skin:Vector"
+			}
+		],
+		"properties": [
+			{
+				"name": "defaultsort",
+				"*": "VECTOR"
+			},
+			{
+				"name": "page_image_free",
+				"*": "Dantman-Skin-vector.png"
+			},
+			{
+				"name": "wikibase_item",
+				"*": "Q22713102"
+			}
+		]
+	}
+}

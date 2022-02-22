@@ -27,12 +27,13 @@ function getSkinJSON( title, isAnon ) {
 function getDemoEnabledSkins() {
 	return cachedJSONFetch( `${HOST}w/rest.php/v1/skins` )
 		.then( ( data ) => {
-			Object.keys( data.skins ).forEach( key => {
-				const author = data.skins[key].author || [ 'unknown' ];
-				data.skins[key].author = author.map((author) => {
+			Object.keys( data.skins ).forEach( ( key ) => {
+				data.skins[ key ].author = (
+					data.skins[ key ].author || [ 'unknown' ]
+				).map( ( author ) => {
 					if ( author.indexOf( '[' ) === 0 ) {
 						if ( author.indexOf( '|' ) > -1 ) {
-							return author.split( '|' )[1].replace( ']]', '' );
+							return author.split( '|' )[ 1 ].replace( ']]', '' );
 						} else {
 							return author.split( ' ' ).slice( 1 ).join( ' ' )
 								.replace( ']', '' );
@@ -40,8 +41,8 @@ function getDemoEnabledSkins() {
 					} else {
 						return author;
 					}
-				});
-			});
+				} );
+			} );
 			return data.skins;
 		} );
 }
@@ -125,7 +126,7 @@ function queryMediaWikiSkins( category, installedSkins, gcmcontinue = '', pages 
 							pageviews: Object.keys( pv )
 								.map( ( pvkey ) => pv[ pvkey ] )
 								.reduce( ( count, total = 0 ) => total + count, 0 )
-						}, ( installedSkins[key] || {} ) );
+						}, ( installedSkins[ key ] || {} ) );
 					} ).filter( ( p ) => {
 						const isSkinVariant = p.title.indexOf( '/' ) > -1;
 						const skinKey = p.title.toLowerCase().replace( /\//, '-' ).replace( 'skin:', '' );
@@ -137,7 +138,7 @@ function queryMediaWikiSkins( category, installedSkins, gcmcontinue = '', pages 
 			}
 
 			if ( r.continue ) {
-				const continueKey = Object.keys( r.continue ).map( ( key ) => `${key}=${r.continue[key]}` ).join( '&' );
+				const continueKey = Object.keys( r.continue ).map( ( key ) => `${key}=${r.continue[ key ]}` ).join( '&' );
 				return queryMediaWikiSkins( category, installedSkins, continueKey, pages );
 			} else {
 				return pages;
@@ -178,15 +179,15 @@ function getSkinIndex() {
 			} );
 			// with skins fully populated run again.
 			Object.keys( skins ).forEach( ( skinKey ) => {
-				const skin = skins[skinKey];
+				const skin = skins[ skinKey ];
 				if ( skin.isVariant ) {
-					const parentSkin = skins[skin.parentSkinKey];
+					const parentSkin = skins[ skin.parentSkinKey ];
 					// Copy across these keys.
 					if ( parentSkin ) {
 						[ 'src', 'compatible', 'unmaintained',
 							'experimental', 'stable', 'beta', 'hasDependencies', 'mightBreak', 'score'
 						].forEach( ( copyKey ) => {
-							skins[skinKey][copyKey] = parentSkin[copyKey];
+							skins[ skinKey ][ copyKey ] = parentSkin[ copyKey ];
 						} );
 					}
 				}
@@ -197,18 +198,18 @@ function getSkinIndex() {
 function cleanMwHTML( str ) {
 	return str.replace(
 		// &lt;tvar name=1&gt;...&lt;/tvar&gt;
-		/&lt;tvar name\=[^&]*&gt;([^&]*)&lt;\/tvar&gt;/,
+		/&lt;tvar name=[^&]*&gt;([^&]*)&lt;\/tvar&gt;/,
 		'$1'
 	).replace(
 		/(&lt;\/translate&gt;|&lt;translate&gt;)/gi,
-		'',
+		''
 	).replace(
 		// external link tvars
 		/\[&lt;tvar\|[^&]*&gt;[^&]*&lt;\/&gt; ([^\]]*)\]/g,
 		'$1'
 	).replace(
 		// [[&lt;tvar name=3&gt;Special:MyLanguage/Manual:Skins&lt;/tvar&gt;|skin]]
-		/\[\[&lt;tvar name\=[^&]*&gt;[^&]*&lt;\/tvar&gt;\|([^\]]*)\]\]/g,
+		/\[\[&lt;tvar name=[^&]*&gt;[^&]*&lt;\/tvar&gt;\|([^\]]*)\]\]/g,
 		'$1'
 	).replace(
 		// standard link tvars
@@ -222,7 +223,7 @@ function cleanMwHTML( str ) {
 		/\[\[[^&]*&lt;\/&gt;\|([^\]]*)\]\]*/g,
 		'$1'
 	).replace(
-		//&lt;tvar name=1&gt;<b>Lakeus</b>&lt;/tvar&gt;
+		// &lt;tvar name=1&gt;<b>Lakeus</b>&lt;/tvar&gt;
 		/&lt;tvar name=[^&]*&gt;([^&]*)&lt;\/tvar&gt;/,
 		'$1'
 	);
@@ -236,27 +237,19 @@ function fetchSkinInfo( key ) {
 			return Promise.reject();
 		}
 		const title = `Skin%3A${skin.name}`;
-		const revisionsQuery = `rvdir=newer&rvlimit=1&rvprop=timestamp`;
+		const revisionsQuery = 'rvdir=newer&rvlimit=1&rvprop=timestamp';
 		return Promise.all( [
 			// https://www.mediawiki.org/wiki/Special:ApiSandbox#action=query&format=json&prop=categories%7Cextracts%7Cextlinks&titles=Skin%3AMinerva_Neue&redirects=1&formatversion=2&cllimit=max&exsentences=3&exlimit=max&exintro=1&explaintext=1&ellimit=max
 			cachedJSONFetch( `https://www.mediawiki.org/w/api.php?action=query&format=json&${revisionsQuery}&prop=revisions%7Ccategories%7Cextlinks&redirects=1&formatversion=2&cllimit=max&origin=*&titles=${title}` ),
 			cachedJSONFetch( `https://www.mediawiki.org/w/api.php?action=parse&format=json&origin=*&page=${title}&section=0` )
 		] )
 			.then( ( responseObjects ) => {
-				const result = responseObjects[0];
+				const result = responseObjects[ 0 ];
 				const template = document.createElement( 'template' );
 				const doc = template.content;
-				const html = responseObjects[1].parse.text['*'];
+				const html = responseObjects[ 1 ].parse.text[ '*' ];
 				template.innerHTML = cleanMwHTML( html );
 				const firstP = doc.querySelectorAll( '.mw-parser-output > p' )[ 0 ];
-				doc.querySelectorAll( '.infobox tr' ).forEach((row) => {
-					let field;
-					row.querySelectorAll('td').forEach((td, i) => {
-						if ( i === 0 ) {
-							field = td.textContent.trim().toLowerCase();
-						}
-					});
-				});
 				const links = [];
 				let summary, created,
 					stable, categories;
@@ -333,7 +326,7 @@ function fetchSkins() {
 	return getSkinIndex().then( () => {
 		return {
 			skins: Object.keys( skins ).map( ( key ) => {
-				return Object.assign({}, skins[ key ] );
+				return Object.assign( {}, skins[ key ] );
 			} )
 		};
 	} );

@@ -26,6 +26,7 @@
 			"files": "**/**/*.vue",
 			"extends": "wikimedia/vue-es6",
 			"rules": {
+				"no-restricted-syntax": "off",
 				"max-statements-per-line": "off",
 				"max-len": "off",
 				"vue/no-boolean-default": "off"

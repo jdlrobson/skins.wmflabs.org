@@ -4,6 +4,7 @@
 module.exports = {
 	// Automatically clear mock calls and instances between every test
 	clearMocks: true,
+	testEnvironment: 'jsdom',
 	moduleNameMapper: {
 		wvui: '<rootDir>/node_modules/@wikimedia/wvui'
 	},
@@ -33,10 +34,10 @@ module.exports = {
 	// An object that configures minimum threshold enforcement for coverage results
 	coverageThreshold: {
 		global: {
-			branches: 60,
-			functions: 60,
-			lines: 60,
-			statements: 60
+			branches: 40,
+			functions: 40,
+			lines: 40,
+			statements: 40
 		}
 	},
 

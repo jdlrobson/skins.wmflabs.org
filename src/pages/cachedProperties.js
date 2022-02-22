@@ -1,7 +1,7 @@
-
 /**
  * @param {string} namespace
  * @param {Object} defaults
+ * @return {Object}
  */
 function getCachedProperties( namespace, defaults ) {
 	const props = {};
@@ -28,10 +28,11 @@ function getCachedProperties( namespace, defaults ) {
 }
 
 /**
+ * @param {string} namespace
  * @param {Object} defaults
  * @param {Function} callback
  */
-function clearCachedProperties( defaults, callback ) {
+function clearCachedProperties( namespace, defaults, callback ) {
 	Object.keys( defaults ).forEach( ( key ) => {
 		localStorage.removeItem( `${namespace}-${key}` );
 		callback( key );

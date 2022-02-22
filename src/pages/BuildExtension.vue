@@ -6,7 +6,9 @@
 			<input v-model="name" placeholder="Extension name">
 			<h2>Hooks</h2>
 			<p>
-				<input type="checkbox" name="hookSkinAfterPortlet" v-model="hookSkinAfterPortlet">
+				<input v-model="hookSkinAfterPortlet"
+					type="checkbox"
+					name="hookSkinAfterPortlet">
 				<label>SkinAfterPortlet: Add HTML after a portlet.</label>
 			</p>
 			<btn
@@ -36,11 +38,6 @@ export default {
 		Page,
 		Btn
 	},
-	updated() {
-		Object.keys( DEFAULTS ).forEach( ( key ) => {
-			setCachedProperty( LS_NAMESPACE, key, this[key] );
-		} );
-	},
 	data() {
 		return getCachedProperties( 'ext-builder', DEFAULTS );
 	},
@@ -55,6 +52,11 @@ export default {
 				}
 			);
 		}
+	},
+	updated() {
+		Object.keys( DEFAULTS ).forEach( ( key ) => {
+			setCachedProperty( LS_NAMESPACE, key, this[ key ] );
+		} );
 	}
 };
 

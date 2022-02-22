@@ -145,9 +145,9 @@ export default {
 			if ( i % 2 === 0 ) {
 				key = str;
 			} else {
-				filters[key] = str;
+				filters[ key ] = str;
 			}
-		});
+		} );
 		return {
 			author: filters.author,
 			license: filters.license,
@@ -203,7 +203,7 @@ export default {
 				if ( !q && this.author && !( skin.author || [] ).includes( this.author ) ) {
 					return false;
 				}
-				if ( !q && this.license && ( skin['license-name'] || '' ) !== this.license ) {
+				if ( !q && this.license && ( skin[ 'license-name' ] || '' ) !== this.license ) {
 					return false;
 				}
 				if ( this.filterKey && skin.key !== this.filterKey ) { return false; }

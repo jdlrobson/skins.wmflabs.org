@@ -20,10 +20,14 @@ export default ( url ) => {
 			data = getMock( 'beta' );
 		} else if ( url.match( /gcmtitle=Category%3AExperimental_skins/ ) ) {
 			data = getMock( 'experimental' );
+		} else if ( url.match( /action=parse&format=json&origin=*/ ) ) {
+			data = getMock( 'parse' );
 		} else if ( url.match( /gcmtitle=Category%3AUnmaintained_skins/ ) ) {
 			data = getMock( 'unmaintained' );
 		} else if ( url.match( /&titles=Skin%3AVector/ ) ) {
 			data = getMock( 'vector' );
+		} else if ( url.match( /rest.php\/v1\/skins$/ ) ) {
+			data = getMock( 'skins' );
 		} else {
 			throw new Error( `Unstubbed URL: ${url}` );
 		}
