@@ -7,7 +7,6 @@
 		"deploy": "parcel build index.html --out-dir /var/www/html/",
 		"start": "parcel index.html",
 		"lint": "eslint . && stylelint **/*.less",
-		"test-starter-template": "cd src/starter-template && npm test",
 		"test": "npm run lint && jest --testRegex tests/*.test.js --coverage && npm run test-starter-template"
 	},
 	"author": "",
@@ -32,7 +31,7 @@
 	},
 	"dependencies": {
 		"less": "4.1.0",
-		"mediawiki-skins-cli": "file:src/starter-template",
+		"mediawiki-skins-cli": "0.5.0",
 		"mustache": "4.1.0",
 		"vue": "2.6.12",
 		"vue-json-viewer": "2.2.18",

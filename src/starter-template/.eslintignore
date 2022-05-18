@@ -1,7 +1,0 @@
-package-lock.json
-/.cache
-/coverage
-/dist
-/node_modules/*
-/bundle.js
-/export/FileSaver.js
