@@ -81,7 +81,8 @@
 /* global less, __dirname */
 import { PARTIALS, getLessVarsCode, getLessVarsRaw, JQUERY,
 	buildSkin, getLESSFromTemplate, randomColor,
-	SCRIPTS, messages } from '../starter-template';
+	getResourceLoaderSkinModuleStylesFromStylesheet,
+	SCRIPTS, messages } from 'mediawiki-skins-cli';
 import api from '../api.js';
 import { TEST_ARTICLES, HOST, LESS_RENDER_OPTIONS } from '../constants';
 import { render } from 'mustache';
@@ -94,10 +95,6 @@ import nameMe from '../nameMe';
 import JsonViewer from 'vue-json-viewer';
 import Page from './Page.vue';
 import fs from 'fs';
-
-import {
-	getResourceLoaderSkinModuleStylesFromStylesheet
-} from 'mediawiki-boilerplate';
 
 const DEFAULT_SKIN_MUSTACHE = fs.readFileSync( `${__dirname}/assets/skin.mustache` ).toString();
 const DEFAULT_SKIN_LESS = fs.readFileSync( `${__dirname}/assets/skin.less` ).toString();

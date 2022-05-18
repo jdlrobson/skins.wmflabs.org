@@ -32,7 +32,7 @@
 	},
 	"dependencies": {
 		"less": "4.1.0",
-		"mediawiki-boilerplate": "file:src/starter-template",
+		"mediawiki-skins-cli": "file:src/starter-template",
 		"mustache": "4.1.0",
 		"vue": "2.6.12",
 		"vue-json-viewer": "2.2.18",

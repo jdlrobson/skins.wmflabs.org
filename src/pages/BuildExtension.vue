@@ -23,7 +23,7 @@
 <script>
 import Page from './Page.vue';
 import Btn from '../components/Btn';
-import { buildExtension } from '../starter-template';
+import { buildExtension } from 'mediawiki-skins-cli';
 import { getCachedProperties, setCachedProperty } from './cachedProperties';
 
 const LS_NAMESPACE = 'ext-builder';

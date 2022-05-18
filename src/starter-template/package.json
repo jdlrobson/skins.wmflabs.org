@@ -1,7 +1,7 @@
 {
-	"name": "mediawiki-boilerplate",
-	"version": "1.0.0",
-	"description": "Generate skins and extensions from nothing.",
+	"name": "mediawiki-skins-cli",
+	"version": "0.5.0",
+	"description": "Generate MediaWiki skins and extensions from nothing.",
 	"main": "bundle.js",
 	"devDependencies": {
 		"@babel/preset-env": "7.13.8",
