@@ -31,7 +31,7 @@
 	},
 	"dependencies": {
 		"less": "4.1.0",
-		"mediawiki-skins-cli": "0.5.0",
+		"mediawiki-skins-cli": "^0.5.6",
 		"mustache": "4.1.0",
 		"vue": "2.6.12",
 		"vue-json-viewer": "2.2.18",
