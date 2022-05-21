@@ -17,6 +17,8 @@
 		<preview v-else
 			:href="href"
 			:name="name"
+			language="en"
+			@changeLanguage="changeLanguage"
 			@changeArticle="changeArticle"></preview>
 	</div>
 </template>
@@ -56,13 +58,14 @@ export default {
 	},
 	data() {
 		return {
+			language: 'en',
 			testArticle: TEST_ARTICLES[ 0 ].title,
 			previewInactive: true
 		};
 	},
 	computed: {
 		href() {
-			return this.available ? `${HOST}/wiki/${this.testArticle}?useformat=desktop&useskin=${this.skinkey}` :
+			return this.available ? `${HOST}/wiki/${this.testArticle}?useformat=desktop&uselang=${this.language}&useskin=${this.skinkey}` :
 				undefined;
 		},
 		previewScreenshotClass() {
@@ -77,6 +80,9 @@ export default {
 			if ( this.available ) {
 				this.previewInactive = false;
 			}
+		},
+		changeLanguage( language ) {
+			this.language = language;
 		},
 		changeArticle( a ) {
 			this.testArticle = a;

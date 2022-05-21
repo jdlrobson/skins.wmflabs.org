@@ -39,6 +39,19 @@
 						</option>
 					</select>
 				</custom-select>
+				<custom-select v-if="language">
+					<select @change="changeLanguage">
+						<option value="en">
+							English
+						</option>
+						<option value="he">
+							עברית
+						</option>
+						<option value="zh">
+							中文
+						</option>
+					</select>
+				</custom-select>
 			</div>
 			<div class="loggedin-selector">
 				<custom-checkbox v-if="showAnon"
@@ -74,6 +87,9 @@ export default {
 		anonDefault: {
 			type: Boolean,
 			default: false
+		},
+		language: {
+			type: String
 		},
 		name: {
 			type: String,
@@ -163,6 +179,9 @@ export default {
 				}
 				this.window.document.write( this.html );
 			}
+		},
+		changeLanguage( ev ) {
+			this.$emit( 'changeLanguage', ev.target.value );
 		},
 		changeMedium: function ( ev ) {
 			const medium = ev.target.value;
