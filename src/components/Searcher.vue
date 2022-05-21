@@ -11,7 +11,7 @@
 		<div v-if="showFilters" class="searcher__filter-list">
 			<div class="searcher__filter-item" v-for="(filter, i) in availableFilters" :key="filter.name + i">
 				<custom-checkbox
-					:checked="activeFilters[filter.name]"
+					:checked="activeFilters[filter.name()]"
 					name="search_release"
 					@change="onToggleActiveFilter(filter)"
 				>
