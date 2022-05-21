@@ -9,49 +9,13 @@
 			Filters
 		</button>
 		<div v-if="showFilters" class="searcher__filter-list">
-			<div class="searcher__filter-item">
+			<div class="searcher__filter-item" v-for="(filter, i) in availableFilters" :key="filter.name + i">
 				<custom-checkbox
-					:checked="filterCompatible"
+					:checked="activeFilters[filter.name]"
 					name="search_release"
-					@change="onToggleCompatible"
+					@change="onToggleActiveFilter(filter)"
 				>
-					Compatible >= 1.37
-				</custom-checkbox>
-			</div>
-			<div class="searcher__filter-item">
-				<custom-checkbox
-					:checked="filterStable"
-					name="search_stable"
-					@change="onToggleStable"
-				>
-					Stable
-				</custom-checkbox>
-			</div>
-			<div class="searcher__filter-item">
-				<custom-checkbox
-					:checked="filterMightBreak"
-					name="search_breakage"
-					@change="onToggleMightBreak"
-				>
-					Without deprecation warnings
-				</custom-checkbox>
-			</div>
-			<div class="searcher__filter-item">
-				<custom-checkbox
-					:checked="filterDependencies"
-					name="search_dependencies"
-					@change="onToggleDependencies"
-				>
-					Without dependencies
-				</custom-checkbox>
-			</div>
-			<div class="searcher__filter-item">
-				<custom-checkbox
-					:checked="filterMaintained"
-					name="search_maintained"
-					@change="onToggleMaintained"
-				>
-					Maintained
+					{{ filter.label() }}
 				</custom-checkbox>
 			</div>
 		</div>
@@ -81,10 +45,18 @@ import api from '../api.js';
 import CustomCheckbox from './CustomCheckbox.vue';
 
 class SessionFilter {
-	constructor( name, defaultValue = false ) {
+	constructor( name, label, defaultValue = false ) {
 		this.field = `session-${name}`;
+		this._name = name;
+		this._label = label || 'undefined';
 		this.defaultValue = defaultValue;
 		this.load( defaultValue );
+	}
+	name() {
+		return this._name;
+	}
+	label() {
+		return this._label;
 	}
 	set( value ) {
 		sessionStorage.setItem( this.field, value );
@@ -111,12 +83,17 @@ class SessionFilter {
 }
 
 // Should be persistent for page refreshes but not new tabs
-const query = new SessionFilter( 'query', '' );
-const filterMightBreak = new SessionFilter( 'filterMightBreak' );
-const filterMaintained = new SessionFilter( 'filterMaintained' );
-const filterDependencies = new SessionFilter( 'filterDependencies' );
-const filterCompatible = new SessionFilter( 'filterCompatible' );
-const filterStable = new SessionFilter( 'filterStable' );
+const allFilters = [
+	[ 'filterMightBreak', 'Without deprecation warnings' ],
+	[ 'filterMaintained', 'Status:Maintained' ],
+	[ 'filterDependencies', 'Without dependencies' ],
+	[ 'filterCompatible', 'Compatible with latest MediaWiki' ],
+	[ 'filterStable', 'Status: Stable' ],
+	[ 'filterResponsive', 'Mobile friendly' ],
+	[ 'filterMustache', 'Uses modern skin framework' ]
+].map(( args ) => new SessionFilter( args[0], args[1] ) );
+
+const query = new SessionFilter( 'query', 'Search query', '' );
 
 export default {
 	name: 'Searcher',
@@ -148,7 +125,7 @@ export default {
 				filters[ key ] = str;
 			}
 		} );
-		return {
+		const data = {
 			author: filters.author,
 			license: filters.license,
 			showFilters: false,
@@ -159,13 +136,14 @@ export default {
 				{}, {}, {}
 			],
 			filteredSkins: [],
-			query: filters.author ? filters.query : query.get(),
-			filterMightBreak: filterMightBreak.get(),
-			filterMaintained: filterMaintained.get(),
-			filterDependencies: filterDependencies.get(),
-			filterCompatible: filterCompatible.get(),
-			filterStable: filterStable.get()
+			availableFilters: allFilters,
+			activeFilters: {},
+			query: filters.author ? filters.query : query.get()
 		};
+		allFilters.forEach( ( filter ) => {
+			data.activeFilters[ filter.name() ] = filter.get();
+		} );
+		return data;
 	},
 	computed: {
 		showReset() {
@@ -184,11 +162,9 @@ export default {
 	methods: {
 		resetAll() {
 			this.query = query.set( '' );
-			this.filterMightBreak = filterMightBreak.set( false );
-			this.filterMaintained = filterMaintained.set( false );
-			this.filterDependencies = filterDependencies.set( false );
-			this.filterCompatible = filterCompatible.set( false );
-			this.filterStable = filterStable.set( false );
+			activeFilters.forEach( ( filter ) => {
+				this.activeFilters[ filter.name ] = filter.set( false );
+			} );
 			this.filteredSkins = this.skins;
 			this.$router.push( {
 				path: '/explore'
@@ -200,6 +176,7 @@ export default {
 		search() {
 			const q = this.query;
 			const result = this.skins.filter( ( skin ) => {
+				const tags = skin.tag || [];
 				if ( !q && this.author && !( skin.author || [] ).includes( this.author ) ) {
 					return false;
 				}
@@ -207,45 +184,24 @@ export default {
 					return false;
 				}
 				if ( this.filterKey && skin.key !== this.filterKey ) { return false; }
-				if ( this.filterMightBreak && skin.mightBreak ) { return false; }
-				if ( this.filterMaintained && skin.unmaintained ) { return false; }
-				if ( this.filterStable && ( skin.experimental || skin.beta || skin.unmaintained ) ) { return false; }
-				if ( this.filterDependencies && skin.hasDependencies ) { return false; }
-				if ( this.filterCompatible && !skin.compatible ) { return false; }
+				if ( this.activeFilters['filterMightBreak'] && skin.mightBreak ) { return false; }
+				if ( this.activeFilters['filterMaintained'] && skin.unmaintained ) { return false; }
+				if ( this.activeFilters['filterStable'] && ( skin.experimental || skin.beta || skin.unmaintained ) ) { return false; }
+				if ( this.activeFilters['filterDependencies'] && skin.hasDependencies ) { return false; }
+				if ( this.activeFilters['filterCompatible'] && !skin.compatible ) { return false; }
+				if ( this.activeFilters['filterResponsive'] && !tags.includes( 'responsive' ) ) { return false; }
+				if ( this.activeFilters['filterMustache'] && !tags.includes( 'mustache' ) ) { return false; }
 				if ( !q ) { return true; }
 				return skin.name && skin.name.toLowerCase().indexOf( q.toLowerCase() ) > -1;
 			} );
 			this.filteredSkins = result;
 		},
-		onToggleDependencies( ev ) {
-			const value = ev.target.checked;
-			this.filterDependencies = value;
-			filterDependencies.set( value );
+		onToggleActiveFilter( filter ) {
+			const newValue = !filter.get();
+			filter.set( newValue );
+			this.activeFilters[filter.name()] = newValue;
 			this.search();
-		},
-		onToggleMaintained( ev ) {
-			const value = ev.target.checked;
-			this.filterMaintained = value;
-			filterMaintained.set( value );
-			this.search();
-		},
-		onToggleMightBreak( ev ) {
-			const value = ev.target.checked;
-			this.filterMightBreak = value;
-			filterMightBreak.set( value );
-			this.search();
-		},
-		onToggleStable( ev ) {
-			const value = ev.target.checked;
-			this.filterStable = value;
-			filterStable.set( value );
-			this.search();
-		},
-		onToggleCompatible( ev ) {
-			const value = ev.target.checked;
-			this.filterCompatible = value;
-			filterCompatible.set( value );
-			this.search();
+			this.activeFilters = Object.assign( {}, this.activeFilters );
 		},
 		setQuery( ev ) {
 			this.author = null;
