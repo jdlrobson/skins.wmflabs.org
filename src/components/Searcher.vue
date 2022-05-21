@@ -184,11 +184,11 @@ export default {
 					return false;
 				}
 				if ( this.filterKey && skin.key !== this.filterKey ) { return false; }
-				if ( this.activeFilters['filterMightBreak'] && skin.mightBreak ) { return false; }
+				if ( this.activeFilters['filterMightBreak'] && ( skin.mightBreak || tags.includes( 'deprecation-warnings' ) ) ) { return false; }
 				if ( this.activeFilters['filterMaintained'] && skin.unmaintained ) { return false; }
 				if ( this.activeFilters['filterStable'] && ( skin.experimental || skin.beta || skin.unmaintained ) ) { return false; }
 				if ( this.activeFilters['filterDependencies'] && skin.hasDependencies ) { return false; }
-				if ( this.activeFilters['filterCompatible'] && !skin.compatible ) { return false; }
+				if ( this.activeFilters['filterCompatible'] && ( !skin.compatible  || tags.includes( 'render-error' ) ) ) { return false; }
 				if ( this.activeFilters['filterResponsive'] && !tags.includes( 'responsive' ) ) { return false; }
 				if ( this.activeFilters['filterMustache'] && !tags.includes( 'mustache' ) ) { return false; }
 				if ( !q ) { return true; }
