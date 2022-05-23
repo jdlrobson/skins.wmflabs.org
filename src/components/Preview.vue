@@ -89,7 +89,8 @@ export default {
 			default: false
 		},
 		language: {
-			type: String
+			type: String,
+			default: 'en'
 		},
 		name: {
 			type: String,

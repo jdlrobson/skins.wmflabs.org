@@ -78,7 +78,7 @@
 </template>
 
 <script>
-/* global less, __dirname */
+/* global less */
 import { PARTIALS, getLessVarsCode, getLessVarsRaw, JQUERY,
 	buildSkin, getLESSFromTemplate, randomColor,
 	buildDefaultAssets,

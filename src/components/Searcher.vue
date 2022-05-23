@@ -9,13 +9,15 @@
 			Filters
 		</button>
 		<div v-if="showFilters" class="searcher__filter-list">
-			<div class="searcher__filter-item" v-for="(filter, i) in availableFilters" :key="filter.name + i">
+			<div v-for="(f, i) in availableFilters"
+				:key="f.name + i"
+				class="searcher__filter-item">
 				<custom-checkbox
-					:checked="activeFilters[filter.name()]"
+					:checked="activeFilters[f.name()]"
 					name="search_release"
-					@change="onToggleActiveFilter(filter)"
+					@change="onToggleActiveFilter(f)"
 				>
-					{{ filter.label() }}
+					{{ f.label() }}
 				</custom-checkbox>
 			</div>
 		</div>
@@ -41,6 +43,7 @@
 </template>
 
 <script>
+/* eslint-disable no-underscore-dangle */
 import api from '../api.js';
 import CustomCheckbox from './CustomCheckbox.vue';
 
@@ -91,7 +94,7 @@ const allFilters = [
 	[ 'filterStable', 'Status: Stable' ],
 	[ 'filterResponsive', 'Mobile friendly' ],
 	[ 'filterMustache', 'Uses modern skin framework' ]
-].map(( args ) => new SessionFilter( args[0], args[1] ) );
+].map( ( args ) => new SessionFilter( args[ 0 ], args[ 1 ] ) );
 
 const query = new SessionFilter( 'query', 'Search query', '' );
 
@@ -162,7 +165,7 @@ export default {
 	methods: {
 		resetAll() {
 			this.query = query.set( '' );
-			activeFilters.forEach( ( filter ) => {
+			this.availableFilters.forEach( ( filter ) => {
 				this.activeFilters[ filter.name ] = filter.set( false );
 			} );
 			this.filteredSkins = this.skins;
@@ -184,13 +187,13 @@ export default {
 					return false;
 				}
 				if ( this.filterKey && skin.key !== this.filterKey ) { return false; }
-				if ( this.activeFilters['filterMightBreak'] && ( skin.mightBreak || tags.includes( 'deprecation-warnings' ) ) ) { return false; }
-				if ( this.activeFilters['filterMaintained'] && skin.unmaintained ) { return false; }
-				if ( this.activeFilters['filterStable'] && ( skin.experimental || skin.beta || skin.unmaintained ) ) { return false; }
-				if ( this.activeFilters['filterDependencies'] && skin.hasDependencies ) { return false; }
-				if ( this.activeFilters['filterCompatible'] && ( !skin.compatible  || tags.includes( 'render-error' ) ) ) { return false; }
-				if ( this.activeFilters['filterResponsive'] && !tags.includes( 'responsive' ) ) { return false; }
-				if ( this.activeFilters['filterMustache'] && !tags.includes( 'mustache' ) ) { return false; }
+				if ( this.activeFilters.filterMightBreak && ( skin.mightBreak || tags.includes( 'deprecation-warnings' ) ) ) { return false; }
+				if ( this.activeFilters.filterMaintained && skin.unmaintained ) { return false; }
+				if ( this.activeFilters.filterStable && ( skin.experimental || skin.beta || skin.unmaintained ) ) { return false; }
+				if ( this.activeFilters.filterDependencies && skin.hasDependencies ) { return false; }
+				if ( this.activeFilters.filterCompatible && ( !skin.compatible || tags.includes( 'render-error' ) ) ) { return false; }
+				if ( this.activeFilters.filterResponsive && !tags.includes( 'responsive' ) ) { return false; }
+				if ( this.activeFilters.filterMustache && !tags.includes( 'mustache' ) ) { return false; }
 				if ( !q ) { return true; }
 				return skin.name && skin.name.toLowerCase().indexOf( q.toLowerCase() ) > -1;
 			} );
@@ -199,7 +202,7 @@ export default {
 		onToggleActiveFilter( filter ) {
 			const newValue = !filter.get();
 			filter.set( newValue );
-			this.activeFilters[filter.name()] = newValue;
+			this.activeFilters[ filter.name() ] = newValue;
 			this.search();
 			this.activeFilters = Object.assign( {}, this.activeFilters );
 		},
