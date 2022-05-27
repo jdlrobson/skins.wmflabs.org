@@ -247,7 +247,8 @@ function fetchSkinInfo( key ) {
 				const result = responseObjects[ 0 ];
 				const template = document.createElement( 'template' );
 				const doc = template.content;
-				const html = responseObjects[ 1 ].parse.text[ '*' ];
+				const parsedResult = responseObjects[ 1 ].parse;
+				const html = parsedResult.text[ '*' ];
 				template.innerHTML = cleanMwHTML( html );
 				const firstP = doc.querySelectorAll( '.mw-parser-output > p' )[ 0 ];
 				const links = [];
@@ -271,14 +272,17 @@ function fetchSkinInfo( key ) {
 						} );
 					}
 					created = firstRevision ? firstRevision.timestamp : null;
-					( info.extlinks || [] ).map( ( link ) => link.url ).forEach( ( url ) => {
-						if ( url.match( /https:\/\/github.com/ ) && url.match( /\.git/ ) ) {
+					const extlinks = ( info.extlinks || [] ).concat( parsedResult.iwlinks || [] )
+						.map( ( link ) => link.url );
+
+					extlinks.forEach( ( url ) => {
+						if ( url.match( /github\.com/ ) && url.match( /\.git/ ) ) {
 							links.push( {
 								text: 'View on github',
 								href: url
 							} );
 						}
-						if ( url.match( /https:\/\/gerrit.wikimedia.org\/g\// ) && !url.match( /(\+log\/master)/ ) ) {
+						if ( url.match( /gerrit\.wikimedia.org\/g\// ) && !url.match( /(log\/master)/ ) ) {
 							links.push( {
 								text: 'View on gerrit',
 								href: url
