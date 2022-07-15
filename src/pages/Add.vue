@@ -29,11 +29,6 @@
 			>
 			</preview>
 			<div class="page__edit-area">
-				<btn class="reset-btn"
-					:destructive="true"
-					@click="reset">
-					Reset
-				</btn>
 				<tabs>
 					<tab title="HTML ( Mustache )">
 						<textarea class="editor-textarea"
@@ -57,6 +52,11 @@
 							@input="updateJS"></textarea>
 					</tab>
 				</tabs>
+				<btn class="reset-btn"
+					:destructive="true"
+					@click="reset">
+					Reset
+				</btn>
 			</div>
 			<div class="data-explorer">
 				<h2>Template data</h2>
@@ -376,12 +376,9 @@ input {
 }
 
 .btn.reset-btn {
-	position: absolute;
 	min-width: 68px;
-	right: 0;
-	top: -67px;
 	width: 68px;
-	padding: 0;
+	margin-top: 10px;
 }
 
 .data-explorer {
