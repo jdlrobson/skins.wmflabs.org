@@ -286,9 +286,13 @@ iframe {
 }
 
 .loggedin-selector {
-	margin-left: 50px;
+	margin-left: 6px;
 	align-self: center;
 	text-align: center;
+
+	.custom-checkbox label {
+		padding-left: 20px;
+	}
 }
 
 .preview__area--unavailable {

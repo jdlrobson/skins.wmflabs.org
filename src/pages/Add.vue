@@ -376,8 +376,7 @@ input {
 }
 
 .btn.reset-btn {
-	min-width: 68px;
-	width: 68px;
+	width: 54px;
 	margin-top: 10px;
 }
 
