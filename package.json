@@ -4,7 +4,8 @@
 	"description": "A place to find mediawiki skins",
 	"main": "index.js",
 	"scripts": {
-		"deploy": "parcel build index.html --out-dir /var/www/html/",
+		"deploy": "npm run cache && parcel build index.html --out-dir /var/www/html/ && cp -R data /var/www/html",
+		"cache": "@babel/node buildApiResponses.js",
 		"start": "parcel index.html",
 		"lint": "eslint . && stylelint **/*.less",
 		"test": "npm run lint && jest --testRegex tests/*.test.js --coverage"
@@ -30,9 +31,11 @@
 		"vue-template-compiler": "2.6.12"
 	},
 	"dependencies": {
+		"@babel/node": "7.18.10",
 		"less": "4.1.0",
-		"mediawiki-skins-cli": "^0.5.6",
+		"mediawiki-skins-cli": "0.5.6",
 		"mustache": "4.1.0",
+		"node-fetch": "3.2.10",
 		"vue": "2.6.12",
 		"vue-json-viewer": "2.2.18",
 		"vue-router": "3.4.9"

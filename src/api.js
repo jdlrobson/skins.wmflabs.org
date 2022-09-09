@@ -326,7 +326,7 @@ function fetchSkinInfo( key ) {
 	} );
 }
 
-function fetchSkins() {
+function fetchSkinsRemote() {
 	return getSkinIndex().then( () => {
 		return {
 			skins: Object.keys( skins ).map( ( key ) => {
@@ -336,7 +336,18 @@ function fetchSkins() {
 	} );
 }
 
+function fetchSkins() {
+	return new Promise( ( resolve ) => {
+		cachedJSONFetch( '/data/skins.json' ).then( ( r ) => {
+			resolve( r );
+		}, () => {
+			fetchSkinsRemote().then( ( json ) => resolve( json ) );
+		} );
+	} );
+}
+
 export default {
+	fetchSkinsRemote,
 	getSkinKeyFromName,
 	getSkinJSON,
 	fetchSkinInfo,
