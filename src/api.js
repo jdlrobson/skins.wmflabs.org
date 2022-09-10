@@ -166,35 +166,37 @@ function getSkinIndexRemote() {
 	if ( Object.keys( skins ) > 0 ) {
 		return Promise.resolve( skins );
 	}
-	return getDemoEnabledSkins().then( ( compatible ) => queryMediaWikiAllSkins( compatible ) )
-		.then( ( skinPages ) => {
-			skinPages.forEach( ( skin ) => {
-				const isVariant = skin.name.indexOf( '/' ) > -1;
-				const parentSkin = isVariant ? skin.name.split( '/' )[ 0 ] : null;
-				skins[ skin.key ] = Object.assign( skin, {
-					parentSkinUrl: isVariant ? `https://mediawiki.org/wiki/Skin:${parentSkin}` : null,
-					parentSkinKey: isVariant ? getSkinKeyFromName( parentSkin ) : null,
-					isVariant
-				} );
-			} );
-			// with skins fully populated run again.
-			Object.keys( skins ).forEach( ( skinKey ) => {
-				const skin = skins[ skinKey ];
-				if ( skin.isVariant ) {
-					const parentSkin = skins[ skin.parentSkinKey ];
-					// Copy across these keys.
-					if ( parentSkin ) {
-						[ 'src', 'compatible', 'unmaintained',
-							'experimental', 'stable', 'beta', 'hasDependencies', 'mightBreak', 'score'
-						].forEach( ( copyKey ) => {
-							skins[ skinKey ][ copyKey ] = parentSkin[ copyKey ];
-						} );
-					}
-				}
-			} );
-			return skins;
-		} );
+	return getDemoEnabledSkins().then( ( compatible ) => queryMediaWikiAllSkins( compatible ) );
 }
+
+function populateSkinIndexAfter( skinPages ) {
+	skinPages.forEach( ( skin ) => {
+		const isVariant = skin.name.indexOf( '/' ) > -1;
+		const parentSkin = isVariant ? skin.name.split( '/' )[ 0 ] : null;
+		skins[ skin.key ] = Object.assign( skin, {
+			parentSkinUrl: isVariant ? `https://mediawiki.org/wiki/Skin:${parentSkin}` : null,
+			parentSkinKey: isVariant ? getSkinKeyFromName( parentSkin ) : null,
+			isVariant
+		} );
+	} );
+	// with skins fully populated run again.
+	Object.keys( skins ).forEach( ( skinKey ) => {
+		const skin = skins[ skinKey ];
+		if ( skin.isVariant ) {
+			const parentSkin = skins[ skin.parentSkinKey ];
+			// Copy across these keys.
+			if ( parentSkin ) {
+				[ 'src', 'compatible', 'unmaintained',
+					'experimental', 'stable', 'beta', 'hasDependencies', 'mightBreak', 'score'
+				].forEach( ( copyKey ) => {
+					skins[ skinKey ][ copyKey ] = parentSkin[ copyKey ];
+				} );
+			}
+		}
+	} );
+	return skins;
+}
+
 function cleanMwHTML( str ) {
 	return str.replace(
 		// &lt;tvar name=1&gt;...&lt;/tvar&gt;
@@ -353,7 +355,7 @@ function getSkinIndex() {
 		}, () => {
 			getSkinIndexRemote().then( ( json ) => resolve( json ) );
 		} );
-	} );
+	} ).then( ( r ) => populateSkinIndexAfter( r ) );
 }
 
 export default {
