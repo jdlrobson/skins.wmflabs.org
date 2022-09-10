@@ -162,7 +162,7 @@ function queryMediaWikiAllSkins( compatible ) {
 	);
 }
 
-function getSkinIndex() {
+function getSkinIndexRemote() {
 	if ( Object.keys( skins ) > 0 ) {
 		return Promise.resolve( skins );
 	}
@@ -346,7 +346,18 @@ function fetchSkins() {
 	} );
 }
 
+function getSkinIndex() {
+	return new Promise( ( resolve ) => {
+		cachedJSONFetch( '/data/index.json' ).then( ( r ) => {
+			resolve( r );
+		}, () => {
+			getSkinIndexRemote().then( ( json ) => resolve( json ) );
+		} );
+	} );
+}
+
 export default {
+	getSkinIndexRemote,
 	fetchSkinsRemote,
 	getSkinKeyFromName,
 	getSkinJSON,
