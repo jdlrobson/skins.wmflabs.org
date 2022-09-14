@@ -231,6 +231,16 @@ function cleanMwHTML( str ) {
 	);
 }
 
+function getSkinIndex() {
+	return new Promise( ( resolve ) => {
+		cachedJSONFetch( '/data/index.json' ).then( ( r ) => {
+			resolve( r );
+		}, () => {
+			getSkinIndexRemote().then( ( json ) => resolve( json ) );
+		} );
+	} ).then( ( r ) => populateSkinIndexAfter( r ) );
+}
+
 function fetchSkinInfo( key ) {
 	return getSkinIndex().then( ( compatibleSkins ) => {
 		const isCompatible = compatibleSkins[ key ] && compatibleSkins[ key ].compatible;
@@ -346,16 +356,6 @@ function fetchSkins() {
 			fetchSkinsRemote().then( ( json ) => resolve( json ) );
 		} );
 	} );
-}
-
-function getSkinIndex() {
-	return new Promise( ( resolve ) => {
-		cachedJSONFetch( '/data/index.json' ).then( ( r ) => {
-			resolve( r );
-		}, () => {
-			getSkinIndexRemote().then( ( json ) => resolve( json ) );
-		} );
-	} ).then( ( r ) => populateSkinIndexAfter( r ) );
 }
 
 export default {
