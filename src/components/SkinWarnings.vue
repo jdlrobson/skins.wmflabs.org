@@ -5,12 +5,10 @@
 			Warning: This skin has been marked as experimental.
 		</span>
 		<span v-if="hasDependencies">
-			Warning: This skin requires additional setup.
+			{{ additionalSetupMessage }}
 		</span>
 		<span v-if="mightBreak">
-			Warning: This skin has been flagged to indicate this it may
-			break in future MediaWiki versions
-			without prompt action.
+			{{ mightBreakMessage }}
 		</span>
 		<span v-if="!compatible">
 			Warning: This skin does not work with the latest MediaWiki release.
@@ -33,6 +31,9 @@
 </template>
 
 <script>
+import {
+	CATEGORY_INCOMPATIBLE_WITH_MEDIAWIKI_MASTER, CATEGORY_ADDITIONAL_REQUIREMENTS
+} from '../constants';
 import WarningBox from '../components/WarningBox.vue';
 
 export default {
@@ -41,6 +42,16 @@ export default {
 		WarningBox
 	},
 	props: {
+		additionalSetupMessage: {
+			default: `Warning: An editor has marked this skin with [[Category:${CATEGORY_ADDITIONAL_REQUIREMENTS}]] to indicate that this skin requires additional setup.
+`
+		},
+		mightBreakMessage: {
+			type: String,
+			default: `Warning: This skin has been flagged with [[Category:${CATEGORY_INCOMPATIBLE_WITH_MEDIAWIKI_MASTER}]] to indicate this it may
+break in future MediaWiki versions without prompt action.
+`
+		},
 		beta: {
 			type: Boolean,
 			required: true
