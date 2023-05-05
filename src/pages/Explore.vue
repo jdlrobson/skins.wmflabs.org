@@ -66,8 +66,8 @@ export default {
 	justify-content: center;
 	flex-direction: row;
 	flex-flow: row wrap;
-	row-gap: 28px;
-	column-gap: 28px;
+	row-gap: 22px;
+	column-gap: 22px;
 	align-items: start;
 	align-content: start;
 	overflow: scroll;
