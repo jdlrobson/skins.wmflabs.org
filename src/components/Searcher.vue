@@ -93,7 +93,8 @@ const allFilters = [
 	[ 'filterCompatible', 'Compatible with latest MediaWiki' ],
 	[ 'filterStable', 'Status: Stable' ],
 	[ 'filterResponsive', 'Mobile friendly' ],
-	[ 'filterMustache', 'Uses modern skin framework' ]
+	[ 'filterMustache', 'Uses modern skin framework' ],
+	[ 'filterInvert', 'Invert all filters' ]
 ].map( ( args ) => new SessionFilter( args[ 0 ], args[ 1 ] ) );
 
 const query = new SessionFilter( 'query', 'Search query', '' );
@@ -178,7 +179,8 @@ export default {
 		},
 		search() {
 			const q = this.query;
-			const result = this.skins.filter( ( skin ) => {
+			const invert = this.activeFilters.filterInvert;
+			const filterFn = ( skin ) => {
 				const tags = skin.tag || [];
 				if ( !q && this.author && !( skin.author || [] ).includes( this.author ) ) {
 					return false;
@@ -196,7 +198,11 @@ export default {
 				if ( this.activeFilters.filterMustache && !tags.includes( 'mustache' ) ) { return false; }
 				if ( !q ) { return true; }
 				return skin.name && skin.name.toLowerCase().indexOf( q.toLowerCase() ) > -1;
-			} );
+			};
+			const invertFilterFn = ( skin ) => {
+				return !filterFn( skin );
+			};
+			const result = this.skins.filter( invert ? invertFilterFn : filterFn );
 			this.filteredSkins = result;
 		},
 		onToggleActiveFilter( filter ) {
