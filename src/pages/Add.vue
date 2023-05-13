@@ -73,6 +73,9 @@
 					extension builder
 				</router-link>!
 			</p>
+			<p>
+				You can now also create skins from the <a href="https://github.com/wikimedia/mediawiki-skins-cli#readme">command line</a>
+			</p>
 		</div>
 	</page>
 </template>
