@@ -14,6 +14,13 @@
 						Change name
 					</button>
 				</div>
+				<div class="preview-header__version-area">
+					<label>Target version</label>
+					<select v-model="skinOutputVersion" @input="changeVersion">
+						<option value="1.39" :selected="skinOutputVersion === '1.39'">v1.39</option>
+						<option value="1.40" :selected="skinOutputVersion === '1.40'">v1.40</option>
+					</select>
+				</div>
 				<btn
 					:disabled="skinname === ''"
 					@click="download">
@@ -87,6 +94,7 @@ import { PARTIALS, getLessVarsCode, getLessVarsRaw, JQUERY,
 	buildDefaultAssets,
 	getResourceLoaderSkinModuleStylesFromStylesheet,
 	SCRIPTS, messages } from 'mediawiki-skins-cli';
+import { buildSkin as buildSkin140 } from 'mediawiki-skins-cli-latest';
 import api from '../api.js';
 import { TEST_ARTICLES, HOST, LESS_RENDER_OPTIONS } from '../constants';
 import { render } from 'mustache';
@@ -116,6 +124,7 @@ ${DEFAULT_SKIN_LESS}
 const DEFAULT_SKIN_PROPS = {
 	html: DEFAULT_HTML,
 	anon: true,
+	skinOutputVersion: '1.40',
 	variables: getLessVarsRaw(),
 	less: generateStylesheetLESS(),
 	js: `/* scripts can go here */
@@ -183,6 +192,9 @@ export default {
 				this.json = json;
 			} );
 		},
+		changeVersion( ev ) {
+			localStorage.setItem( 'add-skinOutputVersion', ev.target.value );
+		},
 		changeAnon( isAnon ) {
 			this.anon = isAnon;
 			localStorage.setItem( 'add-anon', isAnon );
@@ -222,7 +234,11 @@ export default {
 			localStorage.setItem( 'add-skinname', this.skinname );
 		},
 		download() {
-			buildSkin( this.skinname, this.mustache, this.less, this.js, this.variables );
+			let fn = buildSkin;
+			if ( this.skinOutputVersion === '1.40' ) {
+				fn = buildSkin140;
+			}
+			fn( this.skinname, this.mustache, this.less, this.js, this.variables );
 		},
 		changeArticle( title ) {
 			this.title = title;
@@ -415,6 +431,17 @@ input {
 	&:focus {
 		transition: transform 0.4s ease-in;
 		transform: rotate(480deg);
+	}
+}
+
+.preview-header__version-area {
+	align-items: end;
+	display: flex;
+	flex-direction: column;
+	margin-right: 8px;
+
+	label {
+		margin-right: 0;
 	}
 }
 </style>

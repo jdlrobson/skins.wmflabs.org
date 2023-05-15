@@ -31,9 +31,11 @@
 		"vue-template-compiler": "2.6.12"
 	},
 	"dependencies": {
-		"@babel/node": "7.18.10",
+		"@babel/cli": "^7.19.3",
+		"@babel/node": "^7.18.10",
 		"less": "4.1.0",
 		"mediawiki-skins-cli": "0.5.6",
+		"mediawiki-skins-cli-latest": "npm:mediawiki-skins-cli@1.40.0",
 		"mustache": "4.1.0",
 		"node-fetch": "3.2.10",
 		"vue": "2.6.12",
