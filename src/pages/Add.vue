@@ -19,6 +19,7 @@
 					<select v-model="skinOutputVersion" @input="changeVersion">
 						<option value="1.39" :selected="skinOutputVersion === '1.39'">v1.39</option>
 						<option value="1.40" :selected="skinOutputVersion === '1.40'">v1.40</option>
+						<option value="1.41" :selected="skinOutputVersion === '1.41'">v1.41</option>
 					</select>
 				</div>
 				<btn
@@ -124,7 +125,7 @@ ${DEFAULT_SKIN_LESS}
 const DEFAULT_SKIN_PROPS = {
 	html: DEFAULT_HTML,
 	anon: true,
-	skinOutputVersion: '1.40',
+	skinOutputVersion: '1.41',
 	variables: getLessVarsRaw(),
 	less: generateStylesheetLESS(),
 	js: `/* scripts can go here */
