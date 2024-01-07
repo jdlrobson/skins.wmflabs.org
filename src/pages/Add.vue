@@ -104,7 +104,7 @@ import Tabs from '../components/Tabs.vue';
 import Tab from '../components/Tab.vue';
 import Preview from '../components/Preview.vue';
 import nameMe from '../nameMe';
-import JsonViewer from 'vue-json-viewer';
+import JsonViewer from 'vue-json-pretty';
 import Page from './Page.vue';
 
 const assets = buildDefaultAssets();

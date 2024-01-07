@@ -1,9 +1,9 @@
-import HomePage from './pages/HomePage';
-import Explore from './pages/Explore';
-import Skin from './pages/Skin';
-import NotFound from './pages/NotFound';
-import Add from './pages/Add';
-import BuildExtension from './pages/BuildExtension';
+import HomePage from './pages/HomePage.vue';
+import Explore from './pages/Explore.vue';
+import Skin from './pages/Skin.vue';
+import NotFound from './pages/NotFound.vue';
+import Add from './pages/Add.vue';
+import BuildExtension from './pages/BuildExtension.vue';
 
 export default [
 	{
@@ -27,7 +27,7 @@ export default [
 		component: Skin
 	},
 	{
-		path: '*',
+		path: '/:catchAll(.*)',
 		component: NotFound
 	}
 ];

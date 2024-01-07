@@ -9,7 +9,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-	main {
+	#app {
 		height: 100%;
 	}
 	nav {
