@@ -95,7 +95,7 @@ import { PARTIALS, getLessVarsCode, getLessVarsRaw, JQUERY,
 	buildDefaultAssets,
 	getResourceLoaderSkinModuleStylesFromStylesheet,
 	SCRIPTS, messages } from 'mediawiki-skins-cli';
-import { buildSkin as buildSkin140 } from 'mediawiki-skins-cli-latest';
+import { buildSkin as buildSkinLatest } from 'mediawiki-skins-cli-latest';
 import api from '../api.js';
 import { TEST_ARTICLES, HOST, LESS_RENDER_OPTIONS } from '../constants';
 import { render } from 'mustache';
@@ -236,8 +236,8 @@ export default {
 		},
 		download() {
 			let fn = buildSkin;
-			if ( this.skinOutputVersion === '1.40' ) {
-				fn = buildSkin140;
+			if ( parseFloat( this.skinOutputVersion ) >= 1.41 ) {
+				fn = buildSkinLatest;
 			}
 			fn( this.skinname, this.mustache, this.less, this.js, this.variables );
 		},
