@@ -1,3 +1,5 @@
+[FAQ](FAQ.md)
+
 # About
 
 This is the code that powers the app at [skins.wmflabs](https://skins.wmflabs.org).
