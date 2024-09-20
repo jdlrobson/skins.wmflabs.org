@@ -24,9 +24,9 @@ export const SKIN_KEY_SPECIAL_CASES = {
 
 // sync with resources/src/mediawiki.less/mediawiki.skin.defaults.less in mediawiki/core
 export const LESS_GLOBAL_VARS = {
-	'width-breakpoint-mobile': '320px',
-	'width-breakpoint-tablet': '720px',
-	'width-breakpoint-desktop': '1000px'
+	'min-width-breakpoint-mobile': '320px',
+	'min-width-breakpoint-tablet': '720px',
+	'min-width-breakpoint-desktop': '1000px'
 };
 
 export const LESS_RENDER_OPTIONS = {
