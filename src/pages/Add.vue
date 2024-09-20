@@ -20,6 +20,8 @@
 						<option value="1.39" :selected="skinOutputVersion === '1.39'">v1.39</option>
 						<option value="1.40" :selected="skinOutputVersion === '1.40'">v1.40</option>
 						<option value="1.41" :selected="skinOutputVersion === '1.41'">v1.41</option>
+						<option value="1.42" :selected="skinOutputVersion === '1.42'">v1.42</option>
+						<option value="1.43" :selected="skinOutputVersion === '1.43'">v1.43</option>
 					</select>
 				</div>
 				<btn
@@ -125,7 +127,7 @@ ${DEFAULT_SKIN_LESS}
 const DEFAULT_SKIN_PROPS = {
 	html: DEFAULT_HTML,
 	anon: true,
-	skinOutputVersion: '1.41',
+	skinOutputVersion: '1.43',
 	variables: getLessVarsRaw(),
 	less: generateStylesheetLESS(),
 	js: `/* scripts can go here */
