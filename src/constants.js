@@ -24,6 +24,7 @@ export const SKIN_KEY_SPECIAL_CASES = {
 
 // sync with resources/src/mediawiki.less/mediawiki.skin.defaults.less in mediawiki/core
 export const LESS_GLOBAL_VARS = {
+	'z-index-stacking-1': '1',
 	'min-width-breakpoint-mobile': '320px',
 	'min-width-breakpoint-tablet': '720px',
 	'min-width-breakpoint-desktop': '1000px'

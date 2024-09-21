@@ -16,13 +16,7 @@
 				</div>
 				<div class="preview-header__version-area">
 					<label>Target version</label>
-					<select v-model="skinOutputVersion" @input="changeVersion">
-						<option value="1.39" :selected="skinOutputVersion === '1.39'">v1.39</option>
-						<option value="1.40" :selected="skinOutputVersion === '1.40'">v1.40</option>
-						<option value="1.41" :selected="skinOutputVersion === '1.41'">v1.41</option>
-						<option value="1.42" :selected="skinOutputVersion === '1.42'">v1.42</option>
-						<option value="1.43" :selected="skinOutputVersion === '1.43'">v1.43</option>
-					</select>
+					1.43
 				</div>
 				<btn
 					:disabled="skinname === ''"
@@ -93,11 +87,11 @@
 <script>
 /* global less */
 import { PARTIALS, getLessVarsCode, getLessVarsRaw, JQUERY,
-	buildSkin, getLESSFromTemplate, randomColor,
+	buildSkin,
+	getLESSFromTemplate, randomColor,
 	buildDefaultAssets,
 	getResourceLoaderSkinModuleStylesFromStylesheet,
-	SCRIPTS, messages } from 'mediawiki-skins-cli';
-import { buildSkin as buildSkinLatest } from 'mediawiki-skins-cli-latest';
+	SCRIPTS, messages } from 'mediawiki-skins-cli-latest';
 import api from '../api.js';
 import { TEST_ARTICLES, HOST, LESS_RENDER_OPTIONS } from '../constants';
 import { render } from 'mustache';
@@ -109,6 +103,8 @@ import Preview from '../components/Preview.vue';
 import nameMe from '../nameMe';
 import JsonViewer from 'vue-json-viewer';
 import Page from './Page.vue';
+import fs from 'fs';
+const tokens = fs.readFileSync( './node_modules/@wikimedia/codex-design-tokens/theme-wikimedia-ui.less' ).toString();
 
 const assets = buildDefaultAssets();
 const DEFAULT_SKIN_MUSTACHE = assets.mustache;
@@ -127,7 +123,6 @@ ${DEFAULT_SKIN_LESS}
 const DEFAULT_SKIN_PROPS = {
 	html: DEFAULT_HTML,
 	anon: true,
-	skinOutputVersion: '1.43',
 	variables: getLessVarsRaw(),
 	less: generateStylesheetLESS(),
 	js: `/* scripts can go here */
@@ -195,9 +190,6 @@ export default {
 				this.json = json;
 			} );
 		},
-		changeVersion( ev ) {
-			localStorage.setItem( 'add-skinOutputVersion', ev.target.value );
-		},
 		changeAnon( isAnon ) {
 			this.anon = isAnon;
 			localStorage.setItem( 'add-anon', isAnon );
@@ -237,11 +229,7 @@ export default {
 			localStorage.setItem( 'add-skinname', this.skinname );
 		},
 		download() {
-			let fn = buildSkin;
-			if ( parseFloat( this.skinOutputVersion ) >= 1.41 ) {
-				fn = buildSkinLatest;
-			}
-			fn( this.skinname, this.mustache, this.less, this.js, this.variables );
+			buildSkin( this.skinname, this.mustache, this.less, this.js, this.variables );
 		},
 		changeArticle( title ) {
 			this.title = title;
@@ -296,20 +284,12 @@ export default {
 				// eslint-disable-next-line no-useless-escape
 				const js = '<script>' + this.js + '<\/script>';
 				const imports = getLESSFromTemplate( this.mustache );
-				const HACKS = `
-// Hack until we work out how to get skin variables to work with ResourceLoaderSkinModule
-a:visited,
-a:hover,
-a {
-	color: @color-link;
-}
-// core change: 051fb1cd472e5220f756a7e9ab35c104d3fd0ce5
-.toctogglelabel {
-	color: @color-link;
-}
+				const lessVars = tokens + '\n' + getLessVarsCode( this.variables );
 
-`;
-				less.render( getLessVarsCode( this.variables ) + this.less + imports + HACKS, LESS_RENDER_OPTIONS ).then( ( compiledLess ) => {
+				less.render(
+					`${lessVars}${this.less}${imports}`,
+					LESS_RENDER_OPTIONS
+				).then( ( compiledLess ) => {
 					css = compiledLess.css;
 					return this.getTemplateData( this.title );
 				}, ( err ) => {
