@@ -130,6 +130,16 @@ const DEFAULT_SKIN_PROPS = {
 	mustache: DEFAULT_SKIN_MUSTACHE
 };
 
+/**
+ * Clears all import statements from the string.
+ * I couldn't work out how to setup print.less locally...
+ *
+ * @param {string} str
+ * @return {string}
+ */
+const clearImports = (str) => {
+	return str.replace(/@import ["'][^"']*["'];/g, '' );
+}
 function getCached() {
 	const props = {};
 	Object.keys( ( DEFAULT_SKIN_PROPS ) ).forEach( ( key ) => {
@@ -287,7 +297,7 @@ export default {
 				const lessVars = tokens + '\n' + getLessVarsCode( this.variables );
 
 				less.render(
-					`${lessVars}${this.less}${imports}`,
+					`${lessVars}${clearImports(this.less)}${imports}`,
 					LESS_RENDER_OPTIONS
 				).then( ( compiledLess ) => {
 					css = compiledLess.css;
