@@ -35,7 +35,7 @@
 		"@babel/node": "7.18.10",
 		"@wikimedia/codex-design-tokens": "1.13.0",
 		"less": "4.1.0",
-		"mediawiki-skins-cli-latest": "npm:mediawiki-skins-cli@1.43.0",
+		"mediawiki-skins-cli": "1.43.0",
 		"mustache": "4.1.0",
 		"node-fetch": "3.2.10",
 		"vue": "2.6.12",

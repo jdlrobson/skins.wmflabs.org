@@ -91,7 +91,7 @@ import { PARTIALS, getLessVarsCode, getLessVarsRaw, JQUERY,
 	getLESSFromTemplate, randomColor,
 	buildDefaultAssets,
 	getResourceLoaderSkinModuleStylesFromStylesheet,
-	SCRIPTS, messages } from 'mediawiki-skins-cli-latest';
+	SCRIPTS, messages } from 'mediawiki-skins-cli';
 import api from '../api.js';
 import { TEST_ARTICLES, HOST, LESS_RENDER_OPTIONS } from '../constants';
 import { render } from 'mustache';
