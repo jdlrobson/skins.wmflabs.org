@@ -33,13 +33,13 @@
 			>
 			</preview>
 			<div class="page__edit-area">
-				<tabs>
-					<tab title="HTML ( Mustache )">
+				<div>
+					<div title="HTML ( Mustache )">
 						<textarea class="editor-textarea"
 							:value="mustache"
 							@input="updateMustache"></textarea>
-					</tab>
-					<tab title="CSS / LESS">
+					</div>
+					<div title="CSS / LESS">
 						<textarea class="editor-textarea"
 							:value="less"
 							@input="updateCSS"></textarea>
@@ -49,13 +49,13 @@
 						</btn>
 						<color-chart :colors="colorChart"
 							@toggleColor="toggleColor"></color-chart>
-					</tab>
-					<tab title="JS">
+					</div>
+					<div title="JS">
 						<textarea class="editor-textarea"
 							:value="js"
 							@input="updateJS"></textarea>
-					</tab>
-				</tabs>
+					</div>
+				</div>
 				<btn class="reset-btn"
 					:destructive="true"
 					@click="reset">
@@ -97,15 +97,12 @@ import { TEST_ARTICLES, HOST, LESS_RENDER_OPTIONS } from '../constants';
 import { render } from 'mustache';
 import ColorChart from '../components/ColorChart.vue';
 import Btn from '../components/Btn.vue';
-import Tabs from '../components/Tabs.vue';
-import Tab from '../components/Tab.vue';
 import Preview from '../components/Preview.vue';
 import nameMe from '../nameMe';
 import JsonViewer from 'vue-json-viewer';
 import Page from './Page.vue';
 import fs from 'fs';
 const tokens = fs.readFileSync( './node_modules/@wikimedia/codex-design-tokens/theme-wikimedia-ui.less' ).toString();
-
 const assets = buildDefaultAssets();
 const DEFAULT_SKIN_MUSTACHE = assets.mustache;
 const DEFAULT_SKIN_LESS = assets.less;
@@ -162,8 +159,6 @@ export default {
 	components: {
 		Btn,
 		Page,
-		Tabs,
-		Tab,
 		JsonViewer,
 		Preview,
 		ColorChart

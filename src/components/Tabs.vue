@@ -14,7 +14,19 @@
 </template>
 
 <script>
-export default {
+const { defineComponent, onMounted } = require( 'vue' );
+export default defineComponent( {
+	setup() {
+		// TODO not supported in Vue 3
+		this.tabs = this.$children;
+		onMounted( () => {
+			this.selectedIndex = 0;
+			console.log( this.tabs );
+			this.tabs.forEach( ( tab, i ) => {
+				tab.isActive = ( 0 === i );
+			} );
+		} );
+	},
 	name: 'Tabs',
 	components: {},
 	data() {
@@ -30,14 +42,8 @@ export default {
 				tab.isActive = ( selectedIndex === i );
 			} );
 		}
-	},
-	created() {
-		this.tabs = this.$children;
-	},
-	mounted() {
-		this.selectTab( 0 );
 	}
-};
+} );
 </script>
 
 <style lang="less">

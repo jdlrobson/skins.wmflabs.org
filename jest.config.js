@@ -43,7 +43,7 @@ module.exports = {
 
 	// A set of global variables that need to be available in all test environments
 	globals: {
-		'vue-jest': {
+		'vue3-jest': {
 			babelConfig: false,
 			hideStyleWarn: true,
 			experimentalCSSCompile: true
@@ -64,7 +64,7 @@ module.exports = {
 	],
 
 	transform: {
-		'.*\\.(vue)$': '<rootDir>/node_modules/vue-jest',
+		'.*\\.(vue)$': '<rootDir>/node_modules/vue3-jest',
 		'^.+\\.jsx?$': 'babel-jest'
 	}
 };

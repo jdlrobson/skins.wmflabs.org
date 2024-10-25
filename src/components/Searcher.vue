@@ -151,9 +151,10 @@ export default {
 	},
 	computed: {
 		showReset() {
-			return this.filterKey || this.filterMightBreak ||
-				this.filterMaintained || this.filterDependencies ||
-				this.filterCompatible || this.filterStable || this.author ||
+			const activeFilters = this.activeFilters;
+			return activeFilters.filterKey || activeFilters.filterMightBreak ||
+				activeFilters.filterMaintained || activeFilters.filterDependencies ||
+				activeFilters.filterCompatible || activeFilters.filterStable || this.author ||
 				this.query;
 		},
 		mwUrlEdit() {
@@ -167,7 +168,8 @@ export default {
 		resetAll() {
 			this.query = query.set( '' );
 			this.availableFilters.forEach( ( filter ) => {
-				this.activeFilters[ filter.name ] = filter.set( false );
+				filter.set( false );
+				this.activeFilters[ filter.name() ] = false;
 			} );
 			this.filteredSkins = this.skins;
 			this.$router.push( {

@@ -2,7 +2,7 @@
 import fs from 'fs';
 
 function getMock( name ) {
-	return JSON.parse( fs.readFileSync( `${__dirname}/data/${name}.json` ).toString() );
+	return {}; //JSON.parse( fs.readFileSync( `${__dirname}/data/${name}.json` ).toString() );
 }
 
 export default ( url ) => {

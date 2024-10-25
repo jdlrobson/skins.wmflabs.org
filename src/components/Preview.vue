@@ -66,10 +66,10 @@
 </template>
 
 <script>
-import ArticleChanger from '../components/ArticleChanger';
-import WarningBox from '../components/WarningBox';
-import CustomSelect from '../components/CustomSelect';
-import CustomCheckbox from '../components/CustomCheckbox';
+import ArticleChanger from '../components/ArticleChanger.vue';
+import WarningBox from '../components/WarningBox.vue';
+import CustomSelect from '../components/CustomSelect.vue';
+import CustomCheckbox from '../components/CustomCheckbox.vue';
 
 export default {
 	name: 'Preview',

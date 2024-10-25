@@ -3,7 +3,7 @@
 		<input type="checkbox"
 			:name="name"
 			:checked="checked"
-			@change="changeEvent"
+			@change="changeEvent.stopPropagation"
 			@input="inputEvent"><!--
 		--><label :for="name">
 			<slot></slot>
