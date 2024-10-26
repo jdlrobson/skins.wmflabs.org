@@ -21,5 +21,5 @@ app.directive( 'focus', {
 } );
 const fragment = document.createDocumentFragment();
 app.mount( fragment );
-const appNode = document.querySelector( '#app');
+const appNode = document.querySelector( '#app' );
 appNode.parentNode.replaceChild( fragment, appNode );

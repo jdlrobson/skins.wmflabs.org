@@ -1,6 +1,7 @@
 <template>
 	<div class="searcher">
-		<input v-focus
+		<input
+			v-focus
 			class="search__input"
 			placeholder="Find skin"
 			:value="query"
@@ -9,21 +10,23 @@
 			Filters
 		</button>
 		<div v-if="showFilters" class="searcher__filter-list">
-			<div v-for="(f, i) in availableFilters"
+			<div
+				v-for="( f, i ) in availableFilters"
 				:key="f.name + i"
 				class="searcher__filter-item">
-				<custom-checkbox
+				<CustomCheckbox
 					:checked="activeFilters[f.name()]"
 					name="search_release"
-					@change="onToggleActiveFilter(f)"
+					@change="onToggleActiveFilter( f )"
 				>
 					{{ f.label() }}
-				</custom-checkbox>
+				</CustomCheckbox>
 			</div>
 		</div>
 		<p class="filter-title">
 			<span v-if="fetched">Showing {{ filteredSkins.length }} / {{ skins.length }} skins.</span>
-			<a v-if="showReset"
+			<a
+				v-if="showReset"
 				class="reset"
 				@click="resetAll">Show all skins</a>
 	&nbsp;
@@ -49,29 +52,34 @@ import CustomCheckbox from './CustomCheckbox.vue';
 
 class SessionFilter {
 	constructor( name, label, defaultValue = false ) {
-		this.field = `session-${name}`;
+		this.field = `session-${ name }`;
 		this._name = name;
 		this._label = label || 'undefined';
 		this.defaultValue = defaultValue;
 		this.load( defaultValue );
 	}
+
 	name() {
 		return this._name;
 	}
+
 	label() {
 		return this._label;
 	}
+
 	set( value ) {
 		sessionStorage.setItem( this.field, value );
 		return value;
 	}
+
 	load( defaultValue ) {
-		if ( typeof sessionStorage === undefined ) {
+		if ( sessionStorage ) {
 			this.value = defaultValue;
 		} else {
 			this.value = sessionStorage.getItem( this.field ) || this.defaultValue;
 		}
 	}
+
 	get() {
 		this.load( this.defaultValue );
 		// cast to boolean
@@ -158,7 +166,7 @@ export default {
 				this.query;
 		},
 		mwUrlEdit() {
-			return `https://www.mediawiki.org/w/index.php?action=edit&preload=Template%3ASkin%2FSample&title=Skin%3A${this.query}&venoscript=1`;
+			return `https://www.mediawiki.org/w/index.php?action=edit&preload=Template%3ASkin%2FSample&title=Skin%3A${ this.query }&venoscript=1`;
 		},
 		hasNoResults() {
 			return this.fetched && this.filteredSkins.length === 0 && this.showNoResultsMessage;
@@ -190,20 +198,36 @@ export default {
 				if ( !q && this.license && ( skin[ 'license-name' ] || '' ) !== this.license ) {
 					return false;
 				}
-				if ( this.filterKey && skin.key !== this.filterKey ) { return false; }
-				if ( this.activeFilters.filterMightBreak && ( skin.mightBreak || tags.includes( 'deprecation-warnings' ) ) ) { return false; }
-				if ( this.activeFilters.filterMaintained && skin.unmaintained ) { return false; }
-				if ( this.activeFilters.filterStable && ( skin.experimental || skin.beta || skin.unmaintained ) ) { return false; }
-				if ( this.activeFilters.filterDependencies && skin.hasDependencies ) { return false; }
-				if ( this.activeFilters.filterCompatible && ( !skin.compatible || tags.includes( 'render-error' ) ) ) { return false; }
-				if ( this.activeFilters.filterResponsive && !tags.includes( 'responsive' ) ) { return false; }
-				if ( this.activeFilters.filterMustache && !tags.includes( 'mustache' ) ) { return false; }
-				if ( !q ) { return true; }
+				if ( this.filterKey && skin.key !== this.filterKey ) {
+					return false;
+				}
+				if ( this.activeFilters.filterMightBreak && ( skin.mightBreak || tags.includes( 'deprecation-warnings' ) ) ) {
+					return false;
+				}
+				if ( this.activeFilters.filterMaintained && skin.unmaintained ) {
+					return false;
+				}
+				if ( this.activeFilters.filterStable && ( skin.experimental || skin.beta || skin.unmaintained ) ) {
+					return false;
+				}
+				if ( this.activeFilters.filterDependencies && skin.hasDependencies ) {
+					return false;
+				}
+				if ( this.activeFilters.filterCompatible && ( !skin.compatible || tags.includes( 'render-error' ) ) ) {
+					return false;
+				}
+				if ( this.activeFilters.filterResponsive && !tags.includes( 'responsive' ) ) {
+					return false;
+				}
+				if ( this.activeFilters.filterMustache && !tags.includes( 'mustache' ) ) {
+					return false;
+				}
+				if ( !q ) {
+					return true;
+				}
 				return skin.name && skin.name.toLowerCase().indexOf( q.toLowerCase() ) > -1;
 			};
-			const invertFilterFn = ( skin ) => {
-				return !filterFn( skin );
-			};
+			const invertFilterFn = ( skin ) => !filterFn( skin );
 			const result = this.skins.filter( invert ? invertFilterFn : filterFn );
 			this.filteredSkins = result;
 		},
@@ -221,7 +245,7 @@ export default {
 			query.set( this.query );
 			this.search();
 			this.$emit( 'input', ev );
-			this.$router.replace( `/explore/query:${this.query}` );
+			this.$router.replace( `/explore/query:${ this.query }` );
 		}
 	},
 	updated() {

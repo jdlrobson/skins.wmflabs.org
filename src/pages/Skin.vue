@@ -1,31 +1,32 @@
 <template>
-	<page class="page--skin">
-		<searcher :filter-key="skinkey"
+	<Page class="page--skin">
+		<Searcher
+			:filter-key="skinkey"
 			:show-no-results-message="false"
-			@input="onSearch"></searcher>
+			@input="onSearch"></Searcher>
 		<div class="content">
 			<h2>{{ name }}</h2>
-			<preview-launcher
+			<PreviewLauncher
 				v-if="infoIsLoaded"
 				:src="srcLarge"
 				:skinkey="skinkey"
 				:name="name"
 				:maintained="!unmaintained"
 				:available="preview">
-			</preview-launcher>
+			</PreviewLauncher>
 			<p>
 				by <span
-					v-for="(author, i) in authors"
+					v-for="( author, i ) in authors"
 					:key="'author-' + i"
-				><router-link
-					:to="'/explore/author:' + author">{{ author }}</router-link>&nbsp;</span>
+				><RouterLink
+					:to="'/explore/author:' + author">{{ author }}</RouterLink>&nbsp;</span>
 			</p>
 			<p v-if="license">
 				Licensed under
-				<router-link
+				<RouterLink
 					:to="`/explore/license:${license}`">
 					<strong>{{ license }}</strong>
-				</router-link>
+				</RouterLink>
 			</p>
 			<p v-if="created">
 				Published to MediaWiki.org on {{ created }}
@@ -37,7 +38,8 @@
 				{{ summary }}
 			</p>
 
-			<skin-warnings v-if="showWarnings"
+			<SkinWarnings
+				v-if="showWarnings"
 				:url="mwUrl"
 				:beta="beta"
 				:experimental="experimental"
@@ -45,17 +47,18 @@
 				:has-dependencies="hasDependencies"
 				:might-break="mightBreak"
 				:compatible="compatible"
-			></skin-warnings>
+			></SkinWarnings>
 			<h3 v-if="infoIsLoaded">
 				View:
 			</h3>
-			<a v-for="(link,i) in links"
+			<a
+				v-for="( link, i ) in links"
 				:key="i"
 				class="skinLink"
 				target="_blank"
 				:href="link.href">{{ link.text }}</a>
 		</div>
-	</page>
+	</Page>
 </template>
 
 <script>
@@ -64,10 +67,12 @@ import PreviewLauncher from '../components/PreviewLauncher.vue';
 import Page from './Page.vue';
 import SkinWarnings from '../components/SkinWarnings.vue';
 import Searcher from '../components/Searcher.vue';
+import { RouterLink } from 'vue-router';
 
 export default {
 	name: 'Skin',
 	components: {
+		RouterLink,
 		PreviewLauncher,
 		SkinWarnings,
 		Searcher,
@@ -107,7 +112,7 @@ export default {
 				this.mightBreak || this.hasDependencies || this.beta || this.unmaintained;
 		},
 		mwUrl() {
-			return this.name ? `https://mediawiki.org/wiki/Skin:${this.name}` : '';
+			return this.name ? `https://mediawiki.org/wiki/Skin:${ this.name }` : '';
 		}
 	},
 	methods: {

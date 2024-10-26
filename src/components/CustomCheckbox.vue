@@ -1,6 +1,7 @@
 <template>
 	<div class="custom-checkbox">
-		<input type="checkbox"
+		<input
+			type="checkbox"
 			:name="name"
 			:checked="checked"
 			@change="changeEvent.stopPropagation"

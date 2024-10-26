@@ -1,11 +1,13 @@
 <template>
-	<page class="page--explore">
-		<searcher class="page__header"
+	<Page class="page--explore">
+		<Searcher
+			class="page__header"
 			:filter="$route.params.filter"
 			:filter-key="$route.params.key"
-			@search="onSearch"></searcher>
+			@search="onSearch"></Searcher>
 		<div class="page__showcase">
-			<snapshot v-for="skin in skins"
+			<Snapshot
+				v-for="skin in skins"
 				:key="skin.key"
 				:highlight="skins.length === 1"
 				:stable="skin.stable"
@@ -17,9 +19,9 @@
 				:has-dependencies="skin.hasDependencies"
 				:skinkey="skin.key"
 				:name="skin.name"
-				:src="skin.src"></snapshot>
+				:src="skin.src"></Snapshot>
 		</div>
-	</page>
+	</Page>
 </template>
 
 <script>
@@ -36,7 +38,6 @@ export default {
 	},
 	data() {
 		return {
-			page: 0,
 			skins: [
 				{}, {}, {},
 				{}, {}, {},

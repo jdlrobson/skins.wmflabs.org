@@ -6,7 +6,7 @@
 function getCachedProperties( namespace, defaults ) {
 	const props = {};
 	Object.keys( ( defaults ) ).forEach( ( key ) => {
-		let val = localStorage.getItem( `${namespace}-${key}` );
+		let val = localStorage.getItem( `${ namespace }-${ key }` );
 		if ( val === 'true' ) {
 			val = true;
 		} else if ( val === 'false' ) {
@@ -34,7 +34,7 @@ function getCachedProperties( namespace, defaults ) {
  */
 function clearCachedProperties( namespace, defaults, callback ) {
 	Object.keys( defaults ).forEach( ( key ) => {
-		localStorage.removeItem( `${namespace}-${key}` );
+		localStorage.removeItem( `${ namespace }-${ key }` );
 		callback( key );
 	} );
 }
@@ -46,7 +46,7 @@ function clearCachedProperties( namespace, defaults, callback ) {
  */
 function setCachedProperty( namespace, key, value ) {
 	const valueToSave = typeof value === 'object' ? JSON.stringify( value ) : value;
-	localStorage.setItem( `${namespace}-${key}`, valueToSave );
+	localStorage.setItem( `${ namespace }-${ key }`, valueToSave );
 }
 
 export {

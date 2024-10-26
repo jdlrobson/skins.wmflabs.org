@@ -1,5 +1,5 @@
 <template>
-	<warning-box class="warningbox">
+	<WarningBox class="warningbox">
 		<span v-if="beta">Warning: This skin is marked as beta.</span>
 		<span v-if="experimental">
 			Warning: This skin has been marked as experimental.
@@ -27,7 +27,7 @@
 			If you do this, please update the repository URL on
 			<a :href="url">MediaWiki.org</a>.
 		</span>
-	</warning-box>
+	</WarningBox>
 </template>
 
 <script>
@@ -43,12 +43,12 @@ export default {
 	},
 	props: {
 		additionalSetupMessage: {
-			default: `Warning: An editor has marked this skin with [[Category:${CATEGORY_ADDITIONAL_REQUIREMENTS}]] to indicate that this skin requires additional setup.
+			default: `Warning: An editor has marked this skin with [[Category:${ CATEGORY_ADDITIONAL_REQUIREMENTS }]] to indicate that this skin requires additional setup.
 `
 		},
 		mightBreakMessage: {
 			type: String,
-			default: `Warning: This skin has been flagged with [[Category:${CATEGORY_INCOMPATIBLE_WITH_MEDIAWIKI_MASTER}]] to indicate this it may
+			default: `Warning: This skin has been flagged with [[Category:${ CATEGORY_INCOMPATIBLE_WITH_MEDIAWIKI_MASTER }]] to indicate this it may
 break in future MediaWiki versions without prompt action.
 `
 		},

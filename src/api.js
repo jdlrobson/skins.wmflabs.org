@@ -20,12 +20,12 @@ function cachedJSONFetch( url ) {
 }
 
 function getSkinJSON( title, isAnon ) {
-	return fetch( `${HOST}/wiki/${title}?useskin=skinjson&testuser=${isAnon ? 0 : 1}` )
+	return fetch( `${ HOST }/wiki/${ title }?useskin=skinjson&testuser=${ isAnon ? 0 : 1 }` )
 		.then( ( r ) => r.json() );
 }
 
 function getDemoEnabledSkins() {
-	return cachedJSONFetch( `${HOST}w/rest.php/v1/skins` )
+	return cachedJSONFetch( `${ HOST }w/rest.php/v1/skins` )
 		.then( ( data ) => {
 			Object.keys( data.skins ).forEach( ( key ) => {
 				data.skins[ key ].author = (
@@ -72,12 +72,12 @@ function queryMediaWikiSkins( category, installedSkins, gcmcontinue = '', pages 
 	const url = `https://www.mediawiki.org
 /w/api.php?action=query
 &format=json&origin=*&prop=pageviews%7Cpageimages%7Ccategories&formatversion=2&origin=*
-&clcategories=${CATEGORY_ADDITIONAL_REQUIREMENTS}%7C${CATEGORY_REQUIRE_MODIFICATION}%7C${CATEGORY_INCOMPATIBLE_WITH_MEDIAWIKI_MASTER}
-&cllimit=${MAX}
-&piprop=thumbnail&pithumbsize=400&pilimit=${MAX}
+&clcategories=${ CATEGORY_ADDITIONAL_REQUIREMENTS }%7C${ CATEGORY_REQUIRE_MODIFICATION }%7C${ CATEGORY_INCOMPATIBLE_WITH_MEDIAWIKI_MASTER }
+&cllimit=${ MAX }
+&piprop=thumbnail&pithumbsize=400&pilimit=${ MAX }
 &pvipmetric=pageviews&pvipdays=60
-&generator=categorymembers&gcmlimit=${MAX}&gcmtitle=${encodeURIComponent( category )}&gcmnamespace=106
-&${gcmcontinue}`.replace( /\n/g, '' );
+&generator=categorymembers&gcmlimit=${ MAX }&gcmtitle=${ encodeURIComponent( category ) }&gcmnamespace=106
+&${ gcmcontinue }`.replace( /\n/g, '' );
 
 	return cachedJSONFetch( url ).then( ( r ) => {
 		if ( r ) {
@@ -100,13 +100,33 @@ function queryMediaWikiSkins( category, installedSkins, gcmcontinue = '', pages 
 
 						const score = () => {
 							let s = 0;
-							if ( mightBreak ) { s--; }
-							if ( src ) { s++; }
-							if ( isCompatible ) { s++; } else { s--; }
-							if ( !hasDependencies ) { s++; } else if ( !requiresModification ) { s++; } else { s--; }
-							if ( beta ) { s--; }
-							if ( unmaintained ) { s -= 100; }
-							if ( !experimental ) { s++; }
+							if ( mightBreak ) {
+								s--;
+							}
+							if ( src ) {
+								s++;
+							}
+							if ( isCompatible ) {
+								s++;
+							} else {
+								s--;
+							}
+							if ( !hasDependencies ) {
+								s++;
+							} else if ( !requiresModification ) {
+								s++;
+							} else {
+								s--;
+							}
+							if ( beta ) {
+								s--;
+							}
+							if ( unmaintained ) {
+								s -= 100;
+							}
+							if ( !experimental ) {
+								s++;
+							}
 							return s;
 						};
 
@@ -138,7 +158,7 @@ function queryMediaWikiSkins( category, installedSkins, gcmcontinue = '', pages 
 			}
 
 			if ( r.continue ) {
-				const continueKey = Object.keys( r.continue ).map( ( key ) => `${key}=${r.continue[ key ]}` ).join( '&' );
+				const continueKey = Object.keys( r.continue ).map( ( key ) => `${ key }=${ r.continue[ key ] }` ).join( '&' );
 				return queryMediaWikiSkins( category, installedSkins, continueKey, pages );
 			} else {
 				return pages;
@@ -174,7 +194,7 @@ function populateSkinIndexAfter( skinPages ) {
 		const isVariant = skin.name.indexOf( '/' ) > -1;
 		const parentSkin = isVariant ? skin.name.split( '/' )[ 0 ] : null;
 		skins[ skin.key ] = Object.assign( skin, {
-			parentSkinUrl: isVariant ? `https://mediawiki.org/wiki/Skin:${parentSkin}` : null,
+			parentSkinUrl: isVariant ? `https://mediawiki.org/wiki/Skin:${ parentSkin }` : null,
 			parentSkinKey: isVariant ? getSkinKeyFromName( parentSkin ) : null,
 			isVariant
 		} );
@@ -248,12 +268,12 @@ function fetchSkinInfo( key ) {
 		if ( !skin ) {
 			return Promise.reject();
 		}
-		const title = `Skin%3A${skin.name}`;
+		const title = `Skin%3A${ skin.name }`;
 		const revisionsQuery = 'rvdir=newer&rvlimit=1&rvprop=timestamp';
 		return Promise.all( [
 			// https://www.mediawiki.org/wiki/Special:ApiSandbox#action=query&format=json&prop=categories%7Cextracts%7Cextlinks&titles=Skin%3AMinerva_Neue&redirects=1&formatversion=2&cllimit=max&exsentences=3&exlimit=max&exintro=1&explaintext=1&ellimit=max
-			cachedJSONFetch( `https://www.mediawiki.org/w/api.php?action=query&format=json&${revisionsQuery}&prop=revisions%7Ccategories%7Cextlinks&redirects=1&formatversion=2&cllimit=max&origin=*&titles=${title}` ),
-			cachedJSONFetch( `https://www.mediawiki.org/w/api.php?action=parse&format=json&origin=*&page=${title}&section=0` )
+			cachedJSONFetch( `https://www.mediawiki.org/w/api.php?action=query&format=json&${ revisionsQuery }&prop=revisions%7Ccategories%7Cextlinks&redirects=1&formatversion=2&cllimit=max&origin=*&titles=${ title }` ),
+			cachedJSONFetch( `https://www.mediawiki.org/w/api.php?action=parse&format=json&origin=*&page=${ title }&section=0` )
 		] )
 			.then( ( responseObjects ) => {
 				const result = responseObjects[ 0 ];
@@ -274,7 +294,7 @@ function fetchSkinInfo( key ) {
 					categories = ( p.categories || [] ).map( ( c ) => c.title );
 					links.push( {
 						text: 'View on mediawiki.org',
-						href: info.title ? `https://mediawiki.org/wiki/${info.title}` : ''
+						href: info.title ? `https://mediawiki.org/wiki/${ info.title }` : ''
 					} );
 					const firstRevision = info.revisions[ 0 ];
 					if ( skin.parentSkinUrl ) {
@@ -339,13 +359,9 @@ function fetchSkinInfo( key ) {
 }
 
 function fetchSkinsRemote() {
-	return getSkinIndex().then( () => {
-		return {
-			skins: Object.keys( skins ).map( ( key ) => {
-				return Object.assign( {}, skins[ key ] );
-			} )
-		};
-	} );
+	return getSkinIndex().then( () => ( {
+		skins: Object.keys( skins ).map( ( key ) => Object.assign( {}, skins[ key ] ) )
+	} ) );
 }
 
 function fetchSkins() {

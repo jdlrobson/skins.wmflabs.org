@@ -1,25 +1,27 @@
 <template>
 	<div class="preview-launcher">
-		<div v-if="previewInactive"
+		<div
+			v-if="previewInactive"
 			:class="previewScreenshotClass"
 			@click="activatePreview"
 		>
 			<img :src="src">
-			<no-preview v-if="!available">
+			<NoPreview v-if="!available">
 				<p v-if="!available">
 					Preview unavailable
 				</p>
 				<p v-if="!maintained">
 					This skin appears to be <strong>unmaintained</strong>
 				</p>
-			</no-preview>
+			</NoPreview>
 		</div>
-		<preview v-else
+		<Preview
+			v-else
 			:href="href"
 			:name="name"
 			language="en"
-			@changeLanguage="changeLanguage"
-			@changeArticle="changeArticle"></preview>
+			@change-language="changeLanguage"
+			@change-article="changeArticle"></Preview>
 	</div>
 </template>
 
@@ -65,7 +67,7 @@ export default {
 	},
 	computed: {
 		href() {
-			return this.available ? `${HOST}/wiki/${this.testArticle}?useformat=desktop&uselang=${this.language}&useskin=${this.skinkey}` :
+			return this.available ? `${ HOST }/wiki/${ this.testArticle }?useformat=desktop&uselang=${ this.language }&useskin=${ this.skinkey }` :
 				undefined;
 		},
 		previewScreenshotClass() {

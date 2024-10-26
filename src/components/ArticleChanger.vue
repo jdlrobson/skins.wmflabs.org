@@ -1,13 +1,14 @@
 <template>
 	<span class="article-changer">
 		<label for="article-title">article: </label>
-		<custom-select>
+		<CustomSelect>
 			<select name="article-title" @change="changeArticle">
-				<option v-for="(a,i) in articles"
+				<option
+					v-for="( a, i ) in articles"
 					:key="i"
 					:value="a.title">{{ a.name }}</option>
 			</select>
-		</custom-select>
+		</CustomSelect>
 	</span>
 </template>
 
@@ -22,7 +23,6 @@ export default {
 	},
 	data() {
 		return {
-			mobile: !!localStorage.getItem( 'mobile' ),
 			articles: TEST_ARTICLES,
 			testArticle: TEST_ARTICLES[ 0 ]
 		};

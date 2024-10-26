@@ -12,6 +12,7 @@
 		"wikimedia/mediawiki"
 	],
 	"rules": {
+		"es-x/no-array-prototype-includes": "off",
 		"no-jquery/variable-pattern": "off",
 		"no-implicit-globals": "off",
 		"max-len": "off",
@@ -26,6 +27,10 @@
 			"files": "**/**/*.vue",
 			"extends": "wikimedia/vue-es6",
 			"rules": {
+				"vue/no-undef-properties": "warn",
+				"es-x/no-array-prototype-includes": "off",
+				"vue/component-name-in-template-casing": "warn",
+				"vue/multi-word-component-names": "warn",
 				"no-restricted-syntax": "off",
 				"max-statements-per-line": "off",
 				"max-len": "off",
