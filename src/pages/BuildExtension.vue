@@ -1,26 +1,28 @@
 <template>
-	<page class="page--new">
+	<Page class="page--new">
 		<h1>Extension builder</h1>
 		<p>Let's build an extension!</p>
 		<form>
 			<input v-model="name" placeholder="Extension name">
 			<h2>Hooks</h2>
 			<p>
-				<input v-model="hookSkinAfterPortlet"
+				<input
+					v-model="hookSkinAfterPortlet"
 					type="checkbox"
 					name="hookSkinAfterPortlet">
 				<label>SkinAfterPortlet: Add HTML after a portlet.</label>
 			</p>
-			<btn
+			<Btn
 				:disabled="!name"
 				@click="newExtension">
 				Build
-			</btn>
+			</Btn>
 		</form>
-	</page>
+	</Page>
 </template>
 
 <script>
+/* eslint-disable vue/no-undef-properties */
 import Page from './Page.vue';
 import Btn from '../components/Btn';
 import { buildExtension } from 'mediawiki-skins-cli';

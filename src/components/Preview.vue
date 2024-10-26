@@ -1,13 +1,15 @@
 <template>
 	<div class="preview">
 		<div v-if="enabled" class="preview__area">
-			<a :href="href"
+			<a
+				:href="href"
 				class="link--new-window"
 				target="_blank"
 				@click="openNewWindow">
 				View in new window
 			</a>
-			<iframe ref="iframe"
+			<iframe
+				ref="iframe"
 				sandbox="allow-same-origin allow-scripts"
 				:class="iframeClass"
 				:style="iframeStyle"
@@ -18,15 +20,16 @@
 		<div v-else class="preview__area preview__area--unavailable">
 			Preview unavailable.
 		</div>
-		<warning-box v-if="!enabled">
+		<WarningBox v-if="!enabled">
 			If you are the maintainer of the skin you can request preview is enabled
-			by creating an <a target="_blank"
+			by creating an <a
+				target="_blank"
 				:href="createIssue">issue</a>.
-		</warning-box>
+		</WarningBox>
 		<div class="preview__panel">
-			<article-changer @changeArticle="changeArticle"></article-changer>
+			<ArticleChanger @change-article="changeArticle"></ArticleChanger>
 			<div class="medium-selector">
-				<custom-select>
+				<CustomSelect>
 					<select @change="changeMedium">
 						<option value="d">
 							desktop
@@ -38,8 +41,8 @@
 							mobile
 						</option>
 					</select>
-				</custom-select>
-				<custom-select v-if="language">
+				</CustomSelect>
+				<CustomSelect v-if="language">
 					<select @change="changeLanguage">
 						<option value="en">
 							English
@@ -51,25 +54,26 @@
 							中文
 						</option>
 					</select>
-				</custom-select>
+				</CustomSelect>
 			</div>
 			<div class="loggedin-selector">
-				<custom-checkbox v-if="showAnon"
+				<CustomCheckbox
+					v-if="showAnon"
 					:checked="anon"
 					name="anon"
 					@input="changeAnon">
 					Anonymous
-				</custom-checkbox>
+				</CustomCheckbox>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
-import ArticleChanger from '../components/ArticleChanger';
-import WarningBox from '../components/WarningBox';
-import CustomSelect from '../components/CustomSelect';
-import CustomCheckbox from '../components/CustomCheckbox';
+import ArticleChanger from '../components/ArticleChanger.vue';
+import WarningBox from '../components/WarningBox.vue';
+import CustomSelect from '../components/CustomSelect.vue';
+import CustomCheckbox from '../components/CustomCheckbox.vue';
 
 export default {
 	name: 'Preview',
@@ -115,7 +119,7 @@ export default {
 	},
 	computed: {
 		createIssue() {
-			return `https://github.com/jdlrobson/skins.wmflabs.org/issues/new?assignees=&labels=&template=enable-preview-for-${this.name}-on-skins-wmflabs-org.md&title=Please+enable+my+skin+for+live+preview+option`;
+			return `https://github.com/jdlrobson/skins.wmflabs.org/issues/new?assignees=&labels=&template=enable-preview-for-${ this.name }-on-skins-wmflabs-org.md&title=Please+enable+my+skin+for+live+preview+option`;
 		},
 		iframeStyle() {
 			const offset = ( this.windowWidth - 768 ) / 2;
@@ -125,7 +129,7 @@ export default {
 					return '';
 				default:
 					// center
-					return `translate: ${offset}px;`;
+					return `translate: ${ offset }px;`;
 			}
 		},
 		iframeClass() {

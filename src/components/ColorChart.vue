@@ -1,11 +1,12 @@
 <template>
 	<div class="color-chart">
-		<span v-for="(c, i) in colors"
+		<span
+			v-for="( c, i ) in colors"
 			:key="'color' + i"
 			class="color-chart__blot"
 			:style="'background: ' + c.color + ';'"
 			:title="c.key + ' : ' + c.color"
-			@click="$emit('toggleColor', c.key)">
+			@click="$emit( 'toggleColor', c.key )">
 			&nbsp;
 		</span>
 	</div>

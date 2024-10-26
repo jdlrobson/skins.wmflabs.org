@@ -1,14 +1,16 @@
 <template>
-	<page class="page--new">
+	<Page class="page--new">
 		<div>
 			<div class="preview-header">
 				<label>Preview of:</label>
 				<div class="preview-header__name">
-					<input type="text"
+					<input
+						type="text"
 						placeholder="ENTER NAME OR CLICK THE DICE"
 						:value="skinname"
 						@input="updateName">
-					<button class="preview-header__name__random"
+					<button
+						class="preview-header__name__random"
 						title="Generate random name"
 						@click="newName">
 						Change name
@@ -18,58 +20,73 @@
 					<label>Target version</label>
 					1.43
 				</div>
-				<btn
+				<Btn
 					:disabled="skinname === ''"
 					@click="download">
 					Download
-				</btn>
+				</Btn>
 			</div>
-			<preview :html="html"
+			<Preview
+				:html="html"
 				:name="skinname"
 				:anon-default="anon"
 				:show-anon="true"
-				@changeArticle="changeArticle"
-				@changeAnon="changeAnon"
+				@change-article="changeArticle"
+				@change-anon="changeAnon"
 			>
-			</preview>
+			</Preview>
 			<div class="page__edit-area">
-				<tabs>
-					<tab title="HTML ( Mustache )">
-						<textarea class="editor-textarea"
-							:value="mustache"
-							@input="updateMustache"></textarea>
-					</tab>
-					<tab title="CSS / LESS">
-						<textarea class="editor-textarea"
-							:value="less"
-							@input="updateCSS"></textarea>
-						<btn class="css-theme-changer"
-							@click="newTheme">
-							Change theme
-						</btn>
-						<color-chart :colors="colorChart"
-							@toggleColor="toggleColor"></color-chart>
-					</tab>
-					<tab title="JS">
-						<textarea class="editor-textarea"
-							:value="js"
-							@input="updateJS"></textarea>
-					</tab>
-				</tabs>
-				<btn class="reset-btn"
+				<CdxTabs>
+					<CdxTab
+						v-for="( tab, index ) in tabsData"
+						:key="index"
+						:name="tab.name"
+						:label="tab.label"
+					>
+						<template v-if="tab.name === 'html'">
+							<textarea
+								class="editor-textarea"
+								:value="mustache"
+								@input="updateMustache"></textarea>
+						</template>
+						<template v-if="tab.name === 'css'">
+							<textarea
+								class="editor-textarea"
+								:value="less"
+								@input="updateCSS"></textarea>
+							<Btn
+								class="css-theme-changer"
+								@click="newTheme">
+								Change theme
+							</Btn>
+							<ColorChart
+								:colors="colorChart"
+								@toggle-color="toggleColor"></ColorChart>
+						</template>
+						<template v-if="tab.name === 'js'">
+							<textarea
+								class="editor-textarea"
+								:value="js"
+								@input="updateJS"></textarea>
+						</template>
+					</CdxTab>
+				</CdxTabs>
+				<Btn
+					class="reset-btn"
 					:destructive="true"
 					@click="reset">
 					Reset
-				</btn>
+				</Btn>
 			</div>
 			<div class="data-explorer">
 				<h2>Template data</h2>
 				<p>Explore the data you can render in your skin here.</p>
-				<json-viewer :value="json"
+				<JsonViewer
+					:value="json"
 					:boxed="true"
 					:expanded="false"
 					:sort="true"
-					:copyable="true"></json-viewer>
+					:copyable="true"></JsonViewer>
 			</div>
 			<p>
 				Making an extension? Try the
@@ -81,11 +98,13 @@
 				You can now also create skins from the <a href="https://github.com/wikimedia/mediawiki-skins-cli#readme">command line</a>
 			</p>
 		</div>
-	</page>
+	</Page>
 </template>
 
 <script>
+/* eslint-disable vue/no-undef-properties */
 /* global less */
+import { CdxTab, CdxTabs } from '@wikimedia/codex';
 import { PARTIALS, getLessVarsCode, getLessVarsRaw, JQUERY,
 	buildSkin,
 	getLESSFromTemplate, randomColor,
@@ -97,15 +116,13 @@ import { TEST_ARTICLES, HOST, LESS_RENDER_OPTIONS } from '../constants';
 import { render } from 'mustache';
 import ColorChart from '../components/ColorChart.vue';
 import Btn from '../components/Btn.vue';
-import Tabs from '../components/Tabs.vue';
-import Tab from '../components/Tab.vue';
 import Preview from '../components/Preview.vue';
 import nameMe from '../nameMe';
 import JsonViewer from 'vue-json-viewer';
 import Page from './Page.vue';
 import fs from 'fs';
+import { RouterLink } from 'vue-router';
 const tokens = fs.readFileSync( './node_modules/@wikimedia/codex-design-tokens/theme-wikimedia-ui.less' ).toString();
-
 const assets = buildDefaultAssets();
 const DEFAULT_SKIN_MUSTACHE = assets.mustache;
 const DEFAULT_SKIN_LESS = assets.less;
@@ -114,11 +131,9 @@ const LANGUAGES = {
 };
 const DEFAULT_HTML = '<!DOCTYPE HTML><html><body>Loading preview...</body></html>';
 
-const generateStylesheetLESS = () => {
-	return `/* Styles */
-${DEFAULT_SKIN_LESS}
+const generateStylesheetLESS = () => `/* Styles */
+${ DEFAULT_SKIN_LESS }
 `;
-};
 
 const DEFAULT_SKIN_PROPS = {
 	html: DEFAULT_HTML,
@@ -137,13 +152,11 @@ const DEFAULT_SKIN_PROPS = {
  * @param {string} str
  * @return {string}
  */
-const clearImports = (str) => {
-	return str.replace(/@import ["'][^"']*["'];/g, '' );
-}
+const clearImports = ( str ) => str.replace( /@import ["'][^"']*["'];/g, '' );
 function getCached() {
 	const props = {};
 	Object.keys( ( DEFAULT_SKIN_PROPS ) ).forEach( ( key ) => {
-		let val = localStorage.getItem( `add-${key}` );
+		let val = localStorage.getItem( `add-${ key }` );
 		if ( val === 'true' ) {
 			val = true;
 		} else if ( val === 'false' ) {
@@ -160,10 +173,10 @@ function getCached() {
 export default {
 	name: 'Add',
 	components: {
+		CdxTab, CdxTabs,
+		RouterLink,
 		Btn,
 		Page,
-		Tabs,
-		Tab,
 		JsonViewer,
 		Preview,
 		ColorChart
@@ -171,6 +184,21 @@ export default {
 	data() {
 		return Object.assign( getCached(), {
 			templateDataReq: {},
+			tabsData: [
+				{
+					name: 'html',
+					label: 'HTML ( Mustache )',
+					heading: 'Sand cat'
+				}, {
+					name: 'css',
+					label: 'CSS',
+					heading: 'View source for Sand cat'
+				}, {
+					name: 'js',
+					label: 'JS',
+					heading: 'Sand cat: Revision history'
+				}
+			],
 			pending: null,
 			variables: DEFAULT_SKIN_PROPS.variables,
 			json: '',
@@ -207,10 +235,10 @@ export default {
 			this.updateJSON();
 		},
 		reset() {
-			const confirm = window.confirm( `Reset the skin (${this.skinname}) you are currently working on? All changes will be lost!` );
+			const confirm = window.confirm( `Reset the skin (${ this.skinname }) you are currently working on? All changes will be lost!` );
 			if ( confirm ) {
 				Object.keys( DEFAULT_SKIN_PROPS ).forEach( ( key ) => {
-					localStorage.removeItem( `add-${key}` );
+					localStorage.removeItem( `add-${ key }` );
 					this[ key ] = DEFAULT_SKIN_PROPS[ key ];
 				} );
 				// random stylesheet each time.
@@ -262,7 +290,7 @@ export default {
 			localStorage.setItem( 'add-mustache', this.mustache );
 		},
 		getUrl( title ) {
-			return `${HOST}/wiki/${title}?useskin=skinjson&testuser=${this.anon ? '0' : '1'}`;
+			return `${ HOST }/wiki/${ title }?useskin=skinjson&testuser=${ this.anon ? '0' : '1' }`;
 		},
 		getTemplateData( title ) {
 			const url = this.getUrl( title );
@@ -276,7 +304,7 @@ export default {
 						messages( {} ).forEach( ( key ) => {
 							const templateKey = 'msg-' + key;
 							if ( !json[ templateKey ] ) {
-								msgs[ templateKey ] = `{{${key}}}`;
+								msgs[ templateKey ] = `{{${ key }}}`;
 							}
 						} );
 						return Object.assign( {}, json, msgs, LANGUAGES );
@@ -297,7 +325,7 @@ export default {
 				const lessVars = tokens + '\n' + getLessVarsCode( this.variables );
 
 				less.render(
-					`${lessVars}${clearImports(this.less)}${imports}`,
+					`${ lessVars }${ clearImports( this.less ) }${ imports }`,
 					LESS_RENDER_OPTIONS
 				).then( ( compiledLess ) => {
 					css = compiledLess.css;
@@ -305,24 +333,24 @@ export default {
 				}, ( err ) => {
 					css = '';
 					// eslint-disable-next-line no-console
-					console.log( `Error in LESS:\n ${err.message}`, err );
+					console.log( `Error in LESS:\n ${ err.message }`, err );
 					return this.getTemplateData( this.title );
 				} ).then( ( data ) => {
 					const OVERRIDES = {
-						'msg-sitetitle': `Skin:${this.skinname}`,
+						'msg-sitetitle': `Skin:${ this.skinname }`,
 						'msg-tagline': 'A new MediaWiki skin is born',
-						'html-subtitle': `<a target="_blank" href="${this.getUrl( this.title )}">View as JSON format</a>.`
+						'html-subtitle': `<a target="_blank" href="${ this.getUrl( this.title ) }">View as JSON format</a>.`
 					};
 					this.html = `<!DOCTYPE HTML>
                 <html>
                 <head>
-                  ${JQUERY}
-                  <style type="text/css">${getResourceLoaderSkinModuleStylesFromStylesheet( css )}</style>
-                  <link rel="stylesheet" href="${HOST}/w/load.php?lang=en&modules=ext.cite.styles%7Cext.echo.styles.badge%7Cext.math.styles%7Cext.wikihiero%7Cmediawiki.page.gallery.styles%7Cmediawiki.ui.icon%7Cmediawiki.ui.button%7Coojs-ui.styles.icons-alerts&only=styles">
-                  <style type="text/css">${css}</style>
+                  ${ JQUERY }
+                  <style type="text/css">${ getResourceLoaderSkinModuleStylesFromStylesheet( css ) }</style>
+                  <link rel="stylesheet" href="${ HOST }/w/load.php?lang=en&modules=ext.cite.styles%7Cext.echo.styles.badge%7Cext.math.styles%7Cext.wikihiero%7Cmediawiki.page.gallery.styles%7Cmediawiki.ui.icon%7Cmediawiki.ui.button%7Coojs-ui.styles.icons-alerts&only=styles">
+                  <style type="text/css">${ css }</style>
                 </head>
-                <body>${render( this.mustache, Object.assign( {}, data, OVERRIDES ), PARTIALS )}
-                ${js}${SCRIPTS}
+                <body>${ render( this.mustache, Object.assign( {}, data, OVERRIDES ), PARTIALS ) }
+                ${ js }${ SCRIPTS }
                 </body></html>`;
 				} );
 			}, 300 );

@@ -9,7 +9,8 @@
 				<abbr v-if="mightBreak" title="Might break in future MediaWiki versions">⚡</abbr>
 				<abbr v-if="!compatible" title="No preview available.">⚠️</abbr>
 			</h3>
-			<img width="320"
+			<img
+				width="320"
 				height="200"
 				:src="src"
 				:alt="alt">
@@ -18,10 +19,14 @@
 </template>
 
 <script>
+import { RouterLink } from 'vue-router';
 import { DEFAULT_SKIN_IMAGE } from '../constants';
 
 export default {
 	name: 'Snapshot',
+	components: {
+		RouterLink
+	},
 	props: {
 		highlight: {
 			type: Boolean,
@@ -82,10 +87,10 @@ export default {
 			};
 		},
 		routerUrl() {
-			return this.url ? this.url : ( this.skinkey ? `/skin/${this.skinkey}` : '' );
+			return this.url ? this.url : ( this.skinkey ? `/skin/${ this.skinkey }` : '' );
 		},
 		alt() {
-			return `screenshot of ${this.name}`;
+			return `screenshot of ${ this.name }`;
 		}
 	}
 };

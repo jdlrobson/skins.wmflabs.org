@@ -856,12 +856,12 @@ const randomItem = ( arr ) => {
 export default function name() {
 	const seed = Math.random();
 	if ( seed <= 0.25 ) {
-		return `${randomItem( ADJECTIVES )}${randomItem( NOUNS )}`;
+		return `${ randomItem( ADJECTIVES ) }${ randomItem( NOUNS ) }`;
 	} else if ( seed <= 0.5 ) {
-		return `${randomItem( NOUNS )}${randomItem( NOUNS )}`;
+		return `${ randomItem( NOUNS ) }${ randomItem( NOUNS ) }`;
 	} else if ( seed <= 0.75 ) {
-		return `${randomItem( NOUNS )}`;
+		return `${ randomItem( NOUNS ) }`;
 	} else {
-		return `${randomItem( ADJECTIVES )}`;
+		return `${ randomItem( ADJECTIVES ) }`;
 	}
 }
