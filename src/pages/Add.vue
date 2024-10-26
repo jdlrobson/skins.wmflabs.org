@@ -33,29 +33,36 @@
 			>
 			</preview>
 			<div class="page__edit-area">
-				<div>
-					<div title="HTML ( Mustache )">
-						<textarea class="editor-textarea"
-							:value="mustache"
-							@input="updateMustache"></textarea>
-					</div>
-					<div title="CSS / LESS">
-						<textarea class="editor-textarea"
-							:value="less"
-							@input="updateCSS"></textarea>
-						<btn class="css-theme-changer"
-							@click="newTheme">
-							Change theme
-						</btn>
-						<color-chart :colors="colorChart"
-							@toggleColor="toggleColor"></color-chart>
-					</div>
-					<div title="JS">
-						<textarea class="editor-textarea"
-							:value="js"
-							@input="updateJS"></textarea>
-					</div>
-				</div>
+				<cdx-tabs>
+					<cdx-tab
+						v-for="( tab, index ) in tabsData"
+						:key="index"
+						:name="tab.name"
+						:label="tab.label"
+					>
+						<template v-if="tab.name === 'html'">
+							<textarea class="editor-textarea"
+								:value="mustache"
+								@input="updateMustache"></textarea>
+						</template>
+						<template v-if="tab.name === 'css'">
+							<textarea class="editor-textarea"
+								:value="less"
+								@input="updateCSS"></textarea>
+							<btn class="css-theme-changer"
+								@click="newTheme">
+								Change theme
+							</btn>
+							<color-chart :colors="colorChart"
+								@toggleColor="toggleColor"></color-chart>
+						</template>
+						<template v-if="tab.name === 'js'">
+							<textarea class="editor-textarea"
+								:value="js"
+								@input="updateJS"></textarea>
+						</template>
+					</cdx-tab>
+				</cdx-tabs>
 				<btn class="reset-btn"
 					:destructive="true"
 					@click="reset">
@@ -86,6 +93,7 @@
 
 <script>
 /* global less */
+import { CdxTab, CdxTabs } from '@wikimedia/codex';
 import { PARTIALS, getLessVarsCode, getLessVarsRaw, JQUERY,
 	buildSkin,
 	getLESSFromTemplate, randomColor,
@@ -157,6 +165,7 @@ function getCached() {
 export default {
 	name: 'Add',
 	components: {
+		CdxTab, CdxTabs,
 		Btn,
 		Page,
 		JsonViewer,
@@ -166,6 +175,21 @@ export default {
 	data() {
 		return Object.assign( getCached(), {
 			templateDataReq: {},
+			tabsData: [
+				{
+					name: 'html',
+					label: 'HTML ( Mustache )',
+					heading: 'Sand cat'
+				}, {
+					name: 'css',
+					label: 'CSS',
+					heading: 'View source for Sand cat'
+				}, {
+					name: 'js',
+					label: 'JS',
+					heading: 'Sand cat: Revision history'
+				}
+			],
 			pending: null,
 			variables: DEFAULT_SKIN_PROPS.variables,
 			json: '',
