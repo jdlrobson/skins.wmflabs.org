@@ -74,7 +74,7 @@ function queryMediaWikiSkins( category, installedSkins, gcmcontinue = '', pages 
 &format=json&origin=*&prop=pageviews%7Cpageimages%7Ccategories&formatversion=2&origin=*
 &clcategories=${ CATEGORY_ADDITIONAL_REQUIREMENTS }%7C${ CATEGORY_REQUIRE_MODIFICATION }%7C${ CATEGORY_INCOMPATIBLE_WITH_MEDIAWIKI_MASTER }
 &cllimit=${ MAX }
-&piprop=thumbnail&pithumbsize=400&pilimit=${ MAX }
+&piprop=thumbnail&pithumbsize=500&pilimit=${ MAX }
 &pvipmetric=pageviews&pvipdays=60
 &generator=categorymembers&gcmlimit=${ MAX }&gcmtitle=${ encodeURIComponent( category ) }&gcmnamespace=106
 &${ gcmcontinue }`.replace( /\n/g, '' );
