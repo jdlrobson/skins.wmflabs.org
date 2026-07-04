@@ -101,7 +101,7 @@ export default {
 	},
 	computed: {
 		srcLarge() {
-			return this.src.replace( '400px', '1000px' );
+			return this.src.replace( '400px', '960px' );
 		},
 		showWarnings() {
 			if ( !this.infoIsLoaded ) {
